@@ -8,10 +8,12 @@ target 'VitalWink' do
   # Pods for VitalWink
   pod 'Alamofire'
   pod 'SwiftyJSON'
+  pod 'ComposableArchitecture'
 
   target 'VitalWinkTests' do
     inherit! :search_paths
     # Pods for testing
+  pod 'ComposableArchitecture'    
   end
 
   target 'VitalWinkUITests' do
