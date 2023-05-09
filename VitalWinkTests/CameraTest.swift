@@ -12,9 +12,9 @@ import Combine
 
 final class CameraTest: XCTestCase {
     
-    func test_camera_whenSetUp_notHaveCameraPermission() throws {
+    func test_camera_whenInit_notHaveCameraPermission() throws {
         // This is an example of a performance test case.
-        let sut = Camera{
+        _ = Camera{
             guard $0 == nil else{
                 print($0!.localizedDescription)
                 XCTAssertNotNil($0 as? Camera.CameraError)
@@ -22,5 +22,16 @@ final class CameraTest: XCTestCase {
             }
         }
     }
-
+    
+    func test_camera_whenInit_noHaveCamera(){
+        _ = Camera{
+            guard $0 == nil else{
+                print($0!.localizedDescription)
+                let cameraError = $0 as? Camera.CameraError
+                XCTAssertNotNil(cameraError)
+                XCTAssertTrue(cameraError == .notFoundCamera)
+                return
+            }
+        }
+    }
 }
