@@ -34,4 +34,28 @@ final class CameraTest: XCTestCase {
             }
         }
     }
+    
+    func test_camera_whenStart_noHaveCamera(){
+        let sut = Camera{_ in
+            
+        }
+        sut.start()
+    }
+    func test_camera_whenStart_noHaveCameraPermission(){
+        let sut = Camera{_ in
+            
+        }
+        sut.start()
+    }
+    func test_camera_whenChangeCameraPosition_noHaveCamera(){
+        let sut = Camera{_ in
+            
+        }
+        do{
+            try sut.changeCameraPosition()
+        }catch{
+            let cameraError = error as? Camera.CameraError
+            XCTAssertTrue(cameraError == .notFoundCamera)
+        }
+    }
 }

@@ -12,7 +12,6 @@ import Combine
 final class Camera: NSObject{
     public private(set) var position: Position = .front
     let frameObserver = PassthroughSubject<CMSampleBuffer, Never>()
-    
     init(completionHandler: @escaping (Error?) -> Void){
         let cameras = AVCaptureDevice.DiscoverySession(deviceTypes: [.builtInWideAngleCamera], mediaType: .video, position: .unspecified).devices
         
@@ -29,6 +28,7 @@ final class Camera: NSObject{
         super.init()
         self.setUp(completionHandler: completionHandler)
     }
+    
     func start(){
         self.sessionQueue.async {
             if !self.captureSession.isRunning{
@@ -43,10 +43,10 @@ final class Camera: NSObject{
             }
         }
     }
-    
     func changeCameraPosition() throws{
         captureSession.beginConfiguration()
-        let camera: AVCaptureDevice
+        let camera: AVCaptureDevice!
+        
         switch position {
         case .front:
             camera = backCamera
@@ -55,6 +55,11 @@ final class Camera: NSObject{
             camera = frontCamera
             self.position = .front
         }
+        
+        guard camera != nil else{
+            throw CameraError.notFoundCamera
+        }
+        
         captureSession.removeInput(videoDeviceInput)
         do{
             videoDeviceInput = try AVCaptureDeviceInput(device: camera)
@@ -67,6 +72,7 @@ final class Camera: NSObject{
         }
         captureSession.commitConfiguration()
     }
+    
     enum CameraError: Error, LocalizedError{
         case notHavePermission
         case notFoundCamera
