@@ -7,15 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		063C16112A0B62F400E07141 /* FaceDetectorTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 063C16102A0B62F300E07141 /* FaceDetectorTest.swift */; };
+		063C16142A0B645100E07141 /* UIImage + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 063C16132A0B645100E07141 /* UIImage + Extension.swift */; };
 		064B04BA2A08DAAB00230FBC /* VitalWinkApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 064B04B92A08DAAB00230FBC /* VitalWinkApp.swift */; };
 		064B04BE2A08DAAC00230FBC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 064B04BD2A08DAAC00230FBC /* Assets.xcassets */; };
 		064B04C12A08DAAC00230FBC /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 064B04C02A08DAAC00230FBC /* Preview Assets.xcassets */; };
 		064B04CB2A08DAAC00230FBC /* CameraTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 064B04CA2A08DAAC00230FBC /* CameraTest.swift */; };
 		064B04D52A08DAAC00230FBC /* VitalWinkUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 064B04D42A08DAAC00230FBC /* VitalWinkUITests.swift */; };
 		064B04D72A08DAAC00230FBC /* VitalWinkUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 064B04D62A08DAAC00230FBC /* VitalWinkUITestsLaunchTests.swift */; };
-
-		064B04E72A08F14800230FBC /* Camera.swift in Sources */ = {isa = PBXBuildFile; fileRef = 064B04E62A08F14800230FBC /* Camera.swift */; };
 		064B04E52A08E59F00230FBC /* FaceDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 064B04E42A08E59F00230FBC /* FaceDetector.swift */; };
+		064B04E72A08F14800230FBC /* Camera.swift in Sources */ = {isa = PBXBuildFile; fileRef = 064B04E62A08F14800230FBC /* Camera.swift */; };
 		723974D5A26EA177305C32F5 /* Pods_VitalWink.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A5DE7A073E2799C317830FB7 /* Pods_VitalWink.framework */; };
 		899F51F1463369C41E3C4E00 /* Pods_VitalWinkTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D50B57F520053C5D372806C0 /* Pods_VitalWinkTests.framework */; };
 		C49198033F46F87165FCBC44 /* Pods_VitalWink_VitalWinkUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0857841D777CC5C81601A7FC /* Pods_VitalWink_VitalWinkUITests.framework */; };
@@ -39,6 +40,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		063C16102A0B62F300E07141 /* FaceDetectorTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceDetectorTest.swift; sourceTree = "<group>"; };
+		063C16132A0B645100E07141 /* UIImage + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage + Extension.swift"; sourceTree = "<group>"; };
 		064B04B62A08DAAB00230FBC /* VitalWink.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VitalWink.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		064B04B92A08DAAB00230FBC /* VitalWinkApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VitalWinkApp.swift; sourceTree = "<group>"; };
 		064B04BD2A08DAAC00230FBC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -49,11 +52,8 @@
 		064B04D42A08DAAC00230FBC /* VitalWinkUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VitalWinkUITests.swift; sourceTree = "<group>"; };
 		064B04D62A08DAAC00230FBC /* VitalWinkUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VitalWinkUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		064B04E32A08DD8000230FBC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
-<<<<<<< HEAD
-		064B04E62A08F14800230FBC /* Camera.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Camera.swift; sourceTree = "<group>"; };
-=======
 		064B04E42A08E59F00230FBC /* FaceDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceDetector.swift; sourceTree = "<group>"; };
->>>>>>> a0e789b (add:FaceDetector)
+		064B04E62A08F14800230FBC /* Camera.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Camera.swift; sourceTree = "<group>"; };
 		0857841D777CC5C81601A7FC /* Pods_VitalWink_VitalWinkUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_VitalWink_VitalWinkUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2A47F3C14603A90C365056B2 /* Pods-VitalWink.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VitalWink.debug.xcconfig"; path = "Target Support Files/Pods-VitalWink/Pods-VitalWink.debug.xcconfig"; sourceTree = "<group>"; };
 		2C6F199A9B1A255059C245B6 /* Pods-VitalWink-VitalWinkUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VitalWink-VitalWinkUITests.release.xcconfig"; path = "Target Support Files/Pods-VitalWink-VitalWinkUITests/Pods-VitalWink-VitalWinkUITests.release.xcconfig"; sourceTree = "<group>"; };
@@ -93,6 +93,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		063C16122A0B644100E07141 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				063C16132A0B645100E07141 /* UIImage + Extension.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		064B04AD2A08DAAB00230FBC = {
 			isa = PBXGroup;
 			children = (
@@ -118,15 +126,13 @@
 		064B04B82A08DAAB00230FBC /* VitalWink */ = {
 			isa = PBXGroup;
 			children = (
+				063C16122A0B644100E07141 /* Extensions */,
 				064B04E32A08DD8000230FBC /* Info.plist */,
 				064B04B92A08DAAB00230FBC /* VitalWinkApp.swift */,
 				064B04BD2A08DAAC00230FBC /* Assets.xcassets */,
 				064B04BF2A08DAAC00230FBC /* Preview Content */,
-<<<<<<< HEAD
 				064B04E62A08F14800230FBC /* Camera.swift */,
-=======
 				064B04E42A08E59F00230FBC /* FaceDetector.swift */,
->>>>>>> a0e789b (add:FaceDetector)
 			);
 			path = VitalWink;
 			sourceTree = "<group>";
@@ -143,6 +149,7 @@
 			isa = PBXGroup;
 			children = (
 				064B04CA2A08DAAC00230FBC /* CameraTest.swift */,
+				063C16102A0B62F300E07141 /* FaceDetectorTest.swift */,
 			);
 			path = VitalWinkTests;
 			sourceTree = "<group>";
@@ -435,11 +442,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-<<<<<<< HEAD
 				064B04E72A08F14800230FBC /* Camera.swift in Sources */,
-=======
+				063C16142A0B645100E07141 /* UIImage + Extension.swift in Sources */,
 				064B04E52A08E59F00230FBC /* FaceDetector.swift in Sources */,
->>>>>>> a0e789b (add:FaceDetector)
 				064B04BA2A08DAAB00230FBC /* VitalWinkApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -448,6 +453,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				063C16112A0B62F400E07141 /* FaceDetectorTest.swift in Sources */,
 				064B04CB2A08DAAC00230FBC /* CameraTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
