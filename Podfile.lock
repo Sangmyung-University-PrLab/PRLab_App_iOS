@@ -1,20 +1,41 @@
 PODS:
   - Alamofire (5.5.0)
+  - CasePaths (0.1.3)
+  - ComposableArchitecture (0.8.0):
+    - CasePaths
+    - Overture
+    - RxRelay
+    - RxSwift (~> 5.1.1)
+  - Overture (0.5.0)
+  - RxRelay (5.1.3):
+    - RxSwift (~> 5)
+  - RxSwift (5.1.3)
   - SwiftyJSON (5.0.1)
 
 DEPENDENCIES:
   - Alamofire
+  - ComposableArchitecture
   - SwiftyJSON
 
 SPEC REPOS:
   trunk:
     - Alamofire
+    - CasePaths
+    - ComposableArchitecture
+    - Overture
+    - RxRelay
+    - RxSwift
     - SwiftyJSON
 
 SPEC CHECKSUMS:
   Alamofire: 1c4fb5369c3fe93d2857c780d8bbe09f06f97e7c
+  CasePaths: 0a2cdef26b2a3e4fabdaca08af5569d6fb1850d6
+  ComposableArchitecture: 8b26f86a9ae64d62b00b3a83b0686b7d54444ac4
+  Overture: 2e6252ead5da6d3347f758047f27a31cb469d59d
+  RxRelay: 5a18c2eb2d68326ebaf0112f80d837ae41b92b97
+  RxSwift: 915abbdfb62214aa89ccd0b194d44fb478019b27
   SwiftyJSON: 2f33a42c6fbc52764d96f13368585094bfd8aa5e
 
-PODFILE CHECKSUM: c6e20c0aeb38c2077a407880368f60be31e4af58
+PODFILE CHECKSUM: 609240fe2cb10631dcced88aa6609a4892a916ed
 
 COCOAPODS: 1.12.1

@@ -10,9 +10,10 @@
 		064B04BA2A08DAAB00230FBC /* VitalWinkApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 064B04B92A08DAAB00230FBC /* VitalWinkApp.swift */; };
 		064B04BE2A08DAAC00230FBC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 064B04BD2A08DAAC00230FBC /* Assets.xcassets */; };
 		064B04C12A08DAAC00230FBC /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 064B04C02A08DAAC00230FBC /* Preview Assets.xcassets */; };
-		064B04CB2A08DAAC00230FBC /* VitalWinkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 064B04CA2A08DAAC00230FBC /* VitalWinkTests.swift */; };
+		064B04CB2A08DAAC00230FBC /* CameraTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 064B04CA2A08DAAC00230FBC /* CameraTest.swift */; };
 		064B04D52A08DAAC00230FBC /* VitalWinkUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 064B04D42A08DAAC00230FBC /* VitalWinkUITests.swift */; };
 		064B04D72A08DAAC00230FBC /* VitalWinkUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 064B04D62A08DAAC00230FBC /* VitalWinkUITestsLaunchTests.swift */; };
+		064B04E72A08F14800230FBC /* Camera.swift in Sources */ = {isa = PBXBuildFile; fileRef = 064B04E62A08F14800230FBC /* Camera.swift */; };
 		723974D5A26EA177305C32F5 /* Pods_VitalWink.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A5DE7A073E2799C317830FB7 /* Pods_VitalWink.framework */; };
 		899F51F1463369C41E3C4E00 /* Pods_VitalWinkTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D50B57F520053C5D372806C0 /* Pods_VitalWinkTests.framework */; };
 		C49198033F46F87165FCBC44 /* Pods_VitalWink_VitalWinkUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0857841D777CC5C81601A7FC /* Pods_VitalWink_VitalWinkUITests.framework */; };
@@ -41,11 +42,12 @@
 		064B04BD2A08DAAC00230FBC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		064B04C02A08DAAC00230FBC /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		064B04C62A08DAAC00230FBC /* VitalWinkTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VitalWinkTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		064B04CA2A08DAAC00230FBC /* VitalWinkTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VitalWinkTests.swift; sourceTree = "<group>"; };
+		064B04CA2A08DAAC00230FBC /* CameraTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraTest.swift; sourceTree = "<group>"; };
 		064B04D02A08DAAC00230FBC /* VitalWinkUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VitalWinkUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		064B04D42A08DAAC00230FBC /* VitalWinkUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VitalWinkUITests.swift; sourceTree = "<group>"; };
 		064B04D62A08DAAC00230FBC /* VitalWinkUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VitalWinkUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		064B04E32A08DD8000230FBC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		064B04E62A08F14800230FBC /* Camera.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Camera.swift; sourceTree = "<group>"; };
 		0857841D777CC5C81601A7FC /* Pods_VitalWink_VitalWinkUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_VitalWink_VitalWinkUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2A47F3C14603A90C365056B2 /* Pods-VitalWink.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VitalWink.debug.xcconfig"; path = "Target Support Files/Pods-VitalWink/Pods-VitalWink.debug.xcconfig"; sourceTree = "<group>"; };
 		2C6F199A9B1A255059C245B6 /* Pods-VitalWink-VitalWinkUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VitalWink-VitalWinkUITests.release.xcconfig"; path = "Target Support Files/Pods-VitalWink-VitalWinkUITests/Pods-VitalWink-VitalWinkUITests.release.xcconfig"; sourceTree = "<group>"; };
@@ -114,6 +116,7 @@
 				064B04B92A08DAAB00230FBC /* VitalWinkApp.swift */,
 				064B04BD2A08DAAC00230FBC /* Assets.xcassets */,
 				064B04BF2A08DAAC00230FBC /* Preview Content */,
+				064B04E62A08F14800230FBC /* Camera.swift */,
 			);
 			path = VitalWink;
 			sourceTree = "<group>";
@@ -129,7 +132,7 @@
 		064B04C92A08DAAC00230FBC /* VitalWinkTests */ = {
 			isa = PBXGroup;
 			children = (
-				064B04CA2A08DAAC00230FBC /* VitalWinkTests.swift */,
+				064B04CA2A08DAAC00230FBC /* CameraTest.swift */,
 			);
 			path = VitalWinkTests;
 			sourceTree = "<group>";
@@ -196,6 +199,7 @@
 				064B04C22A08DAAC00230FBC /* Sources */,
 				064B04C32A08DAAC00230FBC /* Frameworks */,
 				064B04C42A08DAAC00230FBC /* Resources */,
+				CA968E8217673C6C46ED5811 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -375,6 +379,23 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-VitalWink-VitalWinkUITests/Pods-VitalWink-VitalWinkUITests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		CA968E8217673C6C46ED5811 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-VitalWinkTests/Pods-VitalWinkTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-VitalWinkTests/Pods-VitalWinkTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-VitalWinkTests/Pods-VitalWinkTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		E57C8A60608BB6ADC2D5BDEB /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -404,6 +425,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				064B04E72A08F14800230FBC /* Camera.swift in Sources */,
 				064B04BA2A08DAAB00230FBC /* VitalWinkApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -412,7 +434,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				064B04CB2A08DAAC00230FBC /* VitalWinkTests.swift in Sources */,
+				064B04CB2A08DAAC00230FBC /* CameraTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -491,7 +513,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -545,7 +567,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -635,10 +657,13 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 687R8W5T99;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = ac.kr.smu.VitalWinkTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -656,10 +681,13 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 687R8W5T99;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = ac.kr.smu.VitalWinkTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
