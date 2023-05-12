@@ -8,27 +8,34 @@
 import Foundation
 import AVFoundation
 import Combine
+import Dependencies
 
-final class Camera: NSObject{
+
+final class Camera: CameraStreamDelegate{
     public private(set) var position: Position = .front
-    let frameObserver = PassthroughSubject<CMSampleBuffer, Never>()
-    init(completionHandler: @escaping (Error?) -> Void){
+    @Published public private(set) var frame: CMSampleBuffer! = nil
+    
+    init() async throws{
         let cameras = AVCaptureDevice.DiscoverySession(deviceTypes: [.builtInWideAngleCamera], mediaType: .video, position: .unspecified).devices
         
         guard !cameras.isEmpty else{
-            completionHandler(CameraError.notFoundCamera)
-            self.frontCamera = nil
-            self.backCamera = nil
-            super.init()
-            return
+            throw CameraError.notFoundCamera
         }
         
         frontCamera = cameras.first(where: {$0.position == .front})
         backCamera = cameras.first(where: {$0.position == .back})
-        super.init()
-        self.setUp(completionHandler: completionHandler)
+
+        do{
+            try await setUp()
+        }catch{
+            throw error
+        }
     }
     
+    @MainActor
+    func getFrame(_ frame: CMSampleBuffer) async {
+        self.frame = frame
+    }
     func start(){
         self.sessionQueue.async {
             if !self.captureSession.isRunning{
@@ -43,10 +50,13 @@ final class Camera: NSObject{
             }
         }
     }
-    func changeCameraPosition() throws{
+    func changeCameraPosition() async throws{
         captureSession.beginConfiguration()
-        let camera: AVCaptureDevice!
+        guard let videoDeviceInput = videoDeviceInput else{
+            return
+        }
         
+        let camera: AVCaptureDevice!
         switch position {
         case .front:
             camera = backCamera
@@ -55,22 +65,16 @@ final class Camera: NSObject{
             camera = frontCamera
             self.position = .front
         }
-        
         guard camera != nil else{
             throw CameraError.notFoundCamera
         }
         
         captureSession.removeInput(videoDeviceInput)
         do{
-            videoDeviceInput = try AVCaptureDeviceInput(device: camera)
+            try await setVideoDeviceInput(camera: camera)
         }catch{
-            captureSession.commitConfiguration()
             throw error
         }
-        if captureSession.canAddInput(videoDeviceInput){
-            captureSession.addInput(videoDeviceInput)
-        }
-        captureSession.commitConfiguration()
     }
     
     enum CameraError: Error, LocalizedError{
@@ -99,52 +103,58 @@ final class Camera: NSObject{
             return false
         }
     }
-    private func requestCameraPermission(completionHandler: @escaping (Bool) -> Void ){
-        AVCaptureDevice.requestAccess(for: .video){
-            completionHandler($0)
+    private func setUp() async throws{
+        do{
+            if isHaveCameraPermission(){
+                try await setCaptureSession()
+            }
+            else{
+              if await AVCaptureDevice.requestAccess(for: .video){
+                    try await setCaptureSession()
+               }else{
+                    throw CameraError.notHavePermission
+               }
+            }
+        }catch{
+            throw error
         }
     }
-    
-    private func setUp(completionHandler: @escaping (Error?) -> Void) {
-        guard isHaveCameraPermission() else{
-            requestCameraPermission{
-                if !$0{
-                    completionHandler(CameraError.notHavePermission)
-                }
-            }
-            return
-        }
-        
-        self.captureSession.sessionPreset = .photo
-        self.captureSession.beginConfiguration()
+    private func setCaptureSession() async throws{
+        captureSession.sessionPreset = .photo
+        captureSession.beginConfiguration()
         do{
-            self.videoDeviceInput = try AVCaptureDeviceInput(device: frontCamera)
-            
-            if self.captureSession.canAddInput(self.videoDeviceInput){
-                self.captureSession.addInput(self.videoDeviceInput)
-            }else{
-                self.captureSession.commitConfiguration()
-                return
-            }
-            
-            self.captureSession.sessionPreset = AVCaptureSession.Preset.high
-            self.videoOutput.videoSettings = [
+            try await setVideoDeviceInput(camera: frontCamera)
+            captureSession.sessionPreset = AVCaptureSession.Preset.high
+            videoOutput.videoSettings = [
                 (kCVPixelBufferPixelFormatTypeKey as String): kCVPixelFormatType_32BGRA
             ]
-            self.videoOutput.alwaysDiscardsLateVideoFrames = true
-            self.videoOutput.setSampleBufferDelegate(self, queue: captureQueue)
+            videoOutput.alwaysDiscardsLateVideoFrames = true
+            videoOutput.setSampleBufferDelegate(cameraStream, queue: captureQueue)
             
-            if self.captureSession.canAddOutput(self.videoOutput){
-                self.captureSession.addOutput(self.videoOutput)
+            if self.captureSession.canAddOutput(videoOutput){
+                self.captureSession.addOutput(videoOutput)
             }
-            
             else{
-                self.captureSession.commitConfiguration()
+                captureSession.commitConfiguration()
                 return
             }
-            self.captureSession.commitConfiguration()
+            captureSession.commitConfiguration()
         }catch{
-            completionHandler(error)
+            throw error
+        }
+    }
+    private func setVideoDeviceInput(camera: AVCaptureDevice) async throws{
+        do{
+            videoDeviceInput = try AVCaptureDeviceInput(device: camera)
+        }catch{
+            throw error
+        }
+        
+        if captureSession.canAddInput(videoDeviceInput!){
+            captureSession.addInput(videoDeviceInput!)
+        }else{
+            captureSession.commitConfiguration()
+            return
         }
     }
     private let frontCamera: AVCaptureDevice!
@@ -154,17 +164,8 @@ final class Camera: NSObject{
     
     //MARK: - 카메라 관련 변수
     private let captureSession = AVCaptureSession()
-    private var videoDeviceInput: AVCaptureDeviceInput!
+    private var videoDeviceInput: AVCaptureDeviceInput?
     private let videoOutput = AVCaptureVideoDataOutput()
-
+    private lazy var cameraStream = CameraStream(delegate: self)
 }
 
-extension Camera:AVCaptureVideoDataOutputSampleBufferDelegate{
-    func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
-        DispatchQueue.main.async {
-            self.frameObserver.send(sampleBuffer)
-        }
-        
-            
-    }
-}

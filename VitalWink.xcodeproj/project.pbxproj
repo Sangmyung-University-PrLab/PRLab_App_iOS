@@ -12,6 +12,8 @@
 		063C16192A0CAD9A00E07141 /* OpenCVWrapper.mm in Sources */ = {isa = PBXBuildFile; fileRef = 063C16182A0CAD9A00E07141 /* OpenCVWrapper.mm */; };
 		063C161E2A0DE18100E07141 /* Dependencies in Frameworks */ = {isa = PBXBuildFile; productRef = 063C161D2A0DE18100E07141 /* Dependencies */; };
 		063C16202A0DE2B600E07141 /* DependencyValues + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 063C161F2A0DE2B600E07141 /* DependencyValues + Extension.swift */; };
+		063C16252A0DF5E600E07141 /* CameraStreamDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 063C16242A0DF5E600E07141 /* CameraStreamDelegate.swift */; };
+		063C16272A0E01DB00E07141 /* CameraStream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 063C16262A0E01DB00E07141 /* CameraStream.swift */; };
 		064B04BA2A08DAAB00230FBC /* VitalWinkApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 064B04B92A08DAAB00230FBC /* VitalWinkApp.swift */; };
 		064B04BE2A08DAAC00230FBC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 064B04BD2A08DAAC00230FBC /* Assets.xcassets */; };
 		064B04C12A08DAAC00230FBC /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 064B04C02A08DAAC00230FBC /* Preview Assets.xcassets */; };
@@ -50,6 +52,8 @@
 		063C16172A0CAD9900E07141 /* VitalWink-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "VitalWink-Bridging-Header.h"; sourceTree = "<group>"; };
 		063C16182A0CAD9A00E07141 /* OpenCVWrapper.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = OpenCVWrapper.mm; sourceTree = "<group>"; };
 		063C161F2A0DE2B600E07141 /* DependencyValues + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DependencyValues + Extension.swift"; sourceTree = "<group>"; };
+		063C16242A0DF5E600E07141 /* CameraStreamDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraStreamDelegate.swift; sourceTree = "<group>"; };
+		063C16262A0E01DB00E07141 /* CameraStream.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraStream.swift; sourceTree = "<group>"; };
 		064B04B62A08DAAB00230FBC /* VitalWink.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VitalWink.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		064B04B92A08DAAB00230FBC /* VitalWinkApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VitalWinkApp.swift; sourceTree = "<group>"; };
 		064B04BD2A08DAAC00230FBC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -121,6 +125,16 @@
 			name = FaceDetector;
 			sourceTree = "<group>";
 		};
+		063C16282A0E03AD00E07141 /* Camera */ = {
+			isa = PBXGroup;
+			children = (
+				063C16242A0DF5E600E07141 /* CameraStreamDelegate.swift */,
+				063C16262A0E01DB00E07141 /* CameraStream.swift */,
+				064B04E62A08F14800230FBC /* Camera.swift */,
+			);
+			path = Camera;
+			sourceTree = "<group>";
+		};
 		064B04AD2A08DAAB00230FBC = {
 			isa = PBXGroup;
 			children = (
@@ -152,7 +166,7 @@
 				064B04B92A08DAAB00230FBC /* VitalWinkApp.swift */,
 				064B04BD2A08DAAC00230FBC /* Assets.xcassets */,
 				064B04BF2A08DAAC00230FBC /* Preview Content */,
-				064B04E62A08F14800230FBC /* Camera.swift */,
+				063C16282A0E03AD00E07141 /* Camera */,
 				063C16212A0DE2F400E07141 /* FaceDetector */,
 				063C16172A0CAD9900E07141 /* VitalWink-Bridging-Header.h */,
 			);
@@ -472,8 +486,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				064B04E72A08F14800230FBC /* Camera.swift in Sources */,
+				063C16272A0E01DB00E07141 /* CameraStream.swift in Sources */,
 				063C16192A0CAD9A00E07141 /* OpenCVWrapper.mm in Sources */,
 				063C16202A0DE2B600E07141 /* DependencyValues + Extension.swift in Sources */,
+				063C16252A0DF5E600E07141 /* CameraStreamDelegate.swift in Sources */,
 				063C16142A0B645100E07141 /* UIImage + Extension.swift in Sources */,
 				064B04E52A08E59F00230FBC /* FaceDetector.swift in Sources */,
 				064B04BA2A08DAAB00230FBC /* VitalWinkApp.swift in Sources */,
@@ -550,6 +566,8 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				EXCLUDED_ARCHS = "";
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -610,6 +628,8 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				EXCLUDED_ARCHS = "";
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
