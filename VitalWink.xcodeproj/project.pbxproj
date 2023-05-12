@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		063C16112A0B62F400E07141 /* FaceDetectorTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 063C16102A0B62F300E07141 /* FaceDetectorTest.swift */; };
 		063C16142A0B645100E07141 /* UIImage + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 063C16132A0B645100E07141 /* UIImage + Extension.swift */; };
+		063C16192A0CAD9A00E07141 /* OpenCVWrapper.mm in Sources */ = {isa = PBXBuildFile; fileRef = 063C16182A0CAD9A00E07141 /* OpenCVWrapper.mm */; };
+		063C161E2A0DE18100E07141 /* Dependencies in Frameworks */ = {isa = PBXBuildFile; productRef = 063C161D2A0DE18100E07141 /* Dependencies */; };
+		063C16202A0DE2B600E07141 /* DependencyValues + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 063C161F2A0DE2B600E07141 /* DependencyValues + Extension.swift */; };
 		064B04BA2A08DAAB00230FBC /* VitalWinkApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 064B04B92A08DAAB00230FBC /* VitalWinkApp.swift */; };
 		064B04BE2A08DAAC00230FBC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 064B04BD2A08DAAC00230FBC /* Assets.xcassets */; };
 		064B04C12A08DAAC00230FBC /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 064B04C02A08DAAC00230FBC /* Preview Assets.xcassets */; };
@@ -42,6 +45,11 @@
 /* Begin PBXFileReference section */
 		063C16102A0B62F300E07141 /* FaceDetectorTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceDetectorTest.swift; sourceTree = "<group>"; };
 		063C16132A0B645100E07141 /* UIImage + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage + Extension.swift"; sourceTree = "<group>"; };
+		063C16152A0CAC9E00E07141 /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
+		063C16162A0CACD900E07141 /* OpenCVWrapper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OpenCVWrapper.h; sourceTree = "<group>"; };
+		063C16172A0CAD9900E07141 /* VitalWink-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "VitalWink-Bridging-Header.h"; sourceTree = "<group>"; };
+		063C16182A0CAD9A00E07141 /* OpenCVWrapper.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = OpenCVWrapper.mm; sourceTree = "<group>"; };
+		063C161F2A0DE2B600E07141 /* DependencyValues + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DependencyValues + Extension.swift"; sourceTree = "<group>"; };
 		064B04B62A08DAAB00230FBC /* VitalWink.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VitalWink.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		064B04B92A08DAAB00230FBC /* VitalWinkApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VitalWinkApp.swift; sourceTree = "<group>"; };
 		064B04BD2A08DAAC00230FBC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -71,6 +79,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				723974D5A26EA177305C32F5 /* Pods_VitalWink.framework in Frameworks */,
+				063C161E2A0DE18100E07141 /* Dependencies in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -97,8 +106,19 @@
 			isa = PBXGroup;
 			children = (
 				063C16132A0B645100E07141 /* UIImage + Extension.swift */,
+				063C161F2A0DE2B600E07141 /* DependencyValues + Extension.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		063C16212A0DE2F400E07141 /* FaceDetector */ = {
+			isa = PBXGroup;
+			children = (
+				064B04E42A08E59F00230FBC /* FaceDetector.swift */,
+				063C16162A0CACD900E07141 /* OpenCVWrapper.h */,
+				063C16182A0CAD9A00E07141 /* OpenCVWrapper.mm */,
+			);
+			name = FaceDetector;
 			sourceTree = "<group>";
 		};
 		064B04AD2A08DAAB00230FBC = {
@@ -126,13 +146,15 @@
 		064B04B82A08DAAB00230FBC /* VitalWink */ = {
 			isa = PBXGroup;
 			children = (
+				063C16152A0CAC9E00E07141 /* PrefixHeader.pch */,
 				063C16122A0B644100E07141 /* Extensions */,
 				064B04E32A08DD8000230FBC /* Info.plist */,
 				064B04B92A08DAAB00230FBC /* VitalWinkApp.swift */,
 				064B04BD2A08DAAC00230FBC /* Assets.xcassets */,
 				064B04BF2A08DAAC00230FBC /* Preview Content */,
 				064B04E62A08F14800230FBC /* Camera.swift */,
-				064B04E42A08E59F00230FBC /* FaceDetector.swift */,
+				063C16212A0DE2F400E07141 /* FaceDetector */,
+				063C16172A0CAD9900E07141 /* VitalWink-Bridging-Header.h */,
 			);
 			path = VitalWink;
 			sourceTree = "<group>";
@@ -204,6 +226,9 @@
 			dependencies = (
 			);
 			name = VitalWink;
+			packageProductDependencies = (
+				063C161D2A0DE18100E07141 /* Dependencies */,
+			);
 			productName = VitalWink;
 			productReference = 064B04B62A08DAAB00230FBC /* VitalWink.app */;
 			productType = "com.apple.product-type.application";
@@ -260,6 +285,7 @@
 				TargetAttributes = {
 					064B04B52A08DAAB00230FBC = {
 						CreatedOnToolsVersion = 14.3;
+						LastSwiftMigration = 1430;
 					};
 					064B04C52A08DAAC00230FBC = {
 						CreatedOnToolsVersion = 14.3;
@@ -280,6 +306,9 @@
 				Base,
 			);
 			mainGroup = 064B04AD2A08DAAB00230FBC;
+			packageReferences = (
+				063C161C2A0DE18100E07141 /* XCRemoteSwiftPackageReference "swift-dependencies" */,
+			);
 			productRefGroup = 064B04B72A08DAAB00230FBC /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -443,6 +472,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				064B04E72A08F14800230FBC /* Camera.swift in Sources */,
+				063C16192A0CAD9A00E07141 /* OpenCVWrapper.mm in Sources */,
+				063C16202A0DE2B600E07141 /* DependencyValues + Extension.swift in Sources */,
 				063C16142A0B645100E07141 /* UIImage + Extension.swift in Sources */,
 				064B04E52A08E59F00230FBC /* FaceDetector.swift in Sources */,
 				064B04BA2A08DAAB00230FBC /* VitalWinkApp.swift in Sources */,
@@ -603,11 +634,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"VitalWink/Preview Content\"";
 				DEVELOPMENT_TEAM = 687R8W5T99;
 				ENABLE_PREVIEWS = YES;
+				GCC_PREFIX_HEADER = "$(SRCROOT)/VitalWink/PrefixHeader.pch";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = VitalWink/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -627,6 +660,8 @@
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "VitalWink/VitalWink-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -638,11 +673,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"VitalWink/Preview Content\"";
 				DEVELOPMENT_TEAM = 687R8W5T99;
 				ENABLE_PREVIEWS = YES;
+				GCC_PREFIX_HEADER = "$(SRCROOT)/VitalWink/PrefixHeader.pch";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = VitalWink/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -662,6 +699,7 @@
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "VitalWink/VitalWink-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -793,6 +831,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		063C161C2A0DE18100E07141 /* XCRemoteSwiftPackageReference "swift-dependencies" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/pointfreeco/swift-dependencies";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.5.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		063C161D2A0DE18100E07141 /* Dependencies */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 063C161C2A0DE18100E07141 /* XCRemoteSwiftPackageReference "swift-dependencies" */;
+			productName = Dependencies;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 064B04AE2A08DAAB00230FBC /* Project object */;
 }

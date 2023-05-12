@@ -11,7 +11,7 @@ import SwiftUI
 struct VitalWinkApp: App {
     var body: some Scene {
         WindowGroup {
-           EmptyView()
+            EmptyView()
         }
     }
 }

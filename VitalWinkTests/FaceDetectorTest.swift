@@ -25,7 +25,7 @@ final class FaceDetectorTest: XCTestCase {
             guard let strongSelf = self else {
                 return
             }
-            sut.detect(in: UIImage(sampleBuffer: buffer)).sink(receiveCompletion: {
+            sut.detect(UIImage(sampleBuffer: buffer)).sink(receiveCompletion: {
                 switch $0{
                 case .finished:
                     _ = 1
@@ -42,7 +42,7 @@ final class FaceDetectorTest: XCTestCase {
                                   
     func test_whenDetect_withEmptyUIImage(){
         let sut = FaceDetector.shared
-        sut.detect(in: UIImage()).sink(receiveCompletion: {
+        sut.detect(UIImage()).sink(receiveCompletion: {
             switch $0{
             case .finished:
                 _ = 1

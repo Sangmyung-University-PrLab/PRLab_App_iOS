@@ -161,6 +161,10 @@ final class Camera: NSObject{
 
 extension Camera:AVCaptureVideoDataOutputSampleBufferDelegate{
     func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
-        self.frameObserver.send(sampleBuffer)
+        DispatchQueue.main.async {
+            self.frameObserver.send(sampleBuffer)
+        }
+        
+            
     }
 }

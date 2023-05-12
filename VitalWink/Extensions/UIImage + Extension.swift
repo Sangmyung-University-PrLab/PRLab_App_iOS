@@ -33,4 +33,30 @@ extension UIImage{
         CVPixelBufferUnlockBaseAddress(videoPixelBuffer, CVPixelBufferLockFlags.readOnly)
         self.init(cgImage: quarzImage)
     }
+    
+    var cvPixelBuffer: CVPixelBuffer?{
+        var pixelBuffer: CVPixelBuffer? = nil
+        let options: [NSObject: Any] = [
+            kCVPixelBufferCGImageCompatibilityKey: kCFBooleanTrue,
+            kCVPixelBufferCGBitmapContextCompatibilityKey: kCFBooleanTrue
+        ]
+        
+        _ = CVPixelBufferCreate(kCFAllocatorDefault, Int(size.width), Int(size.height), kCVPixelFormatType_32BGRA, options as CFDictionary, &pixelBuffer)
+        CVPixelBufferLockBaseAddress(pixelBuffer!, CVPixelBufferLockFlags(rawValue: 0))
+        let pixelData = CVPixelBufferGetBaseAddress(pixelBuffer!)
+        let rgbColorSpace = CGColorSpaceCreateDeviceRGB()
+        var bitmapInfo: UInt32 = CGBitmapInfo.byteOrder32Little.rawValue
+        bitmapInfo |= CGImageAlphaInfo.premultipliedFirst.rawValue & CGBitmapInfo.alphaInfoMask.rawValue
+        let context = CGContext(data: pixelData,
+                                width: Int(size.width),
+                                height: Int(size.height),
+                                bitsPerComponent: 8,
+                                bytesPerRow: CVPixelBufferGetBytesPerRow(pixelBuffer!),
+                                space: rgbColorSpace,
+                                bitmapInfo: bitmapInfo)
+        
+        context?.draw(cgImage!, in: CGRect(origin: .zero, size: size))
+        CVPixelBufferUnlockBaseAddress(pixelBuffer!, CVPixelBufferLockFlags(rawValue: 0))
+        return pixelBuffer
+    }
 }
