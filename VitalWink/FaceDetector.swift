@@ -24,12 +24,11 @@ public final class FaceDetector{
         }
     }
     
-    
-    public func detect(_ image: UIImage) -> Future<CGRect, Error>{
+    public func detect(_ image: UIImage) -> AnyPublisher<CGRect, Error>{
         guard let cgImage = image.cgImage else{
             return Future<CGRect, Error>{
                 $0(.failure(FaceDetectorError.getEmptyUIImage))
-            }
+            }.eraseToAnyPublisher()
         }
         
         return Future<CGRect, Error>{[weak self] promise in
@@ -65,8 +64,7 @@ public final class FaceDetector{
             }catch{
                 promise(.failure(error))
             }
-        }
-        
+        }.eraseToAnyPublisher()
     }
     
     public func skinSegmentation(_ image: UIImage){
