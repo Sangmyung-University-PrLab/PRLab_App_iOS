@@ -12,25 +12,65 @@ import Combine
 import Alamofire
 
 final class UserAPI{
-    func find(email: String) -> AnyPublisher<String, Error>{
-        return vitalWinkAPI.request(UserRouter.find(email: email))
-            .validate(statusCode: 200...200)
-            .publishData()
-            .value()
-            .tryMap{
-                let id = JSON($0)["id"]
-                
-                guard id.error == nil else{
-                    throw id.error!
-                }
-                
-                return id.stringValue
+    func find(email: String) -> AnyPublisher<String?, Error>{
+        return Future<String?, Error>{[weak self] promise in
+            guard let strongSelf = self else{
+                return
             }
-            .eraseToAnyPublisher()
+            
+            strongSelf.vitalWinkAPI
+                .request(UserRouter.find(email: email))
+                .validate(statusCode: 200...200)
+                
+                .responseDecodable(of: JSON.self){
+                    switch $0.result{
+                    case .success(let json):
+                        print(json)
+                        let id = json["id"]
+                        
+                        if id.error != nil{
+                            promise(.failure(id.error!))
+                            return
+                        }
+                        
+                        promise(.success(id.stringValue))
+                    case .failure(let error):
+                        if error.responseCode! == 404{
+                            promise(.success(nil))
+                        }
+                        else{
+                            promise(.failure(error))
+                        }
+                    }
+                }
+        }.eraseToAnyPublisher()
     }
-    func isIdExist(id: String){
+    func isIdNotExist(_ id: String) -> AnyPublisher<Bool, Error>{
+        return Future<Bool, Error>{[weak self] promise in
+            guard let strongSelf = self else{
+                return
+            }
+            
+            strongSelf.vitalWinkAPI
+                .request(UserRouter.isIdExist(id))
+                .validate(statusCode: 204...204)
+                .response{
+                    switch $0.result{
+                    case .success:
+                        promise(.success(false))
+                    case .failure(let error):
+                        if error.responseCode! == 404{
+                            promise(.success(true))
+                        }
+                        else{
+                            promise(.failure(error))
+                        }
+                    }
+                }
+        }.eraseToAnyPublisher()
         
     }
+    
     func regist(user: User){
         
     }

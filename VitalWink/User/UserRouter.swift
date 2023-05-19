@@ -10,7 +10,7 @@ import Alamofire
 
 enum UserRouter: VitalWinkRouterType{
     case find(email: String)
-    case isIdExist(id: String)
+    case isIdExist(_ id: String)
     case regist(user: User)
     case isIdAndEmailMatch(id: String, email: String)
     case changePassword(password: String)
@@ -20,7 +20,7 @@ enum UserRouter: VitalWinkRouterType{
         switch self{
         case .find(email: let email):
             return "\(baseEndPoint)?email=\(email)"
-        case .isIdExist(id: let id):
+        case .isIdExist(let id):
             return "\(baseEndPoint)?id=\(id)"
         case .isIdAndEmailMatch(id: let id, email: let email):
             return "\(baseEndPoint)?id=\(id)&email=\(email)"

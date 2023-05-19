@@ -55,6 +55,7 @@ extension MockUserProtocol{
     }
     enum MockDataType{
         case find
+        case isIdNotExist
     }
     static func responseWithFailure(){
         MockUserProtocol.responseType = MockUserProtocol.ResponseType.error(MockError.none)
@@ -64,8 +65,8 @@ extension MockUserProtocol{
         MockUserProtocol.responseType = MockUserProtocol.ResponseType.success(HTTPURLResponse(url: URL(string: "http://mock.com")!, statusCode: code, httpVersion: nil, headerFields: ["Content-Type": "application/json"])!)
     }
     
-    static func responseWithUser(type: MockDataType){
-        MockUserProtocol.dataType = .find
+    static func responseWithData(type: MockDataType){
+        MockUserProtocol.dataType = type
     }
     
     
