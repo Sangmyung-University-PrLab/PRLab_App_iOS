@@ -19,7 +19,7 @@ final class UserAPI{
             }
             
             strongSelf.vitalWinkAPI
-                .request(UserRouter.find(email: email))
+                .request(UserRouter.find(email: email), requireToken: false)
                 .validate(statusCode: 200...200)
                 
                 .responseDecodable(of: JSON.self){
@@ -52,7 +52,7 @@ final class UserAPI{
             }
             
             strongSelf.vitalWinkAPI
-                .request(UserRouter.isIdExist(id))
+                .request(UserRouter.isIdExist(id), requireToken: false)
                 .validate(statusCode: 204...204)
                 .response{
                     switch $0.result{
@@ -70,23 +70,37 @@ final class UserAPI{
         }.eraseToAnyPublisher()
         
     }
-    func regist(_ user: User) ->  AnyPublisher<Void, some Error>{
-        return vitalWinkAPI.request(UserRouter.regist(user))
+    func regist(_ user: User) ->  AnyPublisher<Never, AFError>{
+        return vitalWinkAPI.request(UserRouter.regist(user), requireToken: false)
             .validate(statusCode: 204...204)
             .publishUnserialized()
             .value()
-            .map{_ in
-                Void()
-            }
+            .ignoreOutput()
             .eraseToAnyPublisher()
      
     }
-    func isIdAndEmailMatch(id: String, email: String){
-        
+    func isIdAndEmailMatch(id: String, email: String) -> AnyPublisher<String, Error>{
+        return vitalWinkAPI.request(UserRouter.isIdAndEmailMatch(id: id, email: email), requireToken: false)
+            .validate(statusCode: 200...200)
+            .publishDecodable(type:JSON.self)
+            .value()
+            .tryMap{
+                let token = $0["token"]
+                guard token.error == nil else{
+                    throw token.error!
+                }
+                
+                return token.stringValue
+            }
+            .eraseToAnyPublisher()
     }
-    
-    func changePassword(password: String){
-        
+    func changePassword(_ password: String) -> AnyPublisher<Never, AFError>{
+        return vitalWinkAPI.request(UserRouter.changePassword(password))
+            .validate(statusCode: 204...204)
+            .publishUnserialized()
+            .value()
+            .ignoreOutput()
+            .eraseToAnyPublisher()
     }
     
     @Dependency(\.vitalWinkAPI) private var vitalWinkAPI
