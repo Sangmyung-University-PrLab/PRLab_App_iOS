@@ -24,6 +24,7 @@ public final class FaceDetector{
         }
     }
     
+    
     public func detect(_ image: UIImage) -> Future<CGRect, Error>{
         guard let cgImage = image.cgImage else{
             return Future<CGRect, Error>{
@@ -35,6 +36,7 @@ public final class FaceDetector{
             guard let strongSelf = self else{
                 return
             }
+            
             
             let handler = VNImageRequestHandler(cgImage: cgImage)
             
