@@ -11,7 +11,7 @@ import Alamofire
 enum UserRouter: VitalWinkRouterType{
     case find(email: String)
     case isIdExist(_ id: String)
-    case regist(user: User)
+    case regist(_ user: User)
     case isIdAndEmailMatch(id: String, email: String)
     case changePassword(password: String)
     
@@ -31,7 +31,7 @@ enum UserRouter: VitalWinkRouterType{
     
     var parameters: Parameters{
         switch self{
-        case .regist(user: let user):
+        case .regist(let user):
             return [
                 "id": user.id,
                 "password": user.password,

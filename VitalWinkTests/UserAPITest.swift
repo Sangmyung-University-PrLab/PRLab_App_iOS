@@ -10,6 +10,7 @@ final class UserAPITest: XCTestCase {
     @Dependency(\.userAPI) var sut
     private var subscriptions = Set<AnyCancellable>()
     private let expectation = XCTestExpectation(description: "Performs a request")
+    
     func test_findId_byEmail(){        MockUserProtocol.responseWithData(type: .find)
         MockUserProtocol.responseWithStatusCode(code: 200)
         
@@ -79,5 +80,20 @@ final class UserAPITest: XCTestCase {
         }).store(in: &subscriptions)
         
         wait(for: [expectation], timeout: 5)
+    }
+    
+    func test_regist(){
+        MockUserProtocol.responseWithStatusCode(code: 204)
+        sut.regist(User(id: "id", password: "111", email: "test@test.com", gender: .man, birthday: Date()))
+            .sink(receiveCompletion: {
+                switch $0{
+                case .finished:
+                    break
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                }
+            }, receiveValue: {
+                
+            }).store(in: &subscriptions)
     }
 }

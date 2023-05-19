@@ -70,13 +70,21 @@ final class UserAPI{
         }.eraseToAnyPublisher()
         
     }
-    
-    func regist(user: User){
-        
+    func regist(_ user: User) ->  AnyPublisher<Void, some Error>{
+        return vitalWinkAPI.request(UserRouter.regist(user))
+            .validate(statusCode: 204...204)
+            .publishUnserialized()
+            .value()
+            .map{_ in
+                Void()
+            }
+            .eraseToAnyPublisher()
+     
     }
     func isIdAndEmailMatch(id: String, email: String){
         
     }
+    
     func changePassword(password: String){
         
     }
