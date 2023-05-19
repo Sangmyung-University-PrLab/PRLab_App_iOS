@@ -22,16 +22,16 @@
 		064B04D72A08DAAC00230FBC /* VitalWinkUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 064B04D62A08DAAC00230FBC /* VitalWinkUITestsLaunchTests.swift */; };
 		064B04E52A08E59F00230FBC /* FaceDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 064B04E42A08E59F00230FBC /* FaceDetector.swift */; };
 		064B04E72A08F14800230FBC /* Camera.swift in Sources */ = {isa = PBXBuildFile; fileRef = 064B04E62A08F14800230FBC /* Camera.swift */; };
-		06F180912A14C1B200F1CE90 /* UserRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F180902A14C1B200F1CE90 /* UserRouter.swift */; };
-		06F180932A14C38400F1CE90 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F180922A14C38400F1CE90 /* User.swift */; };
 		06F1809B2A15C64300F1CE90 /* VitalWinkAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F1809A2A15C64300F1CE90 /* VitalWinkAPI.swift */; };
 		06F1809F2A15DEFC00F1CE90 /* VitalWinkRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F1809E2A15DEFC00F1CE90 /* VitalWinkRouter.swift */; };
 		06F180A22A15E95C00F1CE90 /* AuthInterceptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F180A12A15E95C00F1CE90 /* AuthInterceptor.swift */; };
 		06F180A42A15EAF400F1CE90 /* KeyChainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F180A32A15EAF400F1CE90 /* KeyChainManager.swift */; };
 		06F180A62A15F28800F1CE90 /* VitalWinkAPIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F180A52A15F28800F1CE90 /* VitalWinkAPIError.swift */; };
-		06F180A82A15F4E300F1CE90 /* UserAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F180A72A15F4E300F1CE90 /* UserAPI.swift */; };
 		06F180AA2A1602CC00F1CE90 /* UserAPITest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F180A92A1602CC00F1CE90 /* UserAPITest.swift */; };
-		06F180AC2A1604CE00F1CE90 /* MockUserProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F180AB2A1604CE00F1CE90 /* MockUserProtocol.swift */; };
+		06F180B42A17403C00F1CE90 /* UserAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F180B02A17403C00F1CE90 /* UserAPI.swift */; };
+		06F180B52A17403C00F1CE90 /* UserRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F180B12A17403C00F1CE90 /* UserRouter.swift */; };
+		06F180B62A17403C00F1CE90 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F180B22A17403C00F1CE90 /* User.swift */; };
+		06F180B72A17403C00F1CE90 /* MockUserProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F180B32A17403C00F1CE90 /* MockUserProtocol.swift */; };
 		723974D5A26EA177305C32F5 /* Pods_VitalWink.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A5DE7A073E2799C317830FB7 /* Pods_VitalWink.framework */; };
 		899F51F1463369C41E3C4E00 /* Pods_VitalWinkTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D50B57F520053C5D372806C0 /* Pods_VitalWinkTests.framework */; };
 		C49198033F46F87165FCBC44 /* Pods_VitalWink_VitalWinkUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0857841D777CC5C81601A7FC /* Pods_VitalWink_VitalWinkUITests.framework */; };
@@ -76,16 +76,16 @@
 		064B04E32A08DD8000230FBC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		064B04E42A08E59F00230FBC /* FaceDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceDetector.swift; sourceTree = "<group>"; };
 		064B04E62A08F14800230FBC /* Camera.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Camera.swift; sourceTree = "<group>"; };
-		06F180902A14C1B200F1CE90 /* UserRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRouter.swift; sourceTree = "<group>"; };
-		06F180922A14C38400F1CE90 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		06F1809A2A15C64300F1CE90 /* VitalWinkAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VitalWinkAPI.swift; sourceTree = "<group>"; };
 		06F1809E2A15DEFC00F1CE90 /* VitalWinkRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VitalWinkRouter.swift; sourceTree = "<group>"; };
 		06F180A12A15E95C00F1CE90 /* AuthInterceptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthInterceptor.swift; sourceTree = "<group>"; };
 		06F180A32A15EAF400F1CE90 /* KeyChainManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyChainManager.swift; sourceTree = "<group>"; };
 		06F180A52A15F28800F1CE90 /* VitalWinkAPIError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VitalWinkAPIError.swift; sourceTree = "<group>"; };
-		06F180A72A15F4E300F1CE90 /* UserAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAPI.swift; sourceTree = "<group>"; };
 		06F180A92A1602CC00F1CE90 /* UserAPITest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAPITest.swift; sourceTree = "<group>"; };
-		06F180AB2A1604CE00F1CE90 /* MockUserProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MockUserProtocol.swift; path = ../../../../MockUserProtocol.swift; sourceTree = "<group>"; };
+		06F180B02A17403C00F1CE90 /* UserAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserAPI.swift; sourceTree = "<group>"; };
+		06F180B12A17403C00F1CE90 /* UserRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserRouter.swift; sourceTree = "<group>"; };
+		06F180B22A17403C00F1CE90 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		06F180B32A17403C00F1CE90 /* MockUserProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockUserProtocol.swift; sourceTree = "<group>"; };
 		0857841D777CC5C81601A7FC /* Pods_VitalWink_VitalWinkUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_VitalWink_VitalWinkUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2A47F3C14603A90C365056B2 /* Pods-VitalWink.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VitalWink.debug.xcconfig"; path = "Target Support Files/Pods-VitalWink/Pods-VitalWink.debug.xcconfig"; sourceTree = "<group>"; };
 		2C6F199A9B1A255059C245B6 /* Pods-VitalWink-VitalWinkUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VitalWink-VitalWinkUITests.release.xcconfig"; path = "Target Support Files/Pods-VitalWink-VitalWinkUITests/Pods-VitalWink-VitalWinkUITests.release.xcconfig"; sourceTree = "<group>"; };
@@ -187,7 +187,7 @@
 				064B04BD2A08DAAC00230FBC /* Assets.xcassets */,
 				064B04BF2A08DAAC00230FBC /* Preview Content */,
 				063C16282A0E03AD00E07141 /* Camera */,
-				06F1808F2A14C19C00F1CE90 /* User */,
+				06F180AF2A17403C00F1CE90 /* User */,
 				06F180A02A15E89600F1CE90 /* Network */,
 				063C16212A0DE2F400E07141 /* FaceDetector */,
 				063C16172A0CAD9900E07141 /* VitalWink-Bridging-Header.h */,
@@ -223,17 +223,6 @@
 			path = VitalWinkUITests;
 			sourceTree = "<group>";
 		};
-		06F1808F2A14C19C00F1CE90 /* User */ = {
-			isa = PBXGroup;
-			children = (
-				06F180902A14C1B200F1CE90 /* UserRouter.swift */,
-				06F180922A14C38400F1CE90 /* User.swift */,
-				06F180A72A15F4E300F1CE90 /* UserAPI.swift */,
-				06F180AB2A1604CE00F1CE90 /* MockUserProtocol.swift */,
-			);
-			name = User;
-			sourceTree = "<group>";
-		};
 		06F180A02A15E89600F1CE90 /* Network */ = {
 			isa = PBXGroup;
 			children = (
@@ -243,6 +232,17 @@
 				06F180A52A15F28800F1CE90 /* VitalWinkAPIError.swift */,
 			);
 			path = Network;
+			sourceTree = "<group>";
+		};
+		06F180AF2A17403C00F1CE90 /* User */ = {
+			isa = PBXGroup;
+			children = (
+				06F180B02A17403C00F1CE90 /* UserAPI.swift */,
+				06F180B12A17403C00F1CE90 /* UserRouter.swift */,
+				06F180B22A17403C00F1CE90 /* User.swift */,
+				06F180B32A17403C00F1CE90 /* MockUserProtocol.swift */,
+			);
+			path = User;
 			sourceTree = "<group>";
 		};
 		13E4E6C11327D415DC3D4F1A /* Pods */ = {
@@ -532,22 +532,22 @@
 			buildActionMask = 2147483647;
 			files = (
 				064B04E72A08F14800230FBC /* Camera.swift in Sources */,
-				06F180A82A15F4E300F1CE90 /* UserAPI.swift in Sources */,
 				063C16272A0E01DB00E07141 /* CameraStream.swift in Sources */,
 				063C16192A0CAD9A00E07141 /* OpenCVWrapper.mm in Sources */,
 				06F180A62A15F28800F1CE90 /* VitalWinkAPIError.swift in Sources */,
+				06F180B62A17403C00F1CE90 /* User.swift in Sources */,
+				06F180B52A17403C00F1CE90 /* UserRouter.swift in Sources */,
 				063C16202A0DE2B600E07141 /* DependencyValues + Extension.swift in Sources */,
 				06F1809B2A15C64300F1CE90 /* VitalWinkAPI.swift in Sources */,
 				06F180A42A15EAF400F1CE90 /* KeyChainManager.swift in Sources */,
-				06F180912A14C1B200F1CE90 /* UserRouter.swift in Sources */,
 				063C16252A0DF5E600E07141 /* CameraStreamDelegate.swift in Sources */,
 				063C16142A0B645100E07141 /* UIImage + Extension.swift in Sources */,
-				06F180AC2A1604CE00F1CE90 /* MockUserProtocol.swift in Sources */,
+				06F180B72A17403C00F1CE90 /* MockUserProtocol.swift in Sources */,
 				06F180A22A15E95C00F1CE90 /* AuthInterceptor.swift in Sources */,
 				064B04E52A08E59F00230FBC /* FaceDetector.swift in Sources */,
-				06F180932A14C38400F1CE90 /* User.swift in Sources */,
 				06F1809F2A15DEFC00F1CE90 /* VitalWinkRouter.swift in Sources */,
 				064B04BA2A08DAAB00230FBC /* VitalWinkApp.swift in Sources */,
+				06F180B42A17403C00F1CE90 /* UserAPI.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
