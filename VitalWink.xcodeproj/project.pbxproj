@@ -238,8 +238,8 @@
 			isa = PBXGroup;
 			children = (
 				06F180B02A17403C00F1CE90 /* UserAPI.swift */,
-				06F180B12A17403C00F1CE90 /* UserRouter.swift */,
 				06F180B22A17403C00F1CE90 /* User.swift */,
+				06F180B12A17403C00F1CE90 /* UserRouter.swift */,
 				06F180B32A17403C00F1CE90 /* MockUserProtocol.swift */,
 			);
 			path = User;

@@ -25,7 +25,6 @@ final class UserAPI{
                 .responseDecodable(of: JSON.self){
                     switch $0.result{
                     case .success(let json):
-                        print(json)
                         let id = json["id"]
                         
                         if id.error != nil{
@@ -35,8 +34,13 @@ final class UserAPI{
                         
                         promise(.success(id.stringValue))
                     case .failure(let error):
-                        if error.responseCode! == 404{
-                            promise(.success(nil))
+                        if let statusCode = error.responseCode{
+                            if statusCode == 404{
+                                promise(.success(nil))
+                            }
+                            else{
+                                promise(.failure(error))
+                            }
                         }
                         else{
                             promise(.failure(error))

@@ -47,6 +47,25 @@ enum UserRouter: VitalWinkRouterType{
             return Parameters()
         }
     }
+    var queries: [URLQueryItem]{
+        switch self {
+        case .find(let email):
+            return [
+                .init(name: "email", value: email)
+            ]
+        case .isIdExist(let id):
+            return [
+                .init(name: "id", value: id)
+            ]
+        case .isIdAndEmailMatch(let id, let email):
+            return [
+                .init(name: "id", value: id),
+                .init(name: "email", value: email)
+            ]
+        default:
+            return []
+        }
+    }
     
     var method: HTTPMethod{
         switch self {
