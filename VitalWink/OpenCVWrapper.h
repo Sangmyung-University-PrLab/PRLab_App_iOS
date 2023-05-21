@@ -12,7 +12,7 @@
 #import <UIKit/UIKit.h>
 @interface OpenCVWrapper: NSObject
 
-+ (UIImage*)skinSegmentation: (const UIImage*) image;
++ (NSArray*)skinSegmentation: (const UIImage*) image;
 
 @end
 #endif /* OpenCVWrapper_h */
