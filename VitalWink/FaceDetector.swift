@@ -67,8 +67,17 @@ public final class FaceDetector{
         }.eraseToAnyPublisher()
     }
     
-    public func skinSegmentation(_ image: UIImage){
-        OpenCVWrapper.skinSegmentation(image)
+    public func skinSegmentation(_ image: UIImage) -> [(UInt8, UInt8, UInt8)]{
+        let bgrNSArray = OpenCVWrapper.skinSegmentation(image)
+        var bgrArray = [(UInt8, UInt8, UInt8)]()
+        
+        for i in 0 ..< bgrNSArray.count / 3{
+            bgrArray.append((bgrNSArray[3 * i] as! UInt8,
+                             bgrNSArray[3 * (i + 1)] as! UInt8,
+                             bgrNSArray[3 * (i + 2)] as! UInt8))
+        }
+        
+        return bgrArray
     }
     
     //MARK: private

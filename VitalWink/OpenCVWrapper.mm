@@ -12,7 +12,7 @@ using namespace cv;
 
 @implementation OpenCVWrapper
 
-+ (NSArray*)skinSegmentation:(const UIImage *)image{
++ (NSArray<NSNumber *>* _Nonnull)skinSegmentation:(const UIImage * _Nonnull)image{
     Mat bgraMat, bgrMat, ycrcbMat, mask;
     Mat planes[3];
     
