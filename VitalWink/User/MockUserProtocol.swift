@@ -18,6 +18,9 @@ final class MockUserProtocol: URLProtocol{
     static var dataType: MockDataType!
     override class func canInit(with request: URLRequest) -> Bool {
         //파라미터로 전달받은 요청을 처리할 수 있는지 여부
+        guard let url = request.url, url.absoluteString.contains("users") else{
+            return false
+        }
         return true
     }
     
