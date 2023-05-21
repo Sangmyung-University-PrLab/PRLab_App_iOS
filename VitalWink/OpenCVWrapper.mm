@@ -12,22 +12,19 @@ using namespace cv;
 
 @implementation OpenCVWrapper
 
-+ (UIImage*)skinSegmentation:(const UIImage *)image{
++ (NSArray<NSNumber *>* _Nonnull)skinSegmentation:(const UIImage * _Nonnull)image{
     Mat bgraMat, bgrMat, ycrcbMat, mask;
     Mat planes[3];
     
     UIImageToMat(image, bgraMat);
     cvtColor(bgraMat, bgrMat, COLOR_BGRA2BGR);
     [self createSkinMask:bgrMat :mask];
-    split(bgrMat, planes);
-
-    planes[0].setTo(0, mask==0);
-    planes[1].setTo(0, mask==0);
-    planes[2].setTo(0, mask==0);
-
-    merge(planes, 3, bgrMat);
-
-    return MatToUIImage(bgrMat);
+    bgrMat.setTo(0, mask == 0);
+    NSMutableArray *bgrArray = [[NSMutableArray alloc] init];
+    for(int i = 0; i < bgrMat.rows * bgrMat.cols * bgrMat.channels(); i++){
+        [bgrArray addObject:[NSNumber numberWithUnsignedChar:bgrMat.data[i]]];
+    }
+    return bgrArray;
 }
 
 + (void) createSkinMask: (InputArray)src: (OutputArray)dst {
