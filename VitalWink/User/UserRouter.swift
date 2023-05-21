@@ -47,7 +47,7 @@ enum UserRouter: VitalWinkRouterType{
             return Parameters()
         }
     }
-    var querys: [URLQueryItem]{
+    var queries: [URLQueryItem]{
         switch self {
         case .find(let email):
             return [
