@@ -10,7 +10,7 @@ final class VitalWinkAPI{
     init(isTest: Bool = false){
         if isTest{
             let config = URLSessionConfiguration.af.ephemeral
-            config.protocolClasses = [MockUserProtocol.self]
+            config.protocolClasses = [ MockMeasurmentProtocol.self, MockUserProtocol.self,]
             session = Session(configuration: config)
             
         }

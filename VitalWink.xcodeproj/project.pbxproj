@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		063C16112A0B62F400E07141 /* FaceDetectorTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 063C16102A0B62F300E07141 /* FaceDetectorTest.swift */; };
 		063C16142A0B645100E07141 /* UIImage + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 063C16132A0B645100E07141 /* UIImage + Extension.swift */; };
-		063C16192A0CAD9A00E07141 /* OpenCVWrapper.mm in Sources */ = {isa = PBXBuildFile; fileRef = 063C16182A0CAD9A00E07141 /* OpenCVWrapper.mm */; };
 		063C161E2A0DE18100E07141 /* Dependencies in Frameworks */ = {isa = PBXBuildFile; productRef = 063C161D2A0DE18100E07141 /* Dependencies */; };
 		063C16202A0DE2B600E07141 /* DependencyValues + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 063C161F2A0DE2B600E07141 /* DependencyValues + Extension.swift */; };
 		063C16252A0DF5E600E07141 /* CameraStreamDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 063C16242A0DF5E600E07141 /* CameraStreamDelegate.swift */; };
@@ -20,8 +19,13 @@
 		064B04CB2A08DAAC00230FBC /* CameraTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 064B04CA2A08DAAC00230FBC /* CameraTest.swift */; };
 		064B04D52A08DAAC00230FBC /* VitalWinkUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 064B04D42A08DAAC00230FBC /* VitalWinkUITests.swift */; };
 		064B04D72A08DAAC00230FBC /* VitalWinkUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 064B04D62A08DAAC00230FBC /* VitalWinkUITestsLaunchTests.swift */; };
-		064B04E52A08E59F00230FBC /* FaceDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 064B04E42A08E59F00230FBC /* FaceDetector.swift */; };
 		064B04E72A08F14800230FBC /* Camera.swift in Sources */ = {isa = PBXBuildFile; fileRef = 064B04E62A08F14800230FBC /* Camera.swift */; };
+		0663C4492A19FF2A00B85ABF /* MeasurementAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0663C4482A19FF2A00B85ABF /* MeasurementAPI.swift */; };
+		0663C44B2A19FFA700B85ABF /* MeasurementRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0663C44A2A19FFA700B85ABF /* MeasurementRouter.swift */; };
+		0663C44E2A1A10B500B85ABF /* FaceDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0663C44D2A1A10B500B85ABF /* FaceDetector.swift */; };
+		0663C4542A1A125100B85ABF /* OpenCVWrapper.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0663C4532A1A125100B85ABF /* OpenCVWrapper.mm */; };
+		0663C4562A1A172100B85ABF /* MeasurementAPITest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0663C4552A1A172100B85ABF /* MeasurementAPITest.swift */; };
+		0663C4582A1A17F200B85ABF /* MockMeasurementProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0663C4572A1A17F200B85ABF /* MockMeasurementProtocol.swift */; };
 		06F1809B2A15C64300F1CE90 /* VitalWinkAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F1809A2A15C64300F1CE90 /* VitalWinkAPI.swift */; };
 		06F1809F2A15DEFC00F1CE90 /* VitalWinkRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F1809E2A15DEFC00F1CE90 /* VitalWinkRouter.swift */; };
 		06F180A22A15E95C00F1CE90 /* AuthInterceptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F180A12A15E95C00F1CE90 /* AuthInterceptor.swift */; };
@@ -58,9 +62,7 @@
 		063C16102A0B62F300E07141 /* FaceDetectorTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceDetectorTest.swift; sourceTree = "<group>"; };
 		063C16132A0B645100E07141 /* UIImage + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage + Extension.swift"; sourceTree = "<group>"; };
 		063C16152A0CAC9E00E07141 /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
-		063C16162A0CACD900E07141 /* OpenCVWrapper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OpenCVWrapper.h; sourceTree = "<group>"; };
 		063C16172A0CAD9900E07141 /* VitalWink-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "VitalWink-Bridging-Header.h"; sourceTree = "<group>"; };
-		063C16182A0CAD9A00E07141 /* OpenCVWrapper.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = OpenCVWrapper.mm; sourceTree = "<group>"; };
 		063C161F2A0DE2B600E07141 /* DependencyValues + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DependencyValues + Extension.swift"; sourceTree = "<group>"; };
 		063C16242A0DF5E600E07141 /* CameraStreamDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraStreamDelegate.swift; sourceTree = "<group>"; };
 		063C16262A0E01DB00E07141 /* CameraStream.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraStream.swift; sourceTree = "<group>"; };
@@ -74,8 +76,14 @@
 		064B04D42A08DAAC00230FBC /* VitalWinkUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VitalWinkUITests.swift; sourceTree = "<group>"; };
 		064B04D62A08DAAC00230FBC /* VitalWinkUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VitalWinkUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		064B04E32A08DD8000230FBC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
-		064B04E42A08E59F00230FBC /* FaceDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceDetector.swift; sourceTree = "<group>"; };
 		064B04E62A08F14800230FBC /* Camera.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Camera.swift; sourceTree = "<group>"; };
+		0663C4482A19FF2A00B85ABF /* MeasurementAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeasurementAPI.swift; sourceTree = "<group>"; };
+		0663C44A2A19FFA700B85ABF /* MeasurementRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeasurementRouter.swift; sourceTree = "<group>"; };
+		0663C44D2A1A10B500B85ABF /* FaceDetector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FaceDetector.swift; sourceTree = "<group>"; };
+		0663C4522A1A125100B85ABF /* OpenCVWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenCVWrapper.h; sourceTree = "<group>"; };
+		0663C4532A1A125100B85ABF /* OpenCVWrapper.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = OpenCVWrapper.mm; sourceTree = "<group>"; };
+		0663C4552A1A172100B85ABF /* MeasurementAPITest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeasurementAPITest.swift; sourceTree = "<group>"; };
+		0663C4572A1A17F200B85ABF /* MockMeasurementProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockMeasurementProtocol.swift; sourceTree = "<group>"; };
 		06F1809A2A15C64300F1CE90 /* VitalWinkAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VitalWinkAPI.swift; sourceTree = "<group>"; };
 		06F1809E2A15DEFC00F1CE90 /* VitalWinkRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VitalWinkRouter.swift; sourceTree = "<group>"; };
 		06F180A12A15E95C00F1CE90 /* AuthInterceptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthInterceptor.swift; sourceTree = "<group>"; };
@@ -135,16 +143,6 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
-		063C16212A0DE2F400E07141 /* FaceDetector */ = {
-			isa = PBXGroup;
-			children = (
-				064B04E42A08E59F00230FBC /* FaceDetector.swift */,
-				063C16162A0CACD900E07141 /* OpenCVWrapper.h */,
-				063C16182A0CAD9A00E07141 /* OpenCVWrapper.mm */,
-			);
-			name = FaceDetector;
-			sourceTree = "<group>";
-		};
 		063C16282A0E03AD00E07141 /* Camera */ = {
 			isa = PBXGroup;
 			children = (
@@ -181,15 +179,16 @@
 			isa = PBXGroup;
 			children = (
 				063C16152A0CAC9E00E07141 /* PrefixHeader.pch */,
-				063C16122A0B644100E07141 /* Extensions */,
 				064B04E32A08DD8000230FBC /* Info.plist */,
 				064B04B92A08DAAB00230FBC /* VitalWinkApp.swift */,
 				064B04BD2A08DAAC00230FBC /* Assets.xcassets */,
 				064B04BF2A08DAAC00230FBC /* Preview Content */,
+				063C16122A0B644100E07141 /* Extensions */,
 				063C16282A0E03AD00E07141 /* Camera */,
 				06F180AF2A17403C00F1CE90 /* User */,
 				06F180A02A15E89600F1CE90 /* Network */,
-				063C16212A0DE2F400E07141 /* FaceDetector */,
+				0663C44C2A1A10A600B85ABF /* FaceDetector */,
+				0663C4472A19FEE600B85ABF /* Measurement */,
 				063C16172A0CAD9900E07141 /* VitalWink-Bridging-Header.h */,
 				06F180A32A15EAF400F1CE90 /* KeyChainManager.swift */,
 			);
@@ -210,6 +209,7 @@
 				064B04CA2A08DAAC00230FBC /* CameraTest.swift */,
 				063C16102A0B62F300E07141 /* FaceDetectorTest.swift */,
 				06F180A92A1602CC00F1CE90 /* UserAPITest.swift */,
+				0663C4552A1A172100B85ABF /* MeasurementAPITest.swift */,
 			);
 			path = VitalWinkTests;
 			sourceTree = "<group>";
@@ -221,6 +221,26 @@
 				064B04D62A08DAAC00230FBC /* VitalWinkUITestsLaunchTests.swift */,
 			);
 			path = VitalWinkUITests;
+			sourceTree = "<group>";
+		};
+		0663C4472A19FEE600B85ABF /* Measurement */ = {
+			isa = PBXGroup;
+			children = (
+				0663C4482A19FF2A00B85ABF /* MeasurementAPI.swift */,
+				0663C44A2A19FFA700B85ABF /* MeasurementRouter.swift */,
+				0663C4572A1A17F200B85ABF /* MockMeasurementProtocol.swift */,
+			);
+			path = Measurement;
+			sourceTree = "<group>";
+		};
+		0663C44C2A1A10A600B85ABF /* FaceDetector */ = {
+			isa = PBXGroup;
+			children = (
+				0663C44D2A1A10B500B85ABF /* FaceDetector.swift */,
+				0663C4522A1A125100B85ABF /* OpenCVWrapper.h */,
+				0663C4532A1A125100B85ABF /* OpenCVWrapper.mm */,
+			);
+			path = FaceDetector;
 			sourceTree = "<group>";
 		};
 		06F180A02A15E89600F1CE90 /* Network */ = {
@@ -531,9 +551,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0663C44B2A19FFA700B85ABF /* MeasurementRouter.swift in Sources */,
 				064B04E72A08F14800230FBC /* Camera.swift in Sources */,
 				063C16272A0E01DB00E07141 /* CameraStream.swift in Sources */,
-				063C16192A0CAD9A00E07141 /* OpenCVWrapper.mm in Sources */,
+				0663C4542A1A125100B85ABF /* OpenCVWrapper.mm in Sources */,
 				06F180A62A15F28800F1CE90 /* VitalWinkAPIError.swift in Sources */,
 				06F180B62A17403C00F1CE90 /* User.swift in Sources */,
 				06F180B52A17403C00F1CE90 /* UserRouter.swift in Sources */,
@@ -544,9 +565,11 @@
 				063C16142A0B645100E07141 /* UIImage + Extension.swift in Sources */,
 				06F180B72A17403C00F1CE90 /* MockUserProtocol.swift in Sources */,
 				06F180A22A15E95C00F1CE90 /* AuthInterceptor.swift in Sources */,
-				064B04E52A08E59F00230FBC /* FaceDetector.swift in Sources */,
+				0663C4582A1A17F200B85ABF /* MockMeasurementProtocol.swift in Sources */,
 				06F1809F2A15DEFC00F1CE90 /* VitalWinkRouter.swift in Sources */,
+				0663C4492A19FF2A00B85ABF /* MeasurementAPI.swift in Sources */,
 				064B04BA2A08DAAB00230FBC /* VitalWinkApp.swift in Sources */,
+				0663C44E2A1A10B500B85ABF /* FaceDetector.swift in Sources */,
 				06F180B42A17403C00F1CE90 /* UserAPI.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -558,6 +581,7 @@
 				06F180AA2A1602CC00F1CE90 /* UserAPITest.swift in Sources */,
 				063C16112A0B62F400E07141 /* FaceDetectorTest.swift in Sources */,
 				064B04CB2A08DAAC00230FBC /* CameraTest.swift in Sources */,
+				0663C4562A1A172100B85ABF /* MeasurementAPITest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
