@@ -8,20 +8,23 @@
 import Foundation
 import Alamofire
 
-enum MeasurmentRouter: VitalWinkRouterType{
+enum MeasurmentRouter: VitalWinkUploadableRouterType{
     case signalMeasurement(frames: [[[UInt8]]], target: Target)
+    case expressionAndBMIMeasurement(image: UIImage, id: Int)
     
     var endPoint: String{
         let baseEndPoint = "measurements"
         switch self {
         case .signalMeasurement(_,let target):
             return "\(baseEndPoint)/signal/\(target.rawValue)"
+        case .expressionAndBMIMeasurement:
+            return "\(baseEndPoint)/expressionAndBMI"
         }
     }
     
     var method: HTTPMethod{
         switch self {
-        case .signalMeasurement:
+        case .signalMeasurement, .expressionAndBMIMeasurement:
             return .post
         }
     }
@@ -43,6 +46,18 @@ enum MeasurmentRouter: VitalWinkRouterType{
             return []
         }
     }
+    
+    func multipartFormData(_ formData: MultipartFormData) {
+        switch self{
+        case .expressionAndBMIMeasurement(image: let image, id: let id):
+            formData.append(image.jpegData(compressionQuality: 0.5)!, withName: "image")
+            var id = id
+            formData.append(Data(bytes: &id, count: MemoryLayout<Int>.size), withName: "measurment_id")
+        default:
+            return
+        }
+    }
+    
     
     enum Target: String{
         case finger = "finger"

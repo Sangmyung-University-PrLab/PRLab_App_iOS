@@ -107,21 +107,19 @@ extension MockMeasurmentProtocol{
             return nil
         }
         bodyStream.open()
-        
+
         let buffSize = 16
         let buffer = UnsafeMutablePointer<UInt8>.allocate(capacity: buffSize)
         var data = Data()
-        
+
         while bodyStream.hasBytesAvailable{
             let readData = bodyStream.read(buffer, maxLength: buffSize)
             data.append(buffer, count: readData)
         }
-        
+
         buffer.deallocate()
         bodyStream.close()
-        
+
         return JSON(data)
     }
 }
-
-

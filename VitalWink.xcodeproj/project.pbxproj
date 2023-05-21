@@ -26,6 +26,8 @@
 		0663C4542A1A125100B85ABF /* OpenCVWrapper.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0663C4532A1A125100B85ABF /* OpenCVWrapper.mm */; };
 		0663C4562A1A172100B85ABF /* MeasurementAPITest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0663C4552A1A172100B85ABF /* MeasurementAPITest.swift */; };
 		0663C4582A1A17F200B85ABF /* MockMeasurementProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0663C4572A1A17F200B85ABF /* MockMeasurementProtocol.swift */; };
+		0663C45A2A1A334300B85ABF /* VitalWinkUploadableRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0663C4592A1A334300B85ABF /* VitalWinkUploadableRouter.swift */; };
+		0663C45E2A1A42BD00B85ABF /* Publisher + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0663C45D2A1A42BD00B85ABF /* Publisher + Extension.swift */; };
 		06F1809B2A15C64300F1CE90 /* VitalWinkAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F1809A2A15C64300F1CE90 /* VitalWinkAPI.swift */; };
 		06F1809F2A15DEFC00F1CE90 /* VitalWinkRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F1809E2A15DEFC00F1CE90 /* VitalWinkRouter.swift */; };
 		06F180A22A15E95C00F1CE90 /* AuthInterceptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F180A12A15E95C00F1CE90 /* AuthInterceptor.swift */; };
@@ -84,6 +86,8 @@
 		0663C4532A1A125100B85ABF /* OpenCVWrapper.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = OpenCVWrapper.mm; sourceTree = "<group>"; };
 		0663C4552A1A172100B85ABF /* MeasurementAPITest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeasurementAPITest.swift; sourceTree = "<group>"; };
 		0663C4572A1A17F200B85ABF /* MockMeasurementProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockMeasurementProtocol.swift; sourceTree = "<group>"; };
+		0663C4592A1A334300B85ABF /* VitalWinkUploadableRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VitalWinkUploadableRouter.swift; sourceTree = "<group>"; };
+		0663C45D2A1A42BD00B85ABF /* Publisher + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Publisher + Extension.swift"; sourceTree = "<group>"; };
 		06F1809A2A15C64300F1CE90 /* VitalWinkAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VitalWinkAPI.swift; sourceTree = "<group>"; };
 		06F1809E2A15DEFC00F1CE90 /* VitalWinkRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VitalWinkRouter.swift; sourceTree = "<group>"; };
 		06F180A12A15E95C00F1CE90 /* AuthInterceptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthInterceptor.swift; sourceTree = "<group>"; };
@@ -139,6 +143,7 @@
 			children = (
 				063C16132A0B645100E07141 /* UIImage + Extension.swift */,
 				063C161F2A0DE2B600E07141 /* DependencyValues + Extension.swift */,
+				0663C45D2A1A42BD00B85ABF /* Publisher + Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -250,6 +255,7 @@
 				06F1809E2A15DEFC00F1CE90 /* VitalWinkRouter.swift */,
 				06F180A12A15E95C00F1CE90 /* AuthInterceptor.swift */,
 				06F180A52A15F28800F1CE90 /* VitalWinkAPIError.swift */,
+				0663C4592A1A334300B85ABF /* VitalWinkUploadableRouter.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -557,6 +563,7 @@
 				0663C4542A1A125100B85ABF /* OpenCVWrapper.mm in Sources */,
 				06F180A62A15F28800F1CE90 /* VitalWinkAPIError.swift in Sources */,
 				06F180B62A17403C00F1CE90 /* User.swift in Sources */,
+				0663C45E2A1A42BD00B85ABF /* Publisher + Extension.swift in Sources */,
 				06F180B52A17403C00F1CE90 /* UserRouter.swift in Sources */,
 				063C16202A0DE2B600E07141 /* DependencyValues + Extension.swift in Sources */,
 				06F1809B2A15C64300F1CE90 /* VitalWinkAPI.swift in Sources */,
@@ -564,6 +571,7 @@
 				063C16252A0DF5E600E07141 /* CameraStreamDelegate.swift in Sources */,
 				063C16142A0B645100E07141 /* UIImage + Extension.swift in Sources */,
 				06F180B72A17403C00F1CE90 /* MockUserProtocol.swift in Sources */,
+				0663C45A2A1A334300B85ABF /* VitalWinkUploadableRouter.swift in Sources */,
 				06F180A22A15E95C00F1CE90 /* AuthInterceptor.swift in Sources */,
 				0663C4582A1A17F200B85ABF /* MockMeasurementProtocol.swift in Sources */,
 				06F1809F2A15DEFC00F1CE90 /* VitalWinkRouter.swift in Sources */,

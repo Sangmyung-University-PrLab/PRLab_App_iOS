@@ -38,6 +38,15 @@ final class MeasurmentAPI{
         }.eraseToAnyPublisher()
     }
     
+    func expressionAndBMI(image: UIImage, id: Int) -> AnyPublisher<Never,some Error>{
+        return vitalWinkAPI.upload(MeasurmentRouter.expressionAndBMIMeasurement(image: image, id: id))
+            .validate(statusCode: 201 ... 201)
+            .publishUnserialized()
+            .value()
+            .ignoreOutput()
+            .eraseToAnyPublisher()
+    }
+    
     @Dependency(\.vitalWinkAPI) private var vitalWinkAPI
 }
 
