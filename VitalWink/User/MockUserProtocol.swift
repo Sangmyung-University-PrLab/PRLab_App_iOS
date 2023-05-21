@@ -16,13 +16,6 @@ final class MockUserProtocol: URLProtocol{
     
     static var responseType: ResponseType!
     static var dataType: MockDataType!
-    private(set) var activeTask: URLSessionTask?
-    private var session: URLSession = {
-        let config: URLSessionConfiguration = .ephemeral
-        return URLSession(configuration: config)
-    }()
-   
-    
     override class func canInit(with request: URLRequest) -> Bool {
         //파라미터로 전달받은 요청을 처리할 수 있는지 여부
         return true
@@ -34,9 +27,9 @@ final class MockUserProtocol: URLProtocol{
     }
     
     override func startLoading() {
-        let response = setUpMockReseponse()
         let data = setUpMockData()
-    
+        let response = setUpMockReseponse()
+        
         client?.urlProtocol(self, didLoad: data!)
         client?.urlProtocol(self, didReceive: response!, cacheStoragePolicy: .allowed)
         client?.urlProtocolDidFinishLoading(self)
@@ -47,7 +40,6 @@ final class MockUserProtocol: URLProtocol{
     }
     
 }
-
 
 extension MockUserProtocol{
     enum MockError: Error{
@@ -87,7 +79,16 @@ extension MockUserProtocol{
     private func setUpMockData() -> Data?{
         switch MockUserProtocol.dataType{
         case .find:
-            return "{\"id\": \"id\"}"
+            let url = URLComponents(url: request.url!, resolvingAgainstBaseURL: true)!
+           
+            guard let queryItem = url.queryItems,
+                  let email = queryItem[0].value,
+                  !email.isEmpty
+            else {
+                MockUserProtocol.responseWithStatusCode(code: 400)
+                return Data()
+            }
+            return "{\"id\": \"\(email)\"}"
                 .data(using: .utf8)
         default:
             return Data()

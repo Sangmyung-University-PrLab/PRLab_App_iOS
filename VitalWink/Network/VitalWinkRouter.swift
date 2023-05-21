@@ -11,6 +11,7 @@ protocol VitalWinkRouterType{
     var endPoint: String{get}
     var method: HTTPMethod{get}
     var parameters: Parameters{get}
+    var querys: [URLQueryItem]{get}
 }
 
 struct VitalWinkRouter<Router: VitalWinkRouterType>: URLRequestConvertible{
@@ -19,9 +20,11 @@ struct VitalWinkRouter<Router: VitalWinkRouterType>: URLRequestConvertible{
     }
     
     func asURLRequest() throws -> URLRequest {
-
-        let url = URL(string: baseURL)!.appendingPathComponent(router.endPoint, conformingTo: .url)
+        var component = URLComponents(string: router.endPoint)!
+        component.queryItems? = router.querys
+        let url = component.url(relativeTo: URL(string: baseURL))!
         var request = URLRequest(url: url)
+        
         if !router.parameters.isEmpty{
             request.httpBody = try JSONEncoding.default.encode(request, with: router.parameters).httpBody
         }

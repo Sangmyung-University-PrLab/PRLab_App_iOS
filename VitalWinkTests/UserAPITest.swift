@@ -26,12 +26,36 @@ final class UserAPITest: XCTestCase {
                 XCTFail("id == nil")
                 return
             }
-            XCTAssert(id == "id")
+            XCTAssert(id == "test")
             self.expectation.fulfill()
         }).store(in: &subscriptions)
         wait(for: [expectation], timeout: 5)
     }
     
+    func test_findId_byEmail_whenNoQuery(){        MockUserProtocol.responseWithData(type: .find)
+        MockUserProtocol.responseWithStatusCode(code: 200)
+        
+        sut.find(email: "").sink(receiveCompletion: {
+            switch $0{
+            case .finished:
+                break
+            case .failure(let error):
+                if let afError = error.asAFError{
+                    if afError.isResponseValidationError{
+                        if afError.responseCode! == 400{
+                            self.expectation.fulfill()
+                            break
+                        }
+                    }
+                }
+                XCTFail(error.localizedDescription)
+            }
+        }, receiveValue: {_ in
+            XCTFail()
+        }).store(in: &subscriptions)
+        wait(for: [expectation], timeout: 5)
+    }
+
     func test_findId_byEmail_whenNotFound(){
         MockUserProtocol.responseWithStatusCode(code: 404)
         sut.find(email: "test").sink(receiveCompletion: {
