@@ -28,6 +28,9 @@
 		0663C4582A1A17F200B85ABF /* MockMeasurementProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0663C4572A1A17F200B85ABF /* MockMeasurementProtocol.swift */; };
 		0663C45A2A1A334300B85ABF /* VitalWinkUploadableRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0663C4592A1A334300B85ABF /* VitalWinkUploadableRouter.swift */; };
 		0663C45E2A1A42BD00B85ABF /* Publisher + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0663C45D2A1A42BD00B85ABF /* Publisher + Extension.swift */; };
+		0663C4602A1B25ED00B85ABF /* RecentData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0663C45F2A1B25ED00B85ABF /* RecentData.swift */; };
+		0663C4622A1B262600B85ABF /* ExpressionAnalysis.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0663C4612A1B262600B85ABF /* ExpressionAnalysis.swift */; };
+		0663C4642A1B264900B85ABF /* BloodPressure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0663C4632A1B264900B85ABF /* BloodPressure.swift */; };
 		06F1809B2A15C64300F1CE90 /* VitalWinkAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F1809A2A15C64300F1CE90 /* VitalWinkAPI.swift */; };
 		06F1809F2A15DEFC00F1CE90 /* VitalWinkRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F1809E2A15DEFC00F1CE90 /* VitalWinkRouter.swift */; };
 		06F180A22A15E95C00F1CE90 /* AuthInterceptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F180A12A15E95C00F1CE90 /* AuthInterceptor.swift */; };
@@ -88,6 +91,9 @@
 		0663C4572A1A17F200B85ABF /* MockMeasurementProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockMeasurementProtocol.swift; sourceTree = "<group>"; };
 		0663C4592A1A334300B85ABF /* VitalWinkUploadableRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VitalWinkUploadableRouter.swift; sourceTree = "<group>"; };
 		0663C45D2A1A42BD00B85ABF /* Publisher + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Publisher + Extension.swift"; sourceTree = "<group>"; };
+		0663C45F2A1B25ED00B85ABF /* RecentData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentData.swift; sourceTree = "<group>"; };
+		0663C4612A1B262600B85ABF /* ExpressionAnalysis.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpressionAnalysis.swift; sourceTree = "<group>"; };
+		0663C4632A1B264900B85ABF /* BloodPressure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BloodPressure.swift; sourceTree = "<group>"; };
 		06F1809A2A15C64300F1CE90 /* VitalWinkAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VitalWinkAPI.swift; sourceTree = "<group>"; };
 		06F1809E2A15DEFC00F1CE90 /* VitalWinkRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VitalWinkRouter.swift; sourceTree = "<group>"; };
 		06F180A12A15E95C00F1CE90 /* AuthInterceptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthInterceptor.swift; sourceTree = "<group>"; };
@@ -234,6 +240,9 @@
 				0663C4482A19FF2A00B85ABF /* MeasurementAPI.swift */,
 				0663C44A2A19FFA700B85ABF /* MeasurementRouter.swift */,
 				0663C4572A1A17F200B85ABF /* MockMeasurementProtocol.swift */,
+				0663C45F2A1B25ED00B85ABF /* RecentData.swift */,
+				0663C4612A1B262600B85ABF /* ExpressionAnalysis.swift */,
+				0663C4632A1B264900B85ABF /* BloodPressure.swift */,
 			);
 			path = Measurement;
 			sourceTree = "<group>";
@@ -563,6 +572,7 @@
 				0663C4542A1A125100B85ABF /* OpenCVWrapper.mm in Sources */,
 				06F180A62A15F28800F1CE90 /* VitalWinkAPIError.swift in Sources */,
 				06F180B62A17403C00F1CE90 /* User.swift in Sources */,
+				0663C4602A1B25ED00B85ABF /* RecentData.swift in Sources */,
 				0663C45E2A1A42BD00B85ABF /* Publisher + Extension.swift in Sources */,
 				06F180B52A17403C00F1CE90 /* UserRouter.swift in Sources */,
 				063C16202A0DE2B600E07141 /* DependencyValues + Extension.swift in Sources */,
@@ -571,7 +581,9 @@
 				063C16252A0DF5E600E07141 /* CameraStreamDelegate.swift in Sources */,
 				063C16142A0B645100E07141 /* UIImage + Extension.swift in Sources */,
 				06F180B72A17403C00F1CE90 /* MockUserProtocol.swift in Sources */,
+				0663C4622A1B262600B85ABF /* ExpressionAnalysis.swift in Sources */,
 				0663C45A2A1A334300B85ABF /* VitalWinkUploadableRouter.swift in Sources */,
+				0663C4642A1B264900B85ABF /* BloodPressure.swift in Sources */,
 				06F180A22A15E95C00F1CE90 /* AuthInterceptor.swift in Sources */,
 				0663C4582A1A17F200B85ABF /* MockMeasurementProtocol.swift in Sources */,
 				06F1809F2A15DEFC00F1CE90 /* VitalWinkRouter.swift in Sources */,

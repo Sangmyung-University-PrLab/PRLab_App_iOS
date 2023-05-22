@@ -20,6 +20,7 @@ final class MockMeasurmentProtocol: URLProtocol{
         guard let url = request.url, url.absoluteString.contains("measurement") else{
             return false
         }
+        
         return true
     }
     
@@ -36,7 +37,7 @@ final class MockMeasurmentProtocol: URLProtocol{
         client?.urlProtocol(self, didReceive: response!, cacheStoragePolicy: .allowed)
         client?.urlProtocolDidFinishLoading(self)
     }
-    
+   
     override func stopLoading() {
      
     }
@@ -52,6 +53,8 @@ extension MockMeasurmentProtocol{
     }
     enum MockDataType{
         case signalMeasurement
+        case expressionAndBMI
+        case fetchRecentData
     }
     static func responseWithFailure(){
         MockMeasurmentProtocol.responseType = MockMeasurmentProtocol.ResponseType.error(MockError.none)
@@ -95,6 +98,10 @@ extension MockMeasurmentProtocol{
             
             return "{\"measurement_id\": \(frames.arrayValue[0].arrayValue[0].arrayValue[0])}"
                 .data(using: .utf8)
+        case .expressionAndBMI:
+            return Data()
+        case .fetchRecentData:
+            return try! JSONEncoder().encode(RecentData.mock)
         default:
             return Data()
         }
@@ -119,7 +126,7 @@ extension MockMeasurmentProtocol{
 
         buffer.deallocate()
         bodyStream.close()
-
+ 
         return JSON(data)
     }
 }

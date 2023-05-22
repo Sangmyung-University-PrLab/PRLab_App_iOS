@@ -47,6 +47,14 @@ final class MeasurmentAPI{
             .eraseToAnyPublisher()
     }
     
+    func fetchRecentData() -> AnyPublisher<RecentData, some Error>{
+        return vitalWinkAPI.request(MeasurmentRouter.fetchRecentData)
+            .validate(statusCode: 200...200)
+            .publishDecodable(type: RecentData.self)
+            .value()
+            .eraseToAnyPublisher()
+    }
+    
     @Dependency(\.vitalWinkAPI) private var vitalWinkAPI
 }
 

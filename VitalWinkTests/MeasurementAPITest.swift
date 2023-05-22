@@ -35,6 +35,44 @@ final class MeasurementAPITest: XCTestCase {
             }).store(in: &subsriptions)
         wait(for: [expectation], timeout: 5)
     }
+    
+    
+    func test_expressionAndBMI(){
+        MockMeasurmentProtocol.responseWithStatusCode(code: 201)
+        MockMeasurmentProtocol.responseWithData(type: .expressionAndBMI)
+        
+        measurementAPI
+            .expressionAndBMI(image: UIImage(systemName: "signature")!, id: 1)
+            .sink(receiveCompletion: {
+                switch $0{
+                case .finished:
+                    self.expectation.fulfill()
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                }
+            }).store(in: &subsriptions)
+        wait(for: [expectation], timeout: 5)
+    }
+    
+    
+    func test_fetchRecentData(){
+        MockMeasurmentProtocol.responseWithStatusCode(code: 200)
+        MockMeasurmentProtocol.responseWithData(type: .fetchRecentData)
+        
+        measurementAPI.fetchRecentData()
+            .sink(receiveCompletion: {
+                switch $0{
+                case .finished:
+                    break
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                }
+            }, receiveValue: {
+                print($0)
+                self.expectation.fulfill()
+            }).store(in: &subsriptions)
+        wait(for: [expectation], timeout: 5)
+    }
 }
 
 
