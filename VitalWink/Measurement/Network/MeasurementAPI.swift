@@ -55,6 +55,19 @@ final class MeasurmentAPI{
             .eraseToAnyPublisher()
     }
     
+    func fetchMetricDatas<ValueType>(_ metric: MeasurmentRouter.Metric, period: MeasurmentRouter.Period, basisDate: Date, valueType: ValueType.Type = ValueType.self) -> AnyPublisher<[MetricData<ValueType>], some Error> where ValueType: Codable{
+   
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .iso8601
+        return vitalWinkAPI.request(MeasurmentRouter.fetchMetricDatas(metric, period: period, basisDate: basisDate))
+            .validate(statusCode: 200...200)
+            .publishDecodable(type: MetricDataResponse<ValueType>.self, decoder: decoder)
+            .value()
+            .map{$0.datas}
+            .eraseToAnyPublisher()
+        
+    }
+    
     @Dependency(\.vitalWinkAPI) private var vitalWinkAPI
 }
 

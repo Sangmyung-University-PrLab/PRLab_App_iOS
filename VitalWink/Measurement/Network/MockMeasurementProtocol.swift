@@ -55,6 +55,7 @@ extension MockMeasurmentProtocol{
         case signalMeasurement
         case expressionAndBMI
         case fetchRecentData
+        case fetchMetricDatas
     }
     static func responseWithFailure(){
         MockMeasurmentProtocol.responseType = MockMeasurmentProtocol.ResponseType.error(MockError.none)
@@ -102,6 +103,30 @@ extension MockMeasurmentProtocol{
             return Data()
         case .fetchRecentData:
             return try! JSONEncoder().encode(RecentData.mock)
+        case .fetchMetricDatas:
+            let parameters = request.url!.absoluteString.split(separator: "/")
+                .dropFirst()
+            let metric = parameters[3]
+    
+            switch metric{
+            case "bloodPressures":
+                let response = MetricDataResponse(datas: [
+                    .init(value: BloodPressureMetricValue.mock, basisDate: Date())
+                ])
+                return try! JSONEncoder().encode(response)
+            case "expressionAnalyses":
+                let response = MetricDataResponse(datas: [
+                    .init(value: ExpressionAnalysisMetricValue.mock, basisDate: Date())
+                ])
+                return try! JSONEncoder().encode(response)
+            default:
+                let response = MetricDataResponse(datas: [
+                    .init(value: MinMaxType(min: 1, max: 100), basisDate: Date())
+                ])
+                var encoder = JSONEncoder()
+                encoder.dateEncodingStrategy = .iso8601
+                return try! encoder.encode(response)
+            }
         default:
             return Data()
         }

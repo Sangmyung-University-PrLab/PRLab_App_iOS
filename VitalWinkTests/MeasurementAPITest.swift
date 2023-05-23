@@ -73,6 +73,24 @@ final class MeasurementAPITest: XCTestCase {
             }).store(in: &subsriptions)
         wait(for: [expectation], timeout: 5)
     }
+    
+    
+    func test_fetchMetricDatas(){
+        MockMeasurmentProtocol.responseWithStatusCode(code: 200)
+        MockMeasurmentProtocol.responseWithData(type: .fetchMetricDatas)
+        
+        measurementAPI.fetchMetricDatas(.BMI, period: .day, basisDate: Date(), valueType: MinMaxType<Int>.self).sink(receiveCompletion: {
+            switch $0{
+            case .finished:
+                self.expectation.fulfill()
+            case .failure(let error):
+                XCTFail(error.localizedDescription)
+            }
+        }, receiveValue: {
+            print($0)
+        }).store(in: &subsriptions)
+        wait(for: [expectation], timeout: 5)
+    }
 }
 
 
