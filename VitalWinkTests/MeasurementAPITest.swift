@@ -91,6 +91,25 @@ final class MeasurementAPITest: XCTestCase {
         }).store(in: &subsriptions)
         wait(for: [expectation], timeout: 5)
     }
+    
+    func test_fetchMeasurementResult(){
+        MockMeasurmentProtocol.responseWithStatusCode(code: 200)
+        MockMeasurmentProtocol.responseWithData(type: .fetchMeasurementResult)
+        
+        measurementAPI.fetchMeasurementResult(1)
+            .sink(receiveCompletion: {
+                switch $0{
+                case .finished:
+                    self.expectation.fulfill()
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                }
+            }, receiveValue: {
+                print($0)
+            }).store(in: &subsriptions)
+        
+        wait(for: [expectation], timeout: 5)
+    }
 }
 
 

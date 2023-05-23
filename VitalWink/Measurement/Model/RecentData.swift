@@ -11,7 +11,7 @@ struct RecentData: Codable{
     let bpm: Int?
     let SpO2: Int?
     let RR: Int?
-    let stressIndex: Int?
+    let stress: Int?
     
     let BMI: Int?
     let expressionAnalysis: ExpressionAnalysis?
@@ -19,6 +19,6 @@ struct RecentData: Codable{
     let bloodSugar: Int?
     
     #if DEBUG
-    static let mock = RecentData(bpm: 100, SpO2: 100, RR: 10, stressIndex: 10, BMI: 10, expressionAnalysis: .init(valence: 1.0, arousal: 1.0), bloodPressure: .init(SYS: 100, DIA: 70), bloodSugar: 100)
+    static let mock = RecentData(bpm: 100, SpO2: 100, RR: 10, stress: 10, BMI: 10, expressionAnalysis: .init(valence: 1.0, arousal: 1.0), bloodPressure: .init(SYS: 100, DIA: 70), bloodSugar: 100)
     #endif
 }
