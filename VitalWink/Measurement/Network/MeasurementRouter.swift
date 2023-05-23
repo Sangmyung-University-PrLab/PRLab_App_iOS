@@ -8,11 +8,12 @@
 import Foundation
 import Alamofire
 
-enum MeasurmentRouter: VitalWinkUploadableRouterType{
+enum MeasurementRouter: VitalWinkUploadableRouterType{
     case signalMeasurement(frames: [[[UInt8]]], target: Target)
     case expressionAndBMIMeasurement(image: UIImage, id: Int)
     case fetchRecentData
     case fetchMetricDatas(_ metric: Metric, period: Period, basisDate: Date)
+    case fetchMeasurementResult(_ id: Int)
     
     var endPoint: String{
         let baseEndPoint = "measurements"
@@ -28,6 +29,8 @@ enum MeasurmentRouter: VitalWinkUploadableRouterType{
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "yyyy-MM-dd"
             detailEndPoint = "\(metric.rawValue)/\(period.rawValue)/\(dateFormatter.string(from: basisDate))"
+        case .fetchMeasurementResult(let id):
+            detailEndPoint = "\(id)"
         }
         
         return  "\(baseEndPoint)/\(detailEndPoint)"
@@ -37,7 +40,7 @@ enum MeasurmentRouter: VitalWinkUploadableRouterType{
         switch self {
         case .signalMeasurement, .expressionAndBMIMeasurement:
             return .post
-        case .fetchRecentData, .fetchMetricDatas:
+        case .fetchRecentData, .fetchMetricDatas, .fetchMeasurementResult:
             return .get
         }
     }
@@ -65,7 +68,7 @@ enum MeasurmentRouter: VitalWinkUploadableRouterType{
         case .expressionAndBMIMeasurement(image: let image, id: let id):
             formData.append(image.jpegData(compressionQuality: 0.5)!, withName: "image", mimeType: "image/jpeg")
             var id = id
-            formData.append(Data(bytes: &id, count: MemoryLayout<Int>.size), withName: "measurment_id")
+            formData.append(Data(bytes: &id, count: MemoryLayout<Int>.size), withName: "measurement_id")
         default:
             return
         }

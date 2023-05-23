@@ -56,6 +56,7 @@ extension MockMeasurmentProtocol{
         case expressionAndBMI
         case fetchRecentData
         case fetchMetricDatas
+        case fetchMeasurementResult
     }
     static func responseWithFailure(){
         MockMeasurmentProtocol.responseType = MockMeasurmentProtocol.ResponseType.error(MockError.none)
@@ -127,6 +128,10 @@ extension MockMeasurmentProtocol{
                 encoder.dateEncodingStrategy = .iso8601
                 return try! encoder.encode(response)
             }
+            
+            
+        case .fetchMeasurementResult:
+            return try! JSONEncoder().encode(MeasurementResult.faceMeasurementMock)
         default:
             return Data()
         }

@@ -12,13 +12,13 @@ import Combine
 import SwiftyJSON
 
 final class MeasurmentAPI{
-    func signalMeasurment(frames: [[[UInt8]]], type: MeasurmentRouter.Target) -> AnyPublisher<Int, Error>{
+    func signalMeasurment(frames: [[[UInt8]]], type: MeasurementRouter.Target) -> AnyPublisher<Int, Error>{
         return Future<Int, Error>{[weak self] promise in
             guard let strongSelf = self else{
                 return
             }
             
-            strongSelf.vitalWinkAPI.request(MeasurmentRouter.signalMeasurement(frames: frames, target: type))
+            strongSelf.vitalWinkAPI.request(MeasurementRouter.signalMeasurement(frames: frames, target: type))
                 .validate(statusCode: 201...201)
                 .responseDecodable(of: JSON.self){
                     switch $0.result{
@@ -39,7 +39,7 @@ final class MeasurmentAPI{
     }
     
     func expressionAndBMI(image: UIImage, id: Int) -> AnyPublisher<Never,some Error>{
-        return vitalWinkAPI.upload(MeasurmentRouter.expressionAndBMIMeasurement(image: image, id: id))
+        return vitalWinkAPI.upload(MeasurementRouter.expressionAndBMIMeasurement(image: image, id: id))
             .validate(statusCode: 201 ... 201)
             .publishUnserialized()
             .value()
@@ -48,18 +48,18 @@ final class MeasurmentAPI{
     }
     
     func fetchRecentData() -> AnyPublisher<RecentData, some Error>{
-        return vitalWinkAPI.request(MeasurmentRouter.fetchRecentData)
+        return vitalWinkAPI.request(MeasurementRouter.fetchRecentData)
             .validate(statusCode: 200...200)
             .publishDecodable(type: RecentData.self)
             .value()
             .eraseToAnyPublisher()
     }
     
-    func fetchMetricDatas<ValueType>(_ metric: MeasurmentRouter.Metric, period: MeasurmentRouter.Period, basisDate: Date, valueType: ValueType.Type = ValueType.self) -> AnyPublisher<[MetricData<ValueType>], some Error> where ValueType: Codable{
+    func fetchMetricDatas<ValueType>(_ metric: MeasurementRouter.Metric, period: MeasurementRouter.Period, basisDate: Date, valueType: ValueType.Type = ValueType.self) -> AnyPublisher<[MetricData<ValueType>], some Error> where ValueType: Codable{
    
         let decoder = JSONDecoder()
         decoder.dateDecodingStrategy = .iso8601
-        return vitalWinkAPI.request(MeasurmentRouter.fetchMetricDatas(metric, period: period, basisDate: basisDate))
+        return vitalWinkAPI.request(MeasurementRouter.fetchMetricDatas(metric, period: period, basisDate: basisDate))
             .validate(statusCode: 200...200)
             .publishDecodable(type: MetricDataResponse<ValueType>.self, decoder: decoder)
             .value()
@@ -68,6 +68,13 @@ final class MeasurmentAPI{
         
     }
     
+    func fetchMeasurementResult(_ id: Int) -> AnyPublisher<MeasurementResult, some Error>{
+        return vitalWinkAPI.request(MeasurementRouter.fetchMeasurementResult(id))
+            .validate(statusCode: 200...200)
+            .publishDecodable(type: MeasurementResult.self)
+            .value()
+            .eraseToAnyPublisher()
+    }
     @Dependency(\.vitalWinkAPI) private var vitalWinkAPI
 }
 
