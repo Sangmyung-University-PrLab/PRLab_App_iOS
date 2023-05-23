@@ -21,7 +21,7 @@ struct VitalWinkRouter<Router: VitalWinkRouterType>: URLRequestConvertible{
     
     func asURLRequest() throws -> URLRequest {
         var component = URLComponents(string: router.endPoint)!
-        component.queryItems? = router.queries
+        component.queryItems = router.queries
         let url = component.url(relativeTo: URL(string: baseURL))!
         var request = URLRequest(url: url)
         

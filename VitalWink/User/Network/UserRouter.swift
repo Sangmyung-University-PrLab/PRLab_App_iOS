@@ -17,16 +17,7 @@ enum UserRouter: VitalWinkRouterType{
     
     var endPoint: String{
         let baseEndPoint = "users"
-        switch self{
-        case .find(email: let email):
-            return "\(baseEndPoint)?email=\(email)"
-        case .isIdExist(let id):
-            return "\(baseEndPoint)?id=\(id)"
-        case .isIdAndEmailMatch(id: let id, email: let email):
-            return "\(baseEndPoint)?id=\(id)&email=\(email)"
-        default:
-            return baseEndPoint
-        }
+        return "\(baseEndPoint)"
     }
     
     var parameters: Parameters{

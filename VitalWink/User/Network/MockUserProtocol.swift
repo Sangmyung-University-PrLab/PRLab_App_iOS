@@ -83,7 +83,7 @@ extension MockUserProtocol{
         switch MockUserProtocol.dataType{
         case .find:
             let url = URLComponents(url: request.url!, resolvingAgainstBaseURL: true)!
-           
+          
             guard let queryItem = url.queryItems,
                   let email = queryItem[0].value,
                   !email.isEmpty

@@ -291,6 +291,24 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		06A8AB5A2A1C8C8D00004B62 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				06F180B32A17403C00F1CE90 /* MockUserProtocol.swift */,
+				06F180B02A17403C00F1CE90 /* UserAPI.swift */,
+				06F180B12A17403C00F1CE90 /* UserRouter.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		06A8AB5B2A1C8C9900004B62 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				06F180B22A17403C00F1CE90 /* User.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		06F180A02A15E89600F1CE90 /* Network */ = {
 			isa = PBXGroup;
 			children = (
@@ -306,10 +324,8 @@
 		06F180AF2A17403C00F1CE90 /* User */ = {
 			isa = PBXGroup;
 			children = (
-				06F180B02A17403C00F1CE90 /* UserAPI.swift */,
-				06F180B22A17403C00F1CE90 /* User.swift */,
-				06F180B12A17403C00F1CE90 /* UserRouter.swift */,
-				06F180B32A17403C00F1CE90 /* MockUserProtocol.swift */,
+				06A8AB5B2A1C8C9900004B62 /* Model */,
+				06A8AB5A2A1C8C8D00004B62 /* Network */,
 			);
 			path = User;
 			sourceTree = "<group>";
