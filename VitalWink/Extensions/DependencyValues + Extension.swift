@@ -27,4 +27,8 @@ extension DependencyValues{
         get{self[UserAPI.self]}
         set{self[UserAPI.self] = newValue}
     }
+    var measurementAPI: MeasurmentAPI{
+        get{self[MeasurmentAPI.self]}
+        set{self[MeasurmentAPI.self] = newValue}
+    }
 }
