@@ -11,7 +11,8 @@ final class UserAPITest: XCTestCase {
     private var subscriptions = Set<AnyCancellable>()
     private let expectation = XCTestExpectation(description: "Performs a request")
     
-    func test_findId_byEmail(){        MockUserProtocol.responseWithData(type: .find)
+    func test_findId_byEmail(){
+        MockUserProtocol.responseWithData(type: .find)
         MockUserProtocol.responseWithStatusCode(code: 200)
         
         sut.find(email: "test").sink(receiveCompletion: {
