@@ -6,6 +6,17 @@ PODS:
     - Overture
     - RxRelay
     - RxSwift (~> 5.1.1)
+  - KakaoSDKAuth (2.10.0):
+    - KakaoSDKCommon (= 2.10.0)
+  - KakaoSDKCommon (2.10.0):
+    - KakaoSDKCommon/Common (= 2.10.0)
+    - KakaoSDKCommon/Network (= 2.10.0)
+  - KakaoSDKCommon/Common (2.10.0)
+  - KakaoSDKCommon/Network (2.10.0):
+    - Alamofire (~> 5.1)
+    - KakaoSDKCommon/Common (= 2.10.0)
+  - KakaoSDKUser (2.10.0):
+    - KakaoSDKAuth (= 2.10.0)
   - OpenCV (4.3.0)
   - Overture (0.5.0)
   - RxRelay (5.1.3):
@@ -16,6 +27,9 @@ PODS:
 DEPENDENCIES:
   - Alamofire
   - ComposableArchitecture
+  - KakaoSDKAuth
+  - KakaoSDKCommon
+  - KakaoSDKUser
   - OpenCV
   - SwiftyJSON
 
@@ -24,6 +38,9 @@ SPEC REPOS:
     - Alamofire
     - CasePaths
     - ComposableArchitecture
+    - KakaoSDKAuth
+    - KakaoSDKCommon
+    - KakaoSDKUser
     - OpenCV
     - Overture
     - RxRelay
@@ -34,12 +51,15 @@ SPEC CHECKSUMS:
   Alamofire: 1c4fb5369c3fe93d2857c780d8bbe09f06f97e7c
   CasePaths: 0a2cdef26b2a3e4fabdaca08af5569d6fb1850d6
   ComposableArchitecture: 8b26f86a9ae64d62b00b3a83b0686b7d54444ac4
+  KakaoSDKAuth: 94cdbd864a6e1b5691c11aba09d769ea91be107a
+  KakaoSDKCommon: 9edbf77ef59c8594412908e023e64ef07f75db08
+  KakaoSDKUser: 7969a38f9ccfd788140fa799b6bbaa223f62683e
   OpenCV: 681e0451c1e54c5930a8922277f817ed5d5ab459
   Overture: 2e6252ead5da6d3347f758047f27a31cb469d59d
   RxRelay: 5a18c2eb2d68326ebaf0112f80d837ae41b92b97
   RxSwift: 915abbdfb62214aa89ccd0b194d44fb478019b27
   SwiftyJSON: 2f33a42c6fbc52764d96f13368585094bfd8aa5e
 
-PODFILE CHECKSUM: 6de13c52991d59bb56aeda0954c187b8d37a4f64
+PODFILE CHECKSUM: 268886c673903f3b712fab642b9c9d22fe5ccb71
 
 COCOAPODS: 1.12.1
