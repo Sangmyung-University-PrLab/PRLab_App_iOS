@@ -13,9 +13,15 @@ struct LoginView: View{
     
     var body: some View{
         WithViewStore(self.store, observe: {$0}){viewStore in
-            Button("Kakao"){
-                viewStore.send(.kakao)
+            VStack{
+                Button("Kakao"){
+                    viewStore.send(.login(.kakao))
+                }
+                Button("Google"){
+                    viewStore.send(.login(.google))
+                }
             }
+          
         }
     }
 }

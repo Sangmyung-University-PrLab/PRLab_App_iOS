@@ -10,7 +10,7 @@ import KakaoSDKCommon
 import KakaoSDKAuth
 import KakaoSDKUser
 import ComposableArchitecture
-
+import GoogleSignIn
 @main
 struct VitalWinkApp: App {
     
@@ -32,7 +32,7 @@ struct VitalWinkApp: App {
                         _ = AuthController.handleOpenUrl(url: $0)
                     }
                     else{
-                        GID
+                        GIDSignIn.sharedInstance.handle($0)
                     }
                 }
         }

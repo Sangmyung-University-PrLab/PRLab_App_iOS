@@ -1,11 +1,25 @@
 PODS:
   - Alamofire (5.5.0)
+  - AppAuth (1.5.0):
+    - AppAuth/Core (= 1.5.0)
+    - AppAuth/ExternalUserAgent (= 1.5.0)
+  - AppAuth/Core (1.5.0)
+  - AppAuth/ExternalUserAgent (1.5.0):
+    - AppAuth/Core
   - CasePaths (0.1.3)
   - ComposableArchitecture (0.8.0):
     - CasePaths
     - Overture
     - RxRelay
     - RxSwift (~> 5.1.1)
+  - GoogleSignIn (6.2.1):
+    - AppAuth (~> 1.5)
+    - GTMAppAuth (~> 1.3)
+    - GTMSessionFetcher/Core (~> 1.1)
+  - GTMAppAuth (1.3.0):
+    - AppAuth/Core (~> 1.4)
+    - GTMSessionFetcher/Core (~> 1.5)
+  - GTMSessionFetcher/Core (1.7.2)
   - KakaoSDKAuth (2.10.0):
     - KakaoSDKCommon (= 2.10.0)
   - KakaoSDKCommon (2.10.0):
@@ -27,6 +41,7 @@ PODS:
 DEPENDENCIES:
   - Alamofire
   - ComposableArchitecture
+  - GoogleSignIn
   - KakaoSDKAuth
   - KakaoSDKCommon
   - KakaoSDKUser
@@ -36,8 +51,12 @@ DEPENDENCIES:
 SPEC REPOS:
   trunk:
     - Alamofire
+    - AppAuth
     - CasePaths
     - ComposableArchitecture
+    - GoogleSignIn
+    - GTMAppAuth
+    - GTMSessionFetcher
     - KakaoSDKAuth
     - KakaoSDKCommon
     - KakaoSDKUser
@@ -49,8 +68,12 @@ SPEC REPOS:
 
 SPEC CHECKSUMS:
   Alamofire: 1c4fb5369c3fe93d2857c780d8bbe09f06f97e7c
+  AppAuth: 80317d99ac7ff2801a2f18ff86b48cd315ed465d
   CasePaths: 0a2cdef26b2a3e4fabdaca08af5569d6fb1850d6
   ComposableArchitecture: 8b26f86a9ae64d62b00b3a83b0686b7d54444ac4
+  GoogleSignIn: 9c69f4188921d8f789816e4c99ba2a1f5f868ddc
+  GTMAppAuth: 4d8f864896f3646f0c33baf38a28362f4c601e15
+  GTMSessionFetcher: 5595ec75acf5be50814f81e9189490412bad82ba
   KakaoSDKAuth: 94cdbd864a6e1b5691c11aba09d769ea91be107a
   KakaoSDKCommon: 9edbf77ef59c8594412908e023e64ef07f75db08
   KakaoSDKUser: 7969a38f9ccfd788140fa799b6bbaa223f62683e
@@ -60,6 +83,6 @@ SPEC CHECKSUMS:
   RxSwift: 915abbdfb62214aa89ccd0b194d44fb478019b27
   SwiftyJSON: 2f33a42c6fbc52764d96f13368585094bfd8aa5e
 
-PODFILE CHECKSUM: 268886c673903f3b712fab642b9c9d22fe5ccb71
+PODFILE CHECKSUM: a14c889d413a597b0639d680872f4982b9b173a2
 
 COCOAPODS: 1.12.1
