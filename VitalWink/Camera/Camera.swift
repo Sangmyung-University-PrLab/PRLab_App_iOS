@@ -33,7 +33,8 @@ final class Camera: CameraStreamDelegate{
     }
     
     @MainActor
-    func getFrame(_ frame: CMSampleBuffer) async {
+    func getFrame(_ frame: CMSampleBuffer) async{
+        await Task.yield()
         self.frame = frame
     }
     func start(){
@@ -50,7 +51,7 @@ final class Camera: CameraStreamDelegate{
             }
         }
     }
-    func changeCameraPosition() async throws{
+    func changeCameraPosition() throws{
         captureSession.beginConfiguration()
         guard let videoDeviceInput = videoDeviceInput else{
             return
@@ -71,7 +72,7 @@ final class Camera: CameraStreamDelegate{
         
         captureSession.removeInput(videoDeviceInput)
         do{
-            try await setVideoDeviceInput(camera: camera)
+            try setVideoDeviceInput(camera: camera)
         }catch{
             throw error
         }
@@ -103,14 +104,15 @@ final class Camera: CameraStreamDelegate{
             return false
         }
     }
+    
     private func setUp() async throws{
         do{
             if isHaveCameraPermission(){
-                try await setCaptureSession()
+                try setCaptureSession()
             }
             else{
               if await AVCaptureDevice.requestAccess(for: .video){
-                    try await setCaptureSession()
+                    try setCaptureSession()
                }else{
                     throw CameraError.notHavePermission
                }
@@ -119,11 +121,12 @@ final class Camera: CameraStreamDelegate{
             throw error
         }
     }
-    private func setCaptureSession() async throws{
+    
+    private func setCaptureSession() throws{
         captureSession.sessionPreset = .photo
         captureSession.beginConfiguration()
         do{
-            try await setVideoDeviceInput(camera: frontCamera)
+            try setVideoDeviceInput(camera: frontCamera)
             captureSession.sessionPreset = AVCaptureSession.Preset.high
             videoOutput.videoSettings = [
                 (kCVPixelBufferPixelFormatTypeKey as String): kCVPixelFormatType_32BGRA
@@ -143,7 +146,7 @@ final class Camera: CameraStreamDelegate{
             throw error
         }
     }
-    private func setVideoDeviceInput(camera: AVCaptureDevice) async throws{
+    private func setVideoDeviceInput(camera: AVCaptureDevice) throws{
         do{
             videoDeviceInput = try AVCaptureDeviceInput(device: camera)
         }catch{

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0629A2182A204F70007B864B /* VideoWriter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0629A2172A204F70007B864B /* VideoWriter.swift */; };
 		063C16112A0B62F400E07141 /* FaceDetectorTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 063C16102A0B62F300E07141 /* FaceDetectorTest.swift */; };
 		063C16142A0B645100E07141 /* UIImage + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 063C16132A0B645100E07141 /* UIImage + Extension.swift */; };
 		063C161E2A0DE18100E07141 /* Dependencies in Frameworks */ = {isa = PBXBuildFile; productRef = 063C161D2A0DE18100E07141 /* Dependencies */; };
@@ -70,6 +71,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0629A2172A204F70007B864B /* VideoWriter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoWriter.swift; sourceTree = "<group>"; };
 		063C16102A0B62F300E07141 /* FaceDetectorTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceDetectorTest.swift; sourceTree = "<group>"; };
 		063C16132A0B645100E07141 /* UIImage + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage + Extension.swift"; sourceTree = "<group>"; };
 		063C16152A0CAC9E00E07141 /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
@@ -214,6 +216,7 @@
 				0663C4472A19FEE600B85ABF /* Measurement */,
 				063C16172A0CAD9900E07141 /* VitalWink-Bridging-Header.h */,
 				06F180A32A15EAF400F1CE90 /* KeyChainManager.swift */,
+				0629A2172A204F70007B864B /* VideoWriter.swift */,
 			);
 			path = VitalWink;
 			sourceTree = "<group>";
@@ -616,6 +619,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0629A2182A204F70007B864B /* VideoWriter.swift in Sources */,
 				0663C44B2A19FFA700B85ABF /* MeasurementRouter.swift in Sources */,
 				064B04E72A08F14800230FBC /* Camera.swift in Sources */,
 				063C16272A0E01DB00E07141 /* CameraStream.swift in Sources */,
