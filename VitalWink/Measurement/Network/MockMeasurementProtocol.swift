@@ -92,13 +92,13 @@ extension MockMeasurmentProtocol{
                 return Data()
             }
             
-            let frames = json["frames"]
+            let frames = json["bgrValues"]
             guard frames.error == nil else{
                 MockMeasurmentProtocol.responseWithStatusCode(code: 400)
                 return Data()
             }
             
-            return "{\"measurement_id\": \(frames.arrayValue[0].arrayValue[0].arrayValue[0])}"
+            return "{\"measurement_id\": \(frames.arrayValue[0].arrayValue[0].intValue)}"
                 .data(using: .utf8)
         case .expressionAndBMI:
             return Data()
