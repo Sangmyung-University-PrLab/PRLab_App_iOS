@@ -11,10 +11,9 @@ import KakaoSDKAuth
 import KakaoSDKCommon
 import KakaoSDKUser
 import GoogleSignIn
+import NaverThirdPartyLogin
 
 struct Login: ReducerProtocol{
-    private let gidConfig: GIDConfiguration
-    
     init(){
         guard let info = Bundle.main.infoDictionary else{
             fatalError("Info.plist가 없습니다.")
@@ -25,6 +24,7 @@ struct Login: ReducerProtocol{
         }
         
         gidConfig = GIDConfiguration(clientID: clientId)
+        NaverThirdPartyLoginConnection.getSharedInstance().delegate = naverLoginDelgate
     }
     
     struct State: Equatable{
@@ -38,6 +38,7 @@ struct Login: ReducerProtocol{
     enum LoginType{
         case kakao
         case google
+        case naver
     }
     
     func reduce(into state: inout State, action: Action) -> EffectTask<Action> {
@@ -48,14 +49,16 @@ struct Login: ReducerProtocol{
                 kakaoLogin()
             case .google:
               googleLogin()
+            case .naver:
+                naverLogin()
             }
            
             return .none
         }
     }
     
-    
-    func googleLogin(){
+    //MARK: private
+    private func googleLogin(){
         guard let windowScenes = UIApplication.shared.connectedScenes.first as? UIWindowScene,
               let rootContoller = windowScenes.windows.first?.rootViewController else{
             return
@@ -68,14 +71,14 @@ struct Login: ReducerProtocol{
             }
             
             guard let credential = $0 else{
-                print("credential이 nill입이나")
+                print("credential이 nil입니다.")
                 return
             }
             print(credential.profile?.email)
         }
     }
     
-    func kakaoLogin(){
+    private func kakaoLogin(){
         if UserApi.isKakaoTalkLoginAvailable(){
             UserApi.shared.loginWithKakaoTalk{_,_ in
                 
@@ -86,4 +89,13 @@ struct Login: ReducerProtocol{
             }
         }
     }
+    
+    private func naverLogin(){
+        NaverThirdPartyLoginConnection.getSharedInstance().requestThirdPartyLogin()
+    }
+    
+    private let gidConfig: GIDConfiguration
+    private let naverLoginDelgate = NaverLoginDelegate()
 }
+
+

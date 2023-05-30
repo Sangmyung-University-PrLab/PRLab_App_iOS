@@ -20,6 +20,10 @@ struct LoginView: View{
                 Button("Google"){
                     viewStore.send(.login(.google))
                 }
+                Button("Naver"){
+                    viewStore.send(.login(.naver))
+                }
+
             }
           
         }
