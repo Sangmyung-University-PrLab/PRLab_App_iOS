@@ -67,17 +67,11 @@ public final class FaceDetector{
         }.eraseToAnyPublisher()
     }
     
-    public func skinSegmentation(_ image: UIImage) -> [(UInt8, UInt8, UInt8)]{
+    /// 피부 분할 후 픽셀들의 평균을 낸 BGR  값
+    public func skinSegmentation(_ image: UIImage) -> (Int, Int, Int){
         let bgrNSArray = OpenCVWrapper.skinSegmentation(image)
-        var bgrArray = [(UInt8, UInt8, UInt8)]()
-        
-        for i in 0 ..< bgrNSArray.count / 3{
-            bgrArray.append((bgrNSArray[3 * i] as! UInt8,
-                             bgrNSArray[3 * (i + 1)] as! UInt8,
-                             bgrNSArray[3 * (i + 2)] as! UInt8))
-        }
-        
-        return bgrArray
+
+        return (bgrNSArray[0] as! Int, bgrNSArray[1] as! Int, bgrNSArray[2] as! Int)
     }
     
     //MARK: private

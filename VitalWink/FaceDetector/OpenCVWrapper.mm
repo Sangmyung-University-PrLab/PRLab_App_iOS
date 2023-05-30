@@ -12,19 +12,27 @@ using namespace cv;
 
 @implementation OpenCVWrapper
 
+/// 피부 분할 후 픽셀들의 평균을 낸 BGR  값
 + (NSArray<NSNumber *>* _Nonnull)skinSegmentation:(const UIImage * _Nonnull)image{
     Mat bgraMat, bgrMat, ycrcbMat, mask;
     Mat planes[3];
+    int bSum = 0, gSum = 0, rSum = 0;
     
     UIImageToMat(image, bgraMat);
     cvtColor(bgraMat, bgrMat, COLOR_BGRA2BGR);
     [self createSkinMask:bgrMat :mask];
     bgrMat.setTo(0, mask == 0);
-    NSMutableArray *bgrArray = [[NSMutableArray alloc] init];
-    for(int i = 0; i < bgrMat.rows * bgrMat.cols * bgrMat.channels(); i++){
-        [bgrArray addObject:[NSNumber numberWithUnsignedChar:bgrMat.data[i]]];
+    int nPixels = bgrMat.rows * bgrMat.cols;
+    
+    for(int i = 0; i < nPixels; i++){
+        bSum += bgrMat.data[3*i];
+        gSum += bgrMat.data[3*i + 1];
+        rSum += bgrMat.data[3*i + 2];
     }
-    return bgrArray;
+    
+    return [[NSArray<NSNumber*> alloc] initWithObjects:[[NSNumber alloc] initWithInt:bSum / nPixels],
+            [[NSNumber alloc] initWithInt:gSum / nPixels],
+            [[NSNumber alloc] initWithInt:rSum / nPixels], nil];
 }
 
 + (void) createSkinMask: (InputArray)src: (OutputArray)dst {
