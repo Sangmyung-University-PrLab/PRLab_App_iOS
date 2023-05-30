@@ -9,12 +9,14 @@ import Foundation
 import ComposableArchitecture
 
 struct Root: ReducerProtocol{
-    struct State: Equatable{
+    struct State{
         var login = Login.State()
+        var measurement = Measurement.State()
     }
     
     enum Action{
         case login(Login.Action)
+        case measurement(Measurement.Action)
     }
     
     var body: some ReducerProtocol<State, Action>{
@@ -27,6 +29,9 @@ struct Root: ReducerProtocol{
         
         Scope(state: \.login, action: /Action.login){
             Login()
+        }
+        Scope(state: \.measurement, action: /Action.measurement){
+            Measurement()
         }
     }
 }

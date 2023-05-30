@@ -12,7 +12,7 @@ import Combine
 import SwiftyJSON
 
 final class MeasurmentAPI{
-    func signalMeasurment(bgrValues: [(Int, Int, Int)], type: MeasurementRouter.Target) -> AnyPublisher<Int, Error>{
+    func signalMeasurment(bgrValues: [(Int, Int, Int)], type: Measurement.Target) -> AnyPublisher<Int, Error>{
         return Future<Int, Error>{[weak self] promise in
             guard let strongSelf = self else{
                 return
