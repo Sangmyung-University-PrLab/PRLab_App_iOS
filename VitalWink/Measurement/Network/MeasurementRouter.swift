@@ -9,7 +9,7 @@ import Foundation
 import Alamofire
 
 enum MeasurementRouter: VitalWinkUploadableRouterType{
-    case signalMeasurement(frames: [[[UInt8]]], target: Target)
+    case signalMeasurement(bgrValues: [(Int, Int, Int)], target: Target)
     case expressionAndBMIMeasurement(image: UIImage, id: Int)
     case fetchRecentData
     case fetchMetricDatas(_ metric: Metric, period: Period, basisDate: Date)
@@ -47,9 +47,9 @@ enum MeasurementRouter: VitalWinkUploadableRouterType{
     
     var parameters: Parameters{
         switch self{
-        case .signalMeasurement(let frames, _):
+        case .signalMeasurement(let bgrValues, _):
             return [
-                "frames": frames
+                "bgrValues": bgrValues.map{[$0.0, $0.1, $0.2]}
             ]
         default:
             return Parameters()

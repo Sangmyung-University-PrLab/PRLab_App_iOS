@@ -21,7 +21,7 @@ final class MeasurementAPITest: XCTestCase {
         MockMeasurmentProtocol.responseWithData(type: .signalMeasurement)
         
         measurementAPI
-            .signalMeasurment(frames: [[[1,1,1]]], type: .face)
+            .signalMeasurment(bgrValues: [(1,1,1)], type: .face)
             .sink(receiveCompletion: {
                 switch $0{
                 case .finished:
