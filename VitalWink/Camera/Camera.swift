@@ -9,27 +9,17 @@ import Foundation
 import AVFoundation
 import Combine
 import Dependencies
-
+import ComposableArchitecture
 
 final class Camera: CameraStreamDelegate{
-    public private(set) var position: Position = .front
-    @Published public private(set) var frame: CMSampleBuffer! = nil
+    private(set) var position: Position = .front
+    @Published private(set) var frame: CMSampleBuffer! = nil
     
-    init() async throws{
+    init(){
         let cameras = AVCaptureDevice.DiscoverySession(deviceTypes: [.builtInWideAngleCamera], mediaType: .video, position: .unspecified).devices
-        
-        guard !cameras.isEmpty else{
-            throw CameraError.notFoundCamera
-        }
         
         frontCamera = cameras.first(where: {$0.position == .front})
         backCamera = cameras.first(where: {$0.position == .back})
-
-        do{
-            try await setUp()
-        }catch{
-            throw error
-        }
     }
     
     @MainActor
@@ -37,6 +27,7 @@ final class Camera: CameraStreamDelegate{
         await Task.yield()
         self.frame = frame
     }
+    
     func start(){
         self.sessionQueue.async {
             if !self.captureSession.isRunning{
@@ -78,6 +69,23 @@ final class Camera: CameraStreamDelegate{
         }
     }
     
+    func setUp() async throws{
+        do{
+            if isHaveCameraPermission(){
+                try setCaptureSession()
+            }
+            else{
+              if await AVCaptureDevice.requestAccess(for: .video){
+                    try setCaptureSession()
+               }else{
+                    throw CameraError.notHavePermission
+               }
+            }
+        }catch{
+            throw error
+        }
+    }
+    
     enum CameraError: Error, LocalizedError{
         case notHavePermission
         case notFoundCamera
@@ -102,23 +110,6 @@ final class Camera: CameraStreamDelegate{
             return true
         default:
             return false
-        }
-    }
-    
-    private func setUp() async throws{
-        do{
-            if isHaveCameraPermission(){
-                try setCaptureSession()
-            }
-            else{
-              if await AVCaptureDevice.requestAccess(for: .video){
-                    try setCaptureSession()
-               }else{
-                    throw CameraError.notHavePermission
-               }
-            }
-        }catch{
-            throw error
         }
     }
     
@@ -172,3 +163,6 @@ final class Camera: CameraStreamDelegate{
     private lazy var cameraStream = CameraStream(delegate: self)
 }
 
+extension Camera: DependencyKey{
+    static var liveValue: Camera = Camera()
+}
