@@ -16,10 +16,10 @@ struct Measurement: ReducerProtocol{
     struct State{
         fileprivate var bgrValues = [BGR]()
         //최근 측정에 대한 Id
-        fileprivate var measurementId: Int? = nil
+        public var measurementId: Int? = nil
         public private(set) var target: Target = .face
     }
-    
+
     enum Target{
         case face
         case finger
@@ -27,9 +27,9 @@ struct Measurement: ReducerProtocol{
     
     enum Action{
         case appendBgrValues(_ frame: UIImage)
-        case responseAppendBgrValues(Result<BGR, Error>)
         case signalMeasurement
-        case responseSignalMeasurement(Result<Int, Error>)
+        case response((inout State) -> EffectTask<Action>)
+        case errorHandling(Error)
     }
     
     enum MeasurementError: LocalizedError{
@@ -53,22 +53,18 @@ struct Measurement: ReducerProtocol{
                         case .finished:
                             break
                         case .failure(let error):
-                            send.send(.responseSignalMeasurement(.failure(error)))
+                            send.send(.response{_ in
+                                return .send(.errorHandling(error))
+                            })
                         }
-                    }, receiveValue: {
-                        send.send(.responseSignalMeasurement(.success($0)))
+                    }, receiveValue: {value in
+                        send.send(.response{
+                            $0.measurementId = value
+                            return .none
+                        })
                     })
             }
-            
-        case .responseSignalMeasurement(let result):
-            switch result{
-            case .success(let measurementId):
-                state.measurementId = measurementId
-            case .failure(let error):
-                print(error.localizedDescription)
-            }
-            return .none
-            
+      
         case .appendBgrValues(let frame):
             return .run{send in
                 faceDetector.detect(frame)
@@ -77,28 +73,31 @@ struct Measurement: ReducerProtocol{
                         case .finished:
                             break
                         case .failure(let error):
-                            send.send(.responseAppendBgrValues(.failure(error)))
+                            send.send(.response{_ in
+                                return EffectTask<Action>.send(.errorHandling(error))
+                            })
                         }
                 }, receiveValue: {
                     guard let cgImage = frame.cgImage?.cropping(to: $0) else{
-                        send.send(.responseAppendBgrValues(.failure(MeasurementError.croppingError)))
+                        send.send(.response{_ in
+                            return  EffectTask<Action>.send(.errorHandling(MeasurementError.croppingError))
+                        })
                         return
                     }
-                    send.send(.responseAppendBgrValues(.success(faceDetector.skinSegmentation(UIImage(cgImage: cgImage)))))
+                    send.send(.response{
+                        $0.bgrValues.append(faceDetector.skinSegmentation(UIImage(cgImage: cgImage)))
+                        return .none
+                    })
                 })
             }
-        case .responseAppendBgrValues(let result):
-            switch result{
-            case .success(let bgr):
-                state.bgrValues.append(bgr)
-            case .failure(let error):
-                print(error.localizedDescription)
-            }
-            
+
+        case .response(let completion):
+            return completion(&state)
+        case .errorHandling(let error):
+            print(error.localizedDescription)
             return .none
         }
     }
-    
     
     //MARK: private
     @Dependency(\.faceDetector) private var faceDetector

@@ -10,7 +10,8 @@ import ComposableArchitecture
 struct MeasurementView: View {
     let store: StoreOf<Measurement>
     var body: some View {
-        WithViewStore(self.store, observe: {$0.target}){viewStore in
+        WithViewStore(self.store, observe: \.measurementId){viewStore in
+            Text("\(viewStore.state ?? 0)")
             Button{
                 viewStore.send(.signalMeasurement)
             }label: {
