@@ -9,27 +9,17 @@ import Foundation
 import AVFoundation
 import Combine
 import Dependencies
-
+import ComposableArchitecture
 
 final class Camera: CameraStreamDelegate{
     public private(set) var position: Position = .front
     @Published public private(set) var frame: CMSampleBuffer! = nil
     
-    init() async throws{
+    init(){
         let cameras = AVCaptureDevice.DiscoverySession(deviceTypes: [.builtInWideAngleCamera], mediaType: .video, position: .unspecified).devices
-        
-        guard !cameras.isEmpty else{
-            throw CameraError.notFoundCamera
-        }
         
         frontCamera = cameras.first(where: {$0.position == .front})
         backCamera = cameras.first(where: {$0.position == .back})
-
-        do{
-            try await setUp()
-        }catch{
-            throw error
-        }
     }
     
     @MainActor
