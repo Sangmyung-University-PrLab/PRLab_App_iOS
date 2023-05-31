@@ -27,6 +27,7 @@ final class Camera: CameraStreamDelegate{
         await Task.yield()
         self.frame = frame
     }
+    
     func start(){
         self.sessionQueue.async {
             if !self.captureSession.isRunning{
@@ -162,3 +163,6 @@ final class Camera: CameraStreamDelegate{
     private lazy var cameraStream = CameraStream(delegate: self)
 }
 
+extension Camera: DependencyKey{
+    static var liveValue: Camera = Camera()
+}
