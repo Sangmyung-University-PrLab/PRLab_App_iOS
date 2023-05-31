@@ -16,7 +16,7 @@ struct Measurement: ReducerProtocol{
     struct State{
         fileprivate var bgrValues = [BGR]()
         //최근 측정에 대한 Id
-        public var measurementId: Int? = nil
+        public fileprivate(set) var measurementId: Int? = nil
         public private(set) var target: Target = .face
     }
 
