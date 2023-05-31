@@ -12,8 +12,8 @@ import Dependencies
 import ComposableArchitecture
 
 final class Camera: CameraStreamDelegate{
-    public private(set) var position: Position = .front
-    @Published public private(set) var frame: CMSampleBuffer! = nil
+    private(set) var position: Position = .front
+    @Published private(set) var frame: CMSampleBuffer! = nil
     
     init(){
         let cameras = AVCaptureDevice.DiscoverySession(deviceTypes: [.builtInWideAngleCamera], mediaType: .video, position: .unspecified).devices
@@ -69,6 +69,23 @@ final class Camera: CameraStreamDelegate{
         }
     }
     
+    func setUp() async throws{
+        do{
+            if isHaveCameraPermission(){
+                try setCaptureSession()
+            }
+            else{
+              if await AVCaptureDevice.requestAccess(for: .video){
+                    try setCaptureSession()
+               }else{
+                    throw CameraError.notHavePermission
+               }
+            }
+        }catch{
+            throw error
+        }
+    }
+    
     enum CameraError: Error, LocalizedError{
         case notHavePermission
         case notFoundCamera
@@ -93,23 +110,6 @@ final class Camera: CameraStreamDelegate{
             return true
         default:
             return false
-        }
-    }
-    
-    private func setUp() async throws{
-        do{
-            if isHaveCameraPermission(){
-                try setCaptureSession()
-            }
-            else{
-              if await AVCaptureDevice.requestAccess(for: .video){
-                    try setCaptureSession()
-               }else{
-                    throw CameraError.notHavePermission
-               }
-            }
-        }catch{
-            throw error
         }
     }
     
