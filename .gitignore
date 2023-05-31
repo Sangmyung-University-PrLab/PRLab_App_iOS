@@ -1,9 +1,7 @@
 .gitsecret/keys/random_seed
 !*.secret
-.gitsecret/
 **.asc
 Info.plist
-
 
 # Created by https://www.toptal.com/developers/gitignore/api/swift,xcode,macos,cocoapods
 # Edit at https://www.toptal.com/developers/gitignore?templates=swift,xcode,macos,cocoapods
