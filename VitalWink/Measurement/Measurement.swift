@@ -10,12 +10,14 @@ import ComposableArchitecture
 import Dependencies
 import Combine
 import Alamofire
+@preconcurrency import SwiftUI
+import CoreMedia
 struct Measurement: ReducerProtocol{
     typealias BGR = (Int, Int, Int)
     
     struct State: Equatable{
         static func == (lhs: Measurement.State, rhs: Measurement.State) -> Bool {
-            if lhs.bgrValues.count != rhs.bgrValues.count || lhs.frame != rhs.frame || lhs.measurementId != rhs.measurementId || lhs.target != rhs.target{
+            if lhs.bgrValues.count != rhs.bgrValues.count || lhs.measurementId != rhs.measurementId || lhs.target != rhs.target{
                 return false
             }
             else{
@@ -30,11 +32,23 @@ struct Measurement: ReducerProtocol{
             }
         }
         
-        fileprivate var bgrValues = [BGR]()
+        
+        init(){
+            var coninuation: AsyncStream<UIImage>.Continuation!
+            frame = AsyncStream{
+                coninuation = $0
+            }
+            self.frameContinuation = coninuation
+        }
+        
         //최근 측정에 대한 Id
-        fileprivate(set) var frame = UIImage()
-        fileprivate(set) var measurementId: Int? = nil
         private(set) var target: Target = .face
+        let frame: AsyncStream<UIImage>
+        
+        fileprivate var isMeasuring: Bool = false
+        fileprivate var bgrValues = [BGR]()
+        fileprivate(set) var measurementId: Int? = nil
+        fileprivate let frameContinuation: AsyncStream<UIImage>.Continuation
     }
     
     enum Target{
@@ -44,12 +58,14 @@ struct Measurement: ReducerProtocol{
     
     enum Action: Sendable{
         case startCamera
-        case appendBgrValues(_ frame: UIImage)
+        case beFedFrame(_ sampleBuffer: CMSampleBuffer)
+        case appendBgrValue(_ uiImage: UIImage)
+        case startMeasurement
         case signalMeasurement
         case response(@Sendable (inout State) -> EffectTask<Action>)
         case errorHandling(Error)
     }
-    
+    private enum CancelID{}
     enum MeasurementError: LocalizedError{
         case croppingError
         
@@ -60,7 +76,6 @@ struct Measurement: ReducerProtocol{
             }
         }
     }
-    
     func reduce(into state: inout State, action: Action) -> EffectTask<Action> {
         switch action{
         case .signalMeasurement:
@@ -82,33 +97,31 @@ struct Measurement: ReducerProtocol{
                         })
                     })
             }
-            
-        case .appendBgrValues(let frame):
+        case .appendBgrValue(let image):
             return .run{send in
-                faceDetector.detect(frame)
-                    .sink(receiveCompletion: {
-                        switch $0{
-                        case .finished:
-                            break
-                        case .failure(let error):
-                            send.send(.response{_ in
-                                return EffectTask<Action>.send(.errorHandling(error))
-                            })
-                        }
-                    }, receiveValue: {
-                        guard let cgImage = frame.cgImage?.cropping(to: $0) else{
-                            send.send(.response{_ in
-                                return  EffectTask<Action>.send(.errorHandling(MeasurementError.croppingError))
-                            })
-                            return
-                        }
-                        send.send(.response{
-                            $0.bgrValues.append(faceDetector.skinSegmentation(UIImage(cgImage: cgImage)))
-                            return .none
-                        })
+                do{
+                    let bbox = try await faceDetector.detect(image)
+                    guard let croppedImage = image.cgImage?.cropping(to: bbox) else{
+                        throw MeasurementError.croppingError
+                    }
+                    
+                    let bgrValue = faceDetector.skinSegmentation(UIImage(cgImage: croppedImage))
+                    
+                    await send(.response{
+                        $0.bgrValues.append(bgrValue)
+                        return .none
                     })
+                }
+                catch{
+                    await send(.errorHandling(error))
+                }
             }
-            
+        case .beFedFrame(let buffer):
+            let uiImage = UIImage(sampleBuffer: buffer)
+            state.frameContinuation.yield(uiImage)
+
+            return state.isMeasuring ? .send(.appendBgrValue(uiImage)) : .none
+          
         case .response(let completion):
             return completion(&state)
         case .errorHandling(let error):
@@ -123,20 +136,26 @@ struct Measurement: ReducerProtocol{
                 }
                 camera.start()
             }.concatenate(with: EffectTask<Action>.run{send in
-                //더 좋은 방법을 아직 못찾겠음
-                camera.$frame.sink(receiveValue: {buffer in
-                    send.send(.response{
-                        if buffer != nil{
-                            $0.frame = UIImage(sampleBuffer: buffer!)
-                        }
-                        return .none
-                    })
-                })
+                for await buffer in camera.frame{
+                    await send(.beFedFrame(buffer))
+                }
             })
+        case .startMeasurement:
+            state.isMeasuring = true
+            
+            return .run{send in
+                try await Task.sleep(nanoseconds: measuringDuriation)
+                await send(.response{
+                    $0.isMeasuring = false
+                    return .none
+                })
+            }
         }
+        
     }
     
     //MARK: private
+    private let measuringDuriation: UInt64 = 1_000_000_000 * 1
     @Dependency(\.camera) private var camera
     @Dependency(\.faceDetector) private var faceDetector
     @Dependency(\.measurementAPI) private var measurementAPI
