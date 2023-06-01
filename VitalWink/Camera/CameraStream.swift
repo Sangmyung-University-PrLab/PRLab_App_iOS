@@ -16,8 +16,6 @@ final class CameraStream: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate
     }
     
     func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
-        Task{
-            await delegate?.getFrame(sampleBuffer)
-        }
+        delegate?.frameContinuation.yield(sampleBuffer)
     }
 }
