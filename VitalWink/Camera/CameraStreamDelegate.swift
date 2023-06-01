@@ -10,5 +10,5 @@ import AVFoundation
 import CoreGraphics
 
 protocol CameraStreamDelegate: AnyObject{
-    @Sendable func getFrame(_ frame: CMSampleBuffer) async -> Void
+    var frameContinuation: AsyncStream<CMSampleBuffer>.Continuation {get}
 }
