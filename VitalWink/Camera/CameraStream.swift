@@ -9,13 +9,21 @@ import Foundation
 import AVFoundation
 
 final class CameraStream: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate{
-    private weak var delegate: CameraStreamDelegate?
+    let frame: AsyncStream<CMSampleBuffer>
     
-    init(delegate: CameraStreamDelegate? = nil) {
-        self.delegate = delegate
+    override init() {
+        var continuation: AsyncStream<CMSampleBuffer>.Continuation!
+        frame = AsyncStream{
+            continuation = $0
+        }
+        self.continuation = continuation
+        super.init()
     }
     
     func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
-        delegate?.frameContinuation.yield(sampleBuffer)
+        continuation.yield(sampleBuffer)
     }
+    
+    //MARK: private
+    private let continuation: AsyncStream<CMSampleBuffer>.Continuation
 }
