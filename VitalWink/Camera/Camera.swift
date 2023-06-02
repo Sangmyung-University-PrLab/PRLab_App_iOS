@@ -11,24 +11,17 @@ import Combine
 import Dependencies
 import ComposableArchitecture
 
-final class Camera: CameraStreamDelegate{
-    var frameContinuation: AsyncStream<CMSampleBuffer>.Continuation
-    var frame: AsyncStream<CMSampleBuffer>
-    
+final class Camera{
+    var frame: AsyncStream<CMSampleBuffer>{
+        return cameraStream.frame
+    }
     private(set) var position: Position = .front
-    
     
     init(){
         let cameras = AVCaptureDevice.DiscoverySession(deviceTypes: [.builtInWideAngleCamera], mediaType: .video, position: .unspecified).devices
         
         frontCamera = cameras.first(where: {$0.position == .front})
         backCamera = cameras.first(where: {$0.position == .back})
-        
-        var conituation: AsyncStream<CMSampleBuffer>.Continuation!
-        frame = AsyncStream<CMSampleBuffer>{
-            conituation = $0
-        }
-        self.frameContinuation = conituation
     }
     
     func start(){
@@ -154,16 +147,15 @@ final class Camera: CameraStreamDelegate{
             return
         }
     }
+    //MARK: - 카메라 관련 변수
+    private let cameraStream = CameraStream()
     private let frontCamera: AVCaptureDevice!
     private let backCamera: AVCaptureDevice!
     private let sessionQueue = DispatchQueue(label: "session Queue")
     private let captureQueue = DispatchQueue(label: "capture Queue")
-    
-    //MARK: - 카메라 관련 변수
     private let captureSession = AVCaptureSession()
     private var videoDeviceInput: AVCaptureDeviceInput?
     private let videoOutput = AVCaptureVideoDataOutput()
-    private lazy var cameraStream = CameraStream(delegate: self)
 }
 
 extension Camera: DependencyKey{
