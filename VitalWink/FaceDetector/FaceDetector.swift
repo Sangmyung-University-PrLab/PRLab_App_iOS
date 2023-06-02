@@ -9,10 +9,8 @@ import Foundation
 import Vision
 import UIKit
 import CoreGraphics
-import Combine
 import Accelerate
 import Dependencies
-
 public final class FaceDetector{
     enum FaceDetectorError: LocalizedError{
         case getEmptyUIImage
@@ -24,47 +22,39 @@ public final class FaceDetector{
         }
     }
     
-    public func detect(_ image: UIImage) -> AnyPublisher<CGRect, Error>{
+    public func detect(_ image: UIImage) async throws -> CGRect{
         guard let cgImage = image.cgImage else{
-            return Future<CGRect, Error>{
-                $0(.failure(FaceDetectorError.getEmptyUIImage))
-            }.eraseToAnyPublisher()
+            throw FaceDetectorError.getEmptyUIImage
         }
-        
-        return Future<CGRect, Error>{[weak self] promise in
-            guard let strongSelf = self else{
-                return
-            }
-            
-            
+        return try await withCheckedThrowingContinuation{continuation in
             let handler = VNImageRequestHandler(cgImage: cgImage)
-            
             let request = VNDetectFaceRectanglesRequest{request, error in
                 guard let results = request.results as? [VNFaceObservation] else{
                     fatalError("VNFaceObservation으로 다운 캐스팅 실패")
                 }
+                
                 guard error == nil else {
-                    promise(.failure(error!))
+                    continuation.resume(throwing: error!)
                     return
                 }
                 
                 if results.isEmpty{
-                    promise(.success(CGRect.zero))
+                    continuation.resume(returning: .zero)
                 }else{
-                    let largestBBox = strongSelf.getLargestBBox(results.map{$0.boundingBox})
+                    let largestBBox = self.getLargestBBox(results.map{$0.boundingBox})
                     let normBBox = VNImageRectForNormalizedRect(largestBBox, Int(image.size.width), Int(image.size.height))
-                        .applying(strongSelf.faceBboxTransform(image.size.height))
-                    
-                    promise(.success(normBBox))
+                        .applying(self.faceBboxTransform(image.size.height))
+                    continuation.resume(returning: normBBox)
                 }
             }
             
             do{
                 try handler.perform([request])
             }catch{
-                promise(.failure(error))
+                continuation.resume(throwing: error)
             }
-        }.eraseToAnyPublisher()
+        }
+       
     }
     
     /// 피부 분할 후 픽셀들의 평균을 낸 BGR  값
