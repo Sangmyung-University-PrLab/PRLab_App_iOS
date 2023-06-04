@@ -9,7 +9,7 @@ import Foundation
 import Alamofire
 
 enum MeasurementRouter: VitalWinkUploadableRouterType{
-    case signalMeasurement(bgrValues: [(Int, Int, Int)], target: Target)
+    case signalMeasurement(bgrValues: [(Int, Int, Int)], target: Measurement.Target)
     case expressionAndBMIMeasurement(image: UIImage, id: Int)
     case fetchRecentData
     case fetchMetricDatas(_ metric: Metric, period: Period, basisDate: Date)
@@ -20,7 +20,8 @@ enum MeasurementRouter: VitalWinkUploadableRouterType{
         let detailEndPoint: String
         switch self {
         case .signalMeasurement(_,let target):
-            detailEndPoint = "signal/\(target.rawValue)"
+            let targetString = target == .face ? "face" : "finger"
+            detailEndPoint = "signal/\(targetString)"
         case .expressionAndBMIMeasurement:
             detailEndPoint = "expressionAndBMI"
         case .fetchRecentData:
@@ -73,13 +74,6 @@ enum MeasurementRouter: VitalWinkUploadableRouterType{
             return
         }
     }
-    
-    
-    enum Target: String{
-        case finger = "finger"
-        case face = "face"
-    }
-    
     enum Metric: String{
         case bpm = "bpms"
         case SpO2 = "SpO2s"

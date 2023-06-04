@@ -12,6 +12,8 @@
 		0629A21C2A208C91007B864B /* OSLog + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0629A21B2A208C91007B864B /* OSLog + Extension.swift */; };
 		0629A2212A25B97E007B864B /* FaceDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0629A21E2A25B97E007B864B /* FaceDetector.swift */; };
 		0629A2222A25B97E007B864B /* OpenCVWrapper.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0629A2202A25B97E007B864B /* OpenCVWrapper.mm */; };
+		0629A2242A25C8CF007B864B /* Measurement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0629A2232A25C8CF007B864B /* Measurement.swift */; };
+		0629A2262A25DD3E007B864B /* MeasurementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0629A2252A25DD3E007B864B /* MeasurementView.swift */; };
 		063C16112A0B62F400E07141 /* FaceDetectorTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 063C16102A0B62F300E07141 /* FaceDetectorTest.swift */; };
 		063C16142A0B645100E07141 /* UIImage + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 063C16132A0B645100E07141 /* UIImage + Extension.swift */; };
 		063C161E2A0DE18100E07141 /* Dependencies in Frameworks */ = {isa = PBXBuildFile; productRef = 063C161D2A0DE18100E07141 /* Dependencies */; };
@@ -82,6 +84,8 @@
 		0629A21E2A25B97E007B864B /* FaceDetector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FaceDetector.swift; sourceTree = "<group>"; };
 		0629A21F2A25B97E007B864B /* OpenCVWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenCVWrapper.h; sourceTree = "<group>"; };
 		0629A2202A25B97E007B864B /* OpenCVWrapper.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = OpenCVWrapper.mm; sourceTree = "<group>"; };
+		0629A2232A25C8CF007B864B /* Measurement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Measurement.swift; sourceTree = "<group>"; };
+		0629A2252A25DD3E007B864B /* MeasurementView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeasurementView.swift; sourceTree = "<group>"; };
 		063C16102A0B62F300E07141 /* FaceDetectorTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceDetectorTest.swift; sourceTree = "<group>"; };
 		063C16132A0B645100E07141 /* UIImage + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage + Extension.swift"; sourceTree = "<group>"; };
 		063C16152A0CAC9E00E07141 /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
@@ -277,6 +281,8 @@
 			children = (
 				0663C46D2A1C71C400B85ABF /* Network */,
 				0663C46E2A1C71D700B85ABF /* Model */,
+				0629A2232A25C8CF007B864B /* Measurement.swift */,
+				0629A2252A25DD3E007B864B /* MeasurementView.swift */,
 			);
 			path = Measurement;
 			sourceTree = "<group>";
@@ -646,6 +652,7 @@
 			files = (
 				0629A2182A204F70007B864B /* VideoWriter.swift in Sources */,
 				0663C44B2A19FFA700B85ABF /* MeasurementRouter.swift in Sources */,
+				0629A2262A25DD3E007B864B /* MeasurementView.swift in Sources */,
 				064B04E72A08F14800230FBC /* Camera.swift in Sources */,
 				063C16272A0E01DB00E07141 /* CameraStream.swift in Sources */,
 				0663C4662A1B3FCB00B85ABF /* MetricData.swift in Sources */,
@@ -679,6 +686,7 @@
 				06A8AB632A1DF4A800004B62 /* LoginView.swift in Sources */,
 				06F180B42A17403C00F1CE90 /* UserAPI.swift in Sources */,
 				0629A21C2A208C91007B864B /* OSLog + Extension.swift in Sources */,
+				0629A2242A25C8CF007B864B /* Measurement.swift in Sources */,
 				06A8AB5E2A1DF06100004B62 /* Login.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -778,6 +786,7 @@
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_STRICT_CONCURRENCY = complete;
 			};
 			name = Debug;
 		};
@@ -833,6 +842,7 @@
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_STRICT_CONCURRENCY = complete;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
