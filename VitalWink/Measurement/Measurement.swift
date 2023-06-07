@@ -11,7 +11,7 @@ import Dependencies
 import Combine
 import Alamofire
 @preconcurrency import SwiftUI
-import CoreMedia
+@preconcurrency import CoreMedia
 struct Measurement: ReducerProtocol{
     typealias BGR = (Int, Int, Int)
     
@@ -65,7 +65,7 @@ struct Measurement: ReducerProtocol{
         case response(@Sendable (inout State) -> EffectTask<Action>)
         case errorHandling(Error)
     }
-    private enum CancelID{}
+    
     enum MeasurementError: LocalizedError{
         case croppingError
         
@@ -153,7 +153,7 @@ struct Measurement: ReducerProtocol{
         }
         
     }
-    
+    private enum CancelID{}
     //MARK: private
     private let measuringDuriation: UInt64 = 1_000_000_000 * 1
     @Dependency(\.camera) private var camera
