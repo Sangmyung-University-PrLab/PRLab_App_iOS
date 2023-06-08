@@ -28,10 +28,12 @@ struct Login: ReducerProtocol{
     }
     
     struct State: Equatable{
-        
+        @BindingState var id = ""
+        @BindingState var password = ""
     }
-    enum Action: Equatable{
+    enum Action: BindableAction, Equatable{
         case login(_ type: LoginType)
+        case binding(BindingAction<State>)
     }
     
     
@@ -39,21 +41,31 @@ struct Login: ReducerProtocol{
         case kakao
         case google
         case naver
+        case apple
+        case general
     }
-    
-    func reduce(into state: inout State, action: Action) -> EffectTask<Action> {
-        switch action{
-        case .login(let type):
-            switch type{
-            case .kakao:
-                kakaoLogin()
-            case .google:
-              googleLogin()
-            case .naver:
-                naverLogin()
+    var body: some ReducerProtocol<State, Action>{
+        BindingReducer()
+        Reduce{state, action in
+            switch action{
+            case .login(let type):
+                switch type{
+                case .kakao:
+                    kakaoLogin()
+                case .google:
+                  googleLogin()
+                case .naver:
+                    naverLogin()
+                case .apple:
+                    break
+                case .general:
+                    break
+                }
+               
+                return .none
+            case .binding:
+                return .none
             }
-           
-            return .none
         }
     }
     

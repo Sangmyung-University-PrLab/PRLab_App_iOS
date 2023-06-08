@@ -26,6 +26,18 @@
 		064B04D52A08DAAC00230FBC /* VitalWinkUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 064B04D42A08DAAC00230FBC /* VitalWinkUITests.swift */; };
 		064B04D72A08DAAC00230FBC /* VitalWinkUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 064B04D62A08DAAC00230FBC /* VitalWinkUITestsLaunchTests.swift */; };
 		064B04E72A08F14800230FBC /* Camera.swift in Sources */ = {isa = PBXBuildFile; fileRef = 064B04E62A08F14800230FBC /* Camera.swift */; };
+		065C00C12A305C6F00054387 /* Font + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065C00C02A305C6F00054387 /* Font + Extension.swift */; };
+		065C00C32A3060F400054387 /* Color + Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065C00C22A3060F400054387 /* Color + Extensions.swift */; };
+		065C00C62A30694500054387 /* LoginViewTextFieldStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065C00C52A30694500054387 /* LoginViewTextFieldStyle.swift */; };
+		065C00D02A307BB100054387 /* Inter-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 065C00C72A307BB100054387 /* Inter-Regular.ttf */; };
+		065C00D12A307BB100054387 /* Inter-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 065C00C82A307BB100054387 /* Inter-SemiBold.ttf */; };
+		065C00D22A307BB100054387 /* Inter-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 065C00C92A307BB100054387 /* Inter-Thin.ttf */; };
+		065C00D32A307BB100054387 /* Inter-ExtraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 065C00CA2A307BB100054387 /* Inter-ExtraLight.ttf */; };
+		065C00D42A307BB100054387 /* Inter-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 065C00CB2A307BB100054387 /* Inter-Black.ttf */; };
+		065C00D52A307BB100054387 /* Inter-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 065C00CC2A307BB100054387 /* Inter-ExtraBold.ttf */; };
+		065C00D62A307BB100054387 /* Inter-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 065C00CD2A307BB100054387 /* Inter-Light.ttf */; };
+		065C00D72A307BB100054387 /* Inter-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 065C00CE2A307BB100054387 /* Inter-Bold.ttf */; };
+		065C00D82A307BB100054387 /* Inter-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 065C00CF2A307BB100054387 /* Inter-Medium.ttf */; };
 		0663C4492A19FF2A00B85ABF /* MeasurementAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0663C4482A19FF2A00B85ABF /* MeasurementAPI.swift */; };
 		0663C44B2A19FFA700B85ABF /* MeasurementRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0663C44A2A19FFA700B85ABF /* MeasurementRouter.swift */; };
 		0663C4562A1A172100B85ABF /* MeasurementAPITest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0663C4552A1A172100B85ABF /* MeasurementAPITest.swift */; };
@@ -103,6 +115,18 @@
 		064B04D62A08DAAC00230FBC /* VitalWinkUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VitalWinkUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		064B04E32A08DD8000230FBC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		064B04E62A08F14800230FBC /* Camera.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Camera.swift; sourceTree = "<group>"; };
+		065C00C02A305C6F00054387 /* Font + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Font + Extension.swift"; sourceTree = "<group>"; };
+		065C00C22A3060F400054387 /* Color + Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color + Extensions.swift"; sourceTree = "<group>"; };
+		065C00C52A30694500054387 /* LoginViewTextFieldStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewTextFieldStyle.swift; sourceTree = "<group>"; };
+		065C00C72A307BB100054387 /* Inter-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-Regular.ttf"; sourceTree = "<group>"; };
+		065C00C82A307BB100054387 /* Inter-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-SemiBold.ttf"; sourceTree = "<group>"; };
+		065C00C92A307BB100054387 /* Inter-Thin.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-Thin.ttf"; sourceTree = "<group>"; };
+		065C00CA2A307BB100054387 /* Inter-ExtraLight.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-ExtraLight.ttf"; sourceTree = "<group>"; };
+		065C00CB2A307BB100054387 /* Inter-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-Black.ttf"; sourceTree = "<group>"; };
+		065C00CC2A307BB100054387 /* Inter-ExtraBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-ExtraBold.ttf"; sourceTree = "<group>"; };
+		065C00CD2A307BB100054387 /* Inter-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-Light.ttf"; sourceTree = "<group>"; };
+		065C00CE2A307BB100054387 /* Inter-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-Bold.ttf"; sourceTree = "<group>"; };
+		065C00CF2A307BB100054387 /* Inter-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-Medium.ttf"; sourceTree = "<group>"; };
 		0663C4482A19FF2A00B85ABF /* MeasurementAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeasurementAPI.swift; sourceTree = "<group>"; };
 		0663C44A2A19FFA700B85ABF /* MeasurementRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeasurementRouter.swift; sourceTree = "<group>"; };
 		0663C4552A1A172100B85ABF /* MeasurementAPITest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeasurementAPITest.swift; sourceTree = "<group>"; };
@@ -190,6 +214,8 @@
 				063C161F2A0DE2B600E07141 /* DependencyValues + Extension.swift */,
 				0663C45D2A1A42BD00B85ABF /* Publisher + Extension.swift */,
 				0629A21B2A208C91007B864B /* OSLog + Extension.swift */,
+				065C00C02A305C6F00054387 /* Font + Extension.swift */,
+				065C00C22A3060F400054387 /* Color + Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -234,6 +260,7 @@
 				064B04B92A08DAAB00230FBC /* VitalWinkApp.swift */,
 				064B04BD2A08DAAC00230FBC /* Assets.xcassets */,
 				064B04BF2A08DAAC00230FBC /* Preview Content */,
+				065C00AD2A305C0800054387 /* Font */,
 				063C16122A0B644100E07141 /* Extensions */,
 				063C16282A0E03AD00E07141 /* Camera */,
 				06A8AB5C2A1DEFBD00004B62 /* Login */,
@@ -274,6 +301,31 @@
 				064B04D62A08DAAC00230FBC /* VitalWinkUITestsLaunchTests.swift */,
 			);
 			path = VitalWinkUITests;
+			sourceTree = "<group>";
+		};
+		065C00AD2A305C0800054387 /* Font */ = {
+			isa = PBXGroup;
+			children = (
+				065C00CB2A307BB100054387 /* Inter-Black.ttf */,
+				065C00CE2A307BB100054387 /* Inter-Bold.ttf */,
+				065C00CC2A307BB100054387 /* Inter-ExtraBold.ttf */,
+				065C00CA2A307BB100054387 /* Inter-ExtraLight.ttf */,
+				065C00CD2A307BB100054387 /* Inter-Light.ttf */,
+				065C00CF2A307BB100054387 /* Inter-Medium.ttf */,
+				065C00C72A307BB100054387 /* Inter-Regular.ttf */,
+				065C00C82A307BB100054387 /* Inter-SemiBold.ttf */,
+				065C00C92A307BB100054387 /* Inter-Thin.ttf */,
+			);
+			path = Font;
+			sourceTree = "<group>";
+		};
+		065C00C42A30690500054387 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				06A8AB622A1DF4A800004B62 /* LoginView.swift */,
+				065C00C52A30694500054387 /* LoginViewTextFieldStyle.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 		0663C4472A19FEE600B85ABF /* Measurement */ = {
@@ -334,8 +386,8 @@
 		06A8AB5C2A1DEFBD00004B62 /* Login */ = {
 			isa = PBXGroup;
 			children = (
+				065C00C42A30690500054387 /* View */,
 				06A8AB5D2A1DF06100004B62 /* Login.swift */,
-				06A8AB622A1DF4A800004B62 /* LoginView.swift */,
 				0629A2192A208C18007B864B /* NaverLoginDelegate.swift */,
 			);
 			path = Login;
@@ -504,8 +556,17 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				065C00D12A307BB100054387 /* Inter-SemiBold.ttf in Resources */,
+				065C00D62A307BB100054387 /* Inter-Light.ttf in Resources */,
+				065C00D32A307BB100054387 /* Inter-ExtraLight.ttf in Resources */,
 				064B04C12A08DAAC00230FBC /* Preview Assets.xcassets in Resources */,
+				065C00D52A307BB100054387 /* Inter-ExtraBold.ttf in Resources */,
+				065C00D02A307BB100054387 /* Inter-Regular.ttf in Resources */,
+				065C00D72A307BB100054387 /* Inter-Bold.ttf in Resources */,
+				065C00D22A307BB100054387 /* Inter-Thin.ttf in Resources */,
 				064B04BE2A08DAAC00230FBC /* Assets.xcassets in Resources */,
+				065C00D82A307BB100054387 /* Inter-Medium.ttf in Resources */,
+				065C00D42A307BB100054387 /* Inter-Black.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -654,6 +715,8 @@
 				0663C44B2A19FFA700B85ABF /* MeasurementRouter.swift in Sources */,
 				0629A2262A25DD3E007B864B /* MeasurementView.swift in Sources */,
 				064B04E72A08F14800230FBC /* Camera.swift in Sources */,
+				065C00C12A305C6F00054387 /* Font + Extension.swift in Sources */,
+				065C00C32A3060F400054387 /* Color + Extensions.swift in Sources */,
 				063C16272A0E01DB00E07141 /* CameraStream.swift in Sources */,
 				0663C4662A1B3FCB00B85ABF /* MetricData.swift in Sources */,
 				06F180A62A15F28800F1CE90 /* VitalWinkAPIError.swift in Sources */,
@@ -676,6 +739,7 @@
 				0629A21A2A208C18007B864B /* NaverLoginDelegate.swift in Sources */,
 				0663C4682A1B409E00B85ABF /* MetricDataResponse.swift in Sources */,
 				0663C4642A1B264900B85ABF /* BloodPressure.swift in Sources */,
+				065C00C62A30694500054387 /* LoginViewTextFieldStyle.swift in Sources */,
 				06F180A22A15E95C00F1CE90 /* AuthInterceptor.swift in Sources */,
 				0663C4582A1A17F200B85ABF /* MockMeasurementProtocol.swift in Sources */,
 				06F1809F2A15DEFC00F1CE90 /* VitalWinkRouter.swift in Sources */,
@@ -868,7 +932,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -882,6 +946,7 @@
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "VitalWink/VitalWink-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_STRICT_CONCURRENCY = targeted;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -908,7 +973,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -921,6 +986,7 @@
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "VitalWink/VitalWink-Bridging-Header.h";
+				SWIFT_STRICT_CONCURRENCY = targeted;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
