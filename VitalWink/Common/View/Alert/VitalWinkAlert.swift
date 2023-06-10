@@ -10,6 +10,11 @@ import SwiftUI
 import ComposableArchitecture
 
 struct VitalWinkAlert<Action>: View{
+    init(viewStore: ViewStore<VitalWinkAlertState<Action>?, Action>, dismiss: Action){
+        self.viewStore = viewStore
+        self.dismiss = dismiss
+    }
+    
     var body: some View{
         VStack{
             Spacer()
@@ -70,7 +75,7 @@ struct VitalWinkAlert<Action>: View{
     }
     
     //MARK: private
-    private let dismiss:Action
+    private let dismiss: Action
     private let alertHeight = 173 + (UIApplication.shared.safeAreaInsets?.bottom ?? 0)
     @ObservedObject private var viewStore: ViewStore<VitalWinkAlertState<Action>?, Action>
     @State private var shouldPresent = false

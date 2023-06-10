@@ -30,8 +30,9 @@ struct Login: ReducerProtocol, Sendable{
     struct State: Equatable{
         @BindingState var id = ""
         @BindingState var password = ""
+        
         fileprivate var status: Status = .notLogin
-        var alertState:VitalWinkAlertState<Action>? = nil
+        fileprivate(set) var alertState:VitalWinkAlertState<Action>? = nil
         
         enum Status: Equatable{
             case successLogin(_ token: String)
@@ -49,14 +50,6 @@ struct Login: ReducerProtocol, Sendable{
         case dismiss
     }
     
-    
-    enum LoginType{
-        case kakao
-        case google
-        case naver
-        case apple
-        case general
-    }
     var body: some ReducerProtocol<State, Action>{
         BindingReducer()
         
@@ -121,6 +114,14 @@ struct Login: ReducerProtocol, Sendable{
         }
     }
     
+    enum LoginType{
+        case kakao
+        case google
+        case naver
+        case apple
+        case general
+    }
+    
     //MARK: private
     private func googleLogin(){
         guard let windowScenes = UIApplication.shared.connectedScenes.first as? UIWindowScene,
@@ -141,7 +142,6 @@ struct Login: ReducerProtocol, Sendable{
             print(credential.profile?.email)
         }
     }
-    
     private func kakaoLogin(){
         if UserApi.isKakaoTalkLoginAvailable(){
             UserApi.shared.loginWithKakaoTalk{_,_ in
