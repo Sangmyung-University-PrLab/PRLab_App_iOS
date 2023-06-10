@@ -115,6 +115,7 @@ struct LoginView: View{
             .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
             .background(Color.backgroundColor)
             .ignoresSafeArea()
+            .activityIndicator(isVisible: viewStore.state.isActivityIndicatorVisible)
             .vitalWinkAlert(store.scope(state: \.alertState, action: {$0}), dismiss: .dismiss)
             .onChange(of: viewStore.state.id.isEmpty || viewStore.state.password.isEmpty){
                 isLoginButtonDisabled = $0

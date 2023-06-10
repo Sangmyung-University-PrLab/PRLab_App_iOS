@@ -15,6 +15,19 @@ extension View{
             VitalWinkAlert(viewStore: ViewStore(store), dismiss: dismiss)
         }.ignoresSafeArea()
     }
+    
+    func activityIndicator(isVisible: Bool) -> some View{
+        ZStack{
+            self
+            
+            if isVisible{
+                Color.black.opacity(0.3)
+                ProgressView()
+                    .controlSize(.large)
+                    .tint(.white)
+            }
+        }.ignoresSafeArea()
+    }
 }
 
 

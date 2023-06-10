@@ -31,8 +31,10 @@ struct Login: ReducerProtocol, Sendable{
         @BindingState var id = ""
         @BindingState var password = ""
         
-        fileprivate var status: Status = .notLogin
+        fileprivate(set) var isActivityIndicatorVisible = false
         fileprivate(set) var alertState:VitalWinkAlertState<Action>? = nil
+        
+        fileprivate var status: Status = .notLogin
         
         enum Status: Equatable{
             case successLogin(_ token: String)
@@ -56,6 +58,7 @@ struct Login: ReducerProtocol, Sendable{
         Reduce{state, action in
             switch action{
             case .login(let type):
+                state.isActivityIndicatorVisible = true
                 switch type{
                 case .kakao:
                     kakaoLogin()
@@ -76,7 +79,6 @@ struct Login: ReducerProtocol, Sendable{
                         }
                     }
                 }
-                
                 return .none
             case .binding:
                 return .none
@@ -102,6 +104,7 @@ struct Login: ReducerProtocol, Sendable{
                 default:
                     break
                 }
+                state.isActivityIndicatorVisible = false
                 return .none
             case .getError(let error):
                 print(error.localizedDescription)
