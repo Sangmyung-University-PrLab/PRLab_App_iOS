@@ -46,6 +46,7 @@
 		065C00E82A32E11A00054387 /* VitalWinkButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065C00E72A32E11A00054387 /* VitalWinkButtonStyle.swift */; };
 		065C00EA2A32EBD400054387 /* View + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065C00E92A32EBD400054387 /* View + Extension.swift */; };
 		065C00EE2A34393900054387 /* VitalWinkAlertButtonState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065C00ED2A34393900054387 /* VitalWinkAlertButtonState.swift */; };
+		065C00F02A34509500054387 /* VitalWinkAlertState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065C00EF2A34509500054387 /* VitalWinkAlertState.swift */; };
 		0663C4492A19FF2A00B85ABF /* MeasurementAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0663C4482A19FF2A00B85ABF /* MeasurementAPI.swift */; };
 		0663C44B2A19FFA700B85ABF /* MeasurementRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0663C44A2A19FFA700B85ABF /* MeasurementRouter.swift */; };
 		0663C4562A1A172100B85ABF /* MeasurementAPITest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0663C4552A1A172100B85ABF /* MeasurementAPITest.swift */; };
@@ -143,6 +144,7 @@
 		065C00E72A32E11A00054387 /* VitalWinkButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VitalWinkButtonStyle.swift; sourceTree = "<group>"; };
 		065C00E92A32EBD400054387 /* View + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View + Extension.swift"; sourceTree = "<group>"; };
 		065C00ED2A34393900054387 /* VitalWinkAlertButtonState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VitalWinkAlertButtonState.swift; sourceTree = "<group>"; };
+		065C00EF2A34509500054387 /* VitalWinkAlertState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VitalWinkAlertState.swift; sourceTree = "<group>"; };
 		0663C4482A19FF2A00B85ABF /* MeasurementAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeasurementAPI.swift; sourceTree = "<group>"; };
 		0663C44A2A19FFA700B85ABF /* MeasurementRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeasurementRouter.swift; sourceTree = "<group>"; };
 		0663C4552A1A172100B85ABF /* MeasurementAPITest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeasurementAPITest.swift; sourceTree = "<group>"; };
@@ -368,9 +370,8 @@
 		065C00DF2A32C65B00054387 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				065C00E02A32C66B00054387 /* VitalWinkAlert.swift */,
+				065C00F12A34519D00054387 /* Alert */,
 				065C00E72A32E11A00054387 /* VitalWinkButtonStyle.swift */,
-				065C00ED2A34393900054387 /* VitalWinkAlertButtonState.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -381,6 +382,16 @@
 				065C00E52A32E04400054387 /* VitalWinkAlertButtonBuilder.swift */,
 			);
 			path = Annotation;
+			sourceTree = "<group>";
+		};
+		065C00F12A34519D00054387 /* Alert */ = {
+			isa = PBXGroup;
+			children = (
+				065C00E02A32C66B00054387 /* VitalWinkAlert.swift */,
+				065C00ED2A34393900054387 /* VitalWinkAlertButtonState.swift */,
+				065C00EF2A34509500054387 /* VitalWinkAlertState.swift */,
+			);
+			path = Alert;
 			sourceTree = "<group>";
 		};
 		0663C4472A19FEE600B85ABF /* Measurement */ = {
@@ -811,6 +822,7 @@
 				0629A2222A25B97E007B864B /* OpenCVWrapper.mm in Sources */,
 				06A8AB652A1DF56F00004B62 /* Root.swift in Sources */,
 				06A8AB632A1DF4A800004B62 /* LoginView.swift in Sources */,
+				065C00F02A34509500054387 /* VitalWinkAlertState.swift in Sources */,
 				065C00E82A32E11A00054387 /* VitalWinkButtonStyle.swift in Sources */,
 				06F180B42A17403C00F1CE90 /* UserAPI.swift in Sources */,
 				0629A21C2A208C91007B864B /* OSLog + Extension.swift in Sources */,

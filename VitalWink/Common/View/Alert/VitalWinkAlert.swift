@@ -9,26 +9,7 @@ import Foundation
 import SwiftUI
 import ComposableArchitecture
 
-struct VitalWinkAlertState<Action>: Equatable{
-    init(title: String, message: String, @VitalWinkAlertButtonBuilder buttons: () -> [VitalWinkAlertButtonState<Action>]){
-        self.title = title
-        self.buttons = buttons()
-        self.message = message
-    }
-
-    let title: String
-    let message: String
-    let buttons: [VitalWinkAlertButtonState<Action>]
-    
-    static func == (lhs: VitalWinkAlertState, rhs: VitalWinkAlertState) -> Bool {
-        return lhs.title == rhs.title && lhs.message == rhs.message && lhs.buttons == rhs.buttons
-    }
-}
-
 struct VitalWinkAlert<Action>: View{
-    @ObservedObject var viewStore: ViewStore<VitalWinkAlertState<Action>?, Action>
-    let dismiss:Action
-    
     var body: some View{
         VStack{
             Spacer()
@@ -88,8 +69,10 @@ struct VitalWinkAlert<Action>: View{
             
     }
     
-    //MARK: private 
+    //MARK: private
+    private let dismiss:Action
     private let alertHeight = 173 + (UIApplication.shared.safeAreaInsets?.bottom ?? 0)
+    @ObservedObject private var viewStore: ViewStore<VitalWinkAlertState<Action>?, Action>
     @State private var shouldPresent = false
     @State private var title: String = ""
     @State private var message: String = ""
