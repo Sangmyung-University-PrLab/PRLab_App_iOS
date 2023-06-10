@@ -124,7 +124,7 @@ struct LoginView: View{
     }
     
     //MARK: private
-    @State var isLoginButtonDisabled = true
+    @State private var isLoginButtonDisabled = true
     private let store: StoreOf<Login>
     private let snsButtonSize: CGFloat = 35
     private let dividerColor = Color(red: 0.850980392156863, green: 0.850980392156863, blue: 0.850980392156863)

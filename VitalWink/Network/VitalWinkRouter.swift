@@ -28,6 +28,8 @@ struct VitalWinkRouter<Router: VitalWinkRouterType>: URLRequestConvertible{
         if !router.parameters.isEmpty{
             request.httpBody = try JSONEncoding.default.encode(request, with: router.parameters).httpBody
         }
+        
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.method = router.method
         return request
     }

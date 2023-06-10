@@ -12,6 +12,7 @@ import KakaoSDKCommon
 import KakaoSDKUser
 import GoogleSignIn
 import NaverThirdPartyLogin
+import OSLog
 
 struct Login: ReducerProtocol, Sendable{
     init(){
@@ -107,9 +108,18 @@ struct Login: ReducerProtocol, Sendable{
                 state.isActivityIndicatorVisible = false
                 return .none
             case .getError(let error):
-                print(error.localizedDescription)
+                state.isActivityIndicatorVisible = false
+                
+                let message = error.localizedDescription
+                os_log(.error, log:.login,"%@", message)
+                
+                state.alertState = VitalWinkAlertState(title: "VitalWink", message: "로그인 중 오류가 발생하였습니다."){
+                    VitalWinkAlertButtonState<Action>(title: "확인"){
+                        return nil
+                    }
+                }
+                
                 return .none
-         
             case .dismiss:
                 state.alertState = nil
                 return .none
