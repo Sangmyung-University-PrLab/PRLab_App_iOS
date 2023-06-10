@@ -13,7 +13,7 @@ import KakaoSDKUser
 import GoogleSignIn
 import NaverThirdPartyLogin
 
-struct Login: ReducerProtocol{
+struct Login: ReducerProtocol, Sendable{
     init(){
         guard let info = Bundle.main.infoDictionary else{
             fatalError("Info.plist가 없습니다.")
@@ -30,10 +30,23 @@ struct Login: ReducerProtocol{
     struct State: Equatable{
         @BindingState var id = ""
         @BindingState var password = ""
+        fileprivate var status: Status = .notLogin
+        var alertState:VitalWinkAlertState<Action>? = nil
+        
+        enum Status: Equatable{
+            case successLogin(_ token: String)
+            case notLogin
+            case needSignUp
+            case notFoundUser
+            case inconsistenInformation
+        }
     }
-    enum Action: BindableAction, Equatable{
+    enum Action: BindableAction{
         case login(_ type: LoginType)
         case binding(BindingAction<State>)
+        case changeLoginStatus(Login.State.Status)
+        case getError(Error)
+        case dismiss
     }
     
     
@@ -46,6 +59,7 @@ struct Login: ReducerProtocol{
     }
     var body: some ReducerProtocol<State, Action>{
         BindingReducer()
+        
         Reduce{state, action in
             switch action{
             case .login(let type):
@@ -59,11 +73,49 @@ struct Login: ReducerProtocol{
                 case .apple:
                     break
                 case .general:
-                    break
+                    return .run{[id = state.id, password = state.password] send in
+                        let result = await generalLogin(id: id, password: password)
+                        switch result {
+                        case .success(let status):
+                            await send(.changeLoginStatus(status))
+                        case .failure(let error):
+                            await send(.getError(error))
+                        }
+                    }
                 }
-               
+                
                 return .none
             case .binding:
+                return .none
+            case .changeLoginStatus(let status):
+                switch status{
+                case .successLogin(let token):
+                    guard keyChainManager.saveTokenInKeyChain(token) else{
+                        return .none
+                    }
+                case .notFoundUser:
+                    state.alertState = VitalWinkAlertState(title: "VitalWink", message: "가입되어 있지 않은 아이디입니다."){
+                        VitalWinkAlertButtonState<Action>(title: "확인"){
+                            return nil
+                            
+                        }
+                    }
+                case .inconsistenInformation:
+                    state.alertState = VitalWinkAlertState(title: "VitalWink", message: "아이디와 비밀번호가 일치하지 않습니다."){
+                        VitalWinkAlertButtonState<Action>(title: "확인"){
+                            return nil
+                        }
+                    }
+                default:
+                    break
+                }
+                return .none
+            case .getError(let error):
+                print(error.localizedDescription)
+                return .none
+         
+            case .dismiss:
+                state.alertState = nil
                 return .none
             }
         }
@@ -101,13 +153,38 @@ struct Login: ReducerProtocol{
             }
         }
     }
-    
     private func naverLogin(){
         NaverThirdPartyLoginConnection.getSharedInstance().requestThirdPartyLogin()
+    }
+    private func generalLogin(id: String, password: String) async -> Result<State.Status, Error>{
+        switch await loginAPI.generalLogin(id: id, password: password){
+        case .success(let token):
+            return .success(.successLogin(token))
+        case .failure(let error):
+            guard let afError = error.asAFError else{
+                return .failure(error)
+            }
+            
+            guard afError.isResponseValidationError, let statusCode = afError.responseCode else{
+                return .failure(afError)
+            }
+        
+            if statusCode == 404{
+                return .success(.notFoundUser)
+            }
+            else if statusCode == 409{
+                return .success(.inconsistenInformation)
+            }
+            else{
+                return .failure(afError)
+            }
+        }
     }
     
     private let gidConfig: GIDConfiguration
     private let naverLoginDelgate = NaverLoginDelegate()
+    @Dependency(\.loginAPI) private var loginAPI
+    @Dependency(\.keyChainManager) private var keyChainManager
 }
 
 

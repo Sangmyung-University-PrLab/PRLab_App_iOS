@@ -9,7 +9,6 @@ import Foundation
 import SwiftUI
 
 struct LoginViewTextFieldStyle: TextFieldStyle{
-    
     func _body(configuration: TextField<Self._Label>) -> some View {
         configuration
             .font(.notoSans(size: 14, weight: .regular))
@@ -31,7 +30,6 @@ struct LoginViewTextFieldStyle: TextFieldStyle{
             .focused($isFocused)
             .animation(.spring(), value: isFocused)
     }
-    
-    
+
     @FocusState private var isFocused
 }

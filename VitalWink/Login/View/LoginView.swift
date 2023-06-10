@@ -33,13 +33,7 @@ struct LoginView: View{
                 Button("로그인"){
                     viewStore.send(.login(.general))
                 }
-                .font(.notoSans(size: 14, weight: .bold))
-                .foregroundColor(.white)
-                .padding(.vertical, 10)
-                .frame(maxWidth: .infinity, maxHeight:40)
-                .background(Color.blue)
-                .cornerRadius(8)
-                
+                .buttonStyle(VitalWinkButtonStyle())
                 
                 HStack(spacing:10){
                     Text("회원가입")
@@ -107,17 +101,19 @@ struct LoginView: View{
                         .onTapGesture {
                             viewStore.send(.login(.apple))
                         }
-
+                
                     
                 }.frame(maxWidth: .infinity)
                 .padding(.horizontal, 23)
-                
+               
                 Spacer(minLength: 78)
             }
             .padding(.horizontal, 20)
             .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
             .background(Color.backgroundColor)
             .ignoresSafeArea()
+            .vitalWinkAlert(store.scope(state: \.alertState, action: {$0}), dismiss: .dismiss)
+            
         }
     }
     
