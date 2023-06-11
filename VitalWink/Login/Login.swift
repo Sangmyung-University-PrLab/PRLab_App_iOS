@@ -14,7 +14,7 @@ import GoogleSignIn
 import NaverThirdPartyLogin
 import OSLog
 
-struct Login: ReducerProtocol, Sendable{
+struct Login: ReducerProtocol{
     init(){
         guard let info = Bundle.main.infoDictionary else{
             fatalError("Info.plist가 없습니다.")
