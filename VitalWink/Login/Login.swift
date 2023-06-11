@@ -12,6 +12,7 @@ import KakaoSDKCommon
 import KakaoSDKUser
 import GoogleSignIn
 import NaverThirdPartyLogin
+import OSLog
 
 struct Login: ReducerProtocol{
     init(){
@@ -28,33 +29,110 @@ struct Login: ReducerProtocol{
     }
     
     struct State: Equatable{
+        @BindingState var id = ""
+        @BindingState var password = ""
         
+        fileprivate(set) var isActivityIndicatorVisible = false
+        fileprivate(set) var alertState:VitalWinkAlertState<Action>? = nil
+        
+        fileprivate var status: Status = .notLogin
+        
+        enum Status: Equatable{
+            case successLogin(_ token: String)
+            case notLogin
+            case needSignUp
+            case notFoundUser
+            case inconsistenInformation
+        }
     }
-    enum Action: Equatable{
+    enum Action: BindableAction{
         case login(_ type: LoginType)
+        case binding(BindingAction<State>)
+        case changeLoginStatus(Login.State.Status)
+        case getError(Error)
+        case dismiss
     }
     
+    var body: some ReducerProtocol<State, Action>{
+        BindingReducer()
+        
+        Reduce{state, action in
+            switch action{
+            case .login(let type):
+                state.isActivityIndicatorVisible = true
+                switch type{
+                case .kakao:
+                    kakaoLogin()
+                case .google:
+                  googleLogin()
+                case .naver:
+                    naverLogin()
+                case .apple:
+                    break
+                case .general:
+                    return .run{[id = state.id, password = state.password] send in
+                        let result = await generalLogin(id: id, password: password)
+                        switch result {
+                        case .success(let status):
+                            await send(.changeLoginStatus(status))
+                        case .failure(let error):
+                            await send(.getError(error))
+                        }
+                    }
+                }
+                return .none
+            case .binding:
+                return .none
+            case .changeLoginStatus(let status):
+                switch status{
+                case .successLogin(let token):
+                    guard keyChainManager.saveTokenInKeyChain(token) else{
+                        return .none
+                    }
+                case .notFoundUser:
+                    state.alertState = VitalWinkAlertState(title: "VitalWink", message: "가입되어 있지 않은 아이디입니다."){
+                        VitalWinkAlertButtonState<Action>(title: "확인"){
+                            return nil
+                            
+                        }
+                    }
+                case .inconsistenInformation:
+                    state.alertState = VitalWinkAlertState(title: "VitalWink", message: "아이디와 비밀번호가 일치하지 않습니다."){
+                        VitalWinkAlertButtonState<Action>(title: "확인"){
+                            return nil
+                        }
+                    }
+                default:
+                    break
+                }
+                state.isActivityIndicatorVisible = false
+                return .none
+            case .getError(let error):
+                state.isActivityIndicatorVisible = false
+                
+                let message = error.localizedDescription
+                os_log(.error, log:.login,"%@", message)
+                
+                state.alertState = VitalWinkAlertState(title: "VitalWink", message: "로그인 중 오류가 발생하였습니다."){
+                    VitalWinkAlertButtonState<Action>(title: "확인"){
+                        return nil
+                    }
+                }
+                
+                return .none
+            case .dismiss:
+                state.alertState = nil
+                return .none
+            }
+        }
+    }
     
     enum LoginType{
         case kakao
         case google
         case naver
-    }
-    
-    func reduce(into state: inout State, action: Action) -> EffectTask<Action> {
-        switch action{
-        case .login(let type):
-            switch type{
-            case .kakao:
-                kakaoLogin()
-            case .google:
-              googleLogin()
-            case .naver:
-                naverLogin()
-            }
-           
-            return .none
-        }
+        case apple
+        case general
     }
     
     //MARK: private
@@ -77,7 +155,6 @@ struct Login: ReducerProtocol{
             print(credential.profile?.email)
         }
     }
-    
     private func kakaoLogin(){
         if UserApi.isKakaoTalkLoginAvailable(){
             UserApi.shared.loginWithKakaoTalk{_,_ in
@@ -89,13 +166,38 @@ struct Login: ReducerProtocol{
             }
         }
     }
-    
     private func naverLogin(){
         NaverThirdPartyLoginConnection.getSharedInstance().requestThirdPartyLogin()
+    }
+    private func generalLogin(id: String, password: String) async -> Result<State.Status, Error>{
+        switch await loginAPI.generalLogin(id: id, password: password){
+        case .success(let token):
+            return .success(.successLogin(token))
+        case .failure(let error):
+            guard let afError = error.asAFError else{
+                return .failure(error)
+            }
+            
+            guard afError.isResponseValidationError, let statusCode = afError.responseCode else{
+                return .failure(afError)
+            }
+        
+            if statusCode == 404{
+                return .success(.notFoundUser)
+            }
+            else if statusCode == 409{
+                return .success(.inconsistenInformation)
+            }
+            else{
+                return .failure(afError)
+            }
+        }
     }
     
     private let gidConfig: GIDConfiguration
     private let naverLoginDelgate = NaverLoginDelegate()
+    @Dependency(\.loginAPI) private var loginAPI
+    @Dependency(\.keyChainManager) private var keyChainManager
 }
 
 

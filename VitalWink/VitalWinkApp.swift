@@ -29,17 +29,16 @@ struct VitalWinkApp: App {
     
     var body: some Scene {
         WindowGroup {
-//            LoginView(store: Store(initialState: Root.State().login, reducer: Login()))
-//                .onOpenURL{
-//                    print($0)
-//                    if AuthApi.isKakaoTalkLoginUrl($0){
-//                        _ = AuthController.handleOpenUrl(url: $0)
-//                    }
-//                    else{
-//                        GIDSignIn.sharedInstance.handle($0)
-//                    }
-//                }
-            MeasurementView(store: Store(initialState: Root.State().measurement, reducer: Measurement()))
+            LoginView(store: Store(initialState: Root.State().login, reducer: Login()))
+                .onOpenURL{
+                    print($0)
+                    if AuthApi.isKakaoTalkLoginUrl($0){
+                        _ = AuthController.handleOpenUrl(url: $0)
+                    }
+                    else{
+                        GIDSignIn.sharedInstance.handle($0)
+                    }
+                }          
         }
     }
     
