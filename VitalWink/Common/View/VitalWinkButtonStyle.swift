@@ -16,7 +16,7 @@ struct VitalWinkButtonStyle: ButtonStyle{
         configuration.label
             .frame(maxWidth:.infinity, minHeight:40)
             .foregroundColor(configuration.isPressed ? .white.opacity(0.7) : .white)
-            .font(.notoSans(size: 14,weight: .bold))
+            .font(.notoSans(size: 16,weight: .bold))
             .background(isDisabled ? Color.disabledButtonColor : Color.blue)
             .cornerRadius(8)
             .shadow(color: .black.opacity(0.1),radius: 5)

@@ -13,7 +13,7 @@ final class LoginAPI{
     func generalLogin(id: String, password: String) async -> Result<String, Error>{
         return await withCheckedContinuation{continuation in
             vitalWinkAPI.request(LoginRouter.generalLogin(id: id, password: password), requireToken: false)
-                .validate(statusCode: 200...200)
+                .validate(statusCode: 200 ..< 300)
                 .responseDecodable(of:JSON.self){
                     switch $0.result{
                     case .success(let json):
