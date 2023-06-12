@@ -19,7 +19,7 @@ struct SignUpView: View{
                 VStack(alignment: .leading, spacing:30){
                     VitalWinkFormSection(header: "아이디",errorMessage: "아이디에 맞지 않는 형식입니다.", shouldShowErrorMessage: !viewStore.id.isEmpty && !viewStore.isIdValid){
                         HStack{
-                            TextField("아이디", text: viewStore.binding(\.$id))
+                            TextField("아이디", text: viewStore.binding(get:\.id, send: User.Action.idChanged))
                                 .textFieldStyle(VitalWinkTextFieldStyle())
                             
                             Button("중복검사"){
@@ -80,13 +80,18 @@ struct SignUpView: View{
                         }
                 }
             }
-            .vitalWinkAlert(store.scope(state: \.alert, action: {$0}), dismiss: .dismiss)
+            .vitalWinkAlert(store.scope(state: \.alertState, action: {$0}), dismiss: .alertDismiss)
             .activityIndicator(isVisible: viewStore.isActivityIndicatorVisible)
+            .onChange(of: viewStore.shouldSignUpViewDismiss){
+                if $0{
+                    dismiss()
+                }
+            }
         }
         
     }
     
-    @Environment(\.dismiss) private var dismiss
+    @Environment(\.dismiss) private var dismiss   
     private let store: StoreOf<User>
 }
 

@@ -23,12 +23,15 @@ enum UserRouter: VitalWinkRouterType{
     var parameters: Parameters{
         switch self{
         case .signUp(let user):
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "yyyy-MM-dd"
+            
             return [
                 "id": user.id,
                 "password": user.password,
                 "email": user.email,
-                "gender": user.gender,
-                "birthday": user.birthday
+                "gender": user.gender.rawValue,
+                "birthday": dateFormatter.string(from: user.birthday)
             ]
         case .changePassword(let password):
             return [

@@ -10,7 +10,7 @@ import ComposableArchitecture
 
 struct User: ReducerProtocol{
     struct State: Equatable{
-        @BindingState var id = ""
+        var id = ""
         @BindingState var password = ""
         @BindingState var repeatPassword = ""
         @BindingState var email = ""
@@ -18,7 +18,7 @@ struct User: ReducerProtocol{
         @BindingState var birthday = Date.now
         
         var isSignUpButtonDisabled: Bool{
-            !fieldsAreNotEmpty || !fieldsAreValid || isIdDuplicated == nil || (isIdDuplicated != nil && isIdDuplicated!)
+            !fieldsAreNotEmpty || !fieldsAreValid || isIdDuplicated
         }
         
         var isIdValid: Bool{
@@ -34,9 +34,10 @@ struct User: ReducerProtocol{
             email.range(of: emailRegex, options: .regularExpression) != nil
         }
         
-        fileprivate(set) var isIdDuplicated: Bool? = nil
-        fileprivate(set) var alert: VitalWinkAlertState<Action>? = nil
+        fileprivate(set) var isIdDuplicated = true
+        fileprivate(set) var alertState: VitalWinkAlertState<Action>? = nil
         fileprivate(set) var isActivityIndicatorVisible = false
+        fileprivate(set) var shouldSignUpViewDismiss: Bool = false
         
         //MARK: private
         private var fieldsAreNotEmpty: Bool{
@@ -58,7 +59,8 @@ struct User: ReducerProtocol{
         case success
         case checkIdDuplicated
         case setIsIdDuplicated(Bool)
-        case dismiss
+        case alertDismiss
+        case idChanged(String)
     }
     
     var body: some ReducerProtocol<State, Action>{
@@ -85,9 +87,6 @@ struct User: ReducerProtocol{
                         await send(.success)
                     }
                 }
-            case .binding(\.$id):
-                state.isIdDuplicated = nil
-                return .none
             case .binding:
                 return .none
             case .errorHandling(let error):
@@ -95,8 +94,14 @@ struct User: ReducerProtocol{
                 print(error.localizedDescription)
                 return .none
             case .duplicatedEmail:
+                state.alertState = VitalWinkAlertState(title: "회원가입", message: "중복된 이메일입니다."){
+                    VitalWinkAlertButtonState<Action>(title: "확인"){
+                        return nil
+                    }
+                }
                 return .none
             case .success:
+                state.shouldSignUpViewDismiss = true
                 return .none
             case .checkIdDuplicated:
                 state.isActivityIndicatorVisible = true
@@ -111,15 +116,23 @@ struct User: ReducerProtocol{
             case .setIsIdDuplicated(let newValue):
                 state.isActivityIndicatorVisible = false
                 state.isIdDuplicated = newValue
-                state.alert = VitalWinkAlertState(title: "회원가입", message: newValue ? "중복된 아이디 입니다." : "사용 가능한 아아디입니다."){
+                state.alertState = VitalWinkAlertState(title: "회원가입", message: newValue ? "중복된 아이디 입니다." : "사용 가능한 아아디입니다."){
                     VitalWinkAlertButtonState<Action>(title: "확인"){
                         return nil
                     }
                 }
                 
                 return .none
-            case .dismiss:
-                state.alert = nil
+            case .alertDismiss:
+                state.alertState = nil
+                return .none
+            case .idChanged(let newValue):
+                if state.id != newValue{
+                    state.isIdDuplicated = true
+                }
+                
+                state.id = newValue
+                
                 return .none
             }
         }

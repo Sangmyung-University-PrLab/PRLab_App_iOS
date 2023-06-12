@@ -20,7 +20,7 @@ final class UserAPI{
             
             strongSelf.vitalWinkAPI
                 .request(UserRouter.find(email: email), requireToken: false)
-                .validate(statusCode: 200...200)
+                .validate(statusCode: 200 ..< 300)
                 
                 .responseDecodable(of: JSON.self){
                     switch $0.result{
@@ -52,7 +52,7 @@ final class UserAPI{
     func isIdDuplicated(_ id: String) async -> Result<Bool, Error>{
         return await withCheckedContinuation{continuation in
             vitalWinkAPI.request(UserRouter.isIdExist(id), requireToken: false)
-                .validate(statusCode: 204...204)
+                .validate(statusCode: 200 ..< 300)
                 .response{
                     switch $0.result{
                     case .success:
@@ -76,7 +76,7 @@ final class UserAPI{
     func signUp(_ user: UserModel) async -> AFError?{
         return await withCheckedContinuation{continuation in
             vitalWinkAPI.request(UserRouter.signUp(user), requireToken: false)
-                .validate(statusCode: 204...204)
+                .validate(statusCode: 200 ..< 300)
                 .response{
                     switch $0.result{
                     case .success(_):
@@ -89,7 +89,7 @@ final class UserAPI{
     }
     func isIdAndEmailMatch(id: String, email: String) -> AnyPublisher<String, Error>{
         return vitalWinkAPI.request(UserRouter.isIdAndEmailMatch(id: id, email: email), requireToken: false)
-            .validate(statusCode: 200...200)
+            .validate(statusCode: 200 ..< 300)
             .publishDecodable(type:JSON.self)
             .value()
             .tryMap{
@@ -104,7 +104,7 @@ final class UserAPI{
     }
     func changePassword(_ password: String) -> AnyPublisher<Never, AFError>{
         return vitalWinkAPI.request(UserRouter.changePassword(password))
-            .validate(statusCode: 204...204)
+            .validate(statusCode: 200 ..< 300)
             .publishUnserialized()
             .value()
             .ignoreOutput()
