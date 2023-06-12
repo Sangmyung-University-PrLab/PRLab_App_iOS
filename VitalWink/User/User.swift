@@ -7,6 +7,7 @@
 
 import Foundation
 import ComposableArchitecture
+
 struct User: ReducerProtocol{
     struct State: Equatable{
         @BindingState var id = ""
@@ -18,21 +19,33 @@ struct User: ReducerProtocol{
         
         var isSignUpButtonDisabled: Bool{
             id.isEmpty || password.isEmpty || repeatPassword.isEmpty || email.isEmpty
+            || !isIdValid || !isPasswordValid || !isRepeatPasswordValid || !isEmailValid
         }
-        fileprivate(set) var status: Status = .notSignUp
         
-        enum Status{
-            case notSignUp
-            case duplicatedEmail
-            case success
+        var isIdValid: Bool{
+            id.range(of: idRegex, options:.regularExpression) != nil
         }
+        var isPasswordValid: Bool{
+            password.range(of: passwordRegex, options: .regularExpression) != nil
+        }
+        var isRepeatPasswordValid: Bool{
+            repeatPassword == password
+        }
+        var isEmailValid: Bool{
+            email.range(of: emailRegex, options: .regularExpression) != nil
+        }
+        
+        let idRegex = "^[A-Za-z0-9]{6,18}$"
+        let passwordRegex = "^([!@#$%^&*()-=+A-Za-z0-9]){6,18}$"
+        let emailRegex = "^([A-Za-z0-9._-])+@[A-Za-z0-9]+\\.[a-zA-Z]{2,}$"
     }
     
     enum Action: BindableAction{
         case signUp
         case binding(BindingAction<State>)
         case getError(Error)
-        case changeStatus(State.Status)
+        case duplicatedEmail
+        case success
     }
     
     var body: some ReducerProtocol<State, Action>{
@@ -50,13 +63,13 @@ struct User: ReducerProtocol{
                         }
                         
                         if statusCode == 409{
-                            await send(.changeStatus(.duplicatedEmail))
+                            await send(.duplicatedEmail)
                         }else{
                             await send(.getError(afError))
                         }
                     }
                     else{
-                        await send(.changeStatus(.success))
+                        await send(.success)
                     }
                 }
             case .binding:
@@ -64,8 +77,9 @@ struct User: ReducerProtocol{
             case .getError(let error):
                 print(error.localizedDescription)
                 return .none
-            case .changeStatus(let status):
-                state.status = status
+            case .duplicatedEmail:
+                return .none
+            case .success:
                 return .none
             }
         }
