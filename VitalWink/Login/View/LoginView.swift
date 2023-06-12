@@ -35,8 +35,8 @@ struct LoginView: View{
                 Button("로그인"){
                     viewStore.send(.login(.general))
                 }
-                .disabled(isLoginButtonDisabled)
-                .buttonStyle(VitalWinkButtonStyle(isDisabled: isLoginButtonDisabled))
+                .disabled(viewStore.isLoginButtonDisabled)
+                .buttonStyle(VitalWinkButtonStyle(isDisabled: viewStore.isLoginButtonDisabled))
               
                 HStack(spacing:10){
                     Text("회원가입")
@@ -117,14 +117,10 @@ struct LoginView: View{
             .ignoresSafeArea()
             .activityIndicator(isVisible: viewStore.state.isActivityIndicatorVisible)
             .vitalWinkAlert(store.scope(state: \.alertState, action: {$0}), dismiss: .dismiss)
-            .onChange(of: viewStore.state.id.isEmpty || viewStore.state.password.isEmpty){
-                isLoginButtonDisabled = $0
             }
-        }
     }
     
     //MARK: private
-    @State private var isLoginButtonDisabled = true
     private let store: StoreOf<Login>
     private let snsButtonSize: CGFloat = 35
     private let dividerColor = Color(red: 0.850980392156863, green: 0.850980392156863, blue: 0.850980392156863)
