@@ -24,12 +24,12 @@ struct LoginView: View{
                     .padding(.bottom, 50)
                 
                 TextField("아이디", text: viewStore.binding(\.$id))
-                    .textFieldStyle(LoginViewTextFieldStyle())
+                    .textFieldStyle(VitalWinkTextFieldStyle())
                     .padding(.bottom, 10)
                     
                 
                 SecureField("비밀번호", text: viewStore.binding(\.$password))
-                    .textFieldStyle(LoginViewTextFieldStyle())
+                    .textFieldStyle(VitalWinkTextFieldStyle())
                     .padding(.bottom, 30)
                 
                 Button("로그인"){

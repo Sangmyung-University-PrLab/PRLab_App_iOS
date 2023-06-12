@@ -74,14 +74,19 @@ final class UserAPI{
         }.eraseToAnyPublisher()
         
     }
-    func regist(_ user: User) ->  AnyPublisher<Never, AFError>{
-        return vitalWinkAPI.request(UserRouter.regist(user), requireToken: false)
-            .validate(statusCode: 204...204)
-            .publishUnserialized()
-            .value()
-            .ignoreOutput()
-            .eraseToAnyPublisher()
-     
+    func signUp(_ user: UserModel) async -> AFError?{
+        return await withCheckedContinuation{continuation in
+            vitalWinkAPI.request(UserRouter.signUp(user), requireToken: false)
+                .validate(statusCode: 204...204)
+                .response{
+                    switch $0.result{
+                    case .success(_):
+                        continuation.resume(returning: nil)
+                    case .failure(let error):
+                        continuation.resume(returning: error)
+                    }
+                }
+        }
     }
     func isIdAndEmailMatch(id: String, email: String) -> AnyPublisher<String, Error>{
         return vitalWinkAPI.request(UserRouter.isIdAndEmailMatch(id: id, email: email), requireToken: false)
