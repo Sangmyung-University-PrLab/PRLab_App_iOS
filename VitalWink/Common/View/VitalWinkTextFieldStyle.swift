@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-struct LoginViewTextFieldStyle: TextFieldStyle{
+struct VitalWinkTextFieldStyle: TextFieldStyle{
     func _body(configuration: TextField<Self._Label>) -> some View {
         configuration
             .font(.notoSans(size: 14, weight: .regular))
@@ -18,7 +18,6 @@ struct LoginViewTextFieldStyle: TextFieldStyle{
             .padding(.leading, 15)
             .background(Color.white
                 .onTapGesture {
-                    
                 isFocused = true
             })
             .frame(height:40)

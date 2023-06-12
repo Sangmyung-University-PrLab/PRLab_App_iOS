@@ -11,11 +11,13 @@ import ComposableArchitecture
 struct Root: ReducerProtocol{
     struct State{
         var login = Login.State()
+        var user = User.State()
         var measurement = Measurement.State()
     }
     
     enum Action{
         case login(Login.Action)
+        case user(User.Action)
         case measurement(Measurement.Action)
     }
     
@@ -30,7 +32,9 @@ struct Root: ReducerProtocol{
         Scope(state: \.login, action: /Action.login){
             Login()
         }
-        
+        Scope(state: \.user, action: /Action.user){
+            User()
+        }
         Scope(state: \.measurement, action: /Action.measurement){
             Measurement()
         }

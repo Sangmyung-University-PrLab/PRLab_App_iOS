@@ -7,14 +7,14 @@
 
 import Foundation
 
-struct User{
+struct UserModel{
     let id: String
     let password: String
     let email: String
     let gender: Gender
     let birthday: Date
     
-    enum Gender: String{
+    enum Gender: String, CaseIterable{
         case man = "man", woman = "woman"
     }
 }
