@@ -32,11 +32,13 @@ struct SignUpView: View{
                     }
                     VitalWinkFormSection(header: "비밀번호",errorMessage: "비밀번호는 6~18자 사이의 문자이어야 합니다.", shouldShowErrorMessage: !viewStore.password.isEmpty && !viewStore.isPasswordValid){
                         SecureField("비밀번호", text: viewStore.binding(\.$password))
+                            .textContentType(.newPassword)
                             .textFieldStyle(VitalWinkTextFieldStyle())
                     }
                     VitalWinkFormSection(header: "비밀번호 확인",errorMessage: "비밀번호 확인이 비밀번호와 일치하지 않습니다.", shouldShowErrorMessage:
                         (viewStore.password.isEmpty && !viewStore.repeatPassword.isEmpty) || (!viewStore.password.isEmpty &&  !viewStore.isRepeatPasswordValid)){
                         SecureField("비밀번호 확인", text: viewStore.binding(\.$repeatPassword))
+                            .textContentType(.newPassword)
                             .textFieldStyle(VitalWinkTextFieldStyle())
                     }
                     VitalWinkFormSection(header: "이메일",errorMessage: "이메일에 맞지 않는 형식입니다.", shouldShowErrorMessage: !viewStore.email.isEmpty && !viewStore.isEmailValid){
