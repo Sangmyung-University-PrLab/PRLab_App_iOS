@@ -31,14 +31,16 @@ struct Login: ReducerProtocol{
     struct State: Equatable{
         @BindingState var id = ""
         @BindingState var password = ""
+        var isLoginButtonDisabled: Bool{
+            id.isEmpty || password.isEmpty
+        }
         
         fileprivate(set) var isActivityIndicatorVisible = false
         fileprivate(set) var alertState:VitalWinkAlertState<Action>? = nil
-        
-        fileprivate var status: Status = .notLogin
+        fileprivate(set) var status: Status = .notLogin
         
         enum Status: Equatable{
-            case successLogin(_ token: String)
+            case success(_ token: String)
             case notLogin
             case needSignUp
             case notFoundUser
@@ -48,8 +50,8 @@ struct Login: ReducerProtocol{
     enum Action: BindableAction{
         case login(_ type: LoginType)
         case binding(BindingAction<State>)
-        case changeLoginStatus(Login.State.Status)
-        case getError(Error)
+        case changeStatus(Login.State.Status)
+        case errorHandling(Error) //예상치 못한 에러 발생 시
         case dismiss
     }
     
@@ -74,18 +76,18 @@ struct Login: ReducerProtocol{
                         let result = await generalLogin(id: id, password: password)
                         switch result {
                         case .success(let status):
-                            await send(.changeLoginStatus(status))
+                            await send(.changeStatus(status))
                         case .failure(let error):
-                            await send(.getError(error))
+                            await send(.errorHandling(error))
                         }
                     }
                 }
                 return .none
             case .binding:
                 return .none
-            case .changeLoginStatus(let status):
+            case .changeStatus(let status):
                 switch status{
-                case .successLogin(let token):
+                case .success(let token):
                     guard keyChainManager.saveTokenInKeyChain(token) else{
                         return .none
                     }
@@ -107,7 +109,7 @@ struct Login: ReducerProtocol{
                 }
                 state.isActivityIndicatorVisible = false
                 return .none
-            case .getError(let error):
+            case .errorHandling(let error):
                 state.isActivityIndicatorVisible = false
                 
                 let message = error.localizedDescription
@@ -172,7 +174,7 @@ struct Login: ReducerProtocol{
     private func generalLogin(id: String, password: String) async -> Result<State.Status, Error>{
         switch await loginAPI.generalLogin(id: id, password: password){
         case .success(let token):
-            return .success(.successLogin(token))
+            return .success(.success(token))
         case .failure(let error):
             guard let afError = error.asAFError else{
                 return .failure(error)

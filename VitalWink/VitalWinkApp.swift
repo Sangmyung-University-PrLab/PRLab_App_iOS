@@ -29,7 +29,7 @@ struct VitalWinkApp: App {
     
     var body: some Scene {
         WindowGroup {
-            LoginView(store: Store(initialState: Root.State().login, reducer: Login()))
+            LoginView(store: Store(initialState: Root.State(), reducer: Root()))
                 .onOpenURL{
                     print($0)
                     if AuthApi.isKakaoTalkLoginUrl($0){
