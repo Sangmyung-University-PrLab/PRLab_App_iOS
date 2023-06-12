@@ -49,7 +49,7 @@ struct LoginView: View{
                         Spacer()
                         Text("비밀번호 찾기")
                     }
-                    .font(.notoSans(size: 12, weight: .medium))
+                    .font(.notoSans(size: 13, weight: .medium))
                     .padding(.vertical, 30)
                     .padding(.horizontal, 23)
                     
