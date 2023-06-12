@@ -49,30 +49,29 @@ final class UserAPI{
                 }
         }.eraseToAnyPublisher()
     }
-    func isIdNotExist(_ id: String) -> AnyPublisher<Bool, Error>{
-        return Future<Bool, Error>{[weak self] promise in
-            guard let strongSelf = self else{
-                return
-            }
-            
-            strongSelf.vitalWinkAPI
-                .request(UserRouter.isIdExist(id), requireToken: false)
+    func isIdDuplicated(_ id: String) async -> Result<Bool, Error>{
+        return await withCheckedContinuation{continuation in
+            vitalWinkAPI.request(UserRouter.isIdExist(id), requireToken: false)
                 .validate(statusCode: 204...204)
                 .response{
                     switch $0.result{
                     case .success:
-                        promise(.success(false))
+                        continuation.resume(returning: .success(true))
                     case .failure(let error):
-                        if error.responseCode! == 404{
-                            promise(.success(true))
+                        guard error.isResponseValidationError, let statusCode = error.responseCode else{
+                            continuation.resume(returning: .failure(error))
+                            return
+                        }
+                        
+                        if statusCode == 404{
+                            continuation.resume(returning: .success(false))
                         }
                         else{
-                            promise(.failure(error))
+                            continuation.resume(returning: .failure(error))
                         }
                     }
                 }
-        }.eraseToAnyPublisher()
-        
+        }
     }
     func signUp(_ user: UserModel) async -> AFError?{
         return await withCheckedContinuation{continuation in

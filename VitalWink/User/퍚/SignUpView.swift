@@ -23,10 +23,11 @@ struct SignUpView: View{
                                 .textFieldStyle(VitalWinkTextFieldStyle())
                             
                             Button("중복검사"){
-                                
+                                viewStore.send(.checkIdDuplicated)
                             }
                             .frame(width:75)
-                            .buttonStyle(VitalWinkButtonStyle())
+                            .buttonStyle(VitalWinkButtonStyle(isDisabled: viewStore.id.isEmpty || !viewStore.isIdValid))
+                            .disabled(viewStore.id.isEmpty || !viewStore.isIdValid)
                         }
                     }
                     VitalWinkFormSection(header: "비밀번호",errorMessage: "비밀번호는 6~18자 사이의 문자이어야 합니다.", shouldShowErrorMessage: !viewStore.password.isEmpty && !viewStore.isPasswordValid){
@@ -62,8 +63,8 @@ struct SignUpView: View{
                     .disabled(viewStore.isSignUpButtonDisabled)
                 }
                 .padding(.top, 25)
+                .padding(.horizontal, 20)
             }
-            .padding(.horizontal, 20)
             .background(Color.backgroundColor)
             .navigationTitle(Text("회원가입"))
             .navigationBarTitleDisplayMode(.inline)
@@ -77,7 +78,8 @@ struct SignUpView: View{
                         }
                 }
             }
-            
+            .vitalWinkAlert(store.scope(state: \.alert, action: {$0}), dismiss: .dismiss)
+            .activityIndicator(isVisible: viewStore.isActivityIndicatorVisible)
         }
         
     }
