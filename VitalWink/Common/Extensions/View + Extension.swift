@@ -10,23 +10,27 @@ import SwiftUI
 import ComposableArchitecture
 extension View{
     func vitalWinkAlert<Action>(_ store: Store<VitalWinkAlertState<Action>?, Action>, dismiss: Action) -> some View{
-        ZStack{
-            self
-            VitalWinkAlert(viewStore: ViewStore(store), dismiss: dismiss)
-        }.ignoresSafeArea()
+        self
+            .overlay{
+                VitalWinkAlert(viewStore: ViewStore(store), dismiss: dismiss)
+                    .edgesIgnoringSafeArea(.bottom)
+            }
+        
+        
     }
     
     func activityIndicator(isVisible: Bool) -> some View{
-        ZStack{
-            self
-            
-            if isVisible{
-                Color.black.opacity(0.3)
-                ProgressView()
-                    .controlSize(.large)
-                    .tint(.white)
+        self
+            .overlay{
+                if isVisible{
+                    ZStack{
+                        Color.black.opacity(0.3)
+                        ProgressView()
+                            .controlSize(.large)
+                            .tint(.white)
+                    }.ignoresSafeArea()
+                }
             }
-        }.ignoresSafeArea()
     }
 }
 

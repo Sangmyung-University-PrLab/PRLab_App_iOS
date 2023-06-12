@@ -9,10 +9,11 @@ import Foundation
 import SwiftUI
 
 struct VitalWinkFormSection<Content>: View where Content: View{
-    init(header: String, errorMessage: String? = nil, content: () -> Content){
+    init(header: String, errorMessage: String? = nil, shouldShowErrorMessage: Bool = false, content: () -> Content){
         self.header = header
         self.content = content()
         self.errorMessage = errorMessage
+        self.shouldShowErrorMessage = shouldShowErrorMessage
     }
     
     var body: some View{
@@ -23,10 +24,10 @@ struct VitalWinkFormSection<Content>: View where Content: View{
                 .padding(.bottom, 10)
        
             content.padding(.bottom, 5)
-
+            
             Text(errorMessage ?? "")
            .font(.notoSans(size: 13, weight: .light))
-           .foregroundColor(.red)
+           .foregroundColor(shouldShowErrorMessage ? .red : .clear)
         }
     }
     
@@ -34,5 +35,5 @@ struct VitalWinkFormSection<Content>: View where Content: View{
     private let header: String
     private let content: Content
     private let errorMessage: String?
-    
+    private let shouldShowErrorMessage: Bool
 }

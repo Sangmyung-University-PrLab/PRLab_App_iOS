@@ -20,7 +20,7 @@ final class UserAPI{
             
             strongSelf.vitalWinkAPI
                 .request(UserRouter.find(email: email), requireToken: false)
-                .validate(statusCode: 200...200)
+                .validate(statusCode: 200 ..< 300)
                 
                 .responseDecodable(of: JSON.self){
                     switch $0.result{
@@ -49,35 +49,34 @@ final class UserAPI{
                 }
         }.eraseToAnyPublisher()
     }
-    func isIdNotExist(_ id: String) -> AnyPublisher<Bool, Error>{
-        return Future<Bool, Error>{[weak self] promise in
-            guard let strongSelf = self else{
-                return
-            }
-            
-            strongSelf.vitalWinkAPI
-                .request(UserRouter.isIdExist(id), requireToken: false)
-                .validate(statusCode: 204...204)
+    func isIdDuplicated(_ id: String) async -> Result<Bool, Error>{
+        return await withCheckedContinuation{continuation in
+            vitalWinkAPI.request(UserRouter.isIdExist(id), requireToken: false)
+                .validate(statusCode: 200 ..< 300)
                 .response{
                     switch $0.result{
                     case .success:
-                        promise(.success(false))
+                        continuation.resume(returning: .success(true))
                     case .failure(let error):
-                        if error.responseCode! == 404{
-                            promise(.success(true))
+                        guard error.isResponseValidationError, let statusCode = error.responseCode else{
+                            continuation.resume(returning: .failure(error))
+                            return
+                        }
+                        
+                        if statusCode == 404{
+                            continuation.resume(returning: .success(false))
                         }
                         else{
-                            promise(.failure(error))
+                            continuation.resume(returning: .failure(error))
                         }
                     }
                 }
-        }.eraseToAnyPublisher()
-        
+        }
     }
     func signUp(_ user: UserModel) async -> AFError?{
         return await withCheckedContinuation{continuation in
             vitalWinkAPI.request(UserRouter.signUp(user), requireToken: false)
-                .validate(statusCode: 204...204)
+                .validate(statusCode: 200 ..< 300)
                 .response{
                     switch $0.result{
                     case .success(_):
@@ -90,7 +89,7 @@ final class UserAPI{
     }
     func isIdAndEmailMatch(id: String, email: String) -> AnyPublisher<String, Error>{
         return vitalWinkAPI.request(UserRouter.isIdAndEmailMatch(id: id, email: email), requireToken: false)
-            .validate(statusCode: 200...200)
+            .validate(statusCode: 200 ..< 300)
             .publishDecodable(type:JSON.self)
             .value()
             .tryMap{
@@ -105,7 +104,7 @@ final class UserAPI{
     }
     func changePassword(_ password: String) -> AnyPublisher<Never, AFError>{
         return vitalWinkAPI.request(UserRouter.changePassword(password))
-            .validate(statusCode: 204...204)
+            .validate(statusCode: 200 ..< 300)
             .publishUnserialized()
             .value()
             .ignoreOutput()

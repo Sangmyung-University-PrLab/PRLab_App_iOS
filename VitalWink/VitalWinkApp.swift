@@ -25,6 +25,9 @@ struct VitalWinkApp: App {
         }
         KakaoSDK.initSDK(appKey: kakaoKey)
         initNaverSDK()
+        
+        //SwiftUI NavigationBar title은 font변경을 아직 허용하지 않음
+        UINavigationBar.appearance().titleTextAttributes = [.font : UIFont(name: "Inter-Bold", size: 16)!]
     }
     
     var body: some Scene {
