@@ -37,7 +37,7 @@ struct Login: ReducerProtocol{
         
         fileprivate(set) var isActivityIndicatorVisible = false
         fileprivate(set) var alertState:VitalWinkAlertState<Action>? = nil
-        fileprivate var status: Status = .notLogin
+        fileprivate(set) var status: Status = .notLogin
         
         enum Status: Equatable{
             case success(_ token: String)
