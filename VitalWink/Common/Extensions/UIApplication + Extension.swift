@@ -13,4 +13,11 @@ extension UIApplication{
         let keyWindow = windowScene?.windows.first(where: {$0.isKeyWindow})
         return keyWindow?.safeAreaInsets
     }
+    
+    var screenSize: CGRect?{
+        let scenes = UIApplication.shared.connectedScenes
+        let windowScene = scenes.first as? UIWindowScene
+        let keyWindow = windowScene?.windows.first(where: {$0.isKeyWindow})
+        return keyWindow?.screen.bounds
+    }
 }

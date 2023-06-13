@@ -21,14 +21,16 @@ struct VitalWinkAlert<Action>: View{
             RoundedRectangle(cornerRadius: 10)
                 .shadow(color: Color.black.opacity(0.2), radius: 10)
                 .foregroundColor(.white)
-                .overlay{
+            
+                .overlay(alignment:.top){
                     VStack(alignment: .leading, spacing: 0){
                         Text(title)
                             .font(.notoSans(size: 12,weight: .medium))
                             .padding(.bottom, 10)
                         Divider()
                             .padding(.bottom,10)
-                        Text(message)
+                        
+                        message
                             .font(.notoSans(size: 14,weight: .regular))
                             .padding(.bottom, 30)
                         
@@ -53,7 +55,9 @@ struct VitalWinkAlert<Action>: View{
                                 }
                             }
                         }
-                    }.padding(.horizontal, 20)
+                    }
+                    .padding(.top, 20)
+                    .padding(.horizontal, 20)
                 }
                 .frame(height: alertHeight)
                 
@@ -65,7 +69,7 @@ struct VitalWinkAlert<Action>: View{
                 return
             }
             title = state.title
-            message = state.message
+            message = Text(LocalizedStringKey(state.message))
             buttonStates = state.buttons
             shouldPresent = true
         }
@@ -80,7 +84,7 @@ struct VitalWinkAlert<Action>: View{
     @ObservedObject private var viewStore: ViewStore<VitalWinkAlertState<Action>?, Action>
     @State private var shouldPresent = false
     @State private var title: String = ""
-    @State private var message: String = ""
+    @State private var message: Text = Text("")
     @State private var buttonStates: [VitalWinkAlertButtonState<Action>] = []
 }
 

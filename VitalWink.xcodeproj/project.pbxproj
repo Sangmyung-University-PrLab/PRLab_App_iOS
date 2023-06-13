@@ -51,6 +51,9 @@
 		065C00F82A3595F500054387 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065C00F72A3595F500054387 /* User.swift */; };
 		065C00FA2A35B0E100054387 /* VitialWinkFormSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065C00F92A35B0E100054387 /* VitialWinkFormSection.swift */; };
 		065C00FC2A35BA6000054387 /* CircularSegmentedPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065C00FB2A35BA6000054387 /* CircularSegmentedPickerView.swift */; };
+		065C01002A37FFB100054387 /* FindIdView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065C00FF2A37FFB100054387 /* FindIdView.swift */; };
+		065C01022A3802D600054387 /* SignUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065C01012A3802D600054387 /* SignUp.swift */; };
+		065C01042A3809C100054387 /* FindUserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065C01032A3809C100054387 /* FindUserInfo.swift */; };
 		0663C4492A19FF2A00B85ABF /* MeasurementAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0663C4482A19FF2A00B85ABF /* MeasurementAPI.swift */; };
 		0663C44B2A19FFA700B85ABF /* MeasurementRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0663C44A2A19FFA700B85ABF /* MeasurementRouter.swift */; };
 		0663C4562A1A172100B85ABF /* MeasurementAPITest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0663C4552A1A172100B85ABF /* MeasurementAPITest.swift */; };
@@ -153,6 +156,9 @@
 		065C00F72A3595F500054387 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		065C00F92A35B0E100054387 /* VitialWinkFormSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VitialWinkFormSection.swift; sourceTree = "<group>"; };
 		065C00FB2A35BA6000054387 /* CircularSegmentedPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularSegmentedPickerView.swift; sourceTree = "<group>"; };
+		065C00FF2A37FFB100054387 /* FindIdView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindIdView.swift; sourceTree = "<group>"; };
+		065C01012A3802D600054387 /* SignUp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUp.swift; sourceTree = "<group>"; };
+		065C01032A3809C100054387 /* FindUserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindUserInfo.swift; sourceTree = "<group>"; };
 		0663C4482A19FF2A00B85ABF /* MeasurementAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeasurementAPI.swift; sourceTree = "<group>"; };
 		0663C44A2A19FFA700B85ABF /* MeasurementRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeasurementRouter.swift; sourceTree = "<group>"; };
 		0663C4552A1A172100B85ABF /* MeasurementAPITest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeasurementAPITest.swift; sourceTree = "<group>"; };
@@ -408,6 +414,7 @@
 			isa = PBXGroup;
 			children = (
 				065C00F52A35933E00054387 /* SignUpView.swift */,
+				065C00FF2A37FFB100054387 /* FindIdView.swift */,
 			);
 			name = View;
 			path = "퍚";
@@ -498,6 +505,8 @@
 				06A8AB5B2A1C8C9900004B62 /* Model */,
 				06A8AB5A2A1C8C8D00004B62 /* Network */,
 				065C00F72A3595F500054387 /* User.swift */,
+				065C01012A3802D600054387 /* SignUp.swift */,
+				065C01032A3809C100054387 /* FindUserInfo.swift */,
 			);
 			path = User;
 			sourceTree = "<group>";
@@ -806,6 +815,7 @@
 				0629A2262A25DD3E007B864B /* MeasurementView.swift in Sources */,
 				064B04E72A08F14800230FBC /* Camera.swift in Sources */,
 				065C00C12A305C6F00054387 /* Font + Extension.swift in Sources */,
+				065C01002A37FFB100054387 /* FindIdView.swift in Sources */,
 				065C00C32A3060F400054387 /* Color + Extensions.swift in Sources */,
 				065C00FA2A35B0E100054387 /* VitialWinkFormSection.swift in Sources */,
 				063C16272A0E01DB00E07141 /* CameraStream.swift in Sources */,
@@ -820,6 +830,7 @@
 				0629A2212A25B97E007B864B /* FaceDetector.swift in Sources */,
 				06F1809B2A15C64300F1CE90 /* VitalWinkAPI.swift in Sources */,
 				06F180A42A15EAF400F1CE90 /* KeyChainManager.swift in Sources */,
+				065C01022A3802D600054387 /* SignUp.swift in Sources */,
 				0663C4722A1C7D3100B85ABF /* MeasurementResult.swift in Sources */,
 				0663C4702A1C743900B85ABF /* MinMaxType.swift in Sources */,
 				065C00E32A32D22800054387 /* UIApplication + Extension.swift in Sources */,
@@ -853,6 +864,7 @@
 				06F180B42A17403C00F1CE90 /* UserAPI.swift in Sources */,
 				0629A21C2A208C91007B864B /* OSLog + Extension.swift in Sources */,
 				0629A2242A25C8CF007B864B /* Measurement.swift in Sources */,
+				065C01042A3809C100054387 /* FindUserInfo.swift in Sources */,
 				06A8AB5E2A1DF06100004B62 /* Login.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

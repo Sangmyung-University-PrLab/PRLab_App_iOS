@@ -45,7 +45,11 @@ struct LoginView: View{
                         }.foregroundColor(.black)
                         
                         Spacer()
-                        Text("아이디 찾기")
+                        
+                        NavigationLink("아이디 찾기"){
+                            FindIdView(store: store.scope(state: \.user, action: Root.Action.user))
+                        }.foregroundColor(.black)
+                        
                         Spacer()
                         Text("비밀번호 찾기")
                     }

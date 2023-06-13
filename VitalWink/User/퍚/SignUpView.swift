@@ -11,7 +11,7 @@ import ComposableArchitecture
 
 struct SignUpView: View{
     init(store: StoreOf<User>){
-        self.store = store
+        self.store = store.scope(state: \.signUp, action: User.Action.signUp)
     }
     var body: some View{
         WithViewStore(store, observe: {$0}){viewStore in
@@ -19,7 +19,7 @@ struct SignUpView: View{
                 VStack(alignment: .leading, spacing:30){
                     VitalWinkFormSection(header: "아이디",errorMessage: "아이디에 맞지 않는 형식입니다.", shouldShowErrorMessage: !viewStore.id.isEmpty && !viewStore.isIdValid){
                         HStack{
-                            TextField("아이디", text: viewStore.binding(get:\.id, send: User.Action.idChanged))
+                            TextField("아이디", text: viewStore.binding(get:\.id, send: SignUp.Action.idChanged))
                                 .textFieldStyle(VitalWinkTextFieldStyle())
                             
                             Button("중복검사"){
@@ -82,22 +82,25 @@ struct SignUpView: View{
             }
             .vitalWinkAlert(store.scope(state: \.alertState, action: {$0}), dismiss: .alertDismiss)
             .activityIndicator(isVisible: viewStore.isActivityIndicatorVisible)
-            .onChange(of: viewStore.shouldSignUpViewDismiss){
+            .onChange(of: viewStore.shouldViewDismiss){
                 if $0{
                     dismiss()
                 }
+            }
+            .onDisappear{
+                viewStore.send(.onDisappear)
             }
         }
         
     }
     
     @Environment(\.dismiss) private var dismiss   
-    private let store: StoreOf<User>
+    private let store: StoreOf<SignUp>
 }
 
 
 struct SignUpView_Previews: PreviewProvider{
     static var previews: some View{
-        SignUpView(store: Store(initialState: Root.State().user, reducer: User()))
+        SignUpView(store: Store(initialState: User.State(), reducer: User()))
     }
 }
