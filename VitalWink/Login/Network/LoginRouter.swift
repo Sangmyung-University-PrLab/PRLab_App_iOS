@@ -10,7 +10,7 @@ import Alamofire
 
 enum LoginRouter: VitalWinkRouterType{
     case generalLogin(id: String, password: String)
-    case snsLogin(_ type: Login.LoginType, token: String)
+    case snsLogin(_ type: UserModel.`Type`, token: String)
     var endPoint: String{
         let baseEndPoint = "login"
         let detailEndPoint: String

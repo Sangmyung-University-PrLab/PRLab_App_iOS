@@ -31,7 +31,8 @@ enum UserRouter: VitalWinkRouterType{
                 "password": user.password,
                 "email": user.email,
                 "gender": user.gender.rawValue,
-                "birthday": dateFormatter.string(from: user.birthday)
+                "birthday": dateFormatter.string(from: user.birthday),
+                "type": user.type.rawValue
             ]
         case .changePassword(let password):
             return [

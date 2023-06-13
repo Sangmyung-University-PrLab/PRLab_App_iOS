@@ -48,7 +48,7 @@ struct Login: ReducerProtocol{
         }
     }
     enum Action: BindableAction{
-        case login(_ type: LoginType)
+        case login(_ type: UserModel.`Type`)
         case binding(BindingAction<State>)
         case changeStatus(Login.State.Status)
         case errorHandling(Error) //예상치 못한 에러 발생 시
@@ -128,15 +128,7 @@ struct Login: ReducerProtocol{
             }
         }
     }
-    
-    enum LoginType{
-        case kakao
-        case google
-        case naver
-        case apple
-        case general
-    }
-    
+
     //MARK: private
     private func googleLogin(){
         guard let windowScenes = UIApplication.shared.connectedScenes.first as? UIWindowScene,
