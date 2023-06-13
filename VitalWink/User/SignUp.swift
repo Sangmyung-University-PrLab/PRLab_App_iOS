@@ -69,6 +69,7 @@ struct SignUp: ReducerProtocol{
         case alertDismiss
         case idChanged(String)
         case onDisappear
+        case dismiss
     }
     
     var body: some ReducerProtocol<State, Action>{
@@ -76,7 +77,7 @@ struct SignUp: ReducerProtocol{
         Reduce{state, action in
             switch action{
             case .signUp:
-                let user = UserModel(id: state.id, password: state.password, email: state.email, gender: state.gender, birthday: state.birthday)
+                let user = UserModel(id: state.id, password: state.password, email: state.email, gender: state.gender, birthday: state.birthday, type:.general)
                 
                 return .run{ send in
                     if let afError = await userAPI.signUp(user){
@@ -117,7 +118,12 @@ struct SignUp: ReducerProtocol{
                 }
                 return .none
             case .success:
-                state.shouldViewDismiss = true
+                state.alertState = VitalWinkAlertState(title: "회원가입", message: "회원가입이 완료되었습니다."){
+                    VitalWinkAlertButtonState<Action>(title: "확인"){
+                        return .dismiss
+                    }
+                }
+                
                 return .none
             case .checkIdDuplicated:
                 state.isActivityIndicatorVisible = true
@@ -146,9 +152,11 @@ struct SignUp: ReducerProtocol{
                 if state.id != newValue{
                     state.isIdDuplicated = true
                 }
-                
                 state.id = newValue
                 
+                return .none
+            case .dismiss:
+                state.shouldViewDismiss = true
                 return .none
             case .onDisappear:
                 state = State(idRegex: state.idRegex, passwordRegex: state.passwordRegex, emailRegex: state.emailRegex)
