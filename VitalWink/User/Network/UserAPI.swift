@@ -80,28 +80,41 @@ final class UserAPI{
                 }
         }
     }
-    func isIdAndEmailMatch(id: String, email: String) -> AnyPublisher<String, Error>{
-        return vitalWinkAPI.request(UserRouter.isIdAndEmailMatch(id: id, email: email), requireToken: false)
+    func isIdAndEmailMatch(id: String, email: String) async -> Result<String, Error>{
+        return await withCheckedContinuation{continuation in
+            vitalWinkAPI.request(UserRouter.isIdAndEmailMatch(id: id, email: email), requireToken: false)
             .validate(statusCode: 200 ..< 300)
-            .publishDecodable(type:JSON.self)
-            .value()
-            .tryMap{
-                let token = $0["token"]
-                guard token.error == nil else{
-                    throw token.error!
+            .responseDecodable(of: JSON.self){
+                switch $0.result{
+                case .success(let json):
+                    let token = json["token"]
+                    guard token.error == nil else{
+                        continuation.resume(returning: .failure(token.error!))
+                        return
+                    }
+                    
+                    continuation.resume(returning: .success(token.stringValue))
+                case .failure(let error):
+                    continuation.resume(returning: .failure(error))
                 }
-                
-                return token.stringValue
             }
-            .eraseToAnyPublisher()
+        }
     }
-    func changePassword(_ password: String) -> AnyPublisher<Never, AFError>{
-        return vitalWinkAPI.request(UserRouter.changePassword(password))
-            .validate(statusCode: 200 ..< 300)
-            .publishUnserialized()
-            .value()
-            .ignoreOutput()
-            .eraseToAnyPublisher()
+    
+    
+    func changePassword(_ password: String, token: String) async throws{
+        return try await withCheckedThrowingContinuation{continuation in
+            vitalWinkAPI.request(UserRouter.changePassword(password, token: token),requireToken: false)
+                .validate(statusCode: 200 ..< 300)
+                .response{
+                    switch $0.result{
+                    case .success:
+                        continuation.resume()
+                    case .failure(let error):
+                        continuation.resume(throwing: error)
+                    }
+                }
+        }
     }
     
     @Dependency(\.vitalWinkAPI) private var vitalWinkAPI

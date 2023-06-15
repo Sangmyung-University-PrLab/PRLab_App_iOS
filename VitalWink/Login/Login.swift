@@ -44,7 +44,7 @@ struct Login: ReducerProtocol{
             case notLogin
             case needSignUp
             case notFoundUser
-            case inconsistenInformation
+            case inconsistentInformation
         }
     }
     enum Action: BindableAction{
@@ -98,7 +98,7 @@ struct Login: ReducerProtocol{
                             
                         }
                     }
-                case .inconsistenInformation:
+                case .inconsistentInformation:
                     state.alertState = VitalWinkAlertState(title: "VitalWink", message: "아이디와 비밀번호가 일치하지 않습니다."){
                         VitalWinkAlertButtonState<Action>(title: "확인"){
                             return nil
@@ -180,7 +180,7 @@ struct Login: ReducerProtocol{
                 return .success(.notFoundUser)
             }
             else if statusCode == 409{
-                return .success(.inconsistenInformation)
+                return .success(.inconsistentInformation)
             }
             else{
                 return .failure(afError)

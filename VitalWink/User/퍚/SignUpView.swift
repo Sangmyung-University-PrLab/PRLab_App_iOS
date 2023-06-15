@@ -42,8 +42,9 @@ struct SignUpView: View{
                             .textFieldStyle(VitalWinkTextFieldStyle())
                     }
                     VitalWinkFormSection(header: "이메일",errorMessage: "이메일에 맞지 않는 형식입니다.", shouldShowErrorMessage: !viewStore.email.isEmpty && !viewStore.isEmailValid){
-                        TextField("이메일", text: viewStore.binding(\.$email))
-                            .textFieldStyle(VitalWinkTextFieldStyle())
+                        TextField(text: viewStore.binding(\.$email)){
+                            Text(verbatim: "email@email.com")
+                        }  .textFieldStyle(VitalWinkTextFieldStyle())
                     }
                     
                     VitalWinkFormSection(header: "성별"){

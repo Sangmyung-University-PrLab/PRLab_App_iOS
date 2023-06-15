@@ -13,7 +13,7 @@ enum UserRouter: VitalWinkRouterType{
     case isIdExist(_ id: String)
     case signUp(_ user: UserModel)
     case isIdAndEmailMatch(id: String, email: String)
-    case changePassword(_ password: String)
+    case changePassword(_ password: String, token: String)
     
     var endPoint: String{
         let baseEndPoint = "users"
@@ -21,7 +21,7 @@ enum UserRouter: VitalWinkRouterType{
     }
     
     var parameters: Parameters{
-        switch self{
+        switch self{ 
         case .signUp(let user):
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "yyyy-MM-dd"
@@ -34,7 +34,7 @@ enum UserRouter: VitalWinkRouterType{
                 "birthday": dateFormatter.string(from: user.birthday),
                 "type": user.type.rawValue
             ]
-        case .changePassword(let password):
+        case .changePassword(let password, _):
             return [
                 "password": password
             ]
@@ -70,6 +70,15 @@ enum UserRouter: VitalWinkRouterType{
             return .post
         case .changePassword:
             return .patch
+        }
+    }
+    
+    var headers: HTTPHeaders{
+        switch self {
+        case .changePassword(_, let token):
+            return [.init(name: "AUTH-TOKEN", value: token)]
+        default:
+            return []
         }
     }
 }

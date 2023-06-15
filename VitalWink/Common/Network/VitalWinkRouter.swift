@@ -12,6 +12,7 @@ protocol VitalWinkRouterType{
     var method: HTTPMethod{get}
     var parameters: Parameters{get}
     var queries: [URLQueryItem]{get}
+    var headers: HTTPHeaders{get}
 }
 
 struct VitalWinkRouter<Router: VitalWinkRouterType>: URLRequestConvertible{
@@ -29,6 +30,7 @@ struct VitalWinkRouter<Router: VitalWinkRouterType>: URLRequestConvertible{
             request.httpBody = try JSONEncoding.default.encode(request, with: router.parameters).httpBody
         }
         
+        request.headers = router.headers
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.method = router.method
         return request
@@ -40,5 +42,14 @@ struct VitalWinkRouter<Router: VitalWinkRouterType>: URLRequestConvertible{
             return ""
         }
         return info["BASE_URL"] as? String ?? ""
+    }
+}
+
+extension VitalWinkRouterType{
+    var queries: [URLQueryItem]{
+        return []
+    }
+    var headers: HTTPHeaders{
+        return []
     }
 }
