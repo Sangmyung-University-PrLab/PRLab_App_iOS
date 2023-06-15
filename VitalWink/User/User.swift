@@ -17,7 +17,7 @@ struct User: ReducerProtocol{
             
             
             signUp = .init(idRegex: idRegex, passwordRegex: passwordRegex, emailRegex: emailRegex)
-            findUserInfo = .init(idRegex: idRegex, emailRegex: emailRegex)
+            findUserInfo = .init(idRegex: idRegex, passwordRegex: passwordRegex,emailRegex: emailRegex)
         }
         
         var signUp: SignUp.State

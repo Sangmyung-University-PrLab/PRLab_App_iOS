@@ -24,7 +24,7 @@ final class AuthInterceptor: RequestInterceptor{
             return
         }
         
-        urlRequest.headers.add(name: "AUTH_TOKEN", value:token)
+        urlRequest.headers.add(name: "AUTH-TOKEN", value:token)
         completion(.success(urlRequest))
     }
 }

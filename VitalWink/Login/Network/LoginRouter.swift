@@ -59,6 +59,4 @@ enum LoginRouter: VitalWinkRouterType{
     var queries: [URLQueryItem]{
         return []
     }
-    
-    
 }

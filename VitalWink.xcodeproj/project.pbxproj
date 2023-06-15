@@ -54,6 +54,9 @@
 		065C01002A37FFB100054387 /* FindIdView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065C00FF2A37FFB100054387 /* FindIdView.swift */; };
 		065C01022A3802D600054387 /* SignUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065C01012A3802D600054387 /* SignUp.swift */; };
 		065C01042A3809C100054387 /* FindUserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065C01032A3809C100054387 /* FindUserInfo.swift */; };
+		065C01062A399AAB00054387 /* FindPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065C01052A399AAB00054387 /* FindPasswordView.swift */; };
+		065C01082A3AA58300054387 /* ChangePassword.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065C01072A3AA58300054387 /* ChangePassword.swift */; };
+		065C010A2A3AAE6600054387 /* ChangePasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065C01092A3AAE6600054387 /* ChangePasswordView.swift */; };
 		0663C4492A19FF2A00B85ABF /* MeasurementAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0663C4482A19FF2A00B85ABF /* MeasurementAPI.swift */; };
 		0663C44B2A19FFA700B85ABF /* MeasurementRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0663C44A2A19FFA700B85ABF /* MeasurementRouter.swift */; };
 		0663C4562A1A172100B85ABF /* MeasurementAPITest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0663C4552A1A172100B85ABF /* MeasurementAPITest.swift */; };
@@ -159,6 +162,9 @@
 		065C00FF2A37FFB100054387 /* FindIdView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindIdView.swift; sourceTree = "<group>"; };
 		065C01012A3802D600054387 /* SignUp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUp.swift; sourceTree = "<group>"; };
 		065C01032A3809C100054387 /* FindUserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindUserInfo.swift; sourceTree = "<group>"; };
+		065C01052A399AAB00054387 /* FindPasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindPasswordView.swift; sourceTree = "<group>"; };
+		065C01072A3AA58300054387 /* ChangePassword.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePassword.swift; sourceTree = "<group>"; };
+		065C01092A3AAE6600054387 /* ChangePasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePasswordView.swift; sourceTree = "<group>"; };
 		0663C4482A19FF2A00B85ABF /* MeasurementAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeasurementAPI.swift; sourceTree = "<group>"; };
 		0663C44A2A19FFA700B85ABF /* MeasurementRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeasurementRouter.swift; sourceTree = "<group>"; };
 		0663C4552A1A172100B85ABF /* MeasurementAPITest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeasurementAPITest.swift; sourceTree = "<group>"; };
@@ -289,11 +295,11 @@
 		064B04B82A08DAAB00230FBC /* VitalWink */ = {
 			isa = PBXGroup;
 			children = (
-				065C00DE2A32C62F00054387 /* Common */,
 				063C16152A0CAC9E00E07141 /* PrefixHeader.pch */,
 				064B04E32A08DD8000230FBC /* Info.plist */,
 				064B04B92A08DAAB00230FBC /* VitalWinkApp.swift */,
 				064B04BD2A08DAAC00230FBC /* Assets.xcassets */,
+				065C00DE2A32C62F00054387 /* Common */,
 				064B04BF2A08DAAC00230FBC /* Preview Content */,
 				063C16282A0E03AD00E07141 /* Camera */,
 				06A8AB5C2A1DEFBD00004B62 /* Login */,
@@ -415,6 +421,8 @@
 			children = (
 				065C00F52A35933E00054387 /* SignUpView.swift */,
 				065C00FF2A37FFB100054387 /* FindIdView.swift */,
+				065C01052A399AAB00054387 /* FindPasswordView.swift */,
+				065C01092A3AAE6600054387 /* ChangePasswordView.swift */,
 			);
 			name = View;
 			path = "퍚";
@@ -507,6 +515,7 @@
 				065C00F72A3595F500054387 /* User.swift */,
 				065C01012A3802D600054387 /* SignUp.swift */,
 				065C01032A3809C100054387 /* FindUserInfo.swift */,
+				065C01072A3AA58300054387 /* ChangePassword.swift */,
 			);
 			path = User;
 			sourceTree = "<group>";
@@ -816,6 +825,7 @@
 				064B04E72A08F14800230FBC /* Camera.swift in Sources */,
 				065C00C12A305C6F00054387 /* Font + Extension.swift in Sources */,
 				065C01002A37FFB100054387 /* FindIdView.swift in Sources */,
+				065C010A2A3AAE6600054387 /* ChangePasswordView.swift in Sources */,
 				065C00C32A3060F400054387 /* Color + Extensions.swift in Sources */,
 				065C00FA2A35B0E100054387 /* VitialWinkFormSection.swift in Sources */,
 				063C16272A0E01DB00E07141 /* CameraStream.swift in Sources */,
@@ -839,6 +849,7 @@
 				06F180B72A17403C00F1CE90 /* MockUserProtocol.swift in Sources */,
 				0663C4622A1B262600B85ABF /* ExpressionAnalysis.swift in Sources */,
 				0663C46A2A1B445E00B85ABF /* ExpressionAnalysisMetricValue.swift in Sources */,
+				065C01062A399AAB00054387 /* FindPasswordView.swift in Sources */,
 				0663C45A2A1A334300B85ABF /* VitalWinkUploadableRouter.swift in Sources */,
 				065C00E12A32C66B00054387 /* VitalWinkAlert.swift in Sources */,
 				0663C46C2A1B489100B85ABF /* BloodPressureMetricValue.swift in Sources */,
@@ -866,6 +877,7 @@
 				0629A2242A25C8CF007B864B /* Measurement.swift in Sources */,
 				065C01042A3809C100054387 /* FindUserInfo.swift in Sources */,
 				06A8AB5E2A1DF06100004B62 /* Login.swift in Sources */,
+				065C01082A3AA58300054387 /* ChangePassword.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1035,7 +1047,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"VitalWink/Preview Content\"";
-				DEVELOPMENT_TEAM = 687R8W5T99;
+				DEVELOPMENT_TEAM = NJGQ78JLJF;
 				ENABLE_PREVIEWS = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/VitalWink/PrefixHeader.pch";
 				GENERATE_INFOPLIST_FILE = YES;
@@ -1052,7 +1064,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.prlab.VitalWink;
+				PRODUCT_BUNDLE_IDENTIFIER = com.prlab.VitalWink2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -1076,7 +1088,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"VitalWink/Preview Content\"";
-				DEVELOPMENT_TEAM = 687R8W5T99;
+				DEVELOPMENT_TEAM = NJGQ78JLJF;
 				ENABLE_PREVIEWS = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/VitalWink/PrefixHeader.pch";
 				GENERATE_INFOPLIST_FILE = YES;
@@ -1093,7 +1105,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.prlab.VitalWink;
+				PRODUCT_BUNDLE_IDENTIFIER = com.prlab.VitalWink2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;

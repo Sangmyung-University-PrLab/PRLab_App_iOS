@@ -51,7 +51,10 @@ struct LoginView: View{
                         }.foregroundColor(.black)
                         
                         Spacer()
-                        Text("비밀번호 찾기")
+                        
+                        NavigationLink("비밀번호 찾기"){
+                            FindPasswordView(store: store.scope(state: \.user, action: Root.Action.user))
+                        }.foregroundColor(.black)
                     }
                     .font(.notoSans(size: 13, weight: .medium))
                     .padding(.vertical, 30)
