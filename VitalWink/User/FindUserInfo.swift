@@ -40,14 +40,16 @@ struct FindUserInfo: ReducerProtocol{
         enum FindPasswordStatus{
             case success(_ token: String), notFoundUser, inconsistentInformation
         }
-        
+        enum InfoType{
+            case id, password
+        }
     }
     
     enum Action: BindableAction{
         case binding(BindingAction<State>)
         case findId
         case isIdAndEmailMatch
-        case errorHandling(Error)
+        case errorHandling(Error, State.InfoType)
         case successFindId(String?)
         case dismiss
         case alertDismiss
@@ -70,7 +72,7 @@ struct FindUserInfo: ReducerProtocol{
                     case .success(let id):
                         await send(.successFindId(id))
                     case .failure(let error):
-                        await send(.errorHandling(error))
+                        await send(.errorHandling(error, .id))
                     }
                 }
             case .isIdAndEmailMatch:
@@ -81,12 +83,12 @@ struct FindUserInfo: ReducerProtocol{
                         await send(.responseFindPasswordStatus(.success(token)))
                     case .failure(let error):
                         guard let afError = error.asAFError else{
-                            await send(.errorHandling(error))
+                            await send(.errorHandling(error,.password))
                             return
                         }
                         
                         guard afError.isResponseValidationError, let statusCode = afError.responseCode else{
-                            await send(.errorHandling(afError))
+                            await send(.errorHandling(afError, .password))
                             return
                         }
                     
@@ -97,7 +99,7 @@ struct FindUserInfo: ReducerProtocol{
                             await send(.responseFindPasswordStatus(.inconsistentInformation))
                         }
                         else{
-                            await send(.errorHandling(afError))
+                            await send(.errorHandling(afError, .password))
                         }
                     }
                 }
@@ -128,12 +130,12 @@ struct FindUserInfo: ReducerProtocol{
                 
                 return .none
                 
-            case .errorHandling(let error):
+            case .errorHandling(let error, let infoType):
                 state.isActivityIndicatorVisible = false
                 let message = error.localizedDescription
                 os_log(.error, log:.findUserInfo,"%@", message)
-                
-                state.alertState = VitalWinkAlertState(title: "아이디 찾기", message: "아이디 찾기 중 오류가 발생하였습니다."){
+                let menu = infoType == .id ? "아이디 찾기" : "비밀번호 찾기"
+                state.alertState = VitalWinkAlertState(title: menu, message: "\(menu) 중 오류가 발생하였습니다."){
                     VitalWinkAlertButtonState<Action>(title: "확인"){
                         return nil
                     }
