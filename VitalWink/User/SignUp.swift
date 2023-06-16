@@ -15,6 +15,17 @@ struct SignUp: ReducerProtocol{
             self.idRegex = idRegex
             self.passwordRegex = passwordRegex
             self.emailRegex = emailRegex
+            type = .general
+        }
+        
+        init(user: UserModel, idRegex: String, passwordRegex: String, emailRegex: String){
+            self.idRegex = idRegex
+            self.passwordRegex = passwordRegex
+            self.emailRegex = emailRegex
+            self.email = user.email
+            self.gender = user.gender
+            self.birthday = user.birthday
+            self.type = user.type
         }
         
         var id = ""
@@ -56,6 +67,8 @@ struct SignUp: ReducerProtocol{
         fileprivate let idRegex: String
         fileprivate let passwordRegex: String
         fileprivate let emailRegex: String
+        
+        private let type: UserModel.`Type`
     }
     
     enum Action: BindableAction{
