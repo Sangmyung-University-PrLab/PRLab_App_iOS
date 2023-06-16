@@ -93,21 +93,23 @@ struct SignUp: ReducerProtocol{
                 let user = UserModel(id: state.id, password: state.password, email: state.email, gender: state.gender, birthday: state.birthday, type:.general)
                 
                 return .run{ send in
-                    if let afError = await userAPI.signUp(user){
+                    do{
+                        try await userAPI.signUp(user)
+                        await send(.success)
+                    }catch{
+                        guard let afError = error.asAFError else{
+                            await send(.errorHandling(error))
+                            return
+                        }
+                        
                         guard afError.isResponseValidationError, let statusCode = afError.responseCode else{
                             await send(.errorHandling(afError))
                             return
                         }
                         
-                        if statusCode == 409{
-                            await send(.duplicatedEmail)
-                        }else{
-                            await send(.errorHandling(afError))
-                        }
+                        statusCode == 409 ? await send(.duplicatedEmail) : await send(.errorHandling(afError))
                     }
-                    else{
-                        await send(.success)
-                    }
+                    
                 }
             case .binding:
                 return .none

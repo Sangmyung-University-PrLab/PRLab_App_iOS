@@ -66,16 +66,16 @@ final class UserAPI{
                 }
         }
     }
-    func signUp(_ user: UserModel) async -> AFError?{
-        return await withCheckedContinuation{continuation in
+    func signUp(_ user: UserModel) async throws{
+        return try await withCheckedThrowingContinuation{continuation in
             vitalWinkAPI.request(UserRouter.signUp(user), requireToken: false)
                 .validate(statusCode: 200 ..< 300)
                 .response{
                     switch $0.result{
                     case .success(_):
-                        continuation.resume(returning: nil)
+                        continuation.resume()
                     case .failure(let error):
-                        continuation.resume(returning: error)
+                        continuation.resume(throwing: error)
                     }
                 }
         }
