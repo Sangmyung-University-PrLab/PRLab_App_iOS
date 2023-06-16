@@ -15,42 +15,25 @@ import NaverThirdPartyLogin
 import OSLog
 
 struct Login: ReducerProtocol{
-    init(){
-        guard let info = Bundle.main.infoDictionary else{
-            fatalError("Info.plist가 없습니다.")
-        }
-        
-        guard let clientId = info["GOOGLE_CLIENT_ID"] as? String else{
-            fatalError("구글 로그인을 위한 클라이언트 아이디가 존재하지 않습니다.")
-        }
-        
-        gidConfig = GIDConfiguration(clientID: clientId)
-        NaverThirdPartyLoginConnection.getSharedInstance().delegate = naverLoginDelgate
-    }
-    
+
     struct State: Equatable{
         @BindingState var id = ""
         @BindingState var password = ""
+        
         var isLoginButtonDisabled: Bool{
             id.isEmpty || password.isEmpty
         }
         
         fileprivate(set) var isActivityIndicatorVisible = false
         fileprivate(set) var alertState:VitalWinkAlertState<Action>? = nil
-        fileprivate(set) var status: Status = .notLogin
-        
-        enum Status: Equatable{
-            case success(_ token: String)
-            case notLogin
-            case needSignUp
-            case notFoundUser
-            case inconsistentInformation
-        }
+        fileprivate var user =  User.State()
     }
     enum Action: BindableAction{
+        case user(User.Action)
+        case configSnsSignUp()
         case login(_ type: UserModel.`Type`)
         case binding(BindingAction<State>)
-        case changeStatus(Login.State.Status)
+        case responseStatus(LoginService.Status)
         case errorHandling(Error) //예상치 못한 에러 발생 시
         case dismiss
     }
@@ -60,32 +43,42 @@ struct Login: ReducerProtocol{
         
         Reduce{state, action in
             switch action{
+            case .user:
+                return .none
             case .login(let type):
                 state.isActivityIndicatorVisible = true
                 switch type{
-                case .kakao:
-                    kakaoLogin()
-                case .google:
-                  googleLogin()
-                case .naver:
-                    naverLogin()
-                case .apple:
-                    break
                 case .general:
                     return .run{[id = state.id, password = state.password] send in
-                        let result = await generalLogin(id: id, password: password)
-                        switch result {
+                        switch await loginService.generalLogin(id: id, password: password) {
                         case .success(let status):
-                            await send(.changeStatus(status))
+                            await send(.responseStatus(status))
                         case .failure(let error):
                             await send(.errorHandling(error))
                         }
+                    }
+                default:
+                    return .run{send in
+                        switch await loginService.snsLogin(type){
+                        case .success(let status):
+                            switch status{
+                            case .success:
+                                await send(.responseStatus(status))
+                            case .needSignUp:
+                                
+                            default:
+                                fatalError("지원하지 않는 상태입니다.")
+                            }
+                        case .failure(let error):
+                            await send(.errorHandling(error))
+                        }
+
                     }
                 }
                 return .none
             case .binding:
                 return .none
-            case .changeStatus(let status):
+            case .responseStatus(let status):
                 switch status{
                 case .success(let token):
                     guard keyChainManager.saveTokenInKeyChain(token) else{
@@ -125,72 +118,14 @@ struct Login: ReducerProtocol{
             case .dismiss:
                 state.alertState = nil
                 return .none
-            }
-        }
-    }
-
-    //MARK: private
-    private func googleLogin(){
-        guard let windowScenes = UIApplication.shared.connectedScenes.first as? UIWindowScene,
-              let rootContoller = windowScenes.windows.first?.rootViewController else{
-            return
-        }
-        
-        GIDSignIn.sharedInstance.signIn(with: gidConfig, presenting: rootContoller){
-            guard $1 == nil else{
-                print($1!.localizedDescription)
-                return
-            }
-            
-            guard let credential = $0 else{
-                print("credential이 nil입니다.")
-                return
-            }
-            print(credential.profile?.email)
-        }
-    }
-    private func kakaoLogin(){
-        if UserApi.isKakaoTalkLoginAvailable(){
-            UserApi.shared.loginWithKakaoTalk{_,_ in
-                
-            }
-        }else{
-            UserApi.shared.loginWithKakaoAccount{_,_ in
-                
-            }
-        }
-    }
-    private func naverLogin(){
-        NaverThirdPartyLoginConnection.getSharedInstance().requestThirdPartyLogin()
-    }
-    private func generalLogin(id: String, password: String) async -> Result<State.Status, Error>{
-        switch await loginAPI.generalLogin(id: id, password: password){
-        case .success(let token):
-            return .success(.success(token))
-        case .failure(let error):
-            guard let afError = error.asAFError else{
-                return .failure(error)
-            }
-            
-            guard afError.isResponseValidationError, let statusCode = afError.responseCode else{
-                return .failure(afError)
-            }
-        
-            if statusCode == 404{
-                return .success(.notFoundUser)
-            }
-            else if statusCode == 409{
-                return .success(.inconsistentInformation)
-            }
-            else{
-                return .failure(afError)
+            case .userStateInitWithUser(let user):
+                state.user = User.State(user)
+                return .none
             }
         }
     }
     
-    private let gidConfig: GIDConfiguration
-    private let naverLoginDelgate = NaverLoginDelegate()
-    @Dependency(\.loginAPI) private var loginAPI
+    private let loginService = LoginService()
     @Dependency(\.keyChainManager) private var keyChainManager
 }
 

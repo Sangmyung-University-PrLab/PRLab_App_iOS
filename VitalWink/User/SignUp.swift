@@ -11,12 +11,13 @@ import OSLog
 
 struct SignUp: ReducerProtocol{
     struct State: Equatable{
-        init(idRegex: String, passwordRegex: String, emailRegex: String){
+        init(_ type: UserModel.`Type`,idRegex: String, passwordRegex: String, emailRegex: String){
             self.idRegex = idRegex
             self.passwordRegex = passwordRegex
             self.emailRegex = emailRegex
+            self.type = type
         }
-        
+      
         var id = ""
         @BindingState var password = ""
         @BindingState var repeatPassword = ""
@@ -56,6 +57,7 @@ struct SignUp: ReducerProtocol{
         fileprivate let idRegex: String
         fileprivate let passwordRegex: String
         fileprivate let emailRegex: String
+        fileprivate let type: UserModel.`Type`
     }
     
     enum Action: BindableAction{
@@ -69,7 +71,9 @@ struct SignUp: ReducerProtocol{
         case alertDismiss
         case idChanged(String)
         case onDisappear
+        case onAppear
         case dismiss
+        case responseUserModel(UserModel)
     }
     
     var body: some ReducerProtocol<State, Action>{
@@ -80,21 +84,23 @@ struct SignUp: ReducerProtocol{
                 let user = UserModel(id: state.id, password: state.password, email: state.email, gender: state.gender, birthday: state.birthday, type:.general)
                 
                 return .run{ send in
-                    if let afError = await userAPI.signUp(user){
+                    do{
+                        try await userAPI.signUp(user)
+                        await send(.success)
+                    }catch{
+                        guard let afError = error.asAFError else{
+                            await send(.errorHandling(error))
+                            return
+                        }
+                        
                         guard afError.isResponseValidationError, let statusCode = afError.responseCode else{
                             await send(.errorHandling(afError))
                             return
                         }
                         
-                        if statusCode == 409{
-                            await send(.duplicatedEmail)
-                        }else{
-                            await send(.errorHandling(afError))
-                        }
+                        statusCode == 409 ? await send(.duplicatedEmail) : await send(.errorHandling(afError))
                     }
-                    else{
-                        await send(.success)
-                    }
+                    
                 }
             case .binding:
                 return .none
@@ -159,12 +165,34 @@ struct SignUp: ReducerProtocol{
                 state.shouldViewDismiss = true
                 return .none
             case .onDisappear:
-                state = State(idRegex: state.idRegex, passwordRegex: state.passwordRegex, emailRegex: state.emailRegex)
+                state = State(state.type, idRegex: state.idRegex, passwordRegex: state.passwordRegex, emailRegex: state.emailRegex)
+                return .none
+            case .onAppear:
+                if state.type != .general{
+                    state.isActivityIndicatorVisible = true
+                    return .run{[type = state.type] send in
+                        switch await snsUserInfoService.getSnsUserInfo(type){
+                        case .success(let user):
+                            await send(.responseUserModel(user))
+                        case .failure(let error):
+                            await send(.errorHandling(error))
+                        }
+                    }
+                }
+                else{
+                    return .none
+                }
+            case .responseUserModel(let user):
+                state.email = user.email
+                state.birthday = user.birthday
+                state.gender = user.gender
+                
                 return .none
             }
         }
     }
     
+    private let snsUserInfoService = SnsUserInfoService()
     @Dependency(\.userAPI) private var userAPI
     
 }
