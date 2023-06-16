@@ -100,8 +100,6 @@ final class UserAPI{
             }
         }
     }
-    
-    
     func changePassword(_ password: String, token: String) async throws{
         return try await withCheckedThrowingContinuation{continuation in
             vitalWinkAPI.request(UserRouter.changePassword(password, token: token),requireToken: false)

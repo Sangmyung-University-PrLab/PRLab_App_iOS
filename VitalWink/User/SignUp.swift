@@ -11,23 +11,13 @@ import OSLog
 
 struct SignUp: ReducerProtocol{
     struct State: Equatable{
-        init(idRegex: String, passwordRegex: String, emailRegex: String){
+        init(_ type: UserModel.`Type`,idRegex: String, passwordRegex: String, emailRegex: String){
             self.idRegex = idRegex
             self.passwordRegex = passwordRegex
             self.emailRegex = emailRegex
-            type = .general
+            self.type = type
         }
-        
-        init(user: UserModel, idRegex: String, passwordRegex: String, emailRegex: String){
-            self.idRegex = idRegex
-            self.passwordRegex = passwordRegex
-            self.emailRegex = emailRegex
-            self.email = user.email
-            self.gender = user.gender
-            self.birthday = user.birthday
-            self.type = user.type
-        }
-        
+      
         var id = ""
         @BindingState var password = ""
         @BindingState var repeatPassword = ""
@@ -67,8 +57,7 @@ struct SignUp: ReducerProtocol{
         fileprivate let idRegex: String
         fileprivate let passwordRegex: String
         fileprivate let emailRegex: String
-        
-        private let type: UserModel.`Type`
+        fileprivate let type: UserModel.`Type`
     }
     
     enum Action: BindableAction{
@@ -82,7 +71,9 @@ struct SignUp: ReducerProtocol{
         case alertDismiss
         case idChanged(String)
         case onDisappear
+        case onAppear
         case dismiss
+        case responseUserModel(UserModel)
     }
     
     var body: some ReducerProtocol<State, Action>{
@@ -174,12 +165,34 @@ struct SignUp: ReducerProtocol{
                 state.shouldViewDismiss = true
                 return .none
             case .onDisappear:
-                state = State(idRegex: state.idRegex, passwordRegex: state.passwordRegex, emailRegex: state.emailRegex)
+                state = State(state.type, idRegex: state.idRegex, passwordRegex: state.passwordRegex, emailRegex: state.emailRegex)
+                return .none
+            case .onAppear:
+                if state.type != .general{
+                    state.isActivityIndicatorVisible = true
+                    return .run{[type = state.type] send in
+                        switch await snsUserInfoService.getSnsUserInfo(type){
+                        case .success(let user):
+                            await send(.responseUserModel(user))
+                        case .failure(let error):
+                            await send(.errorHandling(error))
+                        }
+                    }
+                }
+                else{
+                    return .none
+                }
+            case .responseUserModel(let user):
+                state.email = user.email
+                state.birthday = user.birthday
+                state.gender = user.gender
+                
                 return .none
             }
         }
     }
     
+    private let snsUserInfoService = SnsUserInfoService()
     @Dependency(\.userAPI) private var userAPI
     
 }

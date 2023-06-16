@@ -57,6 +57,7 @@
 		065C01062A399AAB00054387 /* FindPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065C01052A399AAB00054387 /* FindPasswordView.swift */; };
 		065C01082A3AA58300054387 /* ChangePassword.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065C01072A3AA58300054387 /* ChangePassword.swift */; };
 		065C010A2A3AAE6600054387 /* ChangePasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065C01092A3AAE6600054387 /* ChangePasswordView.swift */; };
+		065C010E2A3C39A100054387 /* SnsUserInfoService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065C010D2A3C39A100054387 /* SnsUserInfoService.swift */; };
 		0663C4492A19FF2A00B85ABF /* MeasurementAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0663C4482A19FF2A00B85ABF /* MeasurementAPI.swift */; };
 		0663C44B2A19FFA700B85ABF /* MeasurementRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0663C44A2A19FFA700B85ABF /* MeasurementRouter.swift */; };
 		0663C4562A1A172100B85ABF /* MeasurementAPITest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0663C4552A1A172100B85ABF /* MeasurementAPITest.swift */; };
@@ -165,6 +166,7 @@
 		065C01052A399AAB00054387 /* FindPasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindPasswordView.swift; sourceTree = "<group>"; };
 		065C01072A3AA58300054387 /* ChangePassword.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePassword.swift; sourceTree = "<group>"; };
 		065C01092A3AAE6600054387 /* ChangePasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePasswordView.swift; sourceTree = "<group>"; };
+		065C010D2A3C39A100054387 /* SnsUserInfoService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnsUserInfoService.swift; sourceTree = "<group>"; };
 		0663C4482A19FF2A00B85ABF /* MeasurementAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeasurementAPI.swift; sourceTree = "<group>"; };
 		0663C44A2A19FFA700B85ABF /* MeasurementRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeasurementRouter.swift; sourceTree = "<group>"; };
 		0663C4552A1A172100B85ABF /* MeasurementAPITest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeasurementAPITest.swift; sourceTree = "<group>"; };
@@ -514,6 +516,7 @@
 				06A8AB5A2A1C8C8D00004B62 /* Network */,
 				065C00F72A3595F500054387 /* User.swift */,
 				065C01012A3802D600054387 /* SignUp.swift */,
+				065C010D2A3C39A100054387 /* SnsUserInfoService.swift */,
 				065C01032A3809C100054387 /* FindUserInfo.swift */,
 				065C01072A3AA58300054387 /* ChangePassword.swift */,
 			);
@@ -840,6 +843,7 @@
 				0629A2212A25B97E007B864B /* FaceDetector.swift in Sources */,
 				06F1809B2A15C64300F1CE90 /* VitalWinkAPI.swift in Sources */,
 				06F180A42A15EAF400F1CE90 /* KeyChainManager.swift in Sources */,
+				065C010E2A3C39A100054387 /* SnsUserInfoService.swift in Sources */,
 				065C01022A3802D600054387 /* SignUp.swift in Sources */,
 				0663C4722A1C7D3100B85ABF /* MeasurementResult.swift in Sources */,
 				0663C4702A1C743900B85ABF /* MinMaxType.swift in Sources */,

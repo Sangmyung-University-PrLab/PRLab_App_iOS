@@ -9,14 +9,9 @@ import Foundation
 import ComposableArchitecture
 
 struct User: ReducerProtocol{
-    struct State{
-        init(){
-            signUp = .init(idRegex: idRegex, passwordRegex: passwordRegex, emailRegex: emailRegex)
-            findUserInfo = .init(idRegex: idRegex, passwordRegex: passwordRegex,emailRegex: emailRegex)
-        }
-        
-        init(_ user: UserModel){
-            signUp = .init(user: user, idRegex: idRegex, passwordRegex: passwordRegex, emailRegex: emailRegex)
+    struct State: Equatable{
+        init(_ type: UserModel.`Type` = .general){
+            signUp = .init(type, idRegex: idRegex, passwordRegex: passwordRegex, emailRegex: emailRegex)
             findUserInfo = .init(idRegex: idRegex, passwordRegex: passwordRegex,emailRegex: emailRegex)
         }
         
