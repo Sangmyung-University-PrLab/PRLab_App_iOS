@@ -91,6 +91,9 @@ struct SignUpView: View{
             .onDisappear{
                 viewStore.send(.onDisappear)
             }
+            .onAppear{
+                viewStore.send(.onAppear)
+            }
         }
         
     }
