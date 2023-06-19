@@ -57,6 +57,7 @@
 		065C01062A399AAB00054387 /* FindPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065C01052A399AAB00054387 /* FindPasswordView.swift */; };
 		065C01082A3AA58300054387 /* ChangePassword.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065C01072A3AA58300054387 /* ChangePassword.swift */; };
 		065C010A2A3AAE6600054387 /* ChangePasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065C01092A3AAE6600054387 /* ChangePasswordView.swift */; };
+		065C010C2A3C22EF00054387 /* LoginService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065C010B2A3C22EF00054387 /* LoginService.swift */; };
 		065C010E2A3C39A100054387 /* SnsUserInfoService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065C010D2A3C39A100054387 /* SnsUserInfoService.swift */; };
 		0663C4492A19FF2A00B85ABF /* MeasurementAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0663C4482A19FF2A00B85ABF /* MeasurementAPI.swift */; };
 		0663C44B2A19FFA700B85ABF /* MeasurementRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0663C44A2A19FFA700B85ABF /* MeasurementRouter.swift */; };
@@ -76,7 +77,6 @@
 		06A8AB5E2A1DF06100004B62 /* Login.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A8AB5D2A1DF06100004B62 /* Login.swift */; };
 		06A8AB612A1DF14E00004B62 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 06A8AB602A1DF14E00004B62 /* ComposableArchitecture */; };
 		06A8AB632A1DF4A800004B62 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A8AB622A1DF4A800004B62 /* LoginView.swift */; };
-		06A8AB652A1DF56F00004B62 /* Root.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A8AB642A1DF56F00004B62 /* Root.swift */; };
 		06F1809B2A15C64300F1CE90 /* VitalWinkAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F1809A2A15C64300F1CE90 /* VitalWinkAPI.swift */; };
 		06F1809F2A15DEFC00F1CE90 /* VitalWinkRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F1809E2A15DEFC00F1CE90 /* VitalWinkRouter.swift */; };
 		06F180A22A15E95C00F1CE90 /* AuthInterceptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F180A12A15E95C00F1CE90 /* AuthInterceptor.swift */; };
@@ -166,6 +166,7 @@
 		065C01052A399AAB00054387 /* FindPasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindPasswordView.swift; sourceTree = "<group>"; };
 		065C01072A3AA58300054387 /* ChangePassword.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePassword.swift; sourceTree = "<group>"; };
 		065C01092A3AAE6600054387 /* ChangePasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePasswordView.swift; sourceTree = "<group>"; };
+		065C010B2A3C22EF00054387 /* LoginService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginService.swift; sourceTree = "<group>"; };
 		065C010D2A3C39A100054387 /* SnsUserInfoService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnsUserInfoService.swift; sourceTree = "<group>"; };
 		0663C4482A19FF2A00B85ABF /* MeasurementAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeasurementAPI.swift; sourceTree = "<group>"; };
 		0663C44A2A19FFA700B85ABF /* MeasurementRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeasurementRouter.swift; sourceTree = "<group>"; };
@@ -184,7 +185,6 @@
 		0663C4712A1C7D3100B85ABF /* MeasurementResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeasurementResult.swift; sourceTree = "<group>"; };
 		06A8AB5D2A1DF06100004B62 /* Login.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Login.swift; sourceTree = "<group>"; };
 		06A8AB622A1DF4A800004B62 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
-		06A8AB642A1DF56F00004B62 /* Root.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Root.swift; sourceTree = "<group>"; };
 		06F1809A2A15C64300F1CE90 /* VitalWinkAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VitalWinkAPI.swift; sourceTree = "<group>"; };
 		06F1809E2A15DEFC00F1CE90 /* VitalWinkRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VitalWinkRouter.swift; sourceTree = "<group>"; };
 		06F180A12A15E95C00F1CE90 /* AuthInterceptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthInterceptor.swift; sourceTree = "<group>"; };
@@ -383,7 +383,6 @@
 				065C00DF2A32C65B00054387 /* View */,
 				06F180A32A15EAF400F1CE90 /* KeyChainManager.swift */,
 				0629A2172A204F70007B864B /* VideoWriter.swift */,
-				06A8AB642A1DF56F00004B62 /* Root.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -492,6 +491,7 @@
 				065C00C42A30690500054387 /* View */,
 				06A8AB5D2A1DF06100004B62 /* Login.swift */,
 				0629A2192A208C18007B864B /* NaverLoginDelegate.swift */,
+				065C010B2A3C22EF00054387 /* LoginService.swift */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -828,6 +828,7 @@
 				064B04E72A08F14800230FBC /* Camera.swift in Sources */,
 				065C00C12A305C6F00054387 /* Font + Extension.swift in Sources */,
 				065C01002A37FFB100054387 /* FindIdView.swift in Sources */,
+				065C010C2A3C22EF00054387 /* LoginService.swift in Sources */,
 				065C010A2A3AAE6600054387 /* ChangePasswordView.swift in Sources */,
 				065C00C32A3060F400054387 /* Color + Extensions.swift in Sources */,
 				065C00FA2A35B0E100054387 /* VitialWinkFormSection.swift in Sources */,
@@ -871,7 +872,6 @@
 				064B04BA2A08DAAB00230FBC /* VitalWinkApp.swift in Sources */,
 				065C00EA2A32EBD400054387 /* View + Extension.swift in Sources */,
 				0629A2222A25B97E007B864B /* OpenCVWrapper.mm in Sources */,
-				06A8AB652A1DF56F00004B62 /* Root.swift in Sources */,
 				06A8AB632A1DF4A800004B62 /* LoginView.swift in Sources */,
 				065C00F02A34509500054387 /* VitalWinkAlertState.swift in Sources */,
 				065C00E82A32E11A00054387 /* VitalWinkButtonStyle.swift in Sources */,
@@ -1068,7 +1068,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.prlab.VitalWink2;
+				PRODUCT_BUNDLE_IDENTIFIER = com.prlab.VitalWink;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;

@@ -40,10 +40,11 @@ struct LoginView: View{
                     .buttonStyle(VitalWinkButtonStyle(isDisabled: viewStore.isLoginButtonDisabled))
                   
                     HStack(spacing:10){
-                        NavigationLink("회원가입"){
-                            SignUpView(store: store.scope(state: \.user, action: Root.Action.user))
+
+                        NavigationLink("회원가입", isActive: viewStore.binding(\.$shouldSignUp)){
+                            SignUpView(store: store.scope(state: \.user, action: Login.Action.user))
                         }.foregroundColor(.black)
-                        
+
                         Spacer()
                         
                         NavigationLink("아이디 찾기"){

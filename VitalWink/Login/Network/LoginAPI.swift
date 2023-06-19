@@ -28,7 +28,25 @@ final class LoginAPI{
                     }
                 }
         }
-       
+    }
+    func snsLogin(type: UserModel.`Type`, token: String) async -> Result<String, Error>{
+        return await withCheckedContinuation{continuation in
+            vitalWinkAPI.request(LoginRouter.snsLogin(type, token: token), requireToken: false)
+                .validate(statusCode: 200 ..< 300)
+                .responseDecodable(of:JSON.self){
+                    switch $0.result{
+                    case .success(let json):
+                        let token = json["token"]
+                        guard token.error == nil else{
+                            continuation.resume(returning: .failure(token.error!))
+                            return
+                        }
+                        continuation.resume(returning: .success(token.stringValue))
+                    case .failure(let error):
+                        continuation.resume(returning: .failure(error))
+                    }
+                }
+        }
     }
     
     
