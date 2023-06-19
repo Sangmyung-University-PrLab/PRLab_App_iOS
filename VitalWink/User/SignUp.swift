@@ -12,76 +12,39 @@ import OSLog
 struct SignUp: ReducerProtocol{
     struct State: Equatable{
         init(_ type: UserModel.`Type`,idRegex: String, passwordRegex: String, emailRegex: String){
-            self.idRegex = idRegex
-            self.passwordRegex = passwordRegex
-            self.emailRegex = emailRegex
-            self.type = type
+            property = SignUpStateProperty(idRegex: idRegex, passwordRegex: passwordRegex, emailRegex: emailRegex, type: type)
         }
       
-        var id = ""
-        @BindingState var password = ""
-        @BindingState var repeatPassword = ""
-        @BindingState var email = ""
-        @BindingState var gender: UserModel.Gender = .man
-        @BindingState var birthday = Date.now
-        
-        var isSignUpButtonDisabled: Bool{
-            !fieldsAreNotEmpty || !fieldsAreValid || isIdDuplicated
-        }
-        
-        var isIdValid: Bool{
-            id.range(of: idRegex, options:.regularExpression) != nil
-        }
-        var isPasswordValid: Bool{
-            password.range(of: passwordRegex, options: .regularExpression) != nil
-        }
-        var isRepeatPasswordValid: Bool{
-            repeatPassword == password
-        }
-        var isEmailValid: Bool{
-            email.range(of: emailRegex, options: .regularExpression) != nil
-        }
-        
-        fileprivate(set) var isIdDuplicated = true
-        fileprivate(set) var alertState: VitalWinkAlertState<Action>? = nil
-        fileprivate(set) var isActivityIndicatorVisible = false
-        fileprivate(set) var shouldViewDismiss: Bool = false
-        
-        private var fieldsAreNotEmpty: Bool{
-            !(id.isEmpty || password.isEmpty || repeatPassword.isEmpty || email.isEmpty)
-        }
-        private var fieldsAreValid: Bool{
-            isIdValid && isPasswordValid && isRepeatPasswordValid && isEmailValid
-        }
-        
-        fileprivate let idRegex: String
-        fileprivate let passwordRegex: String
-        fileprivate let emailRegex: String
-        fileprivate let type: UserModel.`Type`
+        fileprivate(set) var property: SignUpStateProperty
     }
     
-    enum Action: BindableAction{
+    enum Action{
         case signUp
-        case binding(BindingAction<State>)
         case errorHandling(Error)
         case duplicatedEmail
         case success
         case checkIdDuplicated
         case setIsIdDuplicated(Bool)
         case alertDismiss
-        case idChanged(String)
         case onDisappear
         case onAppear
         case dismiss
         case responseUserModel(UserModel)
+        
+        
+        case idChanged(String)
+        case passwordChanged(String)
+        case repeatPasswordChanged(String)
+        case emailChanged(String)
+        case birthdayChanged(Date)
+        case genderChanged(UserModel.Gender)
     }
     
     var body: some ReducerProtocol<State, Action>{
-        BindingReducer()
         Reduce{state, action in
             switch action{
             case .signUp:
-                let user = UserModel(id: state.id, password: state.password, email: state.email, gender: state.gender, birthday: state.birthday, type:.general)
+                let user = UserModel(id: state.property.id, password: state.property.password, email: state.property.email, gender: state.property.gender, birthday: state.property.birthday, type:.general)
                 
                 return .run{ send in
                     do{
@@ -102,29 +65,28 @@ struct SignUp: ReducerProtocol{
                     }
                     
                 }
-            case .binding:
-                return .none
+
             case .errorHandling(let error):
-                state.isActivityIndicatorVisible = false
+                state.property.isActivityIndicatorVisible = false
                 
                 let message = error.localizedDescription
                 os_log(.error, log:.signUp,"%@", message)
                 
-                state.alertState = VitalWinkAlertState(title: "회원가입", message: "회원가입 중 오류가 발생하였습니다."){
+                state.property.alertState = VitalWinkAlertState(title: "회원가입", message: "회원가입 중 오류가 발생하였습니다."){
                     VitalWinkAlertButtonState<Action>(title: "확인"){
                         return nil
                     }
                 }
                 return .none
             case .duplicatedEmail:
-                state.alertState = VitalWinkAlertState(title: "회원가입", message: "중복된 이메일입니다."){
+                state.property.alertState = VitalWinkAlertState(title: "회원가입", message: "중복된 이메일입니다."){
                     VitalWinkAlertButtonState<Action>(title: "확인"){
                         return nil
                     }
                 }
                 return .none
             case .success:
-                state.alertState = VitalWinkAlertState(title: "회원가입", message: "회원가입이 완료되었습니다."){
+                state.property.alertState = VitalWinkAlertState(title: "회원가입", message: "회원가입이 완료되었습니다."){
                     VitalWinkAlertButtonState<Action>(title: "확인"){
                         return .dismiss
                     }
@@ -132,8 +94,8 @@ struct SignUp: ReducerProtocol{
                 
                 return .none
             case .checkIdDuplicated:
-                state.isActivityIndicatorVisible = true
-                return .run{[id = state.id] send in
+                state.property.isActivityIndicatorVisible = true
+                return .run{[id = state.property.id] send in
                     switch await userAPI.isIdDuplicated(id){
                     case .success(let result):
                         await send(.setIsIdDuplicated(result))
@@ -142,9 +104,9 @@ struct SignUp: ReducerProtocol{
                     }
                 }
             case .setIsIdDuplicated(let newValue):
-                state.isActivityIndicatorVisible = false
-                state.isIdDuplicated = newValue
-                state.alertState = VitalWinkAlertState(title: "회원가입", message: newValue ? "중복된 아이디 입니다." : "사용 가능한 아아디입니다."){
+                state.property.isActivityIndicatorVisible = false
+                state.property.isIdDuplicated = newValue
+                state.property.alertState = VitalWinkAlertState(title: "회원가입", message: newValue ? "중복된 아이디 입니다." : "사용 가능한 아아디입니다."){
                     VitalWinkAlertButtonState<Action>(title: "확인"){
                         return nil
                     }
@@ -152,25 +114,25 @@ struct SignUp: ReducerProtocol{
                 
                 return .none
             case .alertDismiss:
-                state.alertState = nil
+                state.property.alertState = nil
                 return .none
             case .idChanged(let newValue):
-                if state.id != newValue{
-                    state.isIdDuplicated = true
+                if state.property.id != newValue{
+                    state.property.isIdDuplicated = true
                 }
-                state.id = newValue
+                state.property.id = newValue
                 
                 return .none
             case .dismiss:
-                state.shouldViewDismiss = true
+                state.property.shouldViewDismiss = true
                 return .none
             case .onDisappear:
-                state = State(state.type, idRegex: state.idRegex, passwordRegex: state.passwordRegex, emailRegex: state.emailRegex)
+                state = State(state.property.type, idRegex: state.property.idRegex, passwordRegex: state.property.passwordRegex, emailRegex: state.property.emailRegex)
                 return .none
             case .onAppear:
-                if state.type != .general{
-                    state.isActivityIndicatorVisible = true
-                    return .run{[type = state.type] send in
+                if state.property.type != .general{
+                    state.property.isActivityIndicatorVisible = true
+                    return .run{[type = state.property.type] send in
                         switch await snsUserInfoService.getSnsUserInfo(type){
                         case .success(let user):
                             await send(.responseUserModel(user))
@@ -183,10 +145,26 @@ struct SignUp: ReducerProtocol{
                     return .none
                 }
             case .responseUserModel(let user):
-                state.email = user.email
-                state.birthday = user.birthday
-                state.gender = user.gender
+                state.property.email = user.email
+                state.property.birthday = user.birthday
+                state.property.gender = user.gender
+                state.property.isActivityIndicatorVisible = false
+                return .none
                 
+            case .passwordChanged(let password):
+                state.property.password = password
+                return .none
+            case .emailChanged(let email):
+                state.property.email = email
+                return .none
+            case .repeatPasswordChanged(let repeatPassword):
+                state.property.repeatPassword = repeatPassword
+                return .none
+            case .birthdayChanged(let birthday):
+                state.property.birthday = birthday
+                return .none
+            case .genderChanged(let gender):
+                state.property.gender = gender
                 return .none
             }
         }

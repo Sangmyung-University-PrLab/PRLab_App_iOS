@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		061ED9EF2A400E0C00B04572 /* SignUpStateProperty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 061ED9EE2A400E0C00B04572 /* SignUpStateProperty.swift */; };
 		0629A2182A204F70007B864B /* VideoWriter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0629A2172A204F70007B864B /* VideoWriter.swift */; };
 		0629A21A2A208C18007B864B /* NaverLoginDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0629A2192A208C18007B864B /* NaverLoginDelegate.swift */; };
 		0629A21C2A208C91007B864B /* OSLog + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0629A21B2A208C91007B864B /* OSLog + Extension.swift */; };
@@ -110,6 +111,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		061ED9EE2A400E0C00B04572 /* SignUpStateProperty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpStateProperty.swift; sourceTree = "<group>"; };
 		0629A2172A204F70007B864B /* VideoWriter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoWriter.swift; sourceTree = "<group>"; };
 		0629A2192A208C18007B864B /* NaverLoginDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NaverLoginDelegate.swift; sourceTree = "<group>"; };
 		0629A21B2A208C91007B864B /* OSLog + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OSLog + Extension.swift"; sourceTree = "<group>"; };
@@ -516,6 +518,7 @@
 				06A8AB5A2A1C8C8D00004B62 /* Network */,
 				065C00F72A3595F500054387 /* User.swift */,
 				065C01012A3802D600054387 /* SignUp.swift */,
+				061ED9EE2A400E0C00B04572 /* SignUpStateProperty.swift */,
 				065C010D2A3C39A100054387 /* SnsUserInfoService.swift */,
 				065C01032A3809C100054387 /* FindUserInfo.swift */,
 				065C01072A3AA58300054387 /* ChangePassword.swift */,
@@ -872,6 +875,7 @@
 				064B04BA2A08DAAB00230FBC /* VitalWinkApp.swift in Sources */,
 				065C00EA2A32EBD400054387 /* View + Extension.swift in Sources */,
 				0629A2222A25B97E007B864B /* OpenCVWrapper.mm in Sources */,
+				061ED9EF2A400E0C00B04572 /* SignUpStateProperty.swift in Sources */,
 				06A8AB632A1DF4A800004B62 /* LoginView.swift in Sources */,
 				065C00F02A34509500054387 /* VitalWinkAlertState.swift in Sources */,
 				065C00E82A32E11A00054387 /* VitalWinkButtonStyle.swift in Sources */,

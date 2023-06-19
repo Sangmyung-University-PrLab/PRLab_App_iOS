@@ -14,7 +14,7 @@ struct SignUpView: View{
         self.store = store.scope(state: \.signUp, action: User.Action.signUp)
     }
     var body: some View{
-        WithViewStore(store, observe: {$0}){viewStore in
+        WithViewStore(store, observe: \.property){viewStore in
             ScrollView(.vertical, showsIndicators: false){
                 VStack(alignment: .leading, spacing:30){
                     VitalWinkFormSection(header: "아이디",errorMessage: "아이디에 맞지 않는 형식입니다.", shouldShowErrorMessage: !viewStore.id.isEmpty && !viewStore.isIdValid){
@@ -31,27 +31,29 @@ struct SignUpView: View{
                         }
                     }
                     VitalWinkFormSection(header: "비밀번호",errorMessage: "비밀번호는 6~18자 사이의 문자이어야 합니다.", shouldShowErrorMessage: !viewStore.password.isEmpty && !viewStore.isPasswordValid){
-                        SecureField("비밀번호", text: viewStore.binding(\.$password))
+                        SecureField("비밀번호", text: viewStore.binding(get:\.password, send: SignUp.Action.passwordChanged))
                             .textContentType(.newPassword)
                             .textFieldStyle(VitalWinkTextFieldStyle())
                     }
                     VitalWinkFormSection(header: "비밀번호 확인",errorMessage: "비밀번호 확인이 비밀번호와 일치하지 않습니다.", shouldShowErrorMessage:
                         (viewStore.password.isEmpty && !viewStore.repeatPassword.isEmpty) || (!viewStore.password.isEmpty &&  !viewStore.isRepeatPasswordValid)){
-                        SecureField("비밀번호 확인", text: viewStore.binding(\.$repeatPassword))
+                        SecureField("비밀번호 확인", text: viewStore.binding(get:\.repeatPassword, send: SignUp.Action.repeatPasswordChanged))
                             .textContentType(.newPassword)
                             .textFieldStyle(VitalWinkTextFieldStyle())
                     }
+                    
                     VitalWinkFormSection(header: "이메일",errorMessage: "이메일에 맞지 않는 형식입니다.", shouldShowErrorMessage: !viewStore.email.isEmpty && !viewStore.isEmailValid){
-                        TextField(text: viewStore.binding(\.$email)){
+                        TextField(text: viewStore.binding(get:\.email, send: SignUp.Action.emailChanged)){
                             Text(verbatim: "email@email.com")
-                        }  .textFieldStyle(VitalWinkTextFieldStyle())
+                        }
+                        .textFieldStyle(VitalWinkTextFieldStyle(isDisabled: !viewStore.isEmailTexFieldDisabled))
                     }
                     
                     VitalWinkFormSection(header: "성별"){
-                        CircularSegmentedPickerView(selected: viewStore.binding(\.$gender), texts: ["남성", "여성"])
+                        CircularSegmentedPickerView(selected: viewStore.binding(get:\.gender, send: SignUp.Action.genderChanged), texts: ["남성", "여성"])
                     }
                     VitalWinkFormSection(header: "생년월일"){
-                        DatePicker("", selection: viewStore.binding(\.$birthday), in: ...Date.now, displayedComponents: .date)
+                        DatePicker("", selection: viewStore.binding(get:\.birthday, send: SignUp.Action.birthdayChanged), in: ...Date.now, displayedComponents: .date)
                             .labelsHidden()
                             .datePickerStyle(.wheel)
                             .frame(maxWidth:.infinity)
@@ -81,7 +83,7 @@ struct SignUpView: View{
                         }
                 }
             }
-            .vitalWinkAlert(store.scope(state: \.alertState, action: {$0}), dismiss: .alertDismiss)
+            .vitalWinkAlert(store.scope(state: \.property.alertState, action: {$0}), dismiss: .alertDismiss)
             .activityIndicator(isVisible: viewStore.isActivityIndicatorVisible)
             .onChange(of: viewStore.shouldViewDismiss){
                 if $0{

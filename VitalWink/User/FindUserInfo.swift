@@ -124,8 +124,6 @@ struct FindUserInfo: ReducerProtocol{
                             return nil
                         }
                     }
-                default:
-                    break
                 }
                 
                 return .none
