@@ -63,8 +63,8 @@ struct FindIdView: View {
     private let store: StoreOf<FindUserInfo>
 }
 
-struct FindIdView_Previews: PreviewProvider {
-    static var previews: some View {
-        FindIdView(store: Store(initialState: Root.State().user, reducer: User()))
-    }
-}
+//struct FindIdView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        FindIdView(store: Store(initialState: Root.State().user, reducer: User()))
+//    }
+//}

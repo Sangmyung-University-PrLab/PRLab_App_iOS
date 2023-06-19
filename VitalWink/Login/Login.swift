@@ -19,6 +19,7 @@ struct Login: ReducerProtocol{
     struct State: Equatable{
         @BindingState var id = ""
         @BindingState var password = ""
+        @BindingState var shouldShowSignUpView = false
         
         var isLoginButtonDisabled: Bool{
             id.isEmpty || password.isEmpty
@@ -26,16 +27,16 @@ struct Login: ReducerProtocol{
         
         fileprivate(set) var isActivityIndicatorVisible = false
         fileprivate(set) var alertState:VitalWinkAlertState<Action>? = nil
-        fileprivate var user =  User.State()
+        fileprivate(set) var user =  User.State()
     }
     enum Action: BindableAction{
         case user(User.Action)
-        case configSnsSignUp()
         case login(_ type: UserModel.`Type`)
         case binding(BindingAction<State>)
         case responseStatus(LoginService.Status)
         case errorHandling(Error) //예상치 못한 에러 발생 시
         case dismiss
+        case shouldSignUp(_ type: UserModel.`Type`)
     }
     
     var body: some ReducerProtocol<State, Action>{
@@ -64,8 +65,8 @@ struct Login: ReducerProtocol{
                             switch status{
                             case .success:
                                 await send(.responseStatus(status))
-                            case .needSignUp:
-                                
+                            case .shouldSignUp:
+                                await send(.shouldSignUp(type))
                             default:
                                 fatalError("지원하지 않는 상태입니다.")
                             }
@@ -118,8 +119,9 @@ struct Login: ReducerProtocol{
             case .dismiss:
                 state.alertState = nil
                 return .none
-            case .userStateInitWithUser(let user):
-                state.user = User.State(user)
+            case .shouldSignUp(let type):
+                state.user = User.State(type)
+                state.shouldShowSignUpView = true
                 return .none
             }
         }
