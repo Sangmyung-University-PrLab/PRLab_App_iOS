@@ -21,34 +21,7 @@ final class NaverLoginDelegate: NSObject,NaverThirdPartyLoginConnectionDelegate{
     }
     func oauth20ConnectionDidFinishRequestACTokenWithAuthCode() {
         continuation.yield()
-//        guard let tokenType = NaverThirdPartyLoginConnection.getSharedInstance().tokenType else { return }
-//        guard let accessToken = NaverThirdPartyLoginConnection.getSharedInstance().accessToken else { return }
-//        let url = "https://openapi.naver.com/v1/nid/me"
-//
-//        AF.request(url,
-//                   method: .get,
-//                   encoding: JSONEncoding.default,
-//                   headers: ["Authorization": "\(tokenType) \(accessToken)"]
-//        ).responseDecodable(of: JSON.self) { [weak self] response in
-//            guard let strongSelf = self else{
-//                return
-//            }
-//            switch response.result{
-//            case .success(let json):
-//                let email = json["email"].string ?? ""
-//                let gender: UserModel.Gender = (json["gender"].string ?? "") == "male" ? .man : .woman
-//                let birthday = json["birthday"].string ?? ""
-//                let birthyear = json["birthyear"].string ?? ""
-//                
-//                strongSelf.userModelStreamContinuation.yield(.success(
-//                    .init(id: "", password: "", email: email, gender: gender, birthday: <#T##Date#>, type: .naver)
-//                ))
-//            case .failure(let error):
-//                strongSelf.userModelStreamContinuation.yield(.failure(error))
-//            }
-
-   
-//        }
+ 
         return
     }
     
@@ -64,9 +37,6 @@ final class NaverLoginDelegate: NSObject,NaverThirdPartyLoginConnectionDelegate{
         let message = error.localizedDescription
         os_log(.error, log: .login, "%@", message)
     }
-    
-    
-    
     
     private let continuation: AsyncStream<Void>.Continuation
 }

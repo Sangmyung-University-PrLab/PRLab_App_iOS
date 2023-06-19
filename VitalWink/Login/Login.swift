@@ -120,6 +120,7 @@ struct Login: ReducerProtocol{
                 return .none
             case .shouldSignUp(let type):
                 state.user = User.State(type)
+                state.isActivityIndicatorVisible = false
                 state.shouldShowSignUpView = true
                 return .none
             }
