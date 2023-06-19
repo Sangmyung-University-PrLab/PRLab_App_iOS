@@ -27,7 +27,7 @@ final class LoginService: Sendable{
     }
     enum Status{
         case success(_ token: String)
-        case needSignUp
+        case shouldSignUp
         case notFoundUser
         case inconsistentInformation
     }
@@ -43,20 +43,6 @@ final class LoginService: Sendable{
             return await kakaoLogin()
         case .naver:
             return await kakaoLogin()
-        default:
-            fatalError("지원하지 않는 유저 타입입니다.")
-        }
-    }
-    func getSnsUserInfo(_ type: UserModel.`Type`) async -> Result<UserModel, Error>{
-        switch type{
-        case .kakao:
-            return await getKakaoUserInfo()
-        case .google:
-            break
-        case .apple:
-            break
-        case .naver:
-            break
         default:
             fatalError("지원하지 않는 유저 타입입니다.")
         }

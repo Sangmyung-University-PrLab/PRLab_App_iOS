@@ -9,12 +9,13 @@ import Foundation
 import SwiftUI
 import ComposableArchitecture
 struct LoginView: View{
-    init(store: StoreOf<Root>){
+    
+    init(store: StoreOf<Login>){
         self.store = store
     }
     
     var body: some View{
-        WithViewStore(self.store.scope(state: \.login, action: Root.Action.login), observe: {$0}){viewStore in
+        WithViewStore(store, observe: {$0}){viewStore in
             NavigationView{
                 VStack(spacing:0){
                     Spacer(minLength: 100)
@@ -41,21 +42,21 @@ struct LoginView: View{
                   
                     HStack(spacing:10){
 
-                        NavigationLink("회원가입", isActive: viewStore.binding(\.$shouldSignUp)){
+                        NavigationLink("회원가입", isActive: viewStore.binding(\.$shouldShowSignUpView)){
                             SignUpView(store: store.scope(state: \.user, action: Login.Action.user))
                         }.foregroundColor(.black)
 
                         Spacer()
                         
-                        NavigationLink("아이디 찾기"){
-                            FindIdView(store: store.scope(state: \.user, action: Root.Action.user))
-                        }.foregroundColor(.black)
+//                        NavigationLink("아이디 찾기"){
+//                            FindIdView(store: store.scope(state: \.user, action: .user))
+//                        }.foregroundColor(.black)
                         
                         Spacer()
                         
-                        NavigationLink("비밀번호 찾기"){
-                            FindPasswordView(store: store.scope(state: \.user, action: Root.Action.user))
-                        }.foregroundColor(.black)
+//                        NavigationLink("비밀번호 찾기"){
+//                            FindPasswordView(store: store.scope(state: \.user, action: .user))
+//                        }.foregroundColor(.black)
                     }
                     .font(.notoSans(size: 13, weight: .medium))
                     .padding(.vertical, 30)
@@ -127,15 +128,15 @@ struct LoginView: View{
                 .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
                 .background(Color.backgroundColor)
                 .ignoresSafeArea()
-                .activityIndicator(isVisible: viewStore.state.isActivityIndicatorVisible)
-                .vitalWinkAlert(store.scope(state: \.login.alertState, action: Root.Action.login), dismiss: .dismiss)
+//                .activityIndicator(isVisible: viewStore.state.isActivityIndicatorVisible)
+//                .vitalWinkAlert(store.scope(state: \.alertState, action: {$0}), dismiss: .dismiss)
                 }
             }
         
     }
     
     //MARK: private
-    private let store: StoreOf<Root>
+    private let store: StoreOf<Login>
     private let snsButtonSize: CGFloat = 35
     private let dividerColor = Color(red: 0.850980392156863, green: 0.850980392156863, blue: 0.850980392156863)
 }
