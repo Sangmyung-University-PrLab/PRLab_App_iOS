@@ -125,6 +125,9 @@ struct Login: ReducerProtocol{
                 return .none
             }
         }
+        Scope(state: \.user, action: /Action.user){
+            User()
+        }
     }
     
     private let loginService = LoginService()
