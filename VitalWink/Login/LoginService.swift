@@ -23,6 +23,7 @@ final class LoginService: Sendable{
         }
         
         gidConfig = GIDConfiguration(clientID: clientId)
+        NaverThirdPartyLoginConnection.getSharedInstance().resetToken()
         NaverThirdPartyLoginConnection.getSharedInstance().delegate = naverLoginDelgate
     }
     enum Status{
@@ -31,18 +32,30 @@ final class LoginService: Sendable{
         case notFoundUser
         case inconsistentInformation
     }
-    
+    enum LoginServiceError: LocalizedError{
+        case notHaveAccessToken
+        case failGetRootViewController
+        
+        var errorDescription: String?{
+            switch self{
+            case .failGetRootViewController:
+                return "root viewContorller를 가져오는데 실패했습니다."
+            case .notHaveAccessToken:
+                return "access token을 가져오는데 실패했습니다."
+            }
+        }
+    }
     
     func snsLogin(_ type: UserModel.`Type`) async -> Result<Status, Error>{
         switch type{
         case .kakao:
             return await kakaoLogin()
         case .google:
-            return await kakaoLogin()
+            return await googleLogin()
         case .apple:
             return await kakaoLogin()
         case .naver:
-            return await kakaoLogin()
+            return await naverLogin()
         default:
             fatalError("지원하지 않는 유저 타입입니다.")
         }
@@ -74,24 +87,37 @@ final class LoginService: Sendable{
     }
     
     //MARK: private
-    private func googleLogin(){
-        guard let rootContoller = UIApplication.shared.rootController else{
-            return
+    private func googleLogin() async -> Result<Status, Error>{
+        guard let rootContoller = await UIApplication.shared.rootController else{
+            return .failure(LoginServiceError.failGetRootViewController)
         }
         
-        GIDSignIn.sharedInstance.signIn(with: gidConfig, presenting: rootContoller){
-            guard $1 == nil else{
-                print($1!.localizedDescription)
-                return
+        return await withCheckedContinuation{continuation in   
+            DispatchQueue.main.async {[weak self] in
+                guard let strongSelf = self else{
+                    return
+                }
+                
+                GIDSignIn.sharedInstance.signIn(with: strongSelf.gidConfig, presenting: rootContoller){
+                    guard $1 == nil else{
+                        continuation.resume(returning: .failure($1!))
+                        return
+                    }
+                    
+                    guard let credential = $0, let token = credential.authentication.idToken else{
+                        continuation.resume(returning: .failure(LoginServiceError.notHaveAccessToken))
+                        return
+                    }
+                    
+                    Task{
+                        await strongSelf.tokenHandling(type: .google, token: token, continuation: continuation)
+                    }
+                    
+                }
             }
-            
-            guard let credential = $0 else{
-                print("credential이 nil입니다.")
-                return
-            }
-            print(credential.profile?.email)
         }
     }
+    
     private func kakaoLogin() async -> Result<Status, Error>{
         return await withCheckedContinuation{continuation in
             let completion: (OAuthToken?, Error?) -> Void = {token, error in
@@ -99,8 +125,8 @@ final class LoginService: Sendable{
                     continuation.resume(returning: .failure(error!))
                     return
                 }
-                guard let accessToken = token?.accessToken else{
-                    continuation.resume(returning: .failure(error!))
+                guard let token = token?.accessToken else{
+                    continuation.resume(returning: .failure(LoginServiceError.notHaveAccessToken))
                     return
                 }
                 
@@ -108,24 +134,7 @@ final class LoginService: Sendable{
                     guard let strongSelf = self else{
                         return
                     }
-                    
-                    switch await strongSelf.loginAPI.snsLogin(type:.kakao, token: accessToken){
-                    case .success(let token):
-                        continuation.resume(returning: .success(.success(token)))
-                    case .failure(let error):
-                        guard let afError = error.asAFError else{
-                            continuation.resume(returning:.failure(error))
-                            return
-                        }
-                        
-                        guard afError.isResponseValidationError, let statusCode = afError.responseCode else{
-                            continuation.resume(returning:.failure(afError))
-                            return
-                        }
-                        
-                       statusCode == 404 ? continuation.resume(returning:.success(.shouldSignUp))
-                        : continuation.resume(returning: .failure(afError))
-                    }
+                    await strongSelf.tokenHandling(type: .kakao, token: token, continuation: continuation)
                 }
             }
             
@@ -141,13 +150,49 @@ final class LoginService: Sendable{
         }
     }
   
-    private func naverLogin(){
-        NaverThirdPartyLoginConnection.getSharedInstance().requestThirdPartyLogin()
+    private func naverLogin() async -> Result<Status, Error>{
+         await NaverThirdPartyLoginConnection
+            .getSharedInstance()
+            .requestThirdPartyLogin()
+        
+        return await withCheckedContinuation{continuation in
+            Task{
+                for await _ in naverLoginDelgate.loginStream{
+                    guard let token = await NaverThirdPartyLoginConnection.getSharedInstance().accessToken else{
+                        continuation.resume(returning: .failure(LoginServiceError.notHaveAccessToken))
+                        return
+                    }
+                    await tokenHandling(type: .naver, token: token, continuation: continuation)
+                    break
+                }
+            }
+        }
     }
 
+    
+    
+    private func tokenHandling(type: UserModel.`Type`, token: String, continuation: CheckedContinuation<Result<LoginService.Status, Error>, Never>) async{
+        switch await loginAPI.snsLogin(type: type, token: token){
+        case .success(let token):
+            continuation.resume(returning: .success(.success(token)))
+        case .failure(let error):
+            guard let afError = error.asAFError else{
+                continuation.resume(returning:.failure(error))
+                return
+            }
+            
+            guard afError.isResponseValidationError, let statusCode = afError.responseCode else{
+                continuation.resume(returning:.failure(afError))
+                return
+            }
+            
+           statusCode == 404 ? continuation.resume(returning:.success(.shouldSignUp))
+            : continuation.resume(returning: .failure(afError))
+        }
+    }
+    
     
     private let gidConfig: GIDConfiguration
     private let naverLoginDelgate = NaverLoginDelegate()
     @Dependency(\.loginAPI) private var loginAPI
-   
 }

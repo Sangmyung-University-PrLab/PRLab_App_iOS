@@ -76,7 +76,6 @@ struct Login: ReducerProtocol{
 
                     }
                 }
-                return .none
             case .binding:
                 return .none
             case .responseStatus(let status):
