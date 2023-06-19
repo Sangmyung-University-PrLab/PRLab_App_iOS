@@ -8,29 +8,47 @@ import Alamofire
 import Foundation
 import NaverThirdPartyLogin
 import OSLog
+import SwiftyJSON
+
 final class NaverLoginDelegate: NSObject,NaverThirdPartyLoginConnectionDelegate{
-    func oauth20ConnectionDidFinishRequestACTokenWithAuthCode() {
-        guard let tokenType = NaverThirdPartyLoginConnection.getSharedInstance().tokenType else { return }
-        guard let accessToken = NaverThirdPartyLoginConnection.getSharedInstance().accessToken else { return }
-        let url = "https://openapi.naver.com/v1/nid/me"
-        
-        AF.request(url,
-                   method: .get,
-                   encoding: JSONEncoding.default,
-                   headers: ["Authorization": "\(tokenType) \(accessToken)"]
-        ).responseJSON { [weak self] response in
-            guard let result = response.value as? [String: Any] else { return }
-            guard let object = result["response"] as? [String: Any] else { return }
-            guard let email = object["email"] as? String else { return }
-            guard let birthyear = object["birthyear"] as? String else { return }
-            guard let birthday = object["birthday"] as? String else { return }
-            guard let gender = object["gender"] as? String else { return }
-            
-            print(email)
-            print(birthday)
-            print(birthyear)
-            print(gender)
+    let loginStream: AsyncStream<Void>
+    override init() {
+        var continuation: AsyncStream<Void>.Continuation!
+        loginStream = AsyncStream{
+            continuation = $0
         }
+        self.continuation = continuation
+    }
+    func oauth20ConnectionDidFinishRequestACTokenWithAuthCode() {
+        continuation.yield()
+//        guard let tokenType = NaverThirdPartyLoginConnection.getSharedInstance().tokenType else { return }
+//        guard let accessToken = NaverThirdPartyLoginConnection.getSharedInstance().accessToken else { return }
+//        let url = "https://openapi.naver.com/v1/nid/me"
+//
+//        AF.request(url,
+//                   method: .get,
+//                   encoding: JSONEncoding.default,
+//                   headers: ["Authorization": "\(tokenType) \(accessToken)"]
+//        ).responseDecodable(of: JSON.self) { [weak self] response in
+//            guard let strongSelf = self else{
+//                return
+//            }
+//            switch response.result{
+//            case .success(let json):
+//                let email = json["email"].string ?? ""
+//                let gender: UserModel.Gender = (json["gender"].string ?? "") == "male" ? .man : .woman
+//                let birthday = json["birthday"].string ?? ""
+//                let birthyear = json["birthyear"].string ?? ""
+//                
+//                strongSelf.userModelStreamContinuation.yield(.success(
+//                    .init(id: "", password: "", email: email, gender: gender, birthday: <#T##Date#>, type: .naver)
+//                ))
+//            case .failure(let error):
+//                strongSelf.userModelStreamContinuation.yield(.failure(error))
+//            }
+
+   
+//        }
         return
     }
     
@@ -48,4 +66,7 @@ final class NaverLoginDelegate: NSObject,NaverThirdPartyLoginConnectionDelegate{
     }
     
     
+    
+    
+    private let continuation: AsyncStream<Void>.Continuation
 }
