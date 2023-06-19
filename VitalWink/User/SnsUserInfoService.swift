@@ -10,6 +10,8 @@ import KakaoSDKUser
 import SwiftyJSON
 import NaverThirdPartyLogin
 import Alamofire
+import GoogleSignIn
+
 final class SnsUserInfoService{
     
     enum SnsUserInfoServiceError: LocalizedError{
@@ -74,6 +76,22 @@ final class SnsUserInfoService{
                     case .failure(let error):
                         continuation.resume(returning: .failure(error))
                     }
+                }
+            }
+        case .google:
+            return await withCheckedContinuation{continuation in
+                GIDSignIn.sharedInstance.restorePreviousSignIn{
+                    guard $1 == nil else{
+                        continuation.resume(returning: .failure($1!))
+                        return
+                    }
+                    guard let credential = $0 else{
+                        continuation.resume(returning: .failure(SnsUserInfoServiceError.notHaveToken))
+                        return
+                    }
+                    
+                    let email = credential.profile?.email ?? ""
+                    continuation.resume(returning: .success(.init(id: "", password: "", email: email, gender: .man, birthday: .now, type: .google)))
                 }
             }
            

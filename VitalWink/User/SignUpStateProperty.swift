@@ -33,8 +33,9 @@ struct SignUpStateProperty: Equatable{
     
     //Disabled
     var isEmailTexFieldDisabled: Bool{
-        email.isEmpty || type == .general
+        !(type == .general) && email.isEmpty
     }
+    
     var isSignUpButtonDisabled: Bool{
         !fieldsAreNotEmpty || !fieldsAreValid || isIdDuplicated
     }
