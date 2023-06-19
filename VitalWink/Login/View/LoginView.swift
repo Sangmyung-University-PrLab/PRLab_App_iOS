@@ -48,15 +48,15 @@ struct LoginView: View{
 
                         Spacer()
                         
-//                        NavigationLink("아이디 찾기"){
-//                            FindIdView(store: store.scope(state: \.user, action: .user))
-//                        }.foregroundColor(.black)
+                        NavigationLink("아이디 찾기"){
+                            FindIdView(store: store.scope(state: \.user, action: Login.Action.user))
+                        }.foregroundColor(.black)
                         
                         Spacer()
                         
-//                        NavigationLink("비밀번호 찾기"){
-//                            FindPasswordView(store: store.scope(state: \.user, action: .user))
-//                        }.foregroundColor(.black)
+                        NavigationLink("비밀번호 찾기"){
+                            FindPasswordView(store: store.scope(state: \.user, action: Login.Action.user))
+                        }.foregroundColor(.black)
                     }
                     .font(.notoSans(size: 13, weight: .medium))
                     .padding(.vertical, 30)
@@ -128,8 +128,8 @@ struct LoginView: View{
                 .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
                 .background(Color.backgroundColor)
                 .ignoresSafeArea()
-//                .activityIndicator(isVisible: viewStore.state.isActivityIndicatorVisible)
-//                .vitalWinkAlert(store.scope(state: \.alertState, action: {$0}), dismiss: .dismiss)
+                .activityIndicator(isVisible: viewStore.state.isActivityIndicatorVisible)
+                .vitalWinkAlert(store.scope(state: \.alertState, action: {$0}), dismiss: .dismiss)
                 }
             }
         
