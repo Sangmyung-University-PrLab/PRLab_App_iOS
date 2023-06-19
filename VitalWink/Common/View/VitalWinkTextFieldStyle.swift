@@ -9,9 +9,15 @@ import Foundation
 import SwiftUI
 
 struct VitalWinkTextFieldStyle: TextFieldStyle{
+    init(isDisabled: Bool = false){
+        self.isDisabled = isDisabled
+    }
+    
     func _body(configuration: TextField<Self._Label>) -> some View {
         configuration
+            .disabled(isDisabled)
             .font(.notoSans(size: 14, weight: .regular))
+            .foregroundColor(isDisabled ? .disabledButtonColor : .black)
             .autocorrectionDisabled(false)
             .autocapitalization(.none)
             .padding(.vertical, 10)
@@ -30,5 +36,6 @@ struct VitalWinkTextFieldStyle: TextFieldStyle{
             .animation(.spring(), value: isFocused)
     }
 
+    private var isDisabled: Bool
     @FocusState private var isFocused
 }

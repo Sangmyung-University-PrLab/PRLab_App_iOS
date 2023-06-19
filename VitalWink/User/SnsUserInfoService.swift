@@ -22,17 +22,8 @@ final class SnsUserInfoService{
                     }
                     
                     let email = user?.kakaoAccount?.email ?? ""
-                    let gender: UserModel.Gender = user?.kakaoAccount?.gender == .Male ? .man : .woman
-                    let birthdayString = user?.kakaoAccount?.birthday ?? ""
-                    let birthYearString = user?.kakaoAccount?.birthyear ?? ""
-                    let dateString = birthYearString + birthdayString
-                    
-                    let dateformatter = DateFormatter()
-                    dateformatter.dateFormat = "yyyyMMdd"
-                    
-                    let birthday = dateString.isEmpty ? .now : dateformatter.date(from: dateString)!
-                    
-                    continuation.resume(returning: .success(.init(id: "", password: "", email: email, gender: gender, birthday: birthday, type: type)))
+                
+                    continuation.resume(returning: .success(.init(id: "", password: "", email: email, gender: .man, birthday: .now, type: type)))
                 }
             }
            
