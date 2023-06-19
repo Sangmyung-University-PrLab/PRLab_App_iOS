@@ -16,9 +16,7 @@ struct SignUpStateProperty: Equatable{
     var gender: UserModel.Gender = .man
     var birthday = Date.now
     
-    var isSignUpButtonDisabled: Bool{
-        !fieldsAreNotEmpty || !fieldsAreValid || isIdDuplicated
-    }
+    //Valid
     var isIdValid: Bool{
         id.range(of: idRegex, options:.regularExpression) != nil
     }
@@ -31,13 +29,19 @@ struct SignUpStateProperty: Equatable{
     var isEmailValid: Bool{
         email.range(of: emailRegex, options: .regularExpression) != nil
     }
+    var isIdDuplicated = true
+    
+    //Disabled
     var isEmailTexFieldDisabled: Bool{
         email.isEmpty || type == .general
     }
+    var isSignUpButtonDisabled: Bool{
+        !fieldsAreNotEmpty || !fieldsAreValid || isIdDuplicated
+    }
     
+    //View
     var isActivityIndicatorVisible = false
     var shouldViewDismiss: Bool = false
-    var isIdDuplicated = true
     var alertState: VitalWinkAlertState<SignUp.Action>?
     
     let idRegex: String
@@ -45,6 +49,7 @@ struct SignUpStateProperty: Equatable{
     let emailRegex: String
     let type: UserModel.`Type`
     
+    //private
     private var fieldsAreNotEmpty: Bool{
         !(id.isEmpty || password.isEmpty || repeatPassword.isEmpty || email.isEmpty)
     }
