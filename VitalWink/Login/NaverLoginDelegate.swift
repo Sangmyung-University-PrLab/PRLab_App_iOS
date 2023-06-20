@@ -10,7 +10,7 @@ import NaverThirdPartyLogin
 import OSLog
 import SwiftyJSON
 
-final class NaverLoginDelegate: NSObject,NaverThirdPartyLoginConnectionDelegate{
+final class NaverLoginDelegate: NSObject,NaverThirdPartyLoginConnectionDelegate, Sendable{
     let loginStream: AsyncStream<Void>
     override init() {
         var continuation: AsyncStream<Void>.Continuation!

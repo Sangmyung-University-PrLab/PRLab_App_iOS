@@ -131,6 +131,7 @@ struct LoginView: View{
                 .activityIndicator(isVisible: viewStore.state.isActivityIndicatorVisible)
                 .vitalWinkAlert(store.scope(state: \.alertState, action: {$0}), dismiss: .dismiss)
                 }
+            .navigationViewStyle(.stack)
             }
         
     }
