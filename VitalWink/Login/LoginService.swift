@@ -11,6 +11,7 @@ import GoogleSignIn
 import KakaoSDKAuth
 import Dependencies
 import NaverThirdPartyLogin
+import AuthenticationServices
 
 final class LoginService: Sendable{
     init(){
@@ -53,7 +54,7 @@ final class LoginService: Sendable{
         case .google:
             return await googleLogin()
         case .apple:
-            return await kakaoLogin()
+            return await appleLogin()
         case .naver:
             return await naverLogin()
         default:
@@ -169,7 +170,26 @@ final class LoginService: Sendable{
         }
     }
 
-    
+    private func appleLogin() async -> Result<Status, Error>{
+        let request = ASAuthorizationAppleIDProvider().createRequest()
+        let controller = ASAuthorizationController(authorizationRequests: [request])
+        let delegate = ASAuthorizationControllerDelgateImpl()
+        controller.delegate = delegate
+        controller.performRequests()
+        return await withCheckedContinuation{continuation in
+            Task{
+                for await token in delegate.loginStream {
+                    guard let token = token else{
+                        continuation.resume(returning: .failure(LoginServiceError.notHaveAccessToken))
+                        return
+                    }
+                    
+                    await tokenHandling(type: .apple, token: token, continuation: continuation)
+                    break
+                }
+            }
+        }
+    }
     
     private func tokenHandling(type: UserModel.`Type`, token: String, continuation: CheckedContinuation<Result<LoginService.Status, Error>, Never>) async{
         switch await loginAPI.snsLogin(type: type, token: token){
