@@ -30,6 +30,7 @@ final class ASAuthorizationControllerDelgateImpl: NSObject, ASAuthorizationContr
             return
         }
         
+        UserDefaults.standard.setValue(credential.email, forKey: "apple_email")
         continuation.yield(String(data: token, encoding: .utf8)!)
     }
     
