@@ -11,9 +11,9 @@ import SwiftyJSON
 import NaverThirdPartyLogin
 import Alamofire
 import GoogleSignIn
+import AuthenticationServices
 
 final class SnsUserInfoService{
-    
     enum SnsUserInfoServiceError: LocalizedError{
         case notHaveToken
         
@@ -94,7 +94,9 @@ final class SnsUserInfoService{
                     continuation.resume(returning: .success(.init(id: "", password: "", email: email, gender: .man, birthday: .now, type: .google)))
                 }
             }
-           
+        case .apple:
+            let email = UserDefaults.standard.string(forKey: "email")
+            return .success(.init(id: "", password: "", email: email ?? "", gender: .man, birthday: Date(), type: .apple))
         default:
             return await withCheckedContinuation{continuation in
                 UserApi.shared.me{user, error in
