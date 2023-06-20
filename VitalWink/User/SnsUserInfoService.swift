@@ -95,8 +95,13 @@ final class SnsUserInfoService{
                 }
             }
         case .apple:
-            let email = UserDefaults.standard.string(forKey: "email")
-            return .success(.init(id: "", password: "", email: email ?? "", gender: .man, birthday: Date(), type: .apple))
+            guard let email = UserDefaults.standard.string(forKey: "apple_email"), !email.isEmpty else{
+                return .success(.init(id: "", password: "", email: "", gender: .man, birthday: Date(), type: .apple))
+            }
+            
+            UserDefaults.standard.removeObject(forKey: "apple_email")
+            return .success(.init(id: "", password: "", email: email, gender: .man, birthday: Date(), type: .apple))
+            
         default:
             return await withCheckedContinuation{continuation in
                 UserApi.shared.me{user, error in
