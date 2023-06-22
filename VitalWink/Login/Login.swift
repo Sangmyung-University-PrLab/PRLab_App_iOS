@@ -20,17 +20,21 @@ struct Login: ReducerProtocol{
         @BindingState var id = ""
         @BindingState var password = ""
         @BindingState var shouldShowSignUpView = false
+        @BindingState var shouldShowMeasurementView = false
         
         var isLoginButtonDisabled: Bool{
             id.isEmpty || password.isEmpty
         }
-        
+    
         fileprivate(set) var isActivityIndicatorVisible = false
         fileprivate(set) var alertState:VitalWinkAlertState<Action>? = nil
+        
         fileprivate(set) var user =  User.State()
+        fileprivate(set) var measurement =  Measurement.State()
     }
     enum Action: BindableAction{
         case user(User.Action)
+        case measurement(Measurement.Action)
         case login(_ type: UserModel.`Type`)
         case binding(BindingAction<State>)
         case responseStatus(LoginService.Status)
@@ -44,6 +48,8 @@ struct Login: ReducerProtocol{
         
         Reduce{state, action in
             switch action{
+            case .measurement:
+                return .none
             case .user:
                 return .none
             case .login(let type):
@@ -79,11 +85,14 @@ struct Login: ReducerProtocol{
             case .binding:
                 return .none
             case .responseStatus(let status):
+                state.isActivityIndicatorVisible = false
                 switch status{
                 case .success(let token):
                     guard keyChainManager.saveTokenInKeyChain(token) else{
                         return .none
                     }
+                    state.shouldShowMeasurementView = true
+                    
                 case .notFoundUser:
                     state.alertState = VitalWinkAlertState(title: "VitalWink", message: "가입되어 있지 않은 아이디입니다."){
                         VitalWinkAlertButtonState<Action>(title: "확인"){
@@ -100,7 +109,7 @@ struct Login: ReducerProtocol{
                 default:
                     break
                 }
-                state.isActivityIndicatorVisible = false
+                
                 return .none
             case .errorHandling(let error):
                 state.isActivityIndicatorVisible = false
@@ -128,6 +137,10 @@ struct Login: ReducerProtocol{
         Scope(state: \.user, action: /Action.user){
             User()
         }
+        Scope(state: \.measurement, action: /Action.measurement){
+            Measurement()
+        }
+
     }
     
     private let loginService = LoginService()
