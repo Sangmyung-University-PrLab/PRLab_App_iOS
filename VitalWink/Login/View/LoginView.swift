@@ -25,37 +25,37 @@ struct LoginView: View{
                             .aspectRatio(contentMode: .fit)
                             .frame(width:61.6, height:72.06)
                             .padding(.bottom, 50)
-   
+                        
                         TextField("아이디", text: viewStore.binding(\.$id))
                             .textFieldStyle(VitalWinkTextFieldStyle())
                             .padding(.bottom, 10)
-    
-   
+                        
+                        
                         SecureField("비밀번호", text: viewStore.binding(\.$password))
                             .textFieldStyle(VitalWinkTextFieldStyle())
                             .padding(.bottom, 30)
-
+                        
                         Button("로그인"){
                             viewStore.send(.login(.general))
                         }
                         .disabled(viewStore.isLoginButtonDisabled)
                         .buttonStyle(VitalWinkButtonStyle(isDisabled: viewStore.isLoginButtonDisabled))
-    
+                        
                     }
-                   
+                    
                     HStack(spacing:10){
                         NavigationLink("회원가입", isActive: viewStore.binding(\.$shouldShowSignUpView)){
                             SignUpView(store: store.scope(state: \.user, action: Login.Action.user))
                         }.foregroundColor(.black)
-
+                        
                         Spacer()
-
+                        
                         NavigationLink("아이디 찾기"){
                             FindIdView(store: store.scope(state: \.user, action: Login.Action.user))
                         }.foregroundColor(.black)
-
+                        
                         Spacer()
-
+                        
                         NavigationLink("비밀번호 찾기"){
                             FindPasswordView(store: store.scope(state: \.user, action: Login.Action.user))
                         }.foregroundColor(.black)
@@ -63,12 +63,12 @@ struct LoginView: View{
                     .font(.notoSans(size: 13, weight: .medium))
                     .padding(.vertical, 30)
                     .padding(.horizontal, 23)
-
+                    
                     Divider()
                         .frame(height: 1)
                         .background(dividerColor)
                         .padding(.bottom, 30)
-
+                    
                     HStack(spacing:0){
                         Circle()
                             .foregroundColor(Color(red: 0, green: 0.831372549019608, blue: 0.294117647058824))
@@ -82,7 +82,7 @@ struct LoginView: View{
                             .onTapGesture {
                                 viewStore.send(.login(.naver))
                             }
-
+                        
                         Spacer()
                         Circle()
                             .foregroundColor(Color(red: 0.980392156862745, green: 0.882352941176471, blue: 0))
@@ -96,7 +96,7 @@ struct LoginView: View{
                             .onTapGesture {
                                 viewStore.send(.login(.kakao))
                             }
-
+                        
                         Spacer()
                         Circle()
                             .foregroundColor(.white)
@@ -110,7 +110,7 @@ struct LoginView: View{
                             .onTapGesture {
                                 viewStore.send(.login(.google))
                             }
-
+                        
                         Spacer()
                         Image("apple_logo")
                             .resizable()
@@ -120,15 +120,15 @@ struct LoginView: View{
                             .onTapGesture {
                                 viewStore.send(.login(.apple))
                             }
-
-
+                        
+                        
                     }
                     .frame(height: snsButtonSize)
                     .padding(.horizontal, 23)
                     
                     Spacer()
                     Spacer()
-         
+                    
                 }
                 .padding(.horizontal, 20)
                 .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
@@ -142,9 +142,13 @@ struct LoginView: View{
                 }
                 .activityIndicator(isVisible: viewStore.state.isActivityIndicatorVisible)
                 .vitalWinkAlert(store.scope(state: \.alertState, action: {$0}), dismiss: .dismiss)
-                }
-            .navigationViewStyle(.stack)
             }
+            .animation(.easeInOut,value: viewStore.shouldShowMeasurementView)
+            .navigationViewStyle(.stack)
+            .onAppear{
+                viewStore.send(.onAppear)
+            }
+        }
         
     }
     

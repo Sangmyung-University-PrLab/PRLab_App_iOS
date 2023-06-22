@@ -21,7 +21,6 @@ struct Login: ReducerProtocol{
         @BindingState var password = ""
         @BindingState var shouldShowSignUpView = false
         @BindingState var shouldShowMeasurementView = false
-        
         var isLoginButtonDisabled: Bool{
             id.isEmpty || password.isEmpty
         }
@@ -41,6 +40,8 @@ struct Login: ReducerProtocol{
         case errorHandling(Error) //예상치 못한 에러 발생 시
         case dismiss
         case shouldSignUp(_ type: UserModel.`Type`)
+        case restoreLogin
+        case onAppear
     }
     
     var body: some ReducerProtocol<State, Action>{
@@ -48,6 +49,18 @@ struct Login: ReducerProtocol{
         
         Reduce{state, action in
             switch action{
+            case .onAppear:
+                state.isActivityIndicatorVisible = true
+                
+                return .run{send in
+                    try! await Task.sleep(nanoseconds: UInt64(1_000_000_000 * 0.5))
+                    await send(.restoreLogin)
+                }
+            case .restoreLogin:
+                state.shouldShowMeasurementView = keyChainManager.readTokenInKeyChain() != nil
+                state.isActivityIndicatorVisible = false
+                
+                return .none
             case .measurement:
                 return .none
             case .user:
