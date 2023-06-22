@@ -12,30 +12,36 @@ struct MeasurementView: View {
     init(store: StoreOf<Measurement>){
         self.store = store
     }
-
+	
     var body: some View {
         WithViewStore(self.store, observe: {$0}){viewStore in
             VStack(spacing:0){
                 CircularSegmentedPickerView(selected: viewStore.binding(\.$target), texts: ["얼굴","손가락"])
                 
-                RoundedRectangle(cornerRadius: 20)
-                    .padding(.horizontal, 60)
-                    .padding(.top,85)
-                    .padding(.bottom, 10)
-                    .foregroundColor(.white)
+                
+                if let image = self.image{
+                    image
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .cornerRadius(20)
+                        .modifier(FrameViewModifier())
+                }else{
+                    RoundedRectangle(cornerRadius: 20)
+                        .modifier(FrameViewModifier())
+                }
+                   
                 ProgressView()
                     .progressViewStyle(.linear)
                     .padding(.bottom, 95)
-                    .padding(.horizontal, 60)
+                    .padding(.horizontal, 40)
                     .foregroundColor(.blue)
                 
                 Button("측정"){
                     
                 }
                 .buttonStyle(VitalWinkButtonStyle())
-                .padding(.horizontal, 20)
+                
             }
-            .navigationBarBackButtonHidden()
             .toolbar{
                 ToolbarItem(placement: .navigationBarLeading){
                     Image("calender")
@@ -48,13 +54,40 @@ struct MeasurementView: View {
                     Image(systemName: "ellipsis")
                         .font(.system(size: 12))
                 }
-            }.background(Color.backgroundColor)
-            
+            }
+            .padding(.horizontal, 20)
+            .navigationBarBackButtonHidden()
+            .background(Color.backgroundColor)
+            .onAppear{
+                viewStore.send(.startCamera)
+                
+                Task{
+                    for await frame in viewStore.state.frame{
+                        self.image = Image(uiImage: UIImage(cgImage: frame.cgImage!, scale: 1, orientation: .leftMirrored))
+                    }
+                }
+                
+            }
         }
     }
     
+    @State private var image: Image?
     private let store: StoreOf<Measurement>
 }
+
+
+struct FrameViewModifier: ViewModifier{
+    func body(content: Content) -> some View {
+        content
+        .shadow(color: .black.opacity(0.1),radius: 10)
+        .padding(.horizontal, 40)
+        .padding(.top,85)
+        .padding(.bottom, 10)
+        .foregroundColor(.white)
+        
+    }
+}
+
 struct MeasurementView_Previews: PreviewProvider{
     static var previews: some View{
         MeasurementView(store: Store(initialState: Measurement.State(), reducer: Measurement()))
