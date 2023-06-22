@@ -19,28 +19,30 @@ struct LoginView: View{
             NavigationView{
                 VStack(spacing:0){
                     Spacer()
-                    
-                    Image("logo")
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width:61.6, height:72.06)
-                        .padding(.bottom, 50)
-//
-                    TextField("아이디", text: viewStore.binding(\.$id))
-                        .textFieldStyle(VitalWinkTextFieldStyle())
-                        .padding(.bottom, 10)
-//
-//
-                    SecureField("비밀번호", text: viewStore.binding(\.$password))
-                        .textFieldStyle(VitalWinkTextFieldStyle())
-                        .padding(.bottom, 30)
+                    Group{
+                        Image("logo")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width:61.6, height:72.06)
+                            .padding(.bottom, 50)
+   
+                        TextField("아이디", text: viewStore.binding(\.$id))
+                            .textFieldStyle(VitalWinkTextFieldStyle())
+                            .padding(.bottom, 10)
+    
+   
+                        SecureField("비밀번호", text: viewStore.binding(\.$password))
+                            .textFieldStyle(VitalWinkTextFieldStyle())
+                            .padding(.bottom, 30)
 
-                    Button("로그인"){
-                        viewStore.send(.login(.general))
+                        Button("로그인"){
+                            viewStore.send(.login(.general))
+                        }
+                        .disabled(viewStore.isLoginButtonDisabled)
+                        .buttonStyle(VitalWinkButtonStyle(isDisabled: viewStore.isLoginButtonDisabled))
+    
                     }
-                    .disabled(viewStore.isLoginButtonDisabled)
-                    .buttonStyle(VitalWinkButtonStyle(isDisabled: viewStore.isLoginButtonDisabled))
-//
+                   
                     HStack(spacing:10){
                         NavigationLink("회원가입", isActive: viewStore.binding(\.$shouldShowSignUpView)){
                             SignUpView(store: store.scope(state: \.user, action: Login.Action.user))
@@ -61,12 +63,12 @@ struct LoginView: View{
                     .font(.notoSans(size: 13, weight: .medium))
                     .padding(.vertical, 30)
                     .padding(.horizontal, 23)
-//
+
                     Divider()
                         .frame(height: 1)
                         .background(dividerColor)
                         .padding(.bottom, 30)
-//
+
                     HStack(spacing:0){
                         Circle()
                             .foregroundColor(Color(red: 0, green: 0.831372549019608, blue: 0.294117647058824))
@@ -123,7 +125,10 @@ struct LoginView: View{
                     }
                     .frame(height: snsButtonSize)
                     .padding(.horizontal, 23)
+                    
                     Spacer()
+                    Spacer()
+         
                 }
                 .padding(.horizontal, 20)
                 .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
