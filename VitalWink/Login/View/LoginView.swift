@@ -20,8 +20,10 @@ struct LoginView: View{
                 VStack(spacing:0){
                     Spacer(minLength: 100)
                     
-                    Text("LOGO")
-                        .frame(width:92, height:37)
+                    Image("logo")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width:61.6, height:72.06)
                         .padding(.top, 100)
                         .padding(.bottom, 50)
                     
@@ -126,7 +128,14 @@ struct LoginView: View{
                 }
                 .padding(.horizontal, 20)
                 .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
-                .background(Color.backgroundColor)
+                .background{
+                    ZStack{
+                        NavigationLink("", isActive: viewStore.binding(\.$shouldShowMeasurementView)){
+                            MeasurementView(store: store.scope(state: \.measurement, action: Login.Action.measurement))
+                        }.hidden()
+                        Color.backgroundColor
+                    }
+                }
                 .ignoresSafeArea()
                 .activityIndicator(isVisible: viewStore.state.isActivityIndicatorVisible)
                 .vitalWinkAlert(store.scope(state: \.alertState, action: {$0}), dismiss: .dismiss)
