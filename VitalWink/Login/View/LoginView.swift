@@ -18,44 +18,44 @@ struct LoginView: View{
         WithViewStore(store, observe: {$0}){viewStore in
             NavigationView{
                 VStack(spacing:0){
-                    Spacer(minLength: 100)
-                    
-                    Image("logo")
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width:61.6, height:72.06)
-                        .padding(.top, 100)
-                        .padding(.bottom, 50)
-                    
-                    TextField("아이디", text: viewStore.binding(\.$id))
-                        .textFieldStyle(VitalWinkTextFieldStyle())
-                        .padding(.bottom, 10)
-                        
-                    
-                    SecureField("비밀번호", text: viewStore.binding(\.$password))
-                        .textFieldStyle(VitalWinkTextFieldStyle())
-                        .padding(.bottom, 30)
-                    
-                    Button("로그인"){
-                        viewStore.send(.login(.general))
-                    }
-                    .disabled(viewStore.isLoginButtonDisabled)
-                    .buttonStyle(VitalWinkButtonStyle(isDisabled: viewStore.isLoginButtonDisabled))
-                  
-                    HStack(spacing:10){
+                    Spacer()
+                    Group{
+                        Image("logo")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width:61.6, height:72.06)
+                            .padding(.bottom, 50)
+   
+                        TextField("아이디", text: viewStore.binding(\.$id))
+                            .textFieldStyle(VitalWinkTextFieldStyle())
+                            .padding(.bottom, 10)
+    
+   
+                        SecureField("비밀번호", text: viewStore.binding(\.$password))
+                            .textFieldStyle(VitalWinkTextFieldStyle())
+                            .padding(.bottom, 30)
 
+                        Button("로그인"){
+                            viewStore.send(.login(.general))
+                        }
+                        .disabled(viewStore.isLoginButtonDisabled)
+                        .buttonStyle(VitalWinkButtonStyle(isDisabled: viewStore.isLoginButtonDisabled))
+    
+                    }
+                   
+                    HStack(spacing:10){
                         NavigationLink("회원가입", isActive: viewStore.binding(\.$shouldShowSignUpView)){
                             SignUpView(store: store.scope(state: \.user, action: Login.Action.user))
                         }.foregroundColor(.black)
 
                         Spacer()
-                        
+
                         NavigationLink("아이디 찾기"){
                             FindIdView(store: store.scope(state: \.user, action: Login.Action.user))
                         }.foregroundColor(.black)
-                        
+
                         Spacer()
-                        
+
                         NavigationLink("비밀번호 찾기"){
                             FindPasswordView(store: store.scope(state: \.user, action: Login.Action.user))
                         }.foregroundColor(.black)
@@ -63,11 +63,12 @@ struct LoginView: View{
                     .font(.notoSans(size: 13, weight: .medium))
                     .padding(.vertical, 30)
                     .padding(.horizontal, 23)
-                    
+
                     Divider()
+                        .frame(height: 1)
                         .background(dividerColor)
                         .padding(.bottom, 30)
-                    
+
                     HStack(spacing:0){
                         Circle()
                             .foregroundColor(Color(red: 0, green: 0.831372549019608, blue: 0.294117647058824))
@@ -81,7 +82,7 @@ struct LoginView: View{
                             .onTapGesture {
                                 viewStore.send(.login(.naver))
                             }
-                        
+
                         Spacer()
                         Circle()
                             .foregroundColor(Color(red: 0.980392156862745, green: 0.882352941176471, blue: 0))
@@ -119,12 +120,15 @@ struct LoginView: View{
                             .onTapGesture {
                                 viewStore.send(.login(.apple))
                             }
-                    
-                        
-                    }.frame(maxWidth: .infinity)
+
+
+                    }
+                    .frame(height: snsButtonSize)
                     .padding(.horizontal, 23)
-                   
-                    Spacer(minLength: 78)
+                    
+                    Spacer()
+                    Spacer()
+         
                 }
                 .padding(.horizontal, 20)
                 .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
@@ -133,10 +137,9 @@ struct LoginView: View{
                         NavigationLink("", isActive: viewStore.binding(\.$shouldShowMeasurementView)){
                             MeasurementView(store: store.scope(state: \.measurement, action: Login.Action.measurement))
                         }.hidden()
-                        Color.backgroundColor
+                        Color.backgroundColor.ignoresSafeArea()
                     }
                 }
-                .ignoresSafeArea()
                 .activityIndicator(isVisible: viewStore.state.isActivityIndicatorVisible)
                 .vitalWinkAlert(store.scope(state: \.alertState, action: {$0}), dismiss: .dismiss)
                 }
@@ -151,8 +154,8 @@ struct LoginView: View{
     private let dividerColor = Color(red: 0.850980392156863, green: 0.850980392156863, blue: 0.850980392156863)
 }
 
-//struct LoginView_Previews: PreviewProvider{
-//    static var previews: some View{
-//        return LoginView(store: Store(initialState: Root.State().login, reducer: Login()))
-//    }
-//}
+struct LoginView_Previews: PreviewProvider{
+    static var previews: some View{
+        return LoginView(store: Store(initialState: Login.State(), reducer: Login()))
+    }
+}
