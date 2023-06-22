@@ -32,7 +32,9 @@ struct VitalWinkApp: App {
     
     var body: some Scene {
         WindowGroup {
-            LoginView(store: Store(initialState: Login.State(), reducer: Login().signpost()._printChanges()))
+            LoginView(store: Store(initialState: Login.State(), reducer: Login()
+//                .signpost()._printChanges()
+            ))
                 .onOpenURL{
                     print($0)
                     if AuthApi.isKakaoTalkLoginUrl($0){
@@ -50,7 +52,7 @@ struct VitalWinkApp: App {
         guard let naverSDK = NaverThirdPartyLoginConnection.getSharedInstance() else{
             fatalError("네이버 로그인을 위한 인스턴스 가져오기에 실패하였습니다.")
         }
-        naverSDK.resetToken()
+        
         naverSDK.isNaverAppOauthEnable = true
         naverSDK.isInAppOauthEnable = true
         

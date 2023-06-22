@@ -22,24 +22,32 @@ struct MeasurementView: View {
                 if let image = self.image{
                     image
                         .resizable()
-                        .aspectRatio(contentMode: .fit)
                         .cornerRadius(20)
                         .modifier(FrameViewModifier())
                 }else{
                     RoundedRectangle(cornerRadius: 20)
+                    
+                        .overlay{
+                            Image("face_guide")
+                                .resizable()
+                                .aspectRatio( contentMode: .fit)
+                                .padding(44)
+                        }
                         .modifier(FrameViewModifier())
+                        
                 }
                    
-                ProgressView()
+                ProgressView(value: viewStore.progress)
                     .progressViewStyle(.linear)
                     .padding(.bottom, 95)
                     .padding(.horizontal, 40)
                     .foregroundColor(.blue)
                 
                 Button("측정"){
-                    
+                    viewStore.send(.startMeasurement)
                 }
                 .buttonStyle(VitalWinkButtonStyle())
+                .padding(.bottom, 30)
                 
             }
             .toolbar{
@@ -71,6 +79,7 @@ struct MeasurementView: View {
         }
     }
     
+    //MARK: - private
     @State private var image: Image?
     private let store: StoreOf<Measurement>
 }

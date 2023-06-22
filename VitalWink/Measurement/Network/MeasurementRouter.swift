@@ -9,8 +9,8 @@ import Foundation
 import Alamofire
 
 enum MeasurementRouter: VitalWinkUploadableRouterType{
-    case signalMeasurement(bgrValues: [(Int, Int, Int)], target: Measurement.Target)
-    case expressionAndBMIMeasurement(image: UIImage, id: Int)
+    case signalMeasurement(rgbValues: [(Int, Int, Int)], target: Measurement.Target)
+    case expressionAndBMIMeasurement(image: UIImage)
     case fetchRecentData
     case fetchMetricDatas(_ metric: Metric, period: Period, basisDate: Date)
     case fetchMeasurementResult(_ id: Int)
@@ -48,9 +48,9 @@ enum MeasurementRouter: VitalWinkUploadableRouterType{
     
     var parameters: Parameters{
         switch self{
-        case .signalMeasurement(let bgrValues, _):
+        case .signalMeasurement(let rgbValues, _):
             return [
-                "bgrValues": bgrValues.map{[$0.0, $0.1, $0.2]}
+                "rgbValues": rgbValues.map{[$0.0, $0.1, $0.2]}
             ]
         default:
             return Parameters()
@@ -66,10 +66,8 @@ enum MeasurementRouter: VitalWinkUploadableRouterType{
     
     func multipartFormData(_ formData: MultipartFormData) {
         switch self{
-        case .expressionAndBMIMeasurement(image: let image, id: let id):
+        case .expressionAndBMIMeasurement(image: let image):
             formData.append(image.jpegData(compressionQuality: 0.5)!, withName: "image", mimeType: "image/jpeg")
-            var id = id
-            formData.append(Data(bytes: &id, count: MemoryLayout<Int>.size), withName: "measurement_id")
         default:
             return
         }

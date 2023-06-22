@@ -57,11 +57,11 @@ public final class FaceDetector{
        
     }
     
-    /// 피부 분할 후 픽셀들의 평균을 낸 BGR  값
+    /// 피부 분할 후 픽셀들의 평균을 낸 RBG  값
     public func skinSegmentation(_ image: UIImage) -> (Int, Int, Int){
         let bgrNSArray = OpenCVWrapper.skinSegmentation(image)
 
-        return (bgrNSArray[0] as! Int, bgrNSArray[1] as! Int, bgrNSArray[2] as! Int)
+        return (bgrNSArray[2] as! Int, bgrNSArray[1] as! Int, bgrNSArray[0] as! Int)
     }
     
     //MARK: private

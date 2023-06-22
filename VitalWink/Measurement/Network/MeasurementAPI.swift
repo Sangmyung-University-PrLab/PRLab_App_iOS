@@ -12,39 +12,43 @@ import Combine
 import SwiftyJSON
 
 final class MeasurmentAPI{
-    func signalMeasurment(bgrValues: [(Int, Int, Int)], type: Measurement.Target) -> AnyPublisher<Int, Error>{
-        return Future<Int, Error>{[weak self] promise in
-            guard let strongSelf = self else{
-                return
-            }
-            
-            strongSelf.vitalWinkAPI.request(MeasurementRouter.signalMeasurement(bgrValues: bgrValues, target: type))
-                .validate(statusCode: 201...201)
+    func signalMeasurment(rgbValues: [(Int, Int, Int)], target: Measurement.Target) async -> Result<Int, Error>{
+        
+        return await withCheckedContinuation{continuation in
+            vitalWinkAPI.request(MeasurementRouter.signalMeasurement(rgbValues: rgbValues, target: target)).validate(statusCode: 200 ..< 300)
                 .responseDecodable(of: JSON.self){
                     switch $0.result{
                     case .success(let json):
-                        let id = json["measurement_id"]
+                        let id = json["measurementId"]
                         
                         guard id.error == nil else{
-                            promise(.failure(id.error!))
+                            continuation.resume(returning: .failure(id.error!))
                             return
                         }
                         
-                        promise(.success(id.intValue))
+                        continuation.resume(returning: .success(id.intValue))
                     case .failure(let error):
-                        promise(.failure(error))
+                        continuation.resume(returning: .failure(error))
                     }
                 }
-        }.eraseToAnyPublisher()
+        }
     }
     
-    func expressionAndBMI(image: UIImage, id: Int) -> AnyPublisher<Never,some Error>{
-        return vitalWinkAPI.upload(MeasurementRouter.expressionAndBMIMeasurement(image: image, id: id))
-            .validate(statusCode: 201 ... 201)
-            .publishUnserialized()
-            .value()
-            .ignoreOutput()
-            .eraseToAnyPublisher()
+    func expressionAndBMI(image: UIImage) async throws{
+        return try await withCheckedThrowingContinuation{continuation in
+            vitalWinkAPI.upload(MeasurementRouter.expressionAndBMIMeasurement(image: image))
+                .validate(statusCode: 201 ... 201)
+                .responseDecodable(of:JSON.self){
+                    switch $0.result{
+                    case .success(let json):
+                        print(json)
+                        continuation.resume()
+                    case .failure(let error):
+                        continuation.resume(throwing: error)
+                    }
+                }
+        }
+            
     }
     
     func fetchRecentData() -> AnyPublisher<RecentData, some Error>{
