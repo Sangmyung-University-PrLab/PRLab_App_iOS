@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct CircularSegmentedPickerView<Item>: View where Item:CaseIterable & RawRepresentable, Item.RawValue: Equatable{
+struct CircularSegmentedPickerView<Item>: View where Item:CaseIterable & Equatable{
     
     //아직 더 좋은 구현 방법을 모르겠음
     init(selected:Binding<Item>, texts: [String]){
@@ -35,12 +35,15 @@ struct CircularSegmentedPickerView<Item>: View where Item:CaseIterable & RawRepr
                 
                 HStack(spacing:0){
                     ForEach(0 ..< numberOfItems, id:\.self){index in
+                        
                         Text("\(texts[index])")
-                            .frame(width: proxy.size.width / CGFloat(numberOfItems))
+                            .frame(width: proxy.size.width / CGFloat(numberOfItems), height: 40)
+                            .contentShape(Rectangle())
                             .onTapGesture {
                                 selected = allCases[index]
                                 self.index = index
                             }
+                          
                             .font(.notoSans(size: 14, weight: self.index == index ? .bold : .regular))
                             .foregroundColor(self.index == index ? .white : .black)
                             

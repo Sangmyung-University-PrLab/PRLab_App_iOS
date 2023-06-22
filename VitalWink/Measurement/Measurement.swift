@@ -31,8 +31,6 @@ struct Measurement: ReducerProtocol{
                 return result
             }
         }
-        
-        
         init(){
             var coninuation: AsyncStream<UIImage>.Continuation!
             frame = AsyncStream{
@@ -42,7 +40,7 @@ struct Measurement: ReducerProtocol{
         }
         
         //최근 측정에 대한 Id
-        private(set) var target: Target = .face
+        @BindingState var target: Target = .face
         let frame: AsyncStream<UIImage>
         
         fileprivate var isMeasuring: Bool = false
@@ -51,12 +49,13 @@ struct Measurement: ReducerProtocol{
         fileprivate let frameContinuation: AsyncStream<UIImage>.Continuation
     }
     
-    enum Target{
+    enum Target: CaseIterable{
         case face
         case finger
     }
     
-    enum Action: Sendable{
+    enum Action: Sendable, BindableAction{
+        case binding(BindingAction<State>)
         case startCamera
         case beFedFrame(_ sampleBuffer: CMSampleBuffer)
         case appendBgrValue(_ uiImage: UIImage)
@@ -78,6 +77,8 @@ struct Measurement: ReducerProtocol{
     }
     func reduce(into state: inout State, action: Action) -> EffectTask<Action> {
         switch action{
+        case .binding:
+            return .none
         case .signalMeasurement:
             return .run{[bgrValues = state.bgrValues, target = state.target] send in
                 measurementAPI.signalMeasurment(bgrValues: bgrValues, type: target)
