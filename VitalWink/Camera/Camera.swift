@@ -11,7 +11,7 @@ import Combine
 import Dependencies
 import ComposableArchitecture
 
-final class Camera{
+final class Camera:@unchecked Sendable{
     var frame: AsyncStream<CMSampleBuffer>{
         return cameraStream.frame
     }
@@ -45,6 +45,12 @@ final class Camera{
         }
         
         let camera: AVCaptureDevice!
+        
+        lock.lock()
+        defer {
+            self.lock.unlock()
+        }
+
         switch position {
         case .front:
             camera = backCamera
@@ -57,6 +63,7 @@ final class Camera{
             throw CameraError.notFoundCamera
         }
         
+        
         captureSession.removeInput(videoDeviceInput)
         do{
             try setVideoDeviceInput(camera: camera)
@@ -64,21 +71,28 @@ final class Camera{
             throw error
         }
     }
-    
     func setUp() async throws{
-        do{
-            if isHaveCameraPermission(){
+        if isHaveCameraPermission(){
+            do{
                 try setCaptureSession()
+            }catch{
+                throw error
             }
-            else{
-              if await AVCaptureDevice.requestAccess(for: .video){
-                    try setCaptureSession()
-               }else{
-                    throw CameraError.notHavePermission
-               }
+        }
+        else{
+            return try await withCheckedThrowingContinuation{continuation in
+                Task{
+                    if await AVCaptureDevice.requestAccess(for: .video){
+                        do{
+                            try setCaptureSession()
+                        }catch{
+                            continuation.resume(throwing: error)
+                        }
+                    }else{
+                        continuation.resume(throwing: CameraError.notHavePermission)
+                    }
+                }
             }
-        }catch{
-            throw error
         }
     }
     
@@ -95,7 +109,7 @@ final class Camera{
             }
         }
     }
-    enum Position {
+    enum Position{
     case front,back
     }
     
@@ -108,8 +122,11 @@ final class Camera{
             return false
         }
     }
-    
     private func setCaptureSession() throws{
+        guard let frontCamera = self.frontCamera else{
+            throw CameraError.notFoundCamera
+        }
+        
         captureSession.sessionPreset = .photo
         captureSession.beginConfiguration()
         do{
@@ -149,13 +166,14 @@ final class Camera{
     }
     //MARK: - 카메라 관련 변수
     private let cameraStream = CameraStream()
-    private let frontCamera: AVCaptureDevice!
-    private let backCamera: AVCaptureDevice!
+    private let frontCamera: AVCaptureDevice?
+    private let backCamera: AVCaptureDevice?
     private let sessionQueue = DispatchQueue(label: "session Queue")
     private let captureQueue = DispatchQueue(label: "capture Queue")
     private let captureSession = AVCaptureSession()
     private var videoDeviceInput: AVCaptureDeviceInput?
     private let videoOutput = AVCaptureVideoDataOutput()
+    private let lock = NSLock()
 }
 
 extension Camera: DependencyKey{
