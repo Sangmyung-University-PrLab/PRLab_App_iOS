@@ -77,6 +77,8 @@ enum UserRouter: VitalWinkRouterType{
         switch self {
         case .changePassword(_, let token):
             return [.init(name: "AUTH-TOKEN", value: token)]
+        case .signUp(let user):
+            return user.type == .general ? [] : [.init(name: "ACCESS-TOKEN", value: UserDefaults.standard.string(forKey: "access_token") ?? "")]
         default:
             return []
         }

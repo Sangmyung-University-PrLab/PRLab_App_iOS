@@ -46,7 +46,7 @@ struct SignUpView: View{
                         TextField(text: viewStore.binding(get:\.email, send: SignUp.Action.emailChanged)){
                             Text(verbatim: "email@email.com")
                         }
-                        .textFieldStyle(VitalWinkTextFieldStyle(isDisabled: !viewStore.isEmailTexFieldDisabled))
+                        .textFieldStyle(VitalWinkTextFieldStyle(isDisabled: viewStore.isEmailTexFieldDisabled))
                     }
                     
                     VitalWinkFormSection(header: "성별"){
