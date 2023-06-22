@@ -16,23 +16,23 @@ enum LoginRouter: VitalWinkRouterType{
         let detailEndPoint: String
         switch self {
         case .generalLogin:
-            detailEndPoint = "general"
+            detailEndPoint = ""
         case .snsLogin(let type, _):
             switch type {
             case .kakao:
-                detailEndPoint = "kakao"
+                detailEndPoint = "/kakao"
             case .google:
-                detailEndPoint = "google"
+                detailEndPoint = "/google"
             case .naver:
-                detailEndPoint = "naver"
+                detailEndPoint = "/naver"
             case .apple:
-                detailEndPoint = "apple"
+                detailEndPoint = "/apple"
             default:
                 fatalError("지원하지 않는 SNS 타입입니다.")
             }
         }
         
-        return "\(baseEndPoint)/\(detailEndPoint)"
+        return "\(baseEndPoint)\(detailEndPoint)"
     }
     
     var method: Alamofire.HTTPMethod{
