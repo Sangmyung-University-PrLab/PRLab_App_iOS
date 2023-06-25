@@ -33,22 +33,33 @@ final class MeasurmentAPI{
                 }
         }
     }
-    
-    func expressionAndBMI(image: UIImage) async throws{
-        return try await withCheckedThrowingContinuation{continuation in
-            vitalWinkAPI.upload(MeasurementRouter.expressionAndBMIMeasurement(image: image))
-                .validate(statusCode: 201 ... 201)
-                .responseDecodable(of:JSON.self){
+    func imageAnalysis(_ image: UIImage) async -> Result<ImageAnalysisData, AFError>{
+        return await withCheckedContinuation{continuation in
+            vitalWinkAPI.upload(MeasurementRouter.imageAnalysis(image:image))
+                .validate(statusCode: 200 ..< 300)
+                .responseDecodable(of:ImageAnalysisData.self){
                     switch $0.result{
-                    case .success(let json):
-                        print(json)
+                    case .success(let data):
+                        continuation.resume(returning: .success(data))
+                    case .failure(let error):
+                        continuation.resume(returning: .failure(error))
+                    }
+                }
+        }
+            
+    }
+    func saveImageAnalysisData(data: [ImageAnalysisData], measurementId: Int) async throws{
+        return try await withCheckedThrowingContinuation{continuation in
+            vitalWinkAPI.request(MeasurementRouter.saveImageAnalysisData(data, measurementId)).validate(statusCode: 200 ..< 300)
+                .response{
+                    switch $0.result{
+                    case .success:
                         continuation.resume()
                     case .failure(let error):
                         continuation.resume(throwing: error)
                     }
                 }
         }
-            
     }
     
     func fetchRecentData() -> AnyPublisher<RecentData, some Error>{

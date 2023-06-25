@@ -17,7 +17,7 @@ struct Measurement: ReducerProtocol{
     
     struct State: Equatable{
         static func == (lhs: Measurement.State, rhs: Measurement.State) -> Bool {
-            if lhs.rgbValues.count != rhs.rgbValues.count || lhs.measurementId != rhs.measurementId || lhs.target != rhs.target{
+            if lhs.rgbValues.count != rhs.rgbValues.count || lhs.target != rhs.target{
                 return false
             }
             else{
@@ -46,15 +46,12 @@ struct Measurement: ReducerProtocol{
         
         fileprivate(set) var isMeasuring: Bool = false
         fileprivate(set) var rgbValues = [RGB]()
+        fileprivate(set) var imageAnalysisDatas = [ImageAnalysisData]()
         fileprivate(set) var progress: Float = 0.0
-        fileprivate(set) var measurementId: Int? = nil
         fileprivate(set) var measurementStartTime: CFAbsoluteTime? = nil
+        fileprivate(set) var imageAnalysisStartTime: CFAbsoluteTime? = nil
         
         fileprivate let frameContinuation: AsyncStream<UIImage>.Continuation
-        
-        
-        fileprivate var timer: Timer? = nil
-        
     }
     
     enum Target: CaseIterable{
@@ -68,13 +65,14 @@ struct Measurement: ReducerProtocol{
         case beFedFrame(_ sampleBuffer: CMSampleBuffer)
         case obtainBgrValue(UIImage)
         case appendBgrValue(RGB)
+        case appendImageAnalysisData(ImageAnalysisData)
         case startMeasurement
         case endMeasurement
         case imageAnalysis(UIImage)
         case reset
         case sendBgrValues
+        case sendImageAnalysisData(Int)
         case errorHandling(Error)
-        case responseMeasurementId(Int)
         case updateProgress
     }
     
@@ -95,18 +93,23 @@ struct Measurement: ReducerProtocol{
             switch action{
             case .binding:
                 return .none
-            case .responseMeasurementId(let id):
-                state.measurementId = id
-                return .none
+            case .sendImageAnalysisData(let measurementId):
+                return .run{[data = state.imageAnalysisDatas] send in
+                    do{
+                        try await measurementAPI.saveImageAnalysisData(data: data, measurementId: measurementId)
+                    }catch{
+                        await send(.errorHandling(error))
+                    }
+                    await send(.reset)
+                }
             case .sendBgrValues:
                 return .run{[rgbValues = state.rgbValues, target = state.target] send in
                     switch await measurementAPI.signalMeasurment(rgbValues: rgbValues, target: target){
                     case .success(let id):
-                        await send(.responseMeasurementId(id))
+                        await send(.sendImageAnalysisData(id))
                     case .failure(let error):
                         await send(.errorHandling(error))
                     }
-                    await send(.reset)
                 }
                 
             case .obtainBgrValue(let image):
@@ -118,7 +121,6 @@ struct Measurement: ReducerProtocol{
                         }
                         
                         let bgrValue = faceDetector.skinSegmentation(UIImage(cgImage: croppedImage))
-                        
                         await send(.appendBgrValue(bgrValue))
                     }
                     catch{
@@ -133,19 +135,25 @@ struct Measurement: ReducerProtocol{
                 let uiImage = UIImage(sampleBuffer: buffer)
                 state.frameContinuation.yield(uiImage)
                 
-                return state.isMeasuring ? .run{send in
+                return state.isMeasuring ? .run{[imageAnalysisStartTime = state.imageAnalysisStartTime ?? CFAbsoluteTimeGetCurrent()] send in
                     await send(.obtainBgrValue(uiImage))
                     await send(.updateProgress)
-              
-                    await send(.imageAnalysis(uiImage))
+                    
+                    if CFAbsoluteTimeGetCurrent() -  imageAnalysisStartTime >= 1.0{
+                        await send(.imageAnalysis(uiImage))
+                    }
+                    
                 } : .none
                 
             case .endMeasurement:
-                return .send(.sendBgrValues)
-            case .reset:
                 state.isMeasuring = false
+                return .send(.sendBgrValues)
+                
+            case .reset:
                 state.measurementStartTime = nil
+                state.imageAnalysisStartTime = nil
                 state.rgbValues = []
+                state.imageAnalysisDatas = []
                 state.progress = 0
                 
                 return .none
@@ -168,6 +176,7 @@ struct Measurement: ReducerProtocol{
             case .startMeasurement:
                 state.isMeasuring = true
                 state.measurementStartTime = CFAbsoluteTimeGetCurrent()
+                state.imageAnalysisStartTime = CFAbsoluteTimeGetCurrent()
                 
                 return .run{send in
                     try await Task.sleep(nanoseconds: measuringDuriation)
@@ -177,17 +186,25 @@ struct Measurement: ReducerProtocol{
                 state.progress = min(Float(CFAbsoluteTimeGetCurrent() - (state.measurementStartTime ?? CFAbsoluteTimeGetCurrent())) / Float(measuringDuriation / nanosecond), 1.0)
                 return .none
             case .imageAnalysis(let image):
+                state.imageAnalysisStartTime = CFAbsoluteTimeGetCurrent()
+                
                 return .run{send in
-                    do{
-                        try await measurementAPI.expressionAndBMI(image: image)
-                    }catch{
+                    switch await measurementAPI.imageAnalysis(image){
+                    case .success(let data):
+                        await send(.appendImageAnalysisData(data))
+                    case .failure(let error):
                         await send(.errorHandling(error))
                     }
                    
                 }
+            case .appendImageAnalysisData(let data):
+                state.imageAnalysisDatas.append(data)
+                return .none
             }
         }
     }
+    
+    
     private enum CancelID{}
     //MARK: private
     private let nanosecond: UInt64 =  1_000_000_000

@@ -1,5 +1,5 @@
 PODS:
-  - Alamofire (5.5.0)
+  - Alamofire (5.7.1)
   - AppAuth (1.5.0):
     - AppAuth/Core (= 1.5.0)
     - AppAuth/ExternalUserAgent (= 1.5.0)
@@ -19,18 +19,18 @@ PODS:
   - GTMAppAuth (1.3.0):
     - AppAuth/Core (~> 1.4)
     - GTMSessionFetcher/Core (~> 1.5)
-  - GTMSessionFetcher/Core (1.7.2)
-  - KakaoSDKAuth (2.10.0):
-    - KakaoSDKCommon (= 2.10.0)
-  - KakaoSDKCommon (2.10.0):
-    - KakaoSDKCommon/Common (= 2.10.0)
-    - KakaoSDKCommon/Network (= 2.10.0)
-  - KakaoSDKCommon/Common (2.10.0)
-  - KakaoSDKCommon/Network (2.10.0):
+  - GTMSessionFetcher/Core (1.7.0)
+  - KakaoSDKAuth (2.9.1):
+    - KakaoSDKCommon (= 2.9.1)
+  - KakaoSDKCommon (2.9.1):
+    - KakaoSDKCommon/Common (= 2.9.1)
+    - KakaoSDKCommon/Network (= 2.9.1)
+  - KakaoSDKCommon/Common (2.9.1)
+  - KakaoSDKCommon/Network (2.9.1):
     - Alamofire (~> 5.1)
-    - KakaoSDKCommon/Common (= 2.10.0)
-  - KakaoSDKUser (2.10.0):
-    - KakaoSDKAuth (= 2.10.0)
+    - KakaoSDKCommon/Common (= 2.9.1)
+  - KakaoSDKUser (2.9.1):
+    - KakaoSDKAuth (= 2.9.1)
   - naveridlogin-sdk-ios (4.1.6)
   - OpenCV (4.3.0)
   - Overture (0.5.0)
@@ -40,7 +40,7 @@ PODS:
   - SwiftyJSON (5.0.1)
 
 DEPENDENCIES:
-  - Alamofire
+  - Alamofire (~> 5.6)
   - ComposableArchitecture
   - GoogleSignIn
   - KakaoSDKAuth
@@ -70,16 +70,16 @@ SPEC REPOS:
     - SwiftyJSON
 
 SPEC CHECKSUMS:
-  Alamofire: 1c4fb5369c3fe93d2857c780d8bbe09f06f97e7c
+  Alamofire: 0123a34370cb170936ae79a8df46cc62b2edeb88
   AppAuth: 80317d99ac7ff2801a2f18ff86b48cd315ed465d
   CasePaths: 0a2cdef26b2a3e4fabdaca08af5569d6fb1850d6
   ComposableArchitecture: 8b26f86a9ae64d62b00b3a83b0686b7d54444ac4
   GoogleSignIn: 9c69f4188921d8f789816e4c99ba2a1f5f868ddc
   GTMAppAuth: 4d8f864896f3646f0c33baf38a28362f4c601e15
-  GTMSessionFetcher: 5595ec75acf5be50814f81e9189490412bad82ba
-  KakaoSDKAuth: 94cdbd864a6e1b5691c11aba09d769ea91be107a
-  KakaoSDKCommon: 9edbf77ef59c8594412908e023e64ef07f75db08
-  KakaoSDKUser: 7969a38f9ccfd788140fa799b6bbaa223f62683e
+  GTMSessionFetcher: 43748f93435c2aa068b1cbe39655aaf600652e91
+  KakaoSDKAuth: 8ec514e64f57f405735e92483fdae1cc2830d351
+  KakaoSDKCommon: c4b08131fdba6770a280ffe83916048174f329bf
+  KakaoSDKUser: 3b82c8f4b7bdd8584b296cf91d1be4b4a84102fb
   naveridlogin-sdk-ios: cdd34e3585a3d5aaf37c1d84c1f41faba4a25d1a
   OpenCV: 681e0451c1e54c5930a8922277f817ed5d5ab459
   Overture: 2e6252ead5da6d3347f758047f27a31cb469d59d
@@ -87,6 +87,6 @@ SPEC CHECKSUMS:
   RxSwift: 915abbdfb62214aa89ccd0b194d44fb478019b27
   SwiftyJSON: 2f33a42c6fbc52764d96f13368585094bfd8aa5e
 
-PODFILE CHECKSUM: 16adadfc3dfb234295b7e5d71d1277e705591071
+PODFILE CHECKSUM: 7854e66e4223f15a73fcc3bcb4e484b8bd19367b
 
 COCOAPODS: 1.12.1

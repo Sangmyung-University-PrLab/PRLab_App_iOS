@@ -6,7 +6,7 @@ target 'VitalWink' do
   use_frameworks!
 
   # Pods for VitalWink
-  pod 'Alamofire'
+  pod 'Alamofire', '~> 5.6'
   pod 'SwiftyJSON'
   pod 'OpenCV'
   pod 'KakaoSDKCommon'  # 필수 요소를 담은 공통 모듈
