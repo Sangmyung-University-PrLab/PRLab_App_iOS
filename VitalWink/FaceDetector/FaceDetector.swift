@@ -48,10 +48,13 @@ public final class FaceDetector{
                 }
             }
             
-            do{
-                try handler.perform([request])
-            }catch{
-                continuation.resume(throwing: error)
+            DispatchQueue.global(qos:.utility).async {
+                do{
+                    try handler.perform([request])
+                }
+                catch{
+                    continuation.resume(throwing: error)
+                }
             }
         }
        
