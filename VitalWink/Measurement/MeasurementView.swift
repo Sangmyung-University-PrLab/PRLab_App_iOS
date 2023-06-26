@@ -23,10 +23,14 @@ struct MeasurementView: View {
                     image
                         .resizable()
                         .cornerRadius(20)
+                        .overlay{
+                            RoundedRectangle(cornerRadius: 20)
+                                .stroke(viewStore.bbox == .zero ? .red : .clear, lineWidth: 1)
+                        }
                         .modifier(FrameViewModifier())
+                        
                 }else{
                     RoundedRectangle(cornerRadius: 20)
-                    
                         .overlay{
                             Image("face_guide")
                                 .resizable()
@@ -39,9 +43,15 @@ struct MeasurementView: View {
                    
                 ProgressView(value: viewStore.progress)
                     .progressViewStyle(.linear)
-                    .padding(.bottom, 95)
                     .padding(.horizontal, 40)
                     .foregroundColor(.blue)
+                    .padding(.bottom, 10)
+                
+                
+                Text("얼굴이 인식되지 않습니다.")
+                    .font(.notoSans(size: 14))
+                    .foregroundColor(viewStore.bbox == .zero ? .red : .clear)
+                    .padding(.bottom, 70)
                 
                 Button("측정"){
                     viewStore.send(.startMeasurement)

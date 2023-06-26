@@ -50,7 +50,7 @@ struct Measurement: ReducerProtocol{
         fileprivate(set) var progress: Float = 0.0
         fileprivate(set) var measurementStartTime: CFAbsoluteTime? = nil
         fileprivate(set) var imageAnalysisStartTime: CFAbsoluteTime? = nil
-        
+        fileprivate(set) var bbox: CGRect? = nil
         fileprivate let frameContinuation: AsyncStream<UIImage>.Continuation
     }
     
@@ -74,6 +74,7 @@ struct Measurement: ReducerProtocol{
         case sendImageAnalysisData(Int)
         case errorHandling(Error)
         case updateProgress
+        case responseFaceDetction(CGRect)
     }
     
     enum MeasurementError: LocalizedError{
@@ -92,6 +93,9 @@ struct Measurement: ReducerProtocol{
         Reduce{state, action in
             switch action{
             case .binding:
+                return .none
+            case .responseFaceDetction(let bbox):
+                state.bbox = bbox
                 return .none
             case .sendImageAnalysisData(let measurementId):
                 return .run{[data = state.imageAnalysisDatas] send in
@@ -113,9 +117,11 @@ struct Measurement: ReducerProtocol{
                 }
                 
             case .obtainBgrValue(let image):
+                guard let bbox = state.bbox else{
+                    return .none
+                }
                 return .run{send in
                     do{
-                        let bbox = try await faceDetector.detect(image)
                         guard let croppedImage = image.cgImage?.cropping(to: bbox) else{
                             throw MeasurementError.croppingError
                         }
@@ -135,15 +141,23 @@ struct Measurement: ReducerProtocol{
                 let uiImage = UIImage(sampleBuffer: buffer)
                 state.frameContinuation.yield(uiImage)
                 
-                return state.isMeasuring ? .run{[imageAnalysisStartTime = state.imageAnalysisStartTime ?? CFAbsoluteTimeGetCurrent()] send in
-                    await send(.obtainBgrValue(uiImage))
-                    await send(.updateProgress)
-                    
-                    if CFAbsoluteTimeGetCurrent() -  imageAnalysisStartTime >= 1.0{
-                        await send(.imageAnalysis(uiImage))
+                return .run{[imageAnalysisStartTime = state.imageAnalysisStartTime ?? CFAbsoluteTimeGetCurrent(), isMeasuring = state.isMeasuring] send in
+                    do{
+                        let bbox = try await faceDetector.detect(uiImage)
+                        await send(.responseFaceDetction(bbox))
+                    }catch{
+                        await send(.errorHandling(error))
                     }
                     
-                } : .none
+                    if isMeasuring{
+                        await send(.obtainBgrValue(uiImage))
+                        await send(.updateProgress)
+                        
+                        if CFAbsoluteTimeGetCurrent() -  imageAnalysisStartTime >= 1.0{
+                            await send(.imageAnalysis(uiImage))
+                        }
+                    }
+                }
                 
             case .endMeasurement:
                 state.isMeasuring = false
@@ -155,6 +169,7 @@ struct Measurement: ReducerProtocol{
                 state.rgbValues = []
                 state.imageAnalysisDatas = []
                 state.progress = 0
+                state.bbox = nil
                 
                 return .none
             case .errorHandling(let error):
