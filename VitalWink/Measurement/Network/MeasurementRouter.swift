@@ -64,10 +64,11 @@ enum MeasurementRouter: VitalWinkUploadableRouterType{
             data.forEach{
                 valanceAVG += $0.expressionAnalysisData.valence
                 arousalAVG += $0.expressionAnalysisData.arousal
-                $0.expressionAnalysisData.expressions.forEach{expressions.append($0)}
+                expressions.append($0.expressionAnalysisData.expression)
                 BMIAVG += $0.BMI
             }
             return [
+                "bmi": BMIAVG,
                 "valence" : valanceAVG,
                 "arousal": arousalAVG,
                 "expression": expressions

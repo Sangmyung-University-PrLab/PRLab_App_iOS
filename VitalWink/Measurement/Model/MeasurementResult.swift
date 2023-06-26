@@ -31,7 +31,7 @@ struct MeasurementResult: Codable{
     
     
     #if DEBUG
-    static let faceMeasurementMock =  MeasurementResult(bpm: 100, SpO2: 100, RR: 10, stress: 100, BMI: 100, expressionAnalysis: .init( expressionAnalysisData: .init(valence: 1, arousal: 1, expressions: []),BMI: 1))
+    static let faceMeasurementMock =  MeasurementResult(bpm: 100, SpO2: 100, RR: 10, stress: 100, BMI: 100, expressionAnalysis: .init( expressionAnalysisData: .init(valence: 1, arousal: 1, expression: ""),BMI: 1))
     static let fingeMeasurementMock =  MeasurementResult(bpm: 100, SpO2: 100, RR: 10, stress: 100, bloodPressure: .init(SYS: 100, DIA: 100), bloodSugar: 100)
     #endif
 }
