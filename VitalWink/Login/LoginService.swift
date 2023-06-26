@@ -99,17 +99,19 @@ final class LoginService: Sendable{
                     return
                 }
                 
-                GIDSignIn.sharedInstance.signIn(with: strongSelf.gidConfig, presenting: rootContoller){
+                GIDSignIn.sharedInstance.signIn(withPresenting: rootContoller,hint: nil, additionalScopes: nil){
                     guard $1 == nil else{
                         continuation.resume(returning: .failure($1!))
                         return
                     }
                     
-                    guard let credential = $0, let token = credential.authentication.idToken else{
+                    guard let credential = $0 else{
                         continuation.resume(returning: .failure(LoginServiceError.notHaveAccessToken))
                         return
                     }
                     
+                    let token = credential.user.accessToken.tokenString
+                     
                     Task{
                         await strongSelf.tokenHandling(type: .google, token: token, continuation: continuation)
                     }
