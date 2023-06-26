@@ -14,11 +14,11 @@ struct RecentData: Codable{
     let stress: Int?
     
     let BMI: Int?
-    let expressionAnalysis: ExpressionAnalysis?
+    let expressionAnalysis: ImageAnalysisData?
     let bloodPressure: BloodPressure?
     let bloodSugar: Int?
     
     #if DEBUG
-    static let mock = RecentData(bpm: 100, SpO2: 100, RR: 10, stress: 10, BMI: 10, expressionAnalysis: .init(valence: 1.0, arousal: 1.0), bloodPressure: .init(SYS: 100, DIA: 70), bloodSugar: 100)
+    static let mock = RecentData(bpm: 100, SpO2: 100, RR: 10, stress: 10, BMI: 10, expressionAnalysis: .init(  expressionAnalysisData: .init(valence: 1, arousal: 1, expressions: []),BMI: 1), bloodPressure: .init(SYS: 100, DIA: 70), bloodSugar: 100)
     #endif
 }

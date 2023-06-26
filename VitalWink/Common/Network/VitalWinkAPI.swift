@@ -24,8 +24,9 @@ final class VitalWinkAPI{
     }
     
     func upload<Router: VitalWinkUploadableRouterType>(_ router: Router) -> DataRequest{
+        
         return session
-            .upload(multipartFormData: router.multipartFormData, with: VitalWinkRouter(router))
+            .upload(multipartFormData: router.multipartFormData, with: VitalWinkRouter(router), interceptor: authInterceptor)
     }
     
     

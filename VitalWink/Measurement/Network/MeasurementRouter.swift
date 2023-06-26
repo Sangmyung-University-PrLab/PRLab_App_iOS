@@ -9,11 +9,12 @@ import Foundation
 import Alamofire
 
 enum MeasurementRouter: VitalWinkUploadableRouterType{
-    case signalMeasurement(bgrValues: [(Int, Int, Int)], target: Measurement.Target)
-    case expressionAndBMIMeasurement(image: UIImage, id: Int)
+    case signalMeasurement(rgbValues: [(Int, Int, Int)], target: Measurement.Target)
+    case imageAnalysis(image: UIImage)
     case fetchRecentData
     case fetchMetricDatas(_ metric: Metric, period: Period, basisDate: Date)
     case fetchMeasurementResult(_ id: Int)
+    case saveImageAnalysisData(_ data: [ImageAnalysisData], _ measurementId: Int)
     
     var endPoint: String{
         let baseEndPoint = "measurements"
@@ -22,7 +23,7 @@ enum MeasurementRouter: VitalWinkUploadableRouterType{
         case .signalMeasurement(_,let target):
             let targetString = target == .face ? "face" : "finger"
             detailEndPoint = "signal/\(targetString)"
-        case .expressionAndBMIMeasurement:
+        case .imageAnalysis:
             detailEndPoint = "expressionAndBMI"
         case .fetchRecentData:
             detailEndPoint = "recent"
@@ -32,6 +33,8 @@ enum MeasurementRouter: VitalWinkUploadableRouterType{
             detailEndPoint = "\(metric.rawValue)/\(period.rawValue)/\(dateFormatter.string(from: basisDate))"
         case .fetchMeasurementResult(let id):
             detailEndPoint = "\(id)"
+        case .saveImageAnalysisData(_, let measurementId):
+            detailEndPoint = "expressionAndBMI/\(measurementId)"
         }
         
         return  "\(baseEndPoint)/\(detailEndPoint)"
@@ -39,7 +42,7 @@ enum MeasurementRouter: VitalWinkUploadableRouterType{
     
     var method: HTTPMethod{
         switch self {
-        case .signalMeasurement, .expressionAndBMIMeasurement:
+        case .signalMeasurement, .imageAnalysis, .saveImageAnalysisData:
             return .post
         case .fetchRecentData, .fetchMetricDatas, .fetchMeasurementResult:
             return .get
@@ -48,10 +51,28 @@ enum MeasurementRouter: VitalWinkUploadableRouterType{
     
     var parameters: Parameters{
         switch self{
-        case .signalMeasurement(let bgrValues, _):
+        case .signalMeasurement(let rgbValues, _):
             return [
-                "bgrValues": bgrValues.map{[$0.0, $0.1, $0.2]}
+                "rgbValues": rgbValues.map{[$0.0, $0.1, $0.2]}
             ]
+        case .saveImageAnalysisData(let data,_):
+            var valanceAVG: Float = 0.0
+            var arousalAVG: Float = 0.0
+            var expressions = [String]()
+            var BMIAVG = 0
+            
+            data.forEach{
+                valanceAVG += $0.expressionAnalysisData.valence
+                arousalAVG += $0.expressionAnalysisData.arousal
+                $0.expressionAnalysisData.expressions.forEach{expressions.append($0)}
+                BMIAVG += $0.BMI
+            }
+            return [
+                "valence" : valanceAVG,
+                "arousal": arousalAVG,
+                "expression": expressions
+            ]
+            
         default:
             return Parameters()
         }
@@ -66,10 +87,8 @@ enum MeasurementRouter: VitalWinkUploadableRouterType{
     
     func multipartFormData(_ formData: MultipartFormData) {
         switch self{
-        case .expressionAndBMIMeasurement(image: let image, id: let id):
-            formData.append(image.jpegData(compressionQuality: 0.5)!, withName: "image", mimeType: "image/jpeg")
-            var id = id
-            formData.append(Data(bytes: &id, count: MemoryLayout<Int>.size), withName: "measurement_id")
+        case .imageAnalysis(image: let image):
+            formData.append(image.jpegData(compressionQuality: 0.5)!, withName: "image", fileName: "image.jpg",mimeType: "image/jpeg")
         default:
             return
         }
