@@ -75,6 +75,7 @@ struct Measurement: ReducerProtocol{
         case errorHandling(Error)
         case updateProgress
         case responseFaceDetction(CGRect)
+        case cancelMeasurement
     }
     
     enum MeasurementError: LocalizedError{
@@ -120,6 +121,7 @@ struct Measurement: ReducerProtocol{
                 guard let bbox = state.bbox else{
                     return .none
                 }
+                
                 return .run{send in
                     do{
                         guard let croppedImage = image.cgImage?.cropping(to: bbox) else{
@@ -132,7 +134,7 @@ struct Measurement: ReducerProtocol{
                     catch{
                         await send(.errorHandling(error))
                     }
-                }
+                }.cancellable(id:CancelID.self, cancelInFlight: true)
             
             case .appendBgrValue(let rgb):
                 state.rgbValues.append(rgb)
@@ -174,7 +176,9 @@ struct Measurement: ReducerProtocol{
                 return .none
             case .errorHandling(let error):
                 print(error.localizedDescription)
-                return .none
+               
+                return .send(.cancelMeasurement)
+                
             case .startCamera:
                 return .run{send in
                     do{
@@ -196,7 +200,12 @@ struct Measurement: ReducerProtocol{
                 return .run{send in
                     try await Task.sleep(nanoseconds: measuringDuriation)
                     await send(.endMeasurement)
-                }
+                }.cancellable(id:CancelID.self, cancelInFlight: true)
+            case .cancelMeasurement:
+                state.isMeasuring = false
+                
+                return .cancel(id: CancelID.self)
+                    .merge(with: .send(.reset))
             case .updateProgress:
                 state.progress = min(Float(CFAbsoluteTimeGetCurrent() - (state.measurementStartTime ?? CFAbsoluteTimeGetCurrent())) / Float(measuringDuriation / nanosecond), 1.0)
                 return .none
@@ -210,8 +219,7 @@ struct Measurement: ReducerProtocol{
                     case .failure(let error):
                         await send(.errorHandling(error))
                     }
-                   
-                }
+                }.cancellable(id:CancelID.self, cancelInFlight: true)
             case .appendImageAnalysisData(let data):
                 state.imageAnalysisDatas.append(data)
                 return .none
@@ -220,7 +228,7 @@ struct Measurement: ReducerProtocol{
     }
     
     
-    private enum CancelID{}
+    private enum CancelID:Hashable{}
     //MARK: private
     private let nanosecond: UInt64 =  1_000_000_000
     private let measuringDuriation: UInt64 =  1_000_000_000 * 20

@@ -53,10 +53,16 @@ struct MeasurementView: View {
                     .foregroundColor(viewStore.bbox == .zero ? .red : .clear)
                     .padding(.bottom, 70)
                 
-                Button("측정"){
-                    viewStore.send(.startMeasurement)
+                Button(viewStore.isMeasuring ? "취소" : "측정"){
+                    if viewStore.isMeasuring{
+                        viewStore.send(.startMeasurement)
+                    }
+                    else{
+                        viewStore.send(.cancelMeasurement)
+                    }
                 }
-                .buttonStyle(VitalWinkButtonStyle())
+                .disabled(viewStore.bbox == .zero)
+                .buttonStyle(VitalWinkButtonStyle(isDisabled: viewStore.bbox == .zero))
                 .padding(.bottom, 30)
                 
             }
