@@ -54,7 +54,7 @@ struct MeasurementView: View {
                     .padding(.bottom, 70)
                 
                 Button(viewStore.isMeasuring ? "취소" : "측정"){
-                    if viewStore.isMeasuring{
+                    if !viewStore.isMeasuring{
                         viewStore.send(.startMeasurement)
                     }
                     else{
@@ -80,6 +80,7 @@ struct MeasurementView: View {
                 }
             }
             .padding(.horizontal, 20)
+            .vitalWinkAlert(store.scope(state: \.alertState, action: {$0}), dismiss: .alertDismiss)
             .navigationBarBackButtonHidden()
             .background(Color.backgroundColor)
             .onAppear{
@@ -92,6 +93,7 @@ struct MeasurementView: View {
                 }
                 
             }
+            
         }
     }
     

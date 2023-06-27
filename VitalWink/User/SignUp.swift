@@ -72,21 +72,21 @@ struct SignUp: ReducerProtocol{
                 let message = error.localizedDescription
                 os_log(.error, log:.signUp,"%@", message)
                 
-                state.property.alertState = VitalWinkAlertState(title: "회원가입", message: "회원가입 중 오류가 발생하였습니다."){
+                state.property.alertState = VitalWinkAlertMessageState(title: "회원가입", message: "회원가입 중 오류가 발생하였습니다."){
                     VitalWinkAlertButtonState<Action>(title: "확인"){
                         return nil
                     }
                 }
                 return .none
             case .duplicatedEmail:
-                state.property.alertState = VitalWinkAlertState(title: "회원가입", message: "중복된 이메일입니다."){
+                state.property.alertState = VitalWinkAlertMessageState(title: "회원가입", message: "중복된 이메일입니다."){
                     VitalWinkAlertButtonState<Action>(title: "확인"){
                         return nil
                     }
                 }
                 return .none
             case .success:
-                state.property.alertState = VitalWinkAlertState(title: "회원가입", message: "회원가입이 완료되었습니다."){
+                state.property.alertState = VitalWinkAlertMessageState(title: "회원가입", message: "회원가입이 완료되었습니다."){
                     VitalWinkAlertButtonState<Action>(title: "확인"){
                         return .dismiss
                     }
@@ -106,7 +106,7 @@ struct SignUp: ReducerProtocol{
             case .setIsIdDuplicated(let newValue):
                 state.property.isActivityIndicatorVisible = false
                 state.property.isIdDuplicated = newValue
-                state.property.alertState = VitalWinkAlertState(title: "회원가입", message: newValue ? "중복된 아이디 입니다." : "사용 가능한 아아디입니다."){
+                state.property.alertState = VitalWinkAlertMessageState(title: "회원가입", message: newValue ? "중복된 아이디 입니다." : "사용 가능한 아아디입니다."){
                     VitalWinkAlertButtonState<Action>(title: "확인"){
                         return nil
                     }

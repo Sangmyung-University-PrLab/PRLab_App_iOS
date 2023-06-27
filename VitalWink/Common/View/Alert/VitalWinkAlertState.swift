@@ -2,23 +2,15 @@
 //  VitalWinkAlertState.swift
 //  VitalWink
 //
-//  Created by 유호준 on 2023/06/10.
+//  Created by 유호준 on 2023/06/27.
 //
-
-import Foundation
 import ComposableArchitecture
-struct VitalWinkAlertState<Action>: Equatable{
-    init(title: String, message: String, @VitalWinkAlertButtonBuilder buttons: () -> [VitalWinkAlertButtonState<Action>]){
-        self.title = title
-        self.buttons = buttons()
-        self.message = message
-    }
-
-    let title: String
-    let message: String
-    let buttons: [VitalWinkAlertButtonState<Action>]
+import Foundation
+import SwiftUI
+protocol VitalWinkAlertState: Equatable{
+    associatedtype Action
+    associatedtype Content: View
     
-    static func == (lhs: VitalWinkAlertState, rhs: VitalWinkAlertState) -> Bool {
-        return lhs.title == rhs.title && lhs.message == rhs.message && lhs.buttons == rhs.buttons
-    }
+    var buttons: [VitalWinkAlertButtonState<Self.Action>] {get}
+    @ViewBuilder var content: Self.Content {get}
 }

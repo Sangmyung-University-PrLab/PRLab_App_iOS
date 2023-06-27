@@ -30,7 +30,7 @@ struct FindUserInfo: ReducerProtocol{
         
         fileprivate(set) var isActivityIndicatorVisible = false
         fileprivate(set) var shouldViewDismiss = false
-        fileprivate(set) var alertState: VitalWinkAlertState<Action>?
+        fileprivate(set) var alertState: VitalWinkAlertMessageState<Action>?
         fileprivate(set) var changePassword: ChangePassword.State? = nil
         
         fileprivate let idRegex: String
@@ -112,14 +112,14 @@ struct FindUserInfo: ReducerProtocol{
                     state.changePassword = .init(token: token, passwordRegex: state.passwordRegex)
                     state.shouldShowChangePasswordView = true
                 case .notFoundUser:
-                    state.alertState = VitalWinkAlertState(title: "비밀번호 찾기", message: "가입되어 있지 않은 아이디입니다."){
+                    state.alertState = VitalWinkAlertMessageState(title: "비밀번호 찾기", message: "가입되어 있지 않은 아이디입니다."){
                         VitalWinkAlertButtonState<Action>(title: "확인"){
                             return nil
                             
                         }
                     }
                 case .inconsistentInformation:
-                    state.alertState = VitalWinkAlertState(title: "비밀번호 찾기", message: "아이디와 비밀번호가 일치하지 않습니다."){
+                    state.alertState = VitalWinkAlertMessageState(title: "비밀번호 찾기", message: "아이디와 비밀번호가 일치하지 않습니다."){
                         VitalWinkAlertButtonState<Action>(title: "확인"){
                             return nil
                         }
@@ -133,7 +133,7 @@ struct FindUserInfo: ReducerProtocol{
                 let message = error.localizedDescription
                 os_log(.error, log:.findUserInfo,"%@", message)
                 let menu = infoType == .id ? "아이디 찾기" : "비밀번호 찾기"
-                state.alertState = VitalWinkAlertState(title: menu, message: "\(menu) 중 오류가 발생하였습니다."){
+                state.alertState = VitalWinkAlertMessageState(title: menu, message: "\(menu) 중 오류가 발생하였습니다."){
                     VitalWinkAlertButtonState<Action>(title: "확인"){
                         return nil
                     }
@@ -143,7 +143,7 @@ struct FindUserInfo: ReducerProtocol{
                 state.isActivityIndicatorVisible = false
                 
                 guard let id = id else{
-                    state.alertState = VitalWinkAlertState(title: "아이디 찾기", message: "가입되어 있지 않은 아이디 입니다."){
+                    state.alertState = VitalWinkAlertMessageState(title: "아이디 찾기", message: "가입되어 있지 않은 아이디 입니다."){
                         VitalWinkAlertButtonState<Action>(title: "확인"){
                             return nil
                         }
@@ -151,7 +151,7 @@ struct FindUserInfo: ReducerProtocol{
                     return .none
                 }
                 
-                state.alertState = VitalWinkAlertState(title: "아이디 찾기", message: "사용자님의 아이디는 **\(id)**입니다."){
+                state.alertState = VitalWinkAlertMessageState(title: "아이디 찾기", message: "사용자님의 아이디는 **\(id)**입니다."){
                     VitalWinkAlertButtonState<Action>(title: "확인"){
                         return .dismiss
                     }

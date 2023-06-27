@@ -44,6 +44,7 @@ struct Measurement: ReducerProtocol{
         
         let frame: AsyncStream<UIImage>
         
+        fileprivate(set) var alertState: VitalWinkContentAlertState<MeasurementResultView,Action>? = nil
         fileprivate(set) var isMeasuring: Bool = false
         fileprivate(set) var rgbValues = [RGB]()
         fileprivate(set) var imageAnalysisDatas = [ImageAnalysisData]()
@@ -76,6 +77,7 @@ struct Measurement: ReducerProtocol{
         case updateProgress
         case responseFaceDetction(CGRect)
         case cancelMeasurement
+        case alertDismiss
     }
     
     enum MeasurementError: LocalizedError{
@@ -134,7 +136,7 @@ struct Measurement: ReducerProtocol{
                     catch{
                         await send(.errorHandling(error))
                     }
-                }.cancellable(id:CancelID.self, cancelInFlight: true)
+                }.cancellable(id:CancelID.obtainBgrValue, cancelInFlight: true)
             
             case .appendBgrValue(let rgb):
                 state.rgbValues.append(rgb)
@@ -162,6 +164,7 @@ struct Measurement: ReducerProtocol{
                 }
                 
             case .endMeasurement:
+                print("??")
                 state.isMeasuring = false
                 return .send(.sendBgrValues)
                 
@@ -172,6 +175,14 @@ struct Measurement: ReducerProtocol{
                 state.imageAnalysisDatas = []
                 state.progress = 0
                 state.bbox = nil
+                
+                state.alertState = VitalWinkContentAlertState{
+                    VitalWinkAlertButtonState<Action>(title: "닫기"){
+                        return nil
+                    }
+                }content: {
+                    MeasurementResultView()
+                }
                 
                 return .none
             case .errorHandling(let error):
@@ -200,12 +211,15 @@ struct Measurement: ReducerProtocol{
                 return .run{send in
                     try await Task.sleep(nanoseconds: measuringDuriation)
                     await send(.endMeasurement)
-                }.cancellable(id:CancelID.self, cancelInFlight: true)
+                }.cancellable(id:CancelID.startMeasurement, cancelInFlight: true)
             case .cancelMeasurement:
                 state.isMeasuring = false
                 
-                return .cancel(id: CancelID.self)
+                return .cancel(id: CancelID.obtainBgrValue)
                     .merge(with: .send(.reset))
+                    .merge(with:  .cancel(id: CancelID.startMeasurement))
+                    .merge(with:  .cancel(id: CancelID.imageAnalysis))
+                
             case .updateProgress:
                 state.progress = min(Float(CFAbsoluteTimeGetCurrent() - (state.measurementStartTime ?? CFAbsoluteTimeGetCurrent())) / Float(measuringDuriation / nanosecond), 1.0)
                 return .none
@@ -219,16 +233,23 @@ struct Measurement: ReducerProtocol{
                     case .failure(let error):
                         await send(.errorHandling(error))
                     }
-                }.cancellable(id:CancelID.self, cancelInFlight: true)
+                }.cancellable(id:CancelID.imageAnalysis, cancelInFlight: true)
             case .appendImageAnalysisData(let data):
                 state.imageAnalysisDatas.append(data)
+                return .none
+            case .alertDismiss:
+                state.alertState = nil
                 return .none
             }
         }
     }
     
     
-    private enum CancelID:Hashable{}
+    private enum CancelID:Hashable{
+        case imageAnalysis
+        case startMeasurement
+        case obtainBgrValue
+    }
     //MARK: private
     private let nanosecond: UInt64 =  1_000_000_000
     private let measuringDuriation: UInt64 =  1_000_000_000 * 20
