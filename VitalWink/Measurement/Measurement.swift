@@ -42,7 +42,7 @@ struct Measurement: ReducerProtocol{
         
         //최근 측정에 대한 Id
         @BindingState var target: Target = .face
-        
+        fileprivate(set) var isActivityIndicatorVisible = false
         fileprivate(set) var frame: AsyncStream<UIImage>
         var frameContinuation: AsyncStream<UIImage>.Continuation
         
@@ -140,6 +140,7 @@ struct Measurement: ReducerProtocol{
                     }
                 }
             case .sendBgrValues:
+                state.isActivityIndicatorVisible = true
                 return .run{[rgbValues = state.rgbValues, target = state.target] send in
                     switch await measurementAPI.signalMeasurment(rgbValues: rgbValues, target: target){
                     case .success(let id):
@@ -149,6 +150,7 @@ struct Measurement: ReducerProtocol{
                     }
                 }
             case .showResult(let result):
+                state.isActivityIndicatorVisible = false
                 state.alertState = VitalWinkContentAlertState{
                     VitalWinkAlertButtonState<Action>(title: "닫기"){
                         return nil
@@ -246,7 +248,7 @@ struct Measurement: ReducerProtocol{
                 }.cancellable(id:CancelID.startMeasurement, cancelInFlight: true)
             case .cancelMeasurement:
                 state.isMeasuring = false
-                
+                state.isActivityIndicatorVisible = false
                 return .cancel(id: CancelID.obtainBgrValue)
                     .merge(with: .send(.reset))
                     .merge(with:  .cancel(id: CancelID.startMeasurement))

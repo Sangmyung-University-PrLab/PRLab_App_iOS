@@ -77,6 +77,7 @@ struct MeasurementView: View {
                                 RecentDataView(store: store.scope(state: \.monitoring, action: Measurement.Action.monitoring))
                             }
                         }
+                        .contentShape(Rectangle())
                         .onTapGesture {
                             shouldShowRecentDataView = true
                         }
@@ -89,6 +90,7 @@ struct MeasurementView: View {
             }
             .padding(.horizontal, 20)
             .vitalWinkAlert(store.scope(state: \.alertState, action: {$0}), dismiss: .alertDismiss)
+            .activityIndicator(isVisible: viewStore.isActivityIndicatorVisible)
             .navigationBarBackButtonHidden()
             .background(Color.backgroundColor)
             .onAppear{
