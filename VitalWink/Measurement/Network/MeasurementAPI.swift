@@ -62,27 +62,6 @@ final class MeasurmentAPI{
         }
     }
     
-    func fetchRecentData() -> AnyPublisher<RecentData, some Error>{
-        return vitalWinkAPI.request(MeasurementRouter.fetchRecentData)
-            .validate(statusCode: 200...200)
-            .publishDecodable(type: RecentData.self)
-            .value()
-            .eraseToAnyPublisher()
-    }
-    
-    func fetchMetricDatas<ValueType>(_ metric: MeasurementRouter.Metric, period: MeasurementRouter.Period, basisDate: Date, valueType: ValueType.Type = ValueType.self) -> AnyPublisher<[MetricData<ValueType>], some Error> where ValueType: Codable{
-   
-        let decoder = JSONDecoder()
-        decoder.dateDecodingStrategy = .iso8601
-        return vitalWinkAPI.request(MeasurementRouter.fetchMetricDatas(metric, period: period, basisDate: basisDate))
-            .validate(statusCode: 200...200)
-            .publishDecodable(type: MetricDataResponse<ValueType>.self, decoder: decoder)
-            .value()
-            .map{$0.datas}
-            .eraseToAnyPublisher()
-        
-    }
-    
     func fetchMeasurementResult(_ id: Int) async -> Result<MeasurementResult, Error>{
         return await withCheckedContinuation{ continuation in
             vitalWinkAPI.request(MeasurementRouter.fetchMeasurementResult(id))

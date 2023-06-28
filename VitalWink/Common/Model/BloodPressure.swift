@@ -6,7 +6,7 @@
 //
 
 import Foundation
-struct BloodPressure: Codable{
+struct BloodPressure: Codable, Equatable{
     let SYS: Int
     let DIA: Int
 }

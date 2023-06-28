@@ -35,6 +35,10 @@ extension DependencyValues{
         get{self[LoginAPI.self]}
         set{self[LoginAPI.self] = newValue}
     }
+    var montioringAPI: MonitoringAPI{
+        get{self[MonitoringAPI.self]}
+        set{self[MonitoringAPI.self] = newValue}
+    }
     var camera: Camera{
         get{self[Camera.self]}
         set{self[Camera.self] = newValue}

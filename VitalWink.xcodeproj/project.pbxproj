@@ -81,6 +81,10 @@
 		067AD0142A4A9050002E39B1 /* VitalWinkContentAlertState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 067AD0132A4A9050002E39B1 /* VitalWinkContentAlertState.swift */; };
 		067AD0172A4BF007002E39B1 /* RecentDataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 067AD0162A4BF007002E39B1 /* RecentDataView.swift */; };
 		067AD01A2A4BF070002E39B1 /* MetricCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 067AD0192A4BF070002E39B1 /* MetricCardView.swift */; };
+		067AD01C2A4BFBBC002E39B1 /* Monitoring.swift in Sources */ = {isa = PBXBuildFile; fileRef = 067AD01B2A4BFBBC002E39B1 /* Monitoring.swift */; };
+		067AD01F2A4BFCDC002E39B1 /* ExpressionAnalysisNumericData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 067AD01E2A4BFCDC002E39B1 /* ExpressionAnalysisNumericData.swift */; };
+		067AD0232A4BFEC2002E39B1 /* MonitoringRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 067AD0222A4BFEC2002E39B1 /* MonitoringRouter.swift */; };
+		067AD0252A4BFF71002E39B1 /* MonitoringAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 067AD0242A4BFF71002E39B1 /* MonitoringAPI.swift */; };
 		068851492A48410800403AE7 /* ExpressionAnalysisData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 068851482A48410800403AE7 /* ExpressionAnalysisData.swift */; };
 		06A8AB5E2A1DF06100004B62 /* Login.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A8AB5D2A1DF06100004B62 /* Login.swift */; };
 		06A8AB612A1DF14E00004B62 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 06A8AB602A1DF14E00004B62 /* ComposableArchitecture */; };
@@ -199,6 +203,10 @@
 		067AD0132A4A9050002E39B1 /* VitalWinkContentAlertState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VitalWinkContentAlertState.swift; sourceTree = "<group>"; };
 		067AD0162A4BF007002E39B1 /* RecentDataView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentDataView.swift; sourceTree = "<group>"; };
 		067AD0192A4BF070002E39B1 /* MetricCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetricCardView.swift; sourceTree = "<group>"; };
+		067AD01B2A4BFBBC002E39B1 /* Monitoring.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Monitoring.swift; sourceTree = "<group>"; };
+		067AD01E2A4BFCDC002E39B1 /* ExpressionAnalysisNumericData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpressionAnalysisNumericData.swift; sourceTree = "<group>"; };
+		067AD0222A4BFEC2002E39B1 /* MonitoringRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonitoringRouter.swift; sourceTree = "<group>"; };
+		067AD0242A4BFF71002E39B1 /* MonitoringAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonitoringAPI.swift; sourceTree = "<group>"; };
 		068851482A48410800403AE7 /* ExpressionAnalysisData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpressionAnalysisData.swift; sourceTree = "<group>"; };
 		06A8AB5D2A1DF06100004B62 /* Login.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Login.swift; sourceTree = "<group>"; };
 		06A8AB622A1DF4A800004B62 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
@@ -397,6 +405,7 @@
 		065C00DE2A32C62F00054387 /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				067AD0202A4BFE78002E39B1 /* Model */,
 				065C00AD2A305C0800054387 /* Font */,
 				063C16122A0B644100E07141 /* Extensions */,
 				06F180A02A15E89600F1CE90 /* Network */,
@@ -477,13 +486,10 @@
 		0663C46E2A1C71D700B85ABF /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				0663C45F2A1B25ED00B85ABF /* RecentData.swift */,
 				0663C4612A1B262600B85ABF /* ImageAnalysisData.swift */,
-				0663C4632A1B264900B85ABF /* BloodPressure.swift */,
 				0663C4652A1B3FCB00B85ABF /* MetricData.swift */,
 				0663C46B2A1B489100B85ABF /* BloodPressureMetricValue.swift */,
 				0663C4692A1B445E00B85ABF /* ExpressionAnalysisMetricValue.swift */,
-				0663C46F2A1C743900B85ABF /* MinMaxType.swift */,
 				0663C4712A1C7D3100B85ABF /* MeasurementResult.swift */,
 				068851482A48410800403AE7 /* ExpressionAnalysisData.swift */,
 			);
@@ -503,7 +509,9 @@
 		067AD0152A4BEF53002E39B1 /* Monitoring */ = {
 			isa = PBXGroup;
 			children = (
+				067AD0212A4BFEB1002E39B1 /* Network */,
 				067AD0182A4BF05E002E39B1 /* View */,
+				067AD01B2A4BFBBC002E39B1 /* Monitoring.swift */,
 			);
 			path = Monitoring;
 			sourceTree = "<group>";
@@ -515,6 +523,26 @@
 				067AD0192A4BF070002E39B1 /* MetricCardView.swift */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		067AD0202A4BFE78002E39B1 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				0663C4632A1B264900B85ABF /* BloodPressure.swift */,
+				0663C46F2A1C743900B85ABF /* MinMaxType.swift */,
+				067AD01E2A4BFCDC002E39B1 /* ExpressionAnalysisNumericData.swift */,
+				0663C45F2A1B25ED00B85ABF /* RecentData.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		067AD0212A4BFEB1002E39B1 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				067AD0222A4BFEC2002E39B1 /* MonitoringRouter.swift */,
+				067AD0242A4BFF71002E39B1 /* MonitoringAPI.swift */,
+			);
+			path = Network;
 			sourceTree = "<group>";
 		};
 		06A8AB5A2A1C8C8D00004B62 /* Network */ = {
@@ -874,6 +902,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				067AD01F2A4BFCDC002E39B1 /* ExpressionAnalysisNumericData.swift in Sources */,
 				065C00F82A3595F500054387 /* User.swift in Sources */,
 				0629A2182A204F70007B864B /* VideoWriter.swift in Sources */,
 				0663C44B2A19FFA700B85ABF /* MeasurementRouter.swift in Sources */,
@@ -921,8 +950,10 @@
 				067AD0102A4A7461002E39B1 /* MeasurmentResultColumnView.swift in Sources */,
 				0663C4642A1B264900B85ABF /* BloodPressure.swift in Sources */,
 				065C00C62A30694500054387 /* VitalWinkTextFieldStyle.swift in Sources */,
+				067AD0252A4BFF71002E39B1 /* MonitoringAPI.swift in Sources */,
 				065C00DD2A31B8B600054387 /* LoginAPI.swift in Sources */,
 				06F180A22A15E95C00F1CE90 /* AuthInterceptor.swift in Sources */,
+				067AD01C2A4BFBBC002E39B1 /* Monitoring.swift in Sources */,
 				067AD0122A4A7CFD002E39B1 /* VitalWinkAlertState.swift in Sources */,
 				0663C4582A1A17F200B85ABF /* MockMeasurementProtocol.swift in Sources */,
 				06F1809F2A15DEFC00F1CE90 /* VitalWinkRouter.swift in Sources */,
@@ -940,6 +971,7 @@
 				06F180B42A17403C00F1CE90 /* UserAPI.swift in Sources */,
 				0629A21C2A208C91007B864B /* OSLog + Extension.swift in Sources */,
 				0629A2242A25C8CF007B864B /* Measurement.swift in Sources */,
+				067AD0232A4BFEC2002E39B1 /* MonitoringRouter.swift in Sources */,
 				065C01042A3809C100054387 /* FindUserInfo.swift in Sources */,
 				06A8AB5E2A1DF06100004B62 /* Login.swift in Sources */,
 				065C01082A3AA58300054387 /* ChangePassword.swift in Sources */,
