@@ -71,14 +71,17 @@ public final class FaceDetector{
         do{
             try self.sequenceHandler.perform([request], on: buffer)
         }catch{
+            trackRequest = nil
             throw error
         }
         
         guard let results = request.results else {
+            trackRequest = nil
             return .zero
         }
        
         guard let observation = results[0] as? VNDetectedObjectObservation else {
+            trackRequest = nil
             return .zero
         }
         
