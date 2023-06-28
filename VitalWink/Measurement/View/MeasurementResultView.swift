@@ -8,6 +8,10 @@
 import SwiftUI
 
 struct MeasurementResultView: View {
+    init(_ result:MeasurementResult){
+        self.result = result
+    }
+    
     var body: some View {
         VStack(spacing:0){
             Text("측정 결과")
@@ -16,21 +20,31 @@ struct MeasurementResultView: View {
                 .padding(.top, 25)
             MeasurmentResultColumnView(metric: "지표", value: "값")
                 .background(Color.backgroundColor.ignoresSafeArea([]))
-            MeasurmentResultColumnView(metric: "심박수", value: "\(0)")
-            MeasurmentResultColumnView(metric: "산소포화도", value: "\(0)")
-            MeasurmentResultColumnView(metric: "호흡수", value: "\(0)")
-            MeasurmentResultColumnView(metric: "스트레스", value: "\(0)")
-            MeasurmentResultColumnView(metric: "BMI", value: "\(0)")
-            MeasurmentResultColumnView(metric: "긴장도", value: "\(0)")
-            MeasurmentResultColumnView(metric: "분노지수", value: "\(0)")
+            MeasurmentResultColumnView(metric: "심박수", value: "\(result.bpm)")
+            MeasurmentResultColumnView(metric: "산소포화도", value: "\(result.SpO2)")
+            MeasurmentResultColumnView(metric: "호흡수", value: "\(result.RR)")
+            MeasurmentResultColumnView(metric: "스트레스", value: "\(result.stress)")
+    
+            if let BMI = result.BMI{
+                MeasurmentResultColumnView(metric: "BMI", value: "\(BMI)")
+            }
+            if let arousal = result.expressionAnalysis?.arousal{
+                MeasurmentResultColumnView(metric: "긴장도", value: String(format: "%.2f", arousal))
+            }
+            if let valence = result.expressionAnalysis?.valence{
+                MeasurmentResultColumnView(metric: "분노지수", value: String(format: "%.2f", valence))
+            }
+            
+            
             Spacer()
         }.frame(height:403)
         
     }
+    private let result: MeasurementResult
 }
-
-struct MeasurementResultView_Previews: PreviewProvider {
-    static var previews: some View {
-        MeasurementResultView()
-    }
-}
+//
+//struct MeasurementResultView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        MeasurementResultView()
+//    }
+//}

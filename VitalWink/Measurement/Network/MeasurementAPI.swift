@@ -83,12 +83,19 @@ final class MeasurmentAPI{
         
     }
     
-    func fetchMeasurementResult(_ id: Int) -> AnyPublisher<MeasurementResult, some Error>{
-        return vitalWinkAPI.request(MeasurementRouter.fetchMeasurementResult(id))
-            .validate(statusCode: 200...200)
-            .publishDecodable(type: MeasurementResult.self)
-            .value()
-            .eraseToAnyPublisher()
+    func fetchMeasurementResult(_ id: Int) async -> Result<MeasurementResult, Error>{
+        return await withCheckedContinuation{ continuation in
+            vitalWinkAPI.request(MeasurementRouter.fetchMeasurementResult(id))
+                .validate(statusCode: 200 ..< 300)
+                .responseDecodable(of: MeasurementResult.self){
+                    switch $0.result{
+                    case .success(let data):
+                        continuation.resume(returning: .success(data))
+                    case .failure(let error):
+                        continuation.resume(returning: .failure(error))
+                    }
+                }
+        }
     }
     @Dependency(\.vitalWinkAPI) private var vitalWinkAPI
 }

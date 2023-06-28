@@ -72,12 +72,14 @@ struct Measurement: ReducerProtocol{
         case imageAnalysis(UIImage)
         case reset
         case sendBgrValues
-        case sendImageAnalysisData(Int)
+        case sendImageAnalysisData(_ measurementId: Int)
         case errorHandling(Error)
         case updateProgress
         case responseFaceDetction(CGRect)
         case cancelMeasurement
         case alertDismiss
+        case fetchResult(_ measurementId: Int)
+        case showResult(_ result: MeasurementResult)
     }
     
     enum MeasurementError: LocalizedError{
@@ -104,10 +106,19 @@ struct Measurement: ReducerProtocol{
                 return .run{[data = state.imageAnalysisDatas] send in
                     do{
                         try await measurementAPI.saveImageAnalysisData(data: data, measurementId: measurementId)
+                        await send(.fetchResult(measurementId))
                     }catch{
                         await send(.errorHandling(error))
                     }
-                    await send(.reset)
+                }
+            case .fetchResult(let measurementId):
+                return .run{send in
+                    switch await measurementAPI.fetchMeasurementResult(measurementId){
+                    case .success(let result):
+                        await send(.showResult(result))
+                    case .failure(let error):
+                        await send(.errorHandling(error))
+                    }
                 }
             case .sendBgrValues:
                 return .run{[rgbValues = state.rgbValues, target = state.target] send in
@@ -118,7 +129,17 @@ struct Measurement: ReducerProtocol{
                         await send(.errorHandling(error))
                     }
                 }
+            case .showResult(let result):
+      
+                state.alertState = VitalWinkContentAlertState{
+                    VitalWinkAlertButtonState<Action>(title: "닫기"){
+                        return nil
+                    }
+                }content: {
+                    MeasurementResultView(result)
+                }
                 
+                return .send(.reset)
             case .obtainBgrValue(let image):
                 guard let bbox = state.bbox else{
                     return .none
@@ -164,7 +185,6 @@ struct Measurement: ReducerProtocol{
                 }
                 
             case .endMeasurement:
-                print("??")
                 state.isMeasuring = false
                 return .send(.sendBgrValues)
                 
@@ -175,15 +195,7 @@ struct Measurement: ReducerProtocol{
                 state.imageAnalysisDatas = []
                 state.progress = 0
                 state.bbox = nil
-                
-                state.alertState = VitalWinkContentAlertState{
-                    VitalWinkAlertButtonState<Action>(title: "닫기"){
-                        return nil
-                    }
-                }content: {
-                    MeasurementResultView()
-                }
-                
+              
                 return .none
             case .errorHandling(let error):
                 print(error.localizedDescription)
