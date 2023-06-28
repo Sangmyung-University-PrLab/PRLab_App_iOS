@@ -270,8 +270,7 @@
 				0629A21F2A25B97E007B864B /* OpenCVWrapper.h */,
 				0629A2202A25B97E007B864B /* OpenCVWrapper.mm */,
 			);
-			name = FaceDetector;
-			path = VitalWink/FaceDetector;
+			path = FaceDetector;
 			sourceTree = "<group>";
 		};
 		063C16122A0B644100E07141 /* Extensions */ = {
@@ -302,7 +301,6 @@
 			isa = PBXGroup;
 			children = (
 				064B04B82A08DAAB00230FBC /* VitalWink */,
-				0629A21D2A25B97E007B864B /* FaceDetector */,
 				064B04C92A08DAAC00230FBC /* VitalWinkTests */,
 				064B04D32A08DAAC00230FBC /* VitalWinkUITests */,
 				064B04B72A08DAAB00230FBC /* Products */,
@@ -329,6 +327,7 @@
 				064B04E32A08DD8000230FBC /* Info.plist */,
 				064B04B92A08DAAB00230FBC /* VitalWinkApp.swift */,
 				064B04BD2A08DAAC00230FBC /* Assets.xcassets */,
+				0629A21D2A25B97E007B864B /* FaceDetector */,
 				065C00DE2A32C62F00054387 /* Common */,
 				064B04BF2A08DAAC00230FBC /* Preview Content */,
 				063C16282A0E03AD00E07141 /* Camera */,

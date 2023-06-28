@@ -36,6 +36,7 @@ struct RecentDataView: View {
                 ToolbarItem(placement: .navigationBarLeading){
                     Image(systemName: "chevron.backward")
                         .font(.system(size:15))
+                        .contentShape(Rectangle())
                         .onTapGesture {
                             dismiss()
                         }
