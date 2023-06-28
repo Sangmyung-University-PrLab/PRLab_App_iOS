@@ -43,7 +43,7 @@ struct Measurement: ReducerProtocol{
         @BindingState var target: Target = .face
         
         let frame: AsyncStream<UIImage>
-        
+        fileprivate(set) var monitoring = Monitoring.State()
         fileprivate(set) var alertState: VitalWinkContentAlertState<MeasurementResultView,Action>? = nil
         fileprivate(set) var isMeasuring: Bool = false
         fileprivate(set) var rgbValues = [RGB]()
@@ -80,6 +80,7 @@ struct Measurement: ReducerProtocol{
         case alertDismiss
         case fetchResult(_ measurementId: Int)
         case showResult(_ result: MeasurementResult)
+        case monitoring(Monitoring.Action)
     }
     
     enum MeasurementError: LocalizedError{
@@ -97,6 +98,8 @@ struct Measurement: ReducerProtocol{
         
         Reduce{state, action in
             switch action{
+            case .monitoring:
+                return .none
             case .binding:
                 return .none
             case .responseFaceDetction(let bbox):
@@ -253,6 +256,10 @@ struct Measurement: ReducerProtocol{
                 state.alertState = nil
                 return .none
             }
+        }
+        
+        Scope(state: \.monitoring, action: /Action.monitoring){
+            Monitoring()
         }
     }
     
