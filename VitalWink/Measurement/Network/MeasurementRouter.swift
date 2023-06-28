@@ -11,8 +11,6 @@ import Alamofire
 enum MeasurementRouter: VitalWinkUploadableRouterType{
     case signalMeasurement(rgbValues: [(Int, Int, Int)], target: Measurement.Target)
     case imageAnalysis(image: UIImage)
-    case fetchRecentData
-    case fetchMetricDatas(_ metric: Metric, period: Period, basisDate: Date)
     case fetchMeasurementResult(_ id: Int)
     case saveImageAnalysisData(_ data: [ImageAnalysisData], _ measurementId: Int)
     
@@ -25,12 +23,6 @@ enum MeasurementRouter: VitalWinkUploadableRouterType{
             detailEndPoint = "signal/\(targetString)"
         case .imageAnalysis:
             detailEndPoint = "expressionAndBMI"
-        case .fetchRecentData:
-            detailEndPoint = "recent"
-        case .fetchMetricDatas(let metric, let period, let basisDate):
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "yyyy-MM-dd"
-            detailEndPoint = "\(metric.rawValue)/\(period.rawValue)/\(dateFormatter.string(from: basisDate))"
         case .fetchMeasurementResult(let id):
             detailEndPoint = "\(id)"
         case .saveImageAnalysisData(_, let measurementId):
@@ -44,7 +36,7 @@ enum MeasurementRouter: VitalWinkUploadableRouterType{
         switch self {
         case .signalMeasurement, .imageAnalysis, .saveImageAnalysisData:
             return .post
-        case .fetchRecentData, .fetchMetricDatas, .fetchMeasurementResult:
+        case .fetchMeasurementResult:
             return .get
         }
     }
@@ -93,22 +85,5 @@ enum MeasurementRouter: VitalWinkUploadableRouterType{
         default:
             return
         }
-    }
-    enum Metric: String{
-        case bpm = "bpms"
-        case SpO2 = "SpO2s"
-        case RR = "RRs"
-        case stressIndex = "stressIndexs"
-        case BMI = "BMIs"
-        case expressionAnalysis = "expressionAnalyses"
-        case bloodPressure = "bloodPressures"
-        case bloodSugars = "bloodSugars"
-    }
-    
-    enum Period: String{
-        case day = "day"
-        case week = "week"
-        case month = "month"
-        case year = "year"
     }
 }
