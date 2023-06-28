@@ -77,6 +77,7 @@ struct MeasurementView: View {
                                 RecentDataView(store: store.scope(state: \.monitoring, action: Measurement.Action.monitoring))
                             }
                         }
+                        .contentShape(Rectangle())
                         .onTapGesture {
                             shouldShowRecentDataView = true
                         }
@@ -89,23 +90,33 @@ struct MeasurementView: View {
             }
             .padding(.horizontal, 20)
             .vitalWinkAlert(store.scope(state: \.alertState, action: {$0}), dismiss: .alertDismiss)
+            .activityIndicator(isVisible: viewStore.isActivityIndicatorVisible)
             .navigationBarBackButtonHidden()
             .background(Color.backgroundColor)
             .onAppear{
                 viewStore.send(.startCamera)
-                
-                Task{
-                    for await frame in viewStore.state.frame{
+                frameTask = Task{
+                    for await frame in viewStore.frame{
                         self.image = Image(uiImage: UIImage(cgImage: frame.cgImage!, scale: 1, orientation: .leftMirrored))
                     }
                 }
-                
+            }
+            
+            .onDisappear{
+                viewStore.send(.onDisappear)
+                guard let frameTask = self.frameTask else{
+                    return
+                }
+                frameTask.cancel()
+                self.frameTask = nil
+                self.image = nil
             }
             
         }
     }
     
     //MARK: - private
+    @State private var frameTask: Task<(), Never>? = nil
     @State private var shouldShowRecentDataView = false
     @State private var image: Image?
     private let store: StoreOf<Measurement>
