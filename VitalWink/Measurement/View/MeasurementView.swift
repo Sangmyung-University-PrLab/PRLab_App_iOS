@@ -72,6 +72,14 @@ struct MeasurementView: View {
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .frame(width: 20, height: 20.76)
+                        .background{
+                            NavigationLink("", isActive: $shouldShowRecentDataView){
+                                RecentDataView(store: store.scope(state: \.monitoring, action: Measurement.Action.monitoring))
+                            }
+                        }
+                        .onTapGesture {
+                            shouldShowRecentDataView = true
+                        }
                 }
                 
                 ToolbarItem(placement: .navigationBarTrailing){
@@ -98,6 +106,7 @@ struct MeasurementView: View {
     }
     
     //MARK: - private
+    @State private var shouldShowRecentDataView = false
     @State private var image: Image?
     private let store: StoreOf<Measurement>
 }
