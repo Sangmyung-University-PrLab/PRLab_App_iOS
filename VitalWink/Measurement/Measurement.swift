@@ -35,6 +35,7 @@ struct Measurement: ReducerProtocol{
             var coninuation: AsyncStream<UIImage>.Continuation!
             frame = AsyncStream{
                 coninuation = $0
+          
             }
             self.frameContinuation = coninuation
         }
@@ -42,7 +43,9 @@ struct Measurement: ReducerProtocol{
         //최근 측정에 대한 Id
         @BindingState var target: Target = .face
         
-        let frame: AsyncStream<UIImage>
+        fileprivate(set) var frame: AsyncStream<UIImage>
+        var frameContinuation: AsyncStream<UIImage>.Continuation
+        
         fileprivate(set) var monitoring = Monitoring.State()
         fileprivate(set) var alertState: VitalWinkContentAlertState<MeasurementResultView,Action>? = nil
         fileprivate(set) var isMeasuring: Bool = false
@@ -52,7 +55,7 @@ struct Measurement: ReducerProtocol{
         fileprivate(set) var measurementStartTime: CFAbsoluteTime? = nil
         fileprivate(set) var imageAnalysisStartTime: CFAbsoluteTime? = nil
         fileprivate(set) var bbox: CGRect? = nil
-        fileprivate let frameContinuation: AsyncStream<UIImage>.Continuation
+       
     }
     
     enum Target: CaseIterable{
@@ -80,6 +83,7 @@ struct Measurement: ReducerProtocol{
         case alertDismiss
         case fetchResult(_ measurementId: Int)
         case showResult(_ result: MeasurementResult)
+        case onDisappear
         case monitoring(Monitoring.Action)
     }
     
@@ -98,6 +102,18 @@ struct Measurement: ReducerProtocol{
         
         Reduce{state, action in
             switch action{
+            case .onDisappear:
+                camera.stop()
+                var coninuation: AsyncStream<UIImage>.Continuation!
+                state.frame = AsyncStream{
+                    coninuation = $0
+              
+                }
+                state.frameContinuation = coninuation
+                
+                return .send(.cancelMeasurement)
+                    .merge(with:.cancel(id: CancelID.beFedFrame))
+                   
             case .monitoring:
                 return .none
             case .binding:
@@ -133,7 +149,6 @@ struct Measurement: ReducerProtocol{
                     }
                 }
             case .showResult(let result):
-      
                 state.alertState = VitalWinkContentAlertState{
                     VitalWinkAlertButtonState<Action>(title: "닫기"){
                         return nil
@@ -185,7 +200,7 @@ struct Measurement: ReducerProtocol{
                             await send(.imageAnalysis(uiImage))
                         }
                     }
-                }
+                }.cancellable(id: CancelID.beFedFrame, cancelInFlight: true)
                 
             case .endMeasurement:
                 state.isMeasuring = false
@@ -206,6 +221,7 @@ struct Measurement: ReducerProtocol{
                 return .send(.cancelMeasurement)
                 
             case .startCamera:
+                
                 return .run{send in
                     do{
                         try await camera.setUp()
@@ -214,6 +230,7 @@ struct Measurement: ReducerProtocol{
                     }
                     camera.start()
                 }.concatenate(with: EffectTask<Action>.run{send in
+                   
                     for await buffer in camera.frame{
                         await send(.beFedFrame(buffer))
                     }
@@ -268,6 +285,7 @@ struct Measurement: ReducerProtocol{
         case imageAnalysis
         case startMeasurement
         case obtainBgrValue
+        case beFedFrame
     }
     //MARK: private
     private let nanosecond: UInt64 =  1_000_000_000

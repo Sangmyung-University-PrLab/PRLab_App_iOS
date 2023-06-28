@@ -93,19 +93,28 @@ struct MeasurementView: View {
             .background(Color.backgroundColor)
             .onAppear{
                 viewStore.send(.startCamera)
-                
-                Task{
-                    for await frame in viewStore.state.frame{
+                frameTask = Task{
+                    for await frame in viewStore.frame{
                         self.image = Image(uiImage: UIImage(cgImage: frame.cgImage!, scale: 1, orientation: .leftMirrored))
                     }
                 }
-                
+            }
+            
+            .onDisappear{
+                viewStore.send(.onDisappear)
+                guard let frameTask = self.frameTask else{
+                    return
+                }
+                frameTask.cancel()
+                self.frameTask = nil
+                self.image = nil
             }
             
         }
     }
     
     //MARK: - private
+    @State private var frameTask: Task<(), Never>? = nil
     @State private var shouldShowRecentDataView = false
     @State private var image: Image?
     private let store: StoreOf<Measurement>
