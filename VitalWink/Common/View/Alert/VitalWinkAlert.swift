@@ -47,7 +47,7 @@ struct VitalWinkAlert<VAS>: View where VAS: VitalWinkAlertState{
                     }
                     
                 }
-                .padding(.top, 20)
+             
                 .padding(.horizontal, 20)
                 .padding(.bottom, 20)
                 .background{

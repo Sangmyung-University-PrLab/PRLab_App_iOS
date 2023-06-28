@@ -57,7 +57,6 @@ struct Login: ReducerProtocol{
                     await send(.restoreLogin)
                 }
             case .restoreLogin:
-                keyChainManager.deleteTokenInKeyChain()
                 state.shouldShowMeasurementView = keyChainManager.readTokenInKeyChain() != nil
                 state.isActivityIndicatorVisible = false
                 

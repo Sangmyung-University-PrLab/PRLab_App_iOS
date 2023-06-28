@@ -7,32 +7,33 @@
 
 import SwiftUI
 
-struct MeasurmentResultColumnView<Value: Numeric>: View {
-    init(metric: String, value: Value, width: CGFloat){
+struct MeasurmentResultColumnView : View {
+    init(metric: String, value: String){
         self.metric = metric
         self.value = value
-        self.width = width
     }
     
     var body: some View {
         VStack(spacing:0){
             Divider()
-            Spacer()
-            HStack(spacing:0){
-                Text(metric)
-                    .frame(width: width)
-                Text(String(describing: value))
-                    .frame(width: width)
-            }
-            .font(.notoSans(size: 14))
-            Spacer()
+            
+            GeometryReader{proxy in
+                HStack(spacing:0){
+                    Text(metric).frame(width: proxy.size.width / 2)
+                    Text(value).frame(width: proxy.size.width / 2)
+                }
+                .font(.notoSans(size: 14))
+                .position(x: proxy.size.width / 2, y: proxy.size.height / 2)
+            }.frame(height: 40)
+            
             Divider()
-        }
+        }.frame(height: 40)
     }
     
     private let metric: String
-    private let value: Value
-    private let width: CGFloat
+    private let value: String
+    
 }
+
 
 

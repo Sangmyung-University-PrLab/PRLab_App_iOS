@@ -20,7 +20,7 @@ struct VitalWinkAlertMessageState<Action>: VitalWinkAlertState{
             Text(LocalizedStringKey(message))
                 .font(.notoSans(size: 14,weight: .regular))
                 .padding(.bottom, 30)
-        }
+        }.padding(.top, 20)
     }
     
     init(title: String, message: String, @VitalWinkAlertButtonBuilder buttons: () -> [VitalWinkAlertButtonState<Action>]){
