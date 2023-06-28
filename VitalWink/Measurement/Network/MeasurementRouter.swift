@@ -60,9 +60,9 @@ enum MeasurementRouter: VitalWinkUploadableRouterType{
                 BMIAVG += $0.BMI
             }
             return [
-                "bmi": BMIAVG,
-                "valence" : valanceAVG,
-                "arousal": arousalAVG,
+                "bmi": BMIAVG / data.count,
+                "valence" : valanceAVG / Float(data.count),
+                "arousal": arousalAVG / Float(data.count),
                 "expression": expressions
             ]
             
