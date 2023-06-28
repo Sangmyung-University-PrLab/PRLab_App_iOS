@@ -27,7 +27,7 @@ struct ChangePassword: ReducerProtocol{
             repeatPassword == password
         }
         
-        fileprivate(set) var alertState: VitalWinkAlertState<Action>? = nil
+        fileprivate(set) var alertState: VitalWinkAlertMessageState<Action>? = nil
         fileprivate(set) var isActivityIndicatorVisible = false
         fileprivate(set) var shouldViewDismiss = false
         fileprivate let token: String
@@ -65,7 +65,7 @@ struct ChangePassword: ReducerProtocol{
                 let message = error.localizedDescription
                 os_log(.error, log:.findUserInfo,"%@", message)
                 
-                state.alertState = VitalWinkAlertState(title: "비밀번호 변경", message: "비밀번호 변경 중 오류가 발생하였습니다."){
+                state.alertState = VitalWinkAlertMessageState(title: "비밀번호 변경", message: "비밀번호 변경 중 오류가 발생하였습니다."){
                     VitalWinkAlertButtonState<Action>(title: "확인"){
                         return nil
                     }
@@ -74,7 +74,7 @@ struct ChangePassword: ReducerProtocol{
                 return .none
             case .success:
                 state.isActivityIndicatorVisible = false
-                state.alertState = VitalWinkAlertState(title: "비밀번호 변경", message: "비밀번호가 성공적으로 변경되었습니다."){
+                state.alertState = VitalWinkAlertMessageState(title: "비밀번호 변경", message: "비밀번호가 성공적으로 변경되었습니다."){
                     VitalWinkAlertButtonState<Action>(title: "확인"){
                         return .dismiss
                     }

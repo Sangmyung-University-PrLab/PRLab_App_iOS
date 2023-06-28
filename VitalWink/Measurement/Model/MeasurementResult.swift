@@ -13,12 +13,12 @@ struct MeasurementResult: Codable{
     let stress: Int
 
     let BMI: Int?
-    let expressionAnalysis: ImageAnalysisData?
+    let expressionAnalysis: ExpressionAnalysis?
 
     let bloodPressure: BloodPressure?
     let bloodSugar: Int?
     
-    init(bpm: Int, SpO2: Int, RR: Int, stress: Int, BMI: Int? = nil, expressionAnalysis: ImageAnalysisData? = nil, bloodPressure: BloodPressure?  = nil, bloodSugar: Int? = nil) {
+    init(bpm: Int, SpO2: Int, RR: Int, stress: Int, BMI: Int? = nil, expressionAnalysis: ExpressionAnalysis? = nil, bloodPressure: BloodPressure?  = nil, bloodSugar: Int? = nil) {
         self.bpm = bpm
         self.SpO2 = SpO2
         self.RR = RR
@@ -29,9 +29,13 @@ struct MeasurementResult: Codable{
         self.bloodSugar = bloodSugar
     }
     
+     struct ExpressionAnalysis: Codable{
+        let valence: Float
+        let arousal: Float
+    }
     
     #if DEBUG
-    static let faceMeasurementMock =  MeasurementResult(bpm: 100, SpO2: 100, RR: 10, stress: 100, BMI: 100, expressionAnalysis: .init( expressionAnalysisData: .init(valence: 1, arousal: 1, expressions: []),BMI: 1))
+    static let faceMeasurementMock =  MeasurementResult(bpm: 100, SpO2: 100, RR: 10, stress: 100, BMI: 100, expressionAnalysis: .init(valence: 1, arousal: 1))
     static let fingeMeasurementMock =  MeasurementResult(bpm: 100, SpO2: 100, RR: 10, stress: 100, bloodPressure: .init(SYS: 100, DIA: 100), bloodSugar: 100)
     #endif
 }

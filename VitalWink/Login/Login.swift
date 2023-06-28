@@ -26,7 +26,7 @@ struct Login: ReducerProtocol{
         }
     
         fileprivate(set) var isActivityIndicatorVisible = false
-        fileprivate(set) var alertState:VitalWinkAlertState<Action>? = nil
+        fileprivate(set) var alertState:VitalWinkAlertMessageState<Action>? = nil
         
         fileprivate(set) var user =  User.State()
         fileprivate(set) var measurement =  Measurement.State()
@@ -107,14 +107,14 @@ struct Login: ReducerProtocol{
                     state.shouldShowMeasurementView = true
                     
                 case .notFoundUser:
-                    state.alertState = VitalWinkAlertState(title: "VitalWink", message: "가입되어 있지 않은 아이디입니다."){
+                    state.alertState = VitalWinkAlertMessageState(title: "VitalWink", message: "가입되어 있지 않은 아이디입니다."){
                         VitalWinkAlertButtonState<Action>(title: "확인"){
                             return nil
                             
                         }
                     }
                 case .inconsistentInformation:
-                    state.alertState = VitalWinkAlertState(title: "VitalWink", message: "아이디와 비밀번호가 일치하지 않습니다."){
+                    state.alertState = VitalWinkAlertMessageState(title: "VitalWink", message: "아이디와 비밀번호가 일치하지 않습니다."){
                         VitalWinkAlertButtonState<Action>(title: "확인"){
                             return nil
                         }
@@ -130,7 +130,7 @@ struct Login: ReducerProtocol{
                 let message = error.localizedDescription
                 os_log(.error, log:.login,"%@", message)
                 
-                state.alertState = VitalWinkAlertState(title: "VitalWink", message: "로그인 중 오류가 발생하였습니다."){
+                state.alertState = VitalWinkAlertMessageState(title: "VitalWink", message: "로그인 중 오류가 발생하였습니다."){
                     VitalWinkAlertButtonState<Action>(title: "확인"){
                         return nil
                     }

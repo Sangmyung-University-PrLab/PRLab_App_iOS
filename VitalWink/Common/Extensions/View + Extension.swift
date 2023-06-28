@@ -9,7 +9,8 @@ import Foundation
 import SwiftUI
 import ComposableArchitecture
 extension View{
-    func vitalWinkAlert<Action>(_ store: Store<VitalWinkAlertState<Action>?, Action>, dismiss: Action) -> some View{
+    func vitalWinkAlert<VAS>(_ store: Store<VAS?, VAS.Action>, dismiss: VAS.Action) -> some View where VAS: VitalWinkAlertState{
+        
         self
             .overlay{
                 VitalWinkAlert(viewStore: ViewStore(store), dismiss: dismiss)
