@@ -79,6 +79,8 @@
 		067AD0102A4A7461002E39B1 /* MeasurmentResultColumnView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 067AD00F2A4A7461002E39B1 /* MeasurmentResultColumnView.swift */; };
 		067AD0122A4A7CFD002E39B1 /* VitalWinkAlertState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 067AD0112A4A7CFD002E39B1 /* VitalWinkAlertState.swift */; };
 		067AD0142A4A9050002E39B1 /* VitalWinkContentAlertState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 067AD0132A4A9050002E39B1 /* VitalWinkContentAlertState.swift */; };
+		067AD0172A4BF007002E39B1 /* RecentDataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 067AD0162A4BF007002E39B1 /* RecentDataView.swift */; };
+		067AD01A2A4BF070002E39B1 /* MetricCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 067AD0192A4BF070002E39B1 /* MetricCardView.swift */; };
 		068851492A48410800403AE7 /* ExpressionAnalysisData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 068851482A48410800403AE7 /* ExpressionAnalysisData.swift */; };
 		06A8AB5E2A1DF06100004B62 /* Login.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A8AB5D2A1DF06100004B62 /* Login.swift */; };
 		06A8AB612A1DF14E00004B62 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 06A8AB602A1DF14E00004B62 /* ComposableArchitecture */; };
@@ -195,6 +197,8 @@
 		067AD00F2A4A7461002E39B1 /* MeasurmentResultColumnView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeasurmentResultColumnView.swift; sourceTree = "<group>"; };
 		067AD0112A4A7CFD002E39B1 /* VitalWinkAlertState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VitalWinkAlertState.swift; sourceTree = "<group>"; };
 		067AD0132A4A9050002E39B1 /* VitalWinkContentAlertState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VitalWinkContentAlertState.swift; sourceTree = "<group>"; };
+		067AD0162A4BF007002E39B1 /* RecentDataView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentDataView.swift; sourceTree = "<group>"; };
+		067AD0192A4BF070002E39B1 /* MetricCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetricCardView.swift; sourceTree = "<group>"; };
 		068851482A48410800403AE7 /* ExpressionAnalysisData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpressionAnalysisData.swift; sourceTree = "<group>"; };
 		06A8AB5D2A1DF06100004B62 /* Login.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Login.swift; sourceTree = "<group>"; };
 		06A8AB622A1DF4A800004B62 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
@@ -323,6 +327,7 @@
 				06A8AB5C2A1DEFBD00004B62 /* Login */,
 				06F180AF2A17403C00F1CE90 /* User */,
 				0663C4472A19FEE600B85ABF /* Measurement */,
+				067AD0152A4BEF53002E39B1 /* Monitoring */,
 				063C16172A0CAD9900E07141 /* VitalWink-Bridging-Header.h */,
 			);
 			path = VitalWink;
@@ -491,6 +496,23 @@
 				0629A2252A25DD3E007B864B /* MeasurementView.swift */,
 				067AD00D2A4984BA002E39B1 /* MeasurementResultView.swift */,
 				067AD00F2A4A7461002E39B1 /* MeasurmentResultColumnView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		067AD0152A4BEF53002E39B1 /* Monitoring */ = {
+			isa = PBXGroup;
+			children = (
+				067AD0182A4BF05E002E39B1 /* View */,
+			);
+			path = Monitoring;
+			sourceTree = "<group>";
+		};
+		067AD0182A4BF05E002E39B1 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				067AD0162A4BF007002E39B1 /* RecentDataView.swift */,
+				067AD0192A4BF070002E39B1 /* MetricCardView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -858,6 +880,7 @@
 				0629A2262A25DD3E007B864B /* MeasurementView.swift in Sources */,
 				064B04E72A08F14800230FBC /* Camera.swift in Sources */,
 				065C00C12A305C6F00054387 /* Font + Extension.swift in Sources */,
+				067AD01A2A4BF070002E39B1 /* MetricCardView.swift in Sources */,
 				065C01002A37FFB100054387 /* FindIdView.swift in Sources */,
 				065C010C2A3C22EF00054387 /* LoginService.swift in Sources */,
 				065C010A2A3AAE6600054387 /* ChangePasswordView.swift in Sources */,
@@ -920,6 +943,7 @@
 				065C01042A3809C100054387 /* FindUserInfo.swift in Sources */,
 				06A8AB5E2A1DF06100004B62 /* Login.swift in Sources */,
 				065C01082A3AA58300054387 /* ChangePassword.swift in Sources */,
+				067AD0172A4BF007002E39B1 /* RecentDataView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
