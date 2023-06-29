@@ -85,6 +85,7 @@
 		067AD01F2A4BFCDC002E39B1 /* ExpressionAnalysisNumericData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 067AD01E2A4BFCDC002E39B1 /* ExpressionAnalysisNumericData.swift */; };
 		067AD0232A4BFEC2002E39B1 /* MonitoringRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 067AD0222A4BFEC2002E39B1 /* MonitoringRouter.swift */; };
 		067AD0252A4BFF71002E39B1 /* MonitoringAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 067AD0242A4BFF71002E39B1 /* MonitoringAPI.swift */; };
+		067AD0292A4D1E7E002E39B1 /* MetricChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 067AD0282A4D1E7E002E39B1 /* MetricChartView.swift */; };
 		068851492A48410800403AE7 /* ExpressionAnalysisData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 068851482A48410800403AE7 /* ExpressionAnalysisData.swift */; };
 		06A8AB5E2A1DF06100004B62 /* Login.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A8AB5D2A1DF06100004B62 /* Login.swift */; };
 		06A8AB612A1DF14E00004B62 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 06A8AB602A1DF14E00004B62 /* ComposableArchitecture */; };
@@ -207,6 +208,7 @@
 		067AD01E2A4BFCDC002E39B1 /* ExpressionAnalysisNumericData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpressionAnalysisNumericData.swift; sourceTree = "<group>"; };
 		067AD0222A4BFEC2002E39B1 /* MonitoringRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonitoringRouter.swift; sourceTree = "<group>"; };
 		067AD0242A4BFF71002E39B1 /* MonitoringAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonitoringAPI.swift; sourceTree = "<group>"; };
+		067AD0282A4D1E7E002E39B1 /* MetricChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetricChartView.swift; sourceTree = "<group>"; };
 		068851482A48410800403AE7 /* ExpressionAnalysisData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpressionAnalysisData.swift; sourceTree = "<group>"; };
 		06A8AB5D2A1DF06100004B62 /* Login.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Login.swift; sourceTree = "<group>"; };
 		06A8AB622A1DF4A800004B62 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
@@ -520,6 +522,7 @@
 			children = (
 				067AD0162A4BF007002E39B1 /* RecentDataView.swift */,
 				067AD0192A4BF070002E39B1 /* MetricCardView.swift */,
+				067AD0282A4D1E7E002E39B1 /* MetricChartView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -966,6 +969,7 @@
 				06A8AB632A1DF4A800004B62 /* LoginView.swift in Sources */,
 				065C00F02A34509500054387 /* VitalWinkAlertMessageState.swift in Sources */,
 				065C00E82A32E11A00054387 /* VitalWinkButtonStyle.swift in Sources */,
+				067AD0292A4D1E7E002E39B1 /* MetricChartView.swift in Sources */,
 				065C00F62A35933E00054387 /* SignUpView.swift in Sources */,
 				06F180B42A17403C00F1CE90 /* UserAPI.swift in Sources */,
 				0629A21C2A208C91007B864B /* OSLog + Extension.swift in Sources */,
