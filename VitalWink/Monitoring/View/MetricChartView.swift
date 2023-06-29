@@ -11,7 +11,7 @@ import SwiftUI
 
 struct MetricChartView: View{
     init(data: [MinMaxType<Float>]){
-        self.data = data
+        self.data = data.reversed()
         
         self.baseRange = data.reduce(MinMaxType(min: 0.0, max: 0.0)){
             let min = $0.min < $1.min ? $0.min : $1.min
@@ -33,19 +33,23 @@ struct MetricChartView: View{
                     .frame(width: outerProxy.size.width - 30, height: outerProxy.size.height - 12)
                     .overlay{
                         GeometryReader{proxy in
-                            ScrollView(.horizontal,showsIndicators: false){
-                                HStack{
-                                    Spacer()
-                                    ForEach(0 ..< data.count, id: \.self){
-                                        MetricChartItemView(item: data[$0], baseRange: MinMaxType(min: 61, max: 138), baseHeight: Float(outerProxy.size.height) - 12)
+                            ScrollViewReader{scrollReader in
+                                ScrollView(.horizontal,showsIndicators: false){
+                                    HStack{
+                                        Spacer()
+                                        ForEach(0 ..< data.count, id: \.self){
+                                            MetricChartItemView(item: data[$0], baseRange: MinMaxType(min: 61, max: 138), baseHeight: Float(outerProxy.size.height) - 12)
+                                        }
+                                        
+                                        Spacer().frame(width:20)
+                                            .id(data.count)
                                     }
-                                    
-                                    Spacer().frame(width:20)
-                                }
-                                
-                                .position(x: proxy.size.width / 2, y:proxy.size.height / 2)
-                                .frame(width:outerProxy.size.width - 30, height: outerProxy.size.height - 12)
+                                } .frame(height: outerProxy.size.height - 12)
+                                    .onAppear{
+                                        scrollReader.scrollTo(data.count)
+                                    }
                             }
+                            
                         }
                     }
                 
@@ -96,6 +100,33 @@ struct MetricCharView_Previews: PreviewProvider{
             MinMaxType<Float>(min: 70.0, max: 82.0),
             MinMaxType<Float>(min: 93.0, max: 108.0),
             MinMaxType<Float>(min: 123.0, max: 138.0),
+            MinMaxType<Float>(min: 64.0, max: 73.0),
+            MinMaxType<Float>(min: 87.0, max: 95.0),
+            MinMaxType<Float>(min: 61.0, max: 65.0),
+            MinMaxType<Float>(min: 64.0, max: 73.0),
+            MinMaxType<Float>(min: 87.0, max: 95.0),
+            MinMaxType<Float>(min: 61.0, max: 65.0),
+            MinMaxType<Float>(min: 64.0, max: 73.0),
+            MinMaxType<Float>(min: 87.0, max: 95.0),
+            MinMaxType<Float>(min: 61.0, max: 65.0),
+            MinMaxType<Float>(min: 64.0, max: 73.0),
+            MinMaxType<Float>(min: 87.0, max: 95.0),
+            MinMaxType<Float>(min: 61.0, max: 65.0),
+            MinMaxType<Float>(min: 64.0, max: 73.0),
+            MinMaxType<Float>(min: 87.0, max: 95.0),
+            MinMaxType<Float>(min: 61.0, max: 65.0),
+            MinMaxType<Float>(min: 64.0, max: 73.0),
+            MinMaxType<Float>(min: 87.0, max: 95.0),
+            MinMaxType<Float>(min: 61.0, max: 65.0),
+            MinMaxType<Float>(min: 64.0, max: 73.0),
+            MinMaxType<Float>(min: 87.0, max: 95.0),
+            MinMaxType<Float>(min: 61.0, max: 65.0),
+            MinMaxType<Float>(min: 64.0, max: 73.0),
+            MinMaxType<Float>(min: 87.0, max: 95.0),
+            MinMaxType<Float>(min: 61.0, max: 65.0),
+            MinMaxType<Float>(min: 64.0, max: 73.0),
+            MinMaxType<Float>(min: 87.0, max: 95.0),
+            MinMaxType<Float>(min: 61.0, max: 65.0),
             MinMaxType<Float>(min: 64.0, max: 73.0),
             MinMaxType<Float>(min: 87.0, max: 95.0),
             MinMaxType<Float>(min: 61.0, max: 65.0),
