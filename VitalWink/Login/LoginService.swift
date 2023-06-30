@@ -203,8 +203,14 @@ final class LoginService: Sendable{
                 return
             }
             
-           statusCode == 404 ? continuation.resume(returning:.success(.shouldSignUp))
-            : continuation.resume(returning: .failure(afError))
+            if statusCode == 404{
+                UserDefaults.standard.set(token, forKey: "access_token")
+                continuation.resume(returning:.success(.shouldSignUp))
+            }
+            else{
+                continuation.resume(returning: .failure(afError))
+            }
+            
         }
     }
     
