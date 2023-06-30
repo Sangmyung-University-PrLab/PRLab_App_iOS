@@ -561,6 +561,18 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		067AD0302A4EBDE3002E39B1 /* Feature */ = {
+			isa = PBXGroup;
+			children = (
+				065C00F72A3595F500054387 /* User.swift */,
+				065C01012A3802D600054387 /* SignUp.swift */,
+				061ED9EE2A400E0C00B04572 /* SignUpStateProperty.swift */,
+				065C01032A3809C100054387 /* FindUserInfo.swift */,
+				065C01072A3AA58300054387 /* ChangePassword.swift */,
+			);
+			path = Feature;
+			sourceTree = "<group>";
+		};
 		06A8AB5A2A1C8C8D00004B62 /* Network */ = {
 			isa = PBXGroup;
 			children = (
@@ -607,15 +619,11 @@
 		06F180AF2A17403C00F1CE90 /* User */ = {
 			isa = PBXGroup;
 			children = (
+				067AD0302A4EBDE3002E39B1 /* Feature */,
 				065C00F42A3592FD00054387 /* View */,
 				06A8AB5B2A1C8C9900004B62 /* Model */,
 				06A8AB5A2A1C8C8D00004B62 /* Network */,
-				065C00F72A3595F500054387 /* User.swift */,
-				065C01012A3802D600054387 /* SignUp.swift */,
-				061ED9EE2A400E0C00B04572 /* SignUpStateProperty.swift */,
 				065C010D2A3C39A100054387 /* SnsUserInfoService.swift */,
-				065C01032A3809C100054387 /* FindUserInfo.swift */,
-				065C01072A3AA58300054387 /* ChangePassword.swift */,
 			);
 			path = User;
 			sourceTree = "<group>";
