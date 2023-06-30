@@ -105,7 +105,7 @@ final class LoginService: Sendable{
                         return
                     }
                     
-                    let token = credential.user.accessToken.tokenString
+                    let token = credential.user.idToken?.tokenString ?? ""
                      
                     Task{
                         await strongSelf.tokenHandling(type: .google, token: token, continuation: continuation)
