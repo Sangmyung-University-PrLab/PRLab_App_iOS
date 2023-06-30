@@ -19,11 +19,6 @@ final class LoginService: Sendable{
             fatalError("Info.plist가 없습니다.")
         }
         
-        guard let clientId = info["GOOGLE_CLIENT_ID"] as? String else{
-            fatalError("구글 로그인을 위한 클라이언트 아이디가 존재하지 않습니다.")
-        }
-        
-        gidConfig = GIDConfiguration(clientID: clientId)
         NaverThirdPartyLoginConnection.getSharedInstance().resetToken()
         NaverThirdPartyLoginConnection.getSharedInstance().delegate = naverLoginDelgate
     }
@@ -213,8 +208,6 @@ final class LoginService: Sendable{
         }
     }
     
-    
-    private let gidConfig: GIDConfiguration
     private let naverLoginDelgate = NaverLoginDelegate()
     @Dependency(\.loginAPI) private var loginAPI
 }
