@@ -14,7 +14,6 @@ target 'VitalWink' do
   pod 'KakaoSDKUser'
   pod 'GoogleSignIn'
   pod 'naveridlogin-sdk-ios'
- 
   
   target 'VitalWinkTests' do
     inherit! :search_paths

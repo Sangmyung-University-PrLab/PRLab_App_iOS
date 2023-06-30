@@ -6,13 +6,24 @@
 //
 
 import SwiftUI
+import ComposableArchitecture
 
 struct MetricCardView: View {
-    init(metric: String, value: String, icon: Image, unit: String? = nil){
+    init(metric: MonitoringRouter.Metric, value: String, store: StoreOf<Monitoring>){
         self.metric = metric
         self.value = value
-        self.icon = icon
-        self.unit = unit
+        self.icon = Image("\(metric == .expressionAnalysis ? "expressionAnalysis" : metric.rawValue[metric.rawValue.startIndex ..< metric.rawValue.index(before:  metric.rawValue.endIndex)])_icon")
+        switch metric{
+        case .bpm:
+            self.unit = "bpm"
+        case .SpO2:
+            self.unit = "%"
+        case .RR:
+            self.unit = "회"
+        default:
+            self.unit = nil
+        }
+        self.store = store
     }
     
     var body: some View {
@@ -22,7 +33,7 @@ struct MetricCardView: View {
             .overlay{
                 VStack(spacing:10){
                     HStack(spacing:0){
-                        Text(metric)
+                        Text(metric.korean)
                             .font(.notoSans(size: 14, weight: .bold))
                         Spacer()
                         Image(systemName: "chevron.forward")
@@ -45,16 +56,19 @@ struct MetricCardView: View {
                 }
                 .padding(.horizontal,20)
             }
+            .onTapGesture {
+                shouldShowMetricMonitoringView = true
+            }
+            .background{
+                NavigationLink("", destination: MetricMonitoringView(store: store, metric: metric), isActive: $shouldShowMetricMonitoringView)
+            }
     }
     
-    private let metric: String
+    @State private var shouldShowMetricMonitoringView = false
+    private let metric: MonitoringRouter.Metric
     private let value: String
     private let icon: Image
     private let unit: String?
+    private let store: StoreOf<Monitoring>
 }
 
-struct MetricCardView_Previews: PreviewProvider {
-    static var previews: some View {
-        MetricCardView(metric: "심박수", value: "\(76)", icon: Image("bpm_icon"), unit: "bpm")
-    }
-}

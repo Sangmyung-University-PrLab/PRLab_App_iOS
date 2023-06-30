@@ -6,7 +6,8 @@
 //
 
 import Foundation
-struct MinMaxType<T: Codable & Comparable & Equatable>: Codable, Equatable{
+struct MinMaxType<T: Comparable & Equatable & Codable>: DataBaseType{
+  
     var min: T{
         willSet{
             if newValue > max{

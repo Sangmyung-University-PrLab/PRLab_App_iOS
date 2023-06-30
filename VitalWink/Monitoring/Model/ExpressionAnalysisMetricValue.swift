@@ -6,12 +6,12 @@
 //
 
 import Foundation
-struct ExpressionAnalysisMetricValue: Codable{
+struct ExpressionAnalysisMetricValue:DataBaseType{
     let arousal: MinMaxType<Float>
     let valence: MinMaxType<Float>
     let expression: Expression
     
-    struct Expression: Codable{
+    struct Expression: DataBaseType{
         let neutral: Float
         let happy: Float
         let smile: Float

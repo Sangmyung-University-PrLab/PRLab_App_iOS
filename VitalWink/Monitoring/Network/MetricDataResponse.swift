@@ -6,6 +6,6 @@
 //
 
 import Foundation
-struct MetricDataResponse<ValueType>: Codable where ValueType: Codable{
+struct MetricDataResponse<ValueType>: DataBaseType where ValueType: DataBaseType {
     let datas: [MetricData<ValueType>]
 }
