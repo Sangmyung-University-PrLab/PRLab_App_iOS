@@ -47,6 +47,7 @@ struct LoginView: View{
                         NavigationLink("회원가입", isActive: viewStore.binding(\.$shouldShowSignUpView)){
                             SignUpView(store: store.scope(state: \.user, action: Login.Action.user))
                         }.foregroundColor(.black)
+                            
                         
                         Spacer()
                         
@@ -60,6 +61,7 @@ struct LoginView: View{
                             FindPasswordView(store: store.scope(state: \.user, action: Login.Action.user))
                         }.foregroundColor(.black)
                     }
+                    .buttonStyle(.plain)
                     .font(.notoSans(size: 13, weight: .medium))
                     .padding(.vertical, 30)
                     .padding(.horizontal, 23)
