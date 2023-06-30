@@ -112,17 +112,17 @@ extension MockMeasurmentProtocol{
             switch metric{
             case "bloodPressures":
                 let response = MetricDataResponse(datas: [
-                    .init(value: BloodPressureMetricValue.mock, basisDate: Date())
+                    .init(value: BloodPressureMetricValue.mock, basisDate: .now)
                 ])
                 return try! JSONEncoder().encode(response)
             case "expressionAnalyses":
                 let response = MetricDataResponse(datas: [
-                    .init(value: ExpressionAnalysisMetricValue.mock, basisDate: Date())
+                    .init(value: ExpressionAnalysisMetricValue.mock, basisDate: .now)
                 ])
                 return try! JSONEncoder().encode(response)
             default:
                 let response = MetricDataResponse(datas: [
-                    .init(value: MinMaxType(min: 1, max: 100), basisDate: Date())
+                    .init(value: MinMaxType(min: 1, max: 100), basisDate: .now)
                 ])
                 var encoder = JSONEncoder()
                 encoder.dateEncodingStrategy = .iso8601

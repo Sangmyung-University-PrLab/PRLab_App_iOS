@@ -85,6 +85,9 @@
 		067AD01F2A4BFCDC002E39B1 /* ExpressionAnalysisNumericData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 067AD01E2A4BFCDC002E39B1 /* ExpressionAnalysisNumericData.swift */; };
 		067AD0232A4BFEC2002E39B1 /* MonitoringRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 067AD0222A4BFEC2002E39B1 /* MonitoringRouter.swift */; };
 		067AD0252A4BFF71002E39B1 /* MonitoringAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 067AD0242A4BFF71002E39B1 /* MonitoringAPI.swift */; };
+		067AD0292A4D1E7E002E39B1 /* MetricChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 067AD0282A4D1E7E002E39B1 /* MetricChartView.swift */; };
+		067AD02B2A4E610F002E39B1 /* MetricMonitoringView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 067AD02A2A4E610F002E39B1 /* MetricMonitoringView.swift */; };
+		067AD02E2A4E94B3002E39B1 /* DataBaseType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 067AD02D2A4E94B3002E39B1 /* DataBaseType.swift */; };
 		068851492A48410800403AE7 /* ExpressionAnalysisData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 068851482A48410800403AE7 /* ExpressionAnalysisData.swift */; };
 		06A8AB5E2A1DF06100004B62 /* Login.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A8AB5D2A1DF06100004B62 /* Login.swift */; };
 		06A8AB612A1DF14E00004B62 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 06A8AB602A1DF14E00004B62 /* ComposableArchitecture */; };
@@ -207,6 +210,9 @@
 		067AD01E2A4BFCDC002E39B1 /* ExpressionAnalysisNumericData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpressionAnalysisNumericData.swift; sourceTree = "<group>"; };
 		067AD0222A4BFEC2002E39B1 /* MonitoringRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonitoringRouter.swift; sourceTree = "<group>"; };
 		067AD0242A4BFF71002E39B1 /* MonitoringAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonitoringAPI.swift; sourceTree = "<group>"; };
+		067AD0282A4D1E7E002E39B1 /* MetricChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetricChartView.swift; sourceTree = "<group>"; };
+		067AD02A2A4E610F002E39B1 /* MetricMonitoringView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetricMonitoringView.swift; sourceTree = "<group>"; };
+		067AD02D2A4E94B3002E39B1 /* DataBaseType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataBaseType.swift; sourceTree = "<group>"; };
 		068851482A48410800403AE7 /* ExpressionAnalysisData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpressionAnalysisData.swift; sourceTree = "<group>"; };
 		06A8AB5D2A1DF06100004B62 /* Login.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Login.swift; sourceTree = "<group>"; };
 		06A8AB622A1DF4A800004B62 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
@@ -270,8 +276,7 @@
 				0629A21F2A25B97E007B864B /* OpenCVWrapper.h */,
 				0629A2202A25B97E007B864B /* OpenCVWrapper.mm */,
 			);
-			name = FaceDetector;
-			path = VitalWink/FaceDetector;
+			path = FaceDetector;
 			sourceTree = "<group>";
 		};
 		063C16122A0B644100E07141 /* Extensions */ = {
@@ -302,7 +307,6 @@
 			isa = PBXGroup;
 			children = (
 				064B04B82A08DAAB00230FBC /* VitalWink */,
-				0629A21D2A25B97E007B864B /* FaceDetector */,
 				064B04C92A08DAAC00230FBC /* VitalWinkTests */,
 				064B04D32A08DAAC00230FBC /* VitalWinkUITests */,
 				064B04B72A08DAAB00230FBC /* Products */,
@@ -329,6 +333,7 @@
 				064B04E32A08DD8000230FBC /* Info.plist */,
 				064B04B92A08DAAB00230FBC /* VitalWinkApp.swift */,
 				064B04BD2A08DAAC00230FBC /* Assets.xcassets */,
+				0629A21D2A25B97E007B864B /* FaceDetector */,
 				065C00DE2A32C62F00054387 /* Common */,
 				064B04BF2A08DAAC00230FBC /* Preview Content */,
 				063C16282A0E03AD00E07141 /* Camera */,
@@ -475,7 +480,6 @@
 		0663C46D2A1C71C400B85ABF /* Network */ = {
 			isa = PBXGroup;
 			children = (
-				0663C4672A1B409E00B85ABF /* MetricDataResponse.swift */,
 				0663C4482A19FF2A00B85ABF /* MeasurementAPI.swift */,
 				0663C44A2A19FFA700B85ABF /* MeasurementRouter.swift */,
 				0663C4572A1A17F200B85ABF /* MockMeasurementProtocol.swift */,
@@ -487,9 +491,6 @@
 			isa = PBXGroup;
 			children = (
 				0663C4612A1B262600B85ABF /* ImageAnalysisData.swift */,
-				0663C4652A1B3FCB00B85ABF /* MetricData.swift */,
-				0663C46B2A1B489100B85ABF /* BloodPressureMetricValue.swift */,
-				0663C4692A1B445E00B85ABF /* ExpressionAnalysisMetricValue.swift */,
 				0663C4712A1C7D3100B85ABF /* MeasurementResult.swift */,
 				068851482A48410800403AE7 /* ExpressionAnalysisData.swift */,
 			);
@@ -509,6 +510,7 @@
 		067AD0152A4BEF53002E39B1 /* Monitoring */ = {
 			isa = PBXGroup;
 			children = (
+				067AD02C2A4E7069002E39B1 /* Model */,
 				067AD0212A4BFEB1002E39B1 /* Network */,
 				067AD0182A4BF05E002E39B1 /* View */,
 				067AD01B2A4BFBBC002E39B1 /* Monitoring.swift */,
@@ -521,6 +523,8 @@
 			children = (
 				067AD0162A4BF007002E39B1 /* RecentDataView.swift */,
 				067AD0192A4BF070002E39B1 /* MetricCardView.swift */,
+				067AD0282A4D1E7E002E39B1 /* MetricChartView.swift */,
+				067AD02A2A4E610F002E39B1 /* MetricMonitoringView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -539,10 +543,22 @@
 		067AD0212A4BFEB1002E39B1 /* Network */ = {
 			isa = PBXGroup;
 			children = (
+				0663C4672A1B409E00B85ABF /* MetricDataResponse.swift */,
 				067AD0222A4BFEC2002E39B1 /* MonitoringRouter.swift */,
 				067AD0242A4BFF71002E39B1 /* MonitoringAPI.swift */,
 			);
 			path = Network;
+			sourceTree = "<group>";
+		};
+		067AD02C2A4E7069002E39B1 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				0663C46B2A1B489100B85ABF /* BloodPressureMetricValue.swift */,
+				0663C4692A1B445E00B85ABF /* ExpressionAnalysisMetricValue.swift */,
+				0663C4652A1B3FCB00B85ABF /* MetricData.swift */,
+				067AD02D2A4E94B3002E39B1 /* DataBaseType.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		06A8AB5A2A1C8C8D00004B62 /* Network */ = {
@@ -915,6 +931,7 @@
 				065C010A2A3AAE6600054387 /* ChangePasswordView.swift in Sources */,
 				065C00C32A3060F400054387 /* Color + Extensions.swift in Sources */,
 				065C00FA2A35B0E100054387 /* VitialWinkFormSection.swift in Sources */,
+				067AD02E2A4E94B3002E39B1 /* DataBaseType.swift in Sources */,
 				063C16272A0E01DB00E07141 /* CameraStream.swift in Sources */,
 				0663C4662A1B3FCB00B85ABF /* MetricData.swift in Sources */,
 				065C00FC2A35BA6000054387 /* CircularSegmentedPickerView.swift in Sources */,
@@ -961,12 +978,14 @@
 				06EDBFA92A414353002CCC40 /* ASAuthorizationControllerDelgateImpl.swift in Sources */,
 				064B04BA2A08DAAB00230FBC /* VitalWinkApp.swift in Sources */,
 				065C00EA2A32EBD400054387 /* View + Extension.swift in Sources */,
+				067AD02B2A4E610F002E39B1 /* MetricMonitoringView.swift in Sources */,
 				0629A2222A25B97E007B864B /* OpenCVWrapper.mm in Sources */,
 				067AD00E2A4984BA002E39B1 /* MeasurementResultView.swift in Sources */,
 				061ED9EF2A400E0C00B04572 /* SignUpStateProperty.swift in Sources */,
 				06A8AB632A1DF4A800004B62 /* LoginView.swift in Sources */,
 				065C00F02A34509500054387 /* VitalWinkAlertMessageState.swift in Sources */,
 				065C00E82A32E11A00054387 /* VitalWinkButtonStyle.swift in Sources */,
+				067AD0292A4D1E7E002E39B1 /* MetricChartView.swift in Sources */,
 				065C00F62A35933E00054387 /* SignUpView.swift in Sources */,
 				06F180B42A17403C00F1CE90 /* UserAPI.swift in Sources */,
 				0629A21C2A208C91007B864B /* OSLog + Extension.swift in Sources */,
