@@ -52,6 +52,9 @@ struct MetricMonitoringView: View{
     var body: some View {
         WithViewStore(store, observe: {$0}){viewStore in
             VStack{
+                CircularSegmentedPickerView(selected: viewStore.binding(\.$period), texts: ["1일", "1주","1개월","1년"])
+                    .padding(.horizontal, 5)
+                
                 RoundedRectangle(cornerRadius: 8)
                     .foregroundColor(.white)
                     .frame(height: 255)
@@ -62,10 +65,10 @@ struct MetricMonitoringView: View{
                         .padding(.horizontal,10)
                         .padding(.vertical, 20)
                     }
-                    .padding(.horizontal, 20)
                 Spacer()
                 
             }
+            .padding(.horizontal, 20)
             .background(Color.backgroundColor)
             .navigationTitle("\(metric.korean)")
             .navigationBarTitleDisplayMode(.inline)
@@ -79,6 +82,9 @@ struct MetricMonitoringView: View{
                             dismiss()
                         }
                 }
+            }
+            .onChange(of: viewStore.period){_ in
+                viewStore.send(.fetchMetricDatas(metric, .now))
             }
             .onAppear{
                 viewStore.send(.fetchMetricDatas(metric, .now))

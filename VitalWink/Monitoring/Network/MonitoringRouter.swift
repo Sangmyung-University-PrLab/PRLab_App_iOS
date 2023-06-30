@@ -73,7 +73,7 @@ enum MonitoringRouter: VitalWinkRouterType{
         }
     }
     
-    enum Period: String{
+    enum Period: String, CaseIterable{
         case day = "day"
         case week = "week"
         case month = "month"

@@ -23,8 +23,6 @@ struct MetricChartView: View{
         numberFormatter = NumberFormatter()
         numberFormatter.numberStyle = .decimal
         numberFormatter.maximumFractionDigits = 2
-        
-        print(datas)
     }
     
     var body: some View{
