@@ -8,71 +8,80 @@
 import Foundation
 import Charts
 import SwiftUI
-
+import ComposableArchitecture
 struct MetricChartView: View{
-    init(datas: [MetricData<MinMaxType<Float>>]){
-        self.datas = datas.reversed()
+    init(store: StoreOf<MetricChart>, metric: Metric){
+        self.store = store
+        self.metric = metric
         
-        self.baseRange = datas.map{$0.value}
-            .reduce(MinMaxType(min: datas.first?.value.min ?? 0, max: datas.first?.value.max ?? 0)){
-            let min = $0.min < $1.min ? $0.min : $1.min
-            let max = $0.max > $1.max ? $0.max : $1.max
-            
-            return MinMaxType(min: min, max: max)
-        }
         numberFormatter = NumberFormatter()
         numberFormatter.numberStyle = .decimal
         numberFormatter.maximumFractionDigits = 2
     }
     
     var body: some View{
-        GeometryReader{outerProxy in
-            HStack{
-                Path{
-                    $0.move(to: CGPoint(x: outerProxy.size.width - 30, y: 0))
-                    $0.addLine(to: CGPoint(x: outerProxy.size.width - 30, y: outerProxy.size.height - 12))
-                    $0.addLine(to: CGPoint(x: 0, y: outerProxy.size.height - 12))
-                }.stroke(Color.gray)
-                .frame(width: outerProxy.size.width - 30, height: outerProxy.size.height - 12)
-                .overlay{
-                        GeometryReader{proxy in
-                            ScrollViewReader{scrollReader in
-                                ScrollView(.horizontal,showsIndicators: false){
-                                    HStack{
-                                        Spacer()
-                                        ForEach(0 ..< datas.count, id: \.self){
-                                            MetricChartItemView(item: datas[$0], baseRange: baseRange, baseHeight: Float(outerProxy.size.height) - 12)
-                                        }
-                                        
-                                        Spacer().frame(width:20)
-                                            .id(datas.count)
-                                    }.frame(width:proxy.size.width,height:proxy.size.height + 21)
-                                }
-                           
-                                
-                                .onAppear{
-                                    scrollReader.scrollTo(datas.count)
+        WithViewStore(store, observe: {$0}){viewStore in
+            GeometryReader{outerProxy in
+                HStack{
+                    Path{
+                        $0.move(to: CGPoint(x: outerProxy.size.width - 30, y: 0))
+                        $0.addLine(to: CGPoint(x: outerProxy.size.width - 30, y: outerProxy.size.height - 12))
+                        $0.addLine(to: CGPoint(x: 0, y: outerProxy.size.height - 12))
+                    }.stroke(Color.gray)
+                        .frame(width: outerProxy.size.width - 30, height: outerProxy.size.height - 12)
+                        .overlay{
+                            GeometryReader{proxy in
+                                ScrollViewReader{scrollReader in
+                                    ScrollView(.horizontal,showsIndicators: false){
+                                        HStack{
+                                            Spacer()
+                                            
+                                            ForEach(0 ..< viewStore.datas.count, id: \.self){index in
+                                                MetricChartItemView(item: viewStore.datas[index], baseRange: viewStore.baseRange, baseHeight: Float(outerProxy.size.height) - 12)
+                                                    .opacity(index == viewStore.selected ? 1 : 0.3)
+                                                    .onTapGesture{
+                                                        viewStore.send(.selectItem(index))
+                                                    }
+                                            }
+                                            
+                                            Spacer().frame(width:20)
+                                                .id(viewStore.datas.count)
+                                        }.frame(width:proxy.size.width,height:proxy.size.height + 21)
+                                    }
+                                    .onAppear{
+                                        scrollReader.scrollTo(viewStore.datas.count)
+                                    }
                                 }
                             }
                         }
-                    }
-              
-                
-                VStack{
-                    Text(numberFormatter.string(for: baseRange.max)!)
-                        .font(.notoSans(size: 12))
-                    Spacer()
-                    Text(numberFormatter.string(for: baseRange.min)!)
-                        .font(.notoSans(size: 12))
-                }.frame(height:outerProxy.size.height)
+                    
+                    
+                    VStack{
+                        Text(numberFormatter.string(for: viewStore.baseRange.max)!)
+                            .font(.notoSans(size: 12))
+                        Spacer()
+                        Text(numberFormatter.string(for: viewStore.baseRange.min)!)
+                            .font(.notoSans(size: 12))
+                    }.frame(height:outerProxy.size.height)
+                }
+                .frame(height: outerProxy.size.height)
+                .onChange(of: viewStore.period){_ in
+                    viewStore.send(.selectItem(nil))
+                    viewStore.send(.fetchMetricDatas(metric, .now))
+                }
+                .onAppear{
+                    viewStore.send(.fetchMetricDatas(metric, .now))
+                }
             }
-            .frame(height: outerProxy.size.height)
         }
+        
+        
     }
     
+    
+    private let metric: Metric
+    private let store: StoreOf<MetricChart>
     private let numberFormatter: NumberFormatter
-    private let baseRange: MinMaxType<Float>
-    private let datas: [MetricData<MinMaxType<Float>>]
 }
 
 struct MetricChartItemView: View{
@@ -91,7 +100,7 @@ struct MetricChartItemView: View{
             if upper != 0{
                 Spacer()
                     .frame(height: CGFloat(upper / ratio))
-                    
+                
             }
             Capsule()
                 .frame(maxWidth: 5, minHeight:3)

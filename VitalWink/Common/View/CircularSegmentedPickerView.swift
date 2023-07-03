@@ -15,8 +15,7 @@ struct CircularSegmentedPickerView<Item>: View where Item:CaseIterable & Equatab
         numberOfItems = allCases.count
         self.texts = texts
         self._selected = selected
-        
-        print(self.index)
+
         if texts.count != numberOfItems{
             fatalError("Item의 개수와 텍스트의 개수가 맞지 않음")
         }
@@ -74,7 +73,7 @@ struct CircularSegmentedPickerView<Item>: View where Item:CaseIterable & Equatab
 
 struct CircularSegmentedPickerView_Previews: PreviewProvider {
     static var previews: some View {
-        var t = Binding<MonitoringRouter.Period>.constant(.week)
+        var t = Binding<Period>.constant(.week)
         CircularSegmentedPickerView(selected: t, texts: ["1일", "1주","1개월","1년"])
     }
 }

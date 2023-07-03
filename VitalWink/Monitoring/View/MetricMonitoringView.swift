@@ -44,10 +44,17 @@ struct MetricMonitoringView: View{
         MinMaxType<Float>(min: 87.0, max: 95.0),
         MinMaxType<Float>(min: 61.0, max: 65.0),
     ]
-    init(store: StoreOf<Monitoring>, metric: MonitoringRouter.Metric){
+    init(store: StoreOf<MetricChart>, metric: Metric, formatter: NumberFormatter? = nil){
         self.store = store
         self.metric = metric
-       
+        
+        if let formatter = formatter{
+            self.formatter = formatter
+        }else{
+            self.formatter = NumberFormatter()
+            self.formatter.numberStyle = .decimal
+            self.formatter.maximumFractionDigits = 2
+        }
     }
     var body: some View {
         WithViewStore(store, observe: {$0}){viewStore in
@@ -59,12 +66,16 @@ struct MetricMonitoringView: View{
                     .foregroundColor(.white)
                     .frame(height: 255)
                     .overlay{
-                        MetricChartView(datas:
-                                            getDatas(store: viewStore)
-                        )
+                        MetricChartView(store: store, metric: metric)
                         .padding(.horizontal,10)
                         .padding(.vertical, 20)
                     }
+                
+                if let selected = viewStore.selected {
+                    MinMaxCardView(data: viewStore.datas[selected].value, metric: metric, formatter: formatter)
+                }
+               
+                
                 Spacer()
                 
             }
@@ -83,30 +94,39 @@ struct MetricMonitoringView: View{
                         }
                 }
             }
-            .onChange(of: viewStore.period){_ in
-                viewStore.send(.fetchMetricDatas(metric, .now))
-            }
-            .onAppear{
-                viewStore.send(.fetchMetricDatas(metric, .now))
-            }
+           
         }
     }
     
     
-    func getDatas(store: ViewStore<Monitoring.State, Monitoring.Action>) -> [MetricData<MinMaxType<Float>>]{
-        return store.intMetricDatas.map{
-            let value = MinMaxType(min: Float($0.value.min), max: Float($0.value.max))
-            return MetricData(value: value, basisDate: $0.basisDate)
-        }
-    }
-    
+ 
     @Environment(\.dismiss) private var dismiss
-    private let store: StoreOf<Monitoring>
-    private let metric: MonitoringRouter.Metric
+    private let store: StoreOf<MetricChart>
+    private let metric: Metric
+    private let formatter: NumberFormatter
 }
 
 struct MetricMonitoring_Previews: PreviewProvider {
     static var previews: some View {
-        MetricMonitoringView(store: Store(initialState: Monitoring.State(), reducer: Monitoring()), metric: .bpm)
+//        MetricMonitoringView(store: Store(initialState: MetricChart.State(), reducer: MetricChart()), metric: .bpm)
+        let value = MinMaxType(min: 40, max: 75)
+        
+        GeometryReader{proxy in
+            Capsule()
+                .foregroundColor(.blue.opacity(0.3))
+                .frame(height: 5)
+                .padding(.horizontal, 10)
+                .overlay(alignment:.leading){
+                    let inndexCapsuleWidth = proxy.size.width * CGFloat(Float(value.max - value.min) / (Metric.bpm.max - Metric.bpm.min))
+                    Capsule()
+                        .foregroundColor(.blue)
+                        .frame(width: inndexCapsuleWidth)
+                        .offset(x: CGFloat((Float(value.min) - Metric.bpm.min) / (Metric.bpm.max - Metric.bpm.min)) * proxy.size.width)
+                        
+                }.onAppear{
+                    print((Float(value.min) - Metric.bpm.min) / (Metric.bpm.max - Metric.bpm.min))
+                }
+        }.frame(width: 300,height:5)
+            
     }
 }
