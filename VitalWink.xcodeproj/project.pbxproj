@@ -96,6 +96,7 @@
 		06BCCD062A52B129003DA1E2 /* Metric.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06BCCD052A52B129003DA1E2 /* Metric.swift */; };
 		06BCCD082A52B136003DA1E2 /* Period.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06BCCD072A52B136003DA1E2 /* Period.swift */; };
 		06BCCD0A2A52B812003DA1E2 /* MinMaxCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06BCCD092A52B812003DA1E2 /* MinMaxCardView.swift */; };
+		06BCCD0C2A53DF96003DA1E2 /* Date + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06BCCD0B2A53DF95003DA1E2 /* Date + Extension.swift */; };
 		06EDBFA92A414353002CCC40 /* ASAuthorizationControllerDelgateImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06EDBFA82A414353002CCC40 /* ASAuthorizationControllerDelgateImpl.swift */; };
 		06F1809B2A15C64300F1CE90 /* VitalWinkAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F1809A2A15C64300F1CE90 /* VitalWinkAPI.swift */; };
 		06F1809F2A15DEFC00F1CE90 /* VitalWinkRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F1809E2A15DEFC00F1CE90 /* VitalWinkRouter.swift */; };
@@ -225,6 +226,7 @@
 		06BCCD052A52B129003DA1E2 /* Metric.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Metric.swift; sourceTree = "<group>"; };
 		06BCCD072A52B136003DA1E2 /* Period.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Period.swift; sourceTree = "<group>"; };
 		06BCCD092A52B812003DA1E2 /* MinMaxCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MinMaxCardView.swift; sourceTree = "<group>"; };
+		06BCCD0B2A53DF95003DA1E2 /* Date + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date + Extension.swift"; sourceTree = "<group>"; };
 		06EDBFA82A414353002CCC40 /* ASAuthorizationControllerDelgateImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ASAuthorizationControllerDelgateImpl.swift; sourceTree = "<group>"; };
 		06F1809A2A15C64300F1CE90 /* VitalWinkAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VitalWinkAPI.swift; sourceTree = "<group>"; };
 		06F1809E2A15DEFC00F1CE90 /* VitalWinkRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VitalWinkRouter.swift; sourceTree = "<group>"; };
@@ -298,6 +300,7 @@
 				065C00C22A3060F400054387 /* Color + Extensions.swift */,
 				065C00E22A32D22800054387 /* UIApplication + Extension.swift */,
 				065C00E92A32EBD400054387 /* View + Extension.swift */,
+				06BCCD0B2A53DF95003DA1E2 /* Date + Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -981,6 +984,7 @@
 				0663C4682A1B409E00B85ABF /* MetricDataResponse.swift in Sources */,
 				067AD0102A4A7461002E39B1 /* MeasurmentResultColumnView.swift in Sources */,
 				0663C4642A1B264900B85ABF /* BloodPressure.swift in Sources */,
+				06BCCD0C2A53DF96003DA1E2 /* Date + Extension.swift in Sources */,
 				065C00C62A30694500054387 /* VitalWinkTextFieldStyle.swift in Sources */,
 				067AD0252A4BFF71002E39B1 /* MonitoringAPI.swift in Sources */,
 				065C00DD2A31B8B600054387 /* LoginAPI.swift in Sources */,

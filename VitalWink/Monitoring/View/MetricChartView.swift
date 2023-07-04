@@ -28,33 +28,29 @@ struct MetricChartView: View{
                         $0.addLine(to: CGPoint(x: outerProxy.size.width - 30, y: outerProxy.size.height - 12))
                         $0.addLine(to: CGPoint(x: 0, y: outerProxy.size.height - 12))
                     }.stroke(Color.gray)
-                        .frame(width: outerProxy.size.width - 30, height: outerProxy.size.height - 12)
+                    .frame(width: outerProxy.size.width - 30, height: outerProxy.size.height - 12)
                         .overlay{
                             GeometryReader{proxy in
                                 ScrollViewReader{scrollReader in
                                     ScrollView(.horizontal,showsIndicators: false){
-                                        HStack{
-                                            Spacer()
-                                            
-                                            ForEach(0 ..< viewStore.datas.count, id: \.self){index in
-                                                MetricChartItemView(item: viewStore.datas[index], baseRange: viewStore.baseRange, baseHeight: Float(outerProxy.size.height) - 12)
-                                                    .opacity(index == viewStore.selected ? 1 : 0.3)
-                                                    .onTapGesture{
-                                                        viewStore.send(.selectItem(index))
-                                                    }
+                                        HStack(spacing: 10){
+                                            ForEach(viewStore.datas.keys.sorted(), id: \.self){key in
+                                                MetricChartItemView(x:key,baseRange: viewStore.baseRange, baseHeight: Float(outerProxy.size.height) - 12)
+                                                    .frame(width: (proxy.size.width - 10 * 6) / 7)
+//                                                    .id(index)
+//                                                    .opacity(index == viewStore.selected ? 1 : 0.3)
+//                                                    .onTapGesture{
+//                                                        viewStore.send(.selectItem(index))
+//                                                    }
                                             }
                                             
-                                            Spacer().frame(width:20)
-                                                .id(viewStore.datas.count)
-                                        }.frame(width:proxy.size.width,height:proxy.size.height + 21)
-                                    }
-                                    .onAppear{
-                                        scrollReader.scrollTo(viewStore.datas.count)
-                                    }
+                                        }.rotationEffect(.degrees(180))
+                                    }.rotationEffect(.degrees(180))
+                                   
                                 }
                             }
+                           
                         }
-                    
                     
                     VStack{
                         Text(numberFormatter.string(for: viewStore.baseRange.max)!)
@@ -77,52 +73,90 @@ struct MetricChartView: View{
         
         
     }
-    
-    
+
     private let metric: Metric
     private let store: StoreOf<MetricChart>
     private let numberFormatter: NumberFormatter
+    
 }
 
 struct MetricChartItemView: View{
-    init(item: MetricData<MinMaxType<Float>>, baseRange: MinMaxType<Float>, baseHeight: Float) {
+    init(x:String, y: MinMaxType<Float>? = nil, baseRange: MinMaxType<Float>, baseHeight: Float) {
         self.baseRange = baseRange
-        self.item =  item
+        self.x = x
+        self.y = y
         self.ratio = (baseRange.max - baseRange.min) / baseHeight
-        self.dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "MM/dd"
+        
+        self.baseHeight = CGFloat(baseHeight)
     }
     
     var body: some View{
         VStack(spacing:0){
-            let upper = baseRange.max - item.value.max
-            
-            if upper != 0{
-                Spacer()
-                    .frame(height: CGFloat(upper / ratio))
+            if let value = y {
+                let upper = baseRange.max - value.max
                 
+                if upper != 0{
+                    Spacer()
+                        .frame(height: CGFloat(upper / ratio))
+                    
+                }
+                Capsule()
+                    .frame(maxWidth: 5, minHeight:3)
+                
+                let lower = value.min - baseRange.min
+                
+                if lower != 0 && value.min != value.max{
+                    Spacer()
+                        .frame(height:CGFloat(lower / ratio))
+                }
+                else if value.max == value.min{
+                   
+                    Spacer()
+                        .frame(height: max(baseHeight - CGFloat(upper / ratio) - 4, 0))
+                }
             }
-            Capsule()
-                .frame(maxWidth: 5, minHeight:3)
-            
-            let lower = item.value.min - baseRange.min
-            
-            if lower != 0 && item.value.min != item.value.max{
+            else{
                 Spacer()
-                    .frame(height:CGFloat(lower / ratio))
+                    .frame(height: baseHeight)
             }
-            else if item.value.max == item.value.min{
-                let h = (1 / ratio) * (baseRange.max - baseRange.min)
-                Spacer()
-                    .frame(height: max(CGFloat(h) - CGFloat(upper / ratio) - 4, 0))
-            }
-            Text(dateFormatter.string(from: item.basisDate))
-                .font(.notoSans(size: 14))
+            Text(x)
+                .font(.notoSans(size: 12))
                 .foregroundColor(.gray).padding(.top, 3)
-        }.font(.notoSans(size: 14,weight: .bold)).foregroundColor(.blue)
+        }
     }
-    private let dateFormatter: DateFormatter
+
     private let ratio: Float
-    private let item: MetricData<MinMaxType<Float>>
+    private let x: String
+    private let y: MinMaxType<Float>?
     private let baseRange: MinMaxType<Float>
+    private let baseHeight: CGFloat
+}
+
+
+struct MetricChart_Previews: PreviewProvider{
+    static var previews: some View{
+        MetricChartView(store: Store(initialState: MetricChart.State(), reducer: MetricChart()), metric: .bpm)
+        
+        
+//        let viewStore = Store(initialState: MetricChart.State(), reducer: MetricChart())
+//        GeometryReader{proxy in
+//            ScrollViewReader{scrollReader in
+//                ScrollView(.horizontal,showsIndicators: false){
+//                    HStack(spacing: 10){
+//
+//                        ForEach(0 ..< 14, id: \.self){index in
+//                            Rectangle()
+//                                .frame(width:proxy.size.width / 7)
+//                                .id(index)
+//                        }
+//
+//
+//                    }
+//                }
+//                .onAppear{
+//                    scrollReader.scrollTo(13)
+//                }
+//            }
+//        }.padding(.horizontal, 20)
+    }
 }

@@ -9,15 +9,13 @@ import Foundation
 import ComposableArchitecture
 
 struct MetricChart: ReducerProtocol{
+    init(){
+        dateFormatter.dateFormat = "yyyy/MM/dd"
+    }
     struct State: Equatable{
         @BindingState var period: Period = .week
-        var datas: [MetricData<MinMaxType<Float>>]{
-            get{
-                return _datas.reversed()
-            }
-        }
-    
-        fileprivate var _datas: [MetricData<MinMaxType<Float>>] = []
+        fileprivate var basisDate: Date? = nil
+        fileprivate(set) var datas: [String : MinMaxType<Float>?] = [:]
         fileprivate(set) var selected: Int? = nil
         fileprivate(set) var baseRange: MinMaxType<Float> = .init(min: 0, max: 0)
     }
@@ -28,19 +26,48 @@ struct MetricChart: ReducerProtocol{
         case responseMetricDatas([MetricData<MinMaxType<Float>>])
         case selectItem(_ index: Int?)
         case errorHandling(Error)
+        case refresh(Metric)
     }
     
     var body: some ReducerProtocol<State, Action> {
         BindingReducer()
         Reduce{state, action in
             switch action{
+            case .binding(\.$period):
+                state.datas = [:]
+                state.basisDate = nil
+                state.selected = nil
+                
+                if state.period == .day{
+                    dateFormatter.dateFormat = "MM:dd"
+                }
+                else{
+                    dateFormatter.dateFormat = "yyyy/MM/dd"
+                }
+                
+                return .none
             case .binding:
                 return .none
             case .selectItem(let index):
                 state.selected = index
                 return .none
-                
+            case .refresh(let metric):
+                guard let basisDate = state.basisDate else{
+                    return .none
+                }
+                let date = Date(timeInterval: -60 * 60 * 24 * 7, since: basisDate)
+                print(date)
+                return .send(.fetchMetricDatas(metric, date))
+                    
             case .fetchMetricDatas(let metric, let date):
+                if state.basisDate == nil{
+                    state.basisDate = date
+                    let dateArray = date.dateArrayInPeriod(end: Date(timeInterval: -60 * 60 * 24 * 7 * 2, since: date))
+                    dateArray.forEach{
+                        state.datas.updateValue(nil, forKey: dateFormatter.string(from: $0))
+                    }
+                }
+
                 return .run{[period = state.period]send in
                     switch await fetchMetricData(metric: metric, period: period, basisDate: date){
                     case .success(let datas):
@@ -51,14 +78,19 @@ struct MetricChart: ReducerProtocol{
                 }
        
             case .responseMetricDatas(let datas):
-                state.baseRange = datas.map{$0.value}
+                datas.forEach{
+                    state.datas[dateFormatter.string(from: $0.basisDate)] = $0.value
+                }
+                
+                
+                state.baseRange = state.datas.compactMapValues{$0}.map{$0.value}
                     .reduce(MinMaxType(min: datas.first?.value.min ?? 0, max: datas.first?.value.max ?? 0)){
                     let min = $0.min < $1.min ? $0.min : $1.min
                     let max = $0.max > $1.max ? $0.max : $1.max
-                    
+
                     return MinMaxType(min: min, max: max)
                 }
-                state._datas = datas
+                
                 return .none
          
             case .errorHandling(let error):
@@ -77,5 +109,6 @@ struct MetricChart: ReducerProtocol{
         }
     }
     
+    private var dateFormatter = DateFormatter()
     @Dependency(\.montioringAPI) private var monitoringAPI
 }
