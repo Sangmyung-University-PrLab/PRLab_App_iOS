@@ -52,20 +52,22 @@ struct MetricChart: ReducerProtocol{
                 state.selected = index
                 return .none
             case .refresh(let metric):
-                guard let basisDate = state.basisDate else{
+                if state.datas.keys.isEmpty{
                     return .none
                 }
-                let date = Date(timeInterval: -60 * 60 * 24 * 7, since: basisDate)
-                print(date)
+                let earliestDate = state.datas.keys.sorted().first!
+                let date = Date(timeInterval: -60 * 60 * 24 * 1, since: dateFormatter.date(from: earliestDate)!)
+              
                 return .send(.fetchMetricDatas(metric, date))
                     
             case .fetchMetricDatas(let metric, let date):
                 if state.basisDate == nil{
                     state.basisDate = date
-                    let dateArray = date.dateArrayInPeriod(end: Date(timeInterval: -60 * 60 * 24 * 7 * 2, since: date))
-                    dateArray.forEach{
-                        state.datas.updateValue(nil, forKey: dateFormatter.string(from: $0))
-                    }
+                }
+                
+                let dateArray = date.dateArrayInPeriod(end: Date(timeInterval: -60 * 60 * 24 * 7 * 2, since: date))
+                dateArray.forEach{
+                    state.datas.updateValue(nil, forKey: dateFormatter.string(from: $0))
                 }
 
                 return .run{[period = state.period]send in
@@ -81,8 +83,7 @@ struct MetricChart: ReducerProtocol{
                 datas.forEach{
                     state.datas[dateFormatter.string(from: $0.basisDate)] = $0.value
                 }
-                
-                
+//                print(state.datas)
                 state.baseRange = state.datas.compactMapValues{$0}.map{$0.value}
                     .reduce(MinMaxType(min: datas.first?.value.min ?? 0, max: datas.first?.value.max ?? 0)){
                     let min = $0.min < $1.min ? $0.min : $1.min

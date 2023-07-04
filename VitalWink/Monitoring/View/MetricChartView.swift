@@ -33,20 +33,27 @@ struct MetricChartView: View{
                             GeometryReader{proxy in
                                 ScrollViewReader{scrollReader in
                                     ScrollView(.horizontal,showsIndicators: false){
-                                        HStack(spacing: 10){
-                                            ForEach(viewStore.datas.keys.sorted(), id: \.self){key in
-                                                MetricChartItemView(x:key,baseRange: viewStore.baseRange, baseHeight: Float(outerProxy.size.height) - 12)
+                                        LazyHStack(spacing: 10){
+                                            ForEach(keys, id: \.self){key in
+                                                let yyyyMMdd = key.split(separator: "/").map{Int($0)!}
+                                                let x = yyyyMMdd[2] == 1 ? "\(yyyyMMdd[1])/\(yyyyMMdd[2])" : "\(yyyyMMdd[2])"
+                                                
+                                                MetricChartItemView(x:x,y: viewStore.datas[key, default:nil], baseRange: viewStore.baseRange, baseHeight: Float(outerProxy.size.height) - 12)
                                                     .frame(width: (proxy.size.width - 10 * 6) / 7)
-//                                                    .id(index)
-//                                                    .opacity(index == viewStore.selected ? 1 : 0.3)
-//                                                    .onTapGesture{
-//                                                        viewStore.send(.selectItem(index))
-//                                                    }
+                                                    .onAppear{
+                                                        guard let first = keys.first else{
+                                                            return
+                                                        }
+                                                        
+                                                        if first == key{
+                                                            viewStore.send(.refresh(metric))
+                                                        }
+                                                    }
                                             }
-                                            
-                                        }.rotationEffect(.degrees(180))
-                                    }.rotationEffect(.degrees(180))
-                                   
+                                        }.scaleEffect(x: -1.0, y: 1.0, anchor: .center)
+                                      
+                                    }.scaleEffect(x: -1.0, y: 1.0, anchor: .center)
+
                                 }
                             }
                            
@@ -61,6 +68,9 @@ struct MetricChartView: View{
                     }.frame(height:outerProxy.size.height)
                 }
                 .frame(height: outerProxy.size.height)
+                .onChange(of:viewStore.datas){
+                    keys = $0.keys.sorted()
+                }
                 .onChange(of: viewStore.period){_ in
                     viewStore.send(.selectItem(nil))
                     viewStore.send(.fetchMetricDatas(metric, .now))
@@ -73,7 +83,7 @@ struct MetricChartView: View{
         
         
     }
-
+    @State var keys:[String] = []
     private let metric: Metric
     private let store: StoreOf<MetricChart>
     private let numberFormatter: NumberFormatter
