@@ -50,6 +50,11 @@ struct MetricChartView: View{
                                                 }
                                                 
                                             }
+                                            .onTapGesture{
+                                                viewStore.send(.selectItem(key))
+                                            }
+                                            .foregroundColor(.blue)
+                                            .opacity(viewStore.selected == key ? 1 : 0.3)
                                     }
                                 }
                             

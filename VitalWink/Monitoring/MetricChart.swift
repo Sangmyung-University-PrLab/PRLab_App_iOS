@@ -31,7 +31,7 @@ struct MetricChart: ReducerProtocol{
         @BindingState var period: Period = .week
         fileprivate var basisDate: Date? = nil
         fileprivate(set) var datas: [String : ChartData?] = [:]
-        fileprivate(set) var selected: Int? = nil
+        fileprivate(set) var selected: String? = nil
         fileprivate(set) var baseRange: MinMaxType<Float>? = nil
     
     }
@@ -40,7 +40,7 @@ struct MetricChart: ReducerProtocol{
         case binding(BindingAction<State>)
         case fetchMetricDatas(Metric, Date)
         case responseMetricDatas([MetricData<MinMaxType<Float>>])
-        case selectItem(_ index: Int?)
+        case selectItem(_ index: String?)
         case errorHandling(Error)
         case refresh(Metric)
         case changeVisible(String,Bool)
@@ -110,8 +110,8 @@ struct MetricChart: ReducerProtocol{
                 return .none
             case .binding:
                 return .none
-            case .selectItem(let index):
-                state.selected = index
+            case .selectItem(let key):
+                state.selected = key
                 return .none
             case .refresh(let metric):
                 if state.datas.keys.isEmpty{
