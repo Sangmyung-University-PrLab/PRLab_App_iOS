@@ -21,30 +21,31 @@ struct MetricChartView: View{
     
     var body: some View{
         WithViewStore(store, observe: {$0}){viewStore in
+           
                 GeometryReader{proxy in
+                    let itemWidth = (proxy.size.width - 40 - 10 * CGFloat(viewStore.period.numberOfItem - 1)) / CGFloat(viewStore.period.numberOfItem)
                     HStack(spacing:10){
-                        ScrollViewReader{scrollReader in
                             ScrollView(.horizontal,showsIndicators: false){
                                 LazyHStack(spacing: 10){
                                     ForEach(viewStore.sortedKeys, id: \.self){key in
                                         let yyyyMMdd = key.split(separator: "/").map{Int($0)!}
-                                        let x = yyyyMMdd[2] == 1 ? "\(yyyyMMdd[1])/\(yyyyMMdd[2])" : "\(yyyyMMdd[2])"
-                                        
-                                        MetricChartItemView(x:x,y: viewStore.datas[key, default: nil]?.value, baseRange: viewStore.baseRange, baseHeight: Float(proxy.size.height) - 30)
-                                            .frame(width: (proxy.size.width - 50 - 10 * 6) / 7)
+                               
+                                        MetricChartItemView(x:viewStore.xs[key,default:""],y: viewStore.datas[key, default: nil]?.value, baseRange: viewStore.baseRange, baseHeight: Float(proxy.size.height) - 30)
+                                            .frame(width:itemWidth).scaleEffect(x:-1,y:1)
                                             .onAppear{
+                                                print(key)
                                                 Task{
                                                     viewStore.send(.changeVisible(key,true))
-                                                    guard let first = viewStore.sortedKeys.first else{
+                                                    guard let earliestDate = viewStore.sortedKeys.last else{
                                                         return
                                                     }
-
-                                                    if first == key{
-                                                        viewStore.send(.refresh(metric))
+                                                    if earliestDate == key {
+                                                        viewStore.send(.fetchMetricDatas(metric, earliestDate))
                                                     }
                                                 }
-                                               
-                                            }.onDisappear{
+                                                
+                                            }
+                                            .onDisappear{
                                                 Task{
                                                     viewStore.send(.changeVisible(key,false))
                                                 }
@@ -57,14 +58,11 @@ struct MetricChartView: View{
                                             .opacity(viewStore.selected == key ? 1 : 0.3)
                                     }
                                 }
-                            
-                                .scaleEffect(x: -1.0, y: 1.0, anchor: .center)
                                 
-                            }
-                            .frame(width: proxy.size.width - 30)
-                            .scaleEffect(x: -1.0, y: 1.0, anchor: .center)
-                            
-                        }
+                            }.scaleEffect(x:-1,y:1)
+                        
+                        
+                        .frame(width: proxy.size.width - 30)
                         .overlay{
                             Path{
                                 $0.move(to: CGPoint(x:0, y:proxy.size.height - 30))
@@ -82,22 +80,17 @@ struct MetricChartView: View{
                             }
                             Spacer().frame(height:30)
                         }.font(.notoSans(size: 12, weight: .medium))
-                        .frame(height:proxy.size.height + 12)
+                            .frame(height:proxy.size.height + 12)
                     }
-                 
-                }
-             
                 .onChange(of: viewStore.period){_ in
                     viewStore.send(.selectItem(nil))
-                    viewStore.send(.fetchMetricDatas(metric, .now))
+                    viewStore.send(.fetchMetricDatas(metric))
                 }
                 .onAppear{
-                    viewStore.send(.fetchMetricDatas(metric, .now))
+                    viewStore.send(.fetchMetricDatas(metric))
                 }
             }
-        
-        
-        
+        }
     }
 
     private let metric: Metric
@@ -126,6 +119,7 @@ struct MetricChartItemView: View{
             if let value = y {
                 if let baseRange = self.baseRange{
                     let upper = max(baseRange.max - value.max, 0)
+                    let lower = max(value.min - baseRange.min,0)
                     
                     if upper != 0{
                         Spacer()
@@ -134,9 +128,6 @@ struct MetricChartItemView: View{
                     }
                     Capsule()
                         .frame(maxWidth: 5, minHeight:3)
-                    
-                    let lower = max(value.min - baseRange.min,0)
-                    
                     if lower != 0 && value.min != value.max{
                         Spacer()
                             .frame(height:CGFloat(lower / ratio))
@@ -156,7 +147,7 @@ struct MetricChartItemView: View{
                     .frame(height: baseHeight)
             }
             Text(x)
-                .font(.notoSans(size: 12))
+                .font(.notoSans(size: 10))
                 .foregroundColor(.gray)
                 .padding(.top, 10)
                 .frame(height:30)
@@ -176,25 +167,5 @@ struct MetricChart_Previews: PreviewProvider{
         MetricChartView(store: Store(initialState: MetricChart.State(), reducer: MetricChart()), metric: .bpm)
         
         
-//        let viewStore = Store(initialState: MetricChart.State(), reducer: MetricChart())
-//        GeometryReader{proxy in
-//            ScrollViewReader{scrollReader in
-//                ScrollView(.horizontal,showsIndicators: false){
-//                    HStack(spacing: 10){
-//
-//                        ForEach(0 ..< 14, id: \.self){index in
-//                            Rectangle()
-//                                .frame(width:proxy.size.width / 7)
-//                                .id(index)
-//                        }
-//
-//
-//                    }
-//                }
-//                .onAppear{
-//                    scrollReader.scrollTo(13)
-//                }
-//            }
-//        }.padding(.horizontal, 20)
     }
 }

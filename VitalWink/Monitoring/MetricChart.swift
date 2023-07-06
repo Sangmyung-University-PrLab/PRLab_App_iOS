@@ -25,26 +25,28 @@ struct MetricChart: ReducerProtocol{
 //        }
         
         var sortedKeys: [String]{
-            return datas.keys.sorted()
+            return datas.keys.sorted(by: >)
         }
         
         @BindingState var period: Period = .week
         fileprivate var basisDate: Date? = nil
         fileprivate(set) var datas: [String : ChartData?] = [:]
+        fileprivate(set) var xs: [String: String] = [:]
         fileprivate(set) var selected: String? = nil
         fileprivate(set) var baseRange: MinMaxType<Float>? = nil
+        fileprivate(set) var isScrollViewAligned = false
     
     }
     
     enum Action: BindableAction{
         case binding(BindingAction<State>)
-        case fetchMetricDatas(Metric, Date)
+        case fetchMetricDatas(_ metric: Metric, _ dateString: String? = nil)
         case responseMetricDatas([MetricData<MinMaxType<Float>>])
         case selectItem(_ index: String?)
         case errorHandling(Error)
-        case refresh(Metric)
         case changeVisible(String,Bool)
         case setBaseRange
+        case scrollViewAligned
     }
     enum CancelId: Hashable{
         case setBaseRange
@@ -53,8 +55,10 @@ struct MetricChart: ReducerProtocol{
         BindingReducer()
         Reduce{state, action in
             switch action{
+            case .scrollViewAligned:
+                state.isScrollViewAligned = true
+                return .none
             case .changeVisible(let key,let isVisible):
-                
                 guard var data = state.datas[key, default: nil] else{
                     return .none
                 }
@@ -63,17 +67,21 @@ struct MetricChart: ReducerProtocol{
                 
                 return
                     .cancel(id:CancelId.setBaseRange)
-                    .merge(with: .run{_ in
-                        try await Task.sleep(nanoseconds: UInt64(1_000_000_000 * 0.5))
-                    })
-                .concatenate(with: .send(.setBaseRange, animation:.linear).cancellable(id: CancelId.setBaseRange, cancelInFlight: true))
+                    .merge(with: .run{send in
+                        do{
+                            try await Task.sleep(nanoseconds: UInt64(1_000_000_000 * 0.5))
+                        }catch{
+                            await send(.errorHandling(error))
+                        }
+                        
+                    }.cancellable(id: CancelId.setBaseRange, cancelInFlight: true))
+                    .concatenate(with: .send(.setBaseRange, animation:.linear))
                 
             case .setBaseRange:
                 let visibleDatas = state.datas
                     .compactMapValues{$0}
                     .filter{$0.value.isVisible}
                     .map{$0.value.value}
-                
                 
                 guard !visibleDatas.isEmpty else{
                     state.baseRange = nil
@@ -88,9 +96,6 @@ struct MetricChart: ReducerProtocol{
                     return MinMaxType(min: min, max: max)
                 }
                 
-                
-                
-                
                 if state.baseRange!.max == 0 && state.baseRange!.min == 0{
                     state.baseRange = nil
                 }
@@ -100,6 +105,7 @@ struct MetricChart: ReducerProtocol{
                 state.basisDate = nil
                 state.selected = nil
                 state.baseRange = nil
+                
                 if state.period == .day{
                     dateFormatter.dateFormat = "MM:dd"
                 }
@@ -109,29 +115,52 @@ struct MetricChart: ReducerProtocol{
                 
                 return .none
             case .binding:
+                
                 return .none
             case .selectItem(let key):
                 state.selected = key
                 return .none
-            case .refresh(let metric):
-                if state.datas.keys.isEmpty{
-                    return .none
-                }
-                let earliestDate = state.datas.keys.sorted().first!
-                let date = Date(timeInterval: -60 * 60 * 24 * 1, since: dateFormatter.date(from: earliestDate)!)
-              
-                return .send(.fetchMetricDatas(metric, date))
-                    
-            case .fetchMetricDatas(let metric, let date):
-                if state.basisDate == nil{
-                    state.basisDate = date
-                }
+            
+            case .fetchMetricDatas(let metric, let dateString):
+                let date = dateString == nil ? .now : dateFormatter.date(from: dateString!)!
+                var prevMonth = Calendar.current.component(.month, from: date)
+//                var prevYear = Calendar.current.component(.year, from: date)
+                var dateArray: [Date] = []
                 
-                let dateArray = date.dateArrayInPeriod(end: Date(timeInterval: -60 * 60 * 24 * 7 * 1, since: date))
-                dateArray.forEach{
-                    state.datas.updateValue(nil, forKey: dateFormatter.string(from: $0))
+                switch state.period{
+                case .day:
+                    break
+                case .week:
+                    dateArray = date.dateArrayInPeriod()
+                case .month:
+                    dateArray = date.dateArrayInPeriod(period: .month)
+                case .year:
+                    dateArray = date.dateArrayInPeriod(period: .year)
                 }
-
+             
+                dateArray.forEach{
+                    let dateString = dateFormatter.string(from: $0)
+                    let yyyyMMdd = dateString.split(separator: "/").map{Int($0)!}
+                    state.datas.updateValue(nil, forKey: dateString)
+                    
+                    switch state.period{
+                    case .day:
+                        break
+                    case .week:
+                        let x = yyyyMMdd[2] == 1 ? "\(yyyyMMdd[1])/\(yyyyMMdd[2])" : "\(yyyyMMdd[2])"
+                        state.xs.updateValue(x, forKey: dateString)
+                    case .month:
+                        let month = yyyyMMdd[1]
+                        let x = month != prevMonth ? "\(yyyyMMdd[1])/\(yyyyMMdd[2])" : "\(yyyyMMdd[2])"
+                        prevMonth = month
+                        state.xs.updateValue(x, forKey: dateString)
+                    case .year:
+                        let year = yyyyMMdd[0]
+                        let x = "\(yyyyMMdd[1])"
+//                        prevYear = year
+                        state.xs.updateValue(x, forKey: dateString)
+                    }
+                }
                 return .run{[period = state.period]send in
                     switch await fetchMetricData(metric: metric, period: period, basisDate: date){
                     case .success(let datas):

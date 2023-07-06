@@ -71,9 +71,9 @@ struct CircularSegmentedPickerView<Item>: View where Item:CaseIterable & Equatab
     private let backgroundColor = Color(red: 0.894117647058824, green: 0.949019607843137, blue: 1)
 }
 
-struct CircularSegmentedPickerView_Previews: PreviewProvider {
-    static var previews: some View {
-        var t = Binding<Period>.constant(.week)
-        CircularSegmentedPickerView(selected: t, texts: ["1일", "1주","1개월","1년"])
-    }
-}
+//struct CircularSegmentedPickerView_Previews: PreviewProvider {
+//    static var previews: some View {
+////        var t = Binding<MonitoringRouter.Period>.constant(.week)
+////        CircularSegmentedPickerView(selected: t, texts: ["1일", "1주","1개월","1년"])
+//    }
+//}
