@@ -68,21 +68,22 @@ struct MetricChart: ReducerProtocol{
                 return
                     .cancel(id:CancelId.setBaseRange)
                     .merge(with: .run{send in
+                        print("sleep start")
                         do{
-                            try await Task.sleep(nanoseconds: UInt64(1_000_000_000 * 0.5))
+                            try await Task.sleep(nanoseconds: UInt64(1_000_000_000 * 1))
                         }catch{
                             await send(.errorHandling(error))
                         }
-                        
+                        print("sleep end")
                     }.cancellable(id: CancelId.setBaseRange, cancelInFlight: true))
-                    .concatenate(with: .send(.setBaseRange, animation:.linear))
+                    .concatenate(with: .send(.setBaseRange, animation:.linear).cancellable(id: CancelId.setBaseRange, cancelInFlight: true))
                 
             case .setBaseRange:
                 let visibleDatas = state.datas
                     .compactMapValues{$0}
                     .filter{$0.value.isVisible}
                     .map{$0.value.value}
-                
+                print(visibleDatas)
                 guard !visibleDatas.isEmpty else{
                     state.baseRange = nil
                     return .none
@@ -174,9 +175,18 @@ struct MetricChart: ReducerProtocol{
                 datas.forEach{
                     state.datas[dateFormatter.string(from: $0.basisDate)] = .init(value: $0.value,isVisible:false)
                 }
+                if state.baseRange == nil {
+                    state.datas.compactMapValues{$0}.forEach{
+                        var data = $0.value
+                        data.isVisible = true
+                        state.datas[$0.key] = data
+                    }
+                    return .send(.setBaseRange)
+                }
+                else{
+                    return .none
+                }
                 
-                return .none
-         
             case .errorHandling(let error):
                 print(error.localizedDescription)
                 return .none

@@ -33,7 +33,7 @@ struct MetricChartView: View{
                                         MetricChartItemView(x:viewStore.xs[key,default:""],y: viewStore.datas[key, default: nil]?.value, baseRange: viewStore.baseRange, baseHeight: Float(proxy.size.height) - 30)
                                             .frame(width:itemWidth).scaleEffect(x:-1,y:1)
                                             .onAppear{
-                                                print(key)
+//                                                print(key)
                                                 Task{
                                                     viewStore.send(.changeVisible(key,true))
                                                     guard let earliestDate = viewStore.sortedKeys.last else{
