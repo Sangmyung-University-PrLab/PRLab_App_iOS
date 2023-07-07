@@ -80,7 +80,6 @@ struct MetricChartView: View{
                         .frame(height:proxy.size.height + 12)
                     }
                 .onChange(of: viewStore.period){_ in
-                    viewStore.send(.selectItem(nil))
                     viewStore.send(.fetchMetricDatas(metric))
                 }
                 .onAppear{

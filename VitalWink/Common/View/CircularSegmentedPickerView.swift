@@ -39,8 +39,10 @@ struct CircularSegmentedPickerView<Item>: View where Item:CaseIterable & Equatab
                             .frame(width: proxy.size.width / CGFloat(numberOfItems), height: 40)
                             .contentShape(Rectangle())
                             .onTapGesture {
-                                selected = allCases[index]
-                                self.index = index
+                                if index != self.index{
+                                    selected = allCases[index]
+                                    self.index = index
+                                }
                             }
                           
                             .font(.notoSans(size: 14, weight: self.index == index ? .bold : .regular))

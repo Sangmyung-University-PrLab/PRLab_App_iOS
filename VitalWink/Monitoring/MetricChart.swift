@@ -33,7 +33,7 @@ struct MetricChart: ReducerProtocol{
         case binding(BindingAction<State>)
         case fetchMetricDatas(_ metric: Metric, _ dateString: String? = nil)
         case responseMetricDatas([MetricData<MinMaxType<Float>>])
-        case selectItem(_ index: String?)
+        case selectItem(_ key: String)
         case errorHandling(Error)
         case changeVisible(String,Bool)
         case setBaseRange
