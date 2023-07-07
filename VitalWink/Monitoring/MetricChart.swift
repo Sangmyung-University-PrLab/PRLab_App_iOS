@@ -17,13 +17,6 @@ struct MetricChart: ReducerProtocol{
         var isVisible:Bool
     }
     struct State: Equatable{
-//        static func == (lhs: MetricChart.State, rhs: MetricChart.State) -> Bool {
-//            return lhs.period == rhs.period && lhs.basisDate == rhs.basisDate && lhs.selected == rhs.selected
-//            && lhs.baseRange == rhs.baseRange && lhs.datas.elementsEqual(rhs.datas){
-//                return $0.value.isVisable == $1.value.isVisable && $1.value.value == $0.value.value
-//            }
-//        }
-        
         var sortedKeys: [String]{
             return datas.keys.sorted(by: >)
         }
@@ -35,7 +28,6 @@ struct MetricChart: ReducerProtocol{
         fileprivate(set) var selected: String? = nil
         fileprivate(set) var baseRange: MinMaxType<Float>? = nil
         fileprivate(set) var isScrollViewAligned = false
-    
     }
     
     enum Action: BindableAction{
@@ -46,7 +38,6 @@ struct MetricChart: ReducerProtocol{
         case errorHandling(Error)
         case changeVisible(String,Bool)
         case setBaseRange
-        case scrollViewAligned
     }
     enum CancelId: Hashable{
         case setBaseRange
@@ -55,9 +46,6 @@ struct MetricChart: ReducerProtocol{
         BindingReducer()
         Reduce{state, action in
             switch action{
-            case .scrollViewAligned:
-                state.isScrollViewAligned = true
-                return .none
             case .changeVisible(let key,let isVisible):
                 guard var data = state.datas[key, default: nil] else{
                     return .none
@@ -68,13 +56,13 @@ struct MetricChart: ReducerProtocol{
                 return
                     .cancel(id:CancelId.setBaseRange)
                     .merge(with: .run{send in
-                        print("sleep start")
+                 
                         do{
                             try await Task.sleep(nanoseconds: UInt64(1_000_000_000 * 1))
                         }catch{
                             await send(.errorHandling(error))
                         }
-                        print("sleep end")
+                       
                     }.cancellable(id: CancelId.setBaseRange, cancelInFlight: true))
                     .concatenate(with: .send(.setBaseRange, animation:.linear).cancellable(id: CancelId.setBaseRange, cancelInFlight: true))
                 
@@ -83,7 +71,7 @@ struct MetricChart: ReducerProtocol{
                     .compactMapValues{$0}
                     .filter{$0.value.isVisible}
                     .map{$0.value.value}
-                print(visibleDatas)
+//                print(visibleDatas)
                 guard !visibleDatas.isEmpty else{
                     state.baseRange = nil
                     return .none
@@ -142,7 +130,8 @@ struct MetricChart: ReducerProtocol{
                 dateArray.forEach{
                     let dateString = dateFormatter.string(from: $0)
                     let yyyyMMdd = dateString.split(separator: "/").map{Int($0)!}
-                    state.datas.updateValue(nil, forKey: dateString)
+                
+                    state.datas.updateValue(state.datas[dateString, default:nil], forKey: dateString)
                     
                     switch state.period{
                     case .day:
@@ -158,10 +147,10 @@ struct MetricChart: ReducerProtocol{
                     case .year:
                         let year = yyyyMMdd[0]
                         let x = "\(yyyyMMdd[1])"
-//                        prevYear = year
                         state.xs.updateValue(x, forKey: dateString)
                     }
                 }
+                
                 return .run{[period = state.period]send in
                     switch await fetchMetricData(metric: metric, period: period, basisDate: date){
                     case .success(let datas):
@@ -175,6 +164,7 @@ struct MetricChart: ReducerProtocol{
                 datas.forEach{
                     state.datas[dateFormatter.string(from: $0.basisDate)] = .init(value: $0.value,isVisible:false)
                 }
+                
                 if state.baseRange == nil {
                     state.datas.compactMapValues{$0}.forEach{
                         var data = $0.value
