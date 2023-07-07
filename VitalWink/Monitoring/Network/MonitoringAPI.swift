@@ -39,14 +39,7 @@ final class MonitoringAPI{
                         continuation.resume(returning: .failure(error))
                     }
                 }
-                
-                
         }
-        
-        
-        
-            
-        
     }
     
     @Dependency(\.vitalWinkAPI) private var vitalWinkAPI

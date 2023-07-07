@@ -23,7 +23,7 @@ struct MetricChartView: View{
         WithViewStore(store, observe: {$0}){viewStore in
            
                 GeometryReader{proxy in
-                    let itemWidth = (proxy.size.width - 30) / CGFloat(viewStore.period.numberOfItem)
+                    let itemWidth = (proxy.size.width - 50) / CGFloat(viewStore.period.numberOfItem)
                     HStack(spacing:10){
                             ScrollView(.horizontal,showsIndicators: false){
                                 LazyHStack(spacing: 10){
@@ -139,6 +139,8 @@ struct MetricChartItemView: View{
                         .frame(maxWidth: 5, minHeight:3)
                 }
             }
+            
+            
             else{
                 Spacer()
                     .frame(height: baseHeight)

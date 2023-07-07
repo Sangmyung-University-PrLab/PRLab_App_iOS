@@ -51,7 +51,7 @@ struct MetricChart: ReducerProtocol{
                 }
                 data.isVisible = isVisible
                 state.datas[key] = data
-                
+
                 return
                     .cancel(id:CancelId.setBaseRange)
                     .merge(with: .run{send in
@@ -73,12 +73,12 @@ struct MetricChart: ReducerProtocol{
                     .compactMapValues{$0}
                     .filter{$0.value.isVisible}
                     .map{$0.value.value}
+                state.isBaseRangeInited = true
                 
                 guard !visibleDatas.isEmpty else{
                     state.baseRange = nil
                     return .none
                 }
-                
                 
                 state.baseRange = visibleDatas.reduce(MinMaxType(min: visibleDatas.first?.min ?? 0, max: visibleDatas.first?.max ?? 0)){
                     let min = $0.min < $1.min ? $0.min : $1.min
@@ -86,12 +86,11 @@ struct MetricChart: ReducerProtocol{
                     
                     return MinMaxType(min: min, max: max)
                 }
-                
                 if state.baseRange!.max == 0 && state.baseRange!.min == 0{
                     state.baseRange = nil
                 }
                 
-                state.isBaseRangeInited = true
+                
                 
                 return .none
             case .binding(\.$period):
@@ -118,7 +117,6 @@ struct MetricChart: ReducerProtocol{
             case .fetchMetricDatas(let metric, let dateString):
                 let date = dateString == nil ? .now : dateFormatter.date(from: dateString!)!
                 var prevMonth = Calendar.current.component(.month, from: date)
-//                var p revYear = Calendar.current.component(.year, from: date)
                 var dateArray: [Date] = []
                 
                 switch state.period{
@@ -157,12 +155,23 @@ struct MetricChart: ReducerProtocol{
                 }
                 
                 return .run{[period = state.period]send in
-                    switch await fetchMetricData(metric: metric, period: period, basisDate: date){
-                    case .success(let datas):
-                        await send(.responseMetricDatas(datas))
-                    case .failure(let error):
-                        await send(.errorHandling(error))
+                    switch metric{
+                    case .expressionAnalysis:
+                        switch await fetchExpressionAnalysisData(period: period, basisDate: date){
+                        case .success(let datas):
+                            await send(.responseMetricDatas([]))
+                        case .failure(let error):
+                            await send(.errorHandling(error))
+                        }
+                    default:
+                        switch await fetchMetricData(metric: metric, period: period, basisDate: date){
+                        case .success(let datas):
+                            await send(.responseMetricDatas(datas))
+                        case .failure(let error):
+                            await send(.errorHandling(error))
+                        }
                     }
+                   
                 }
        
             case .responseMetricDatas(let datas):
@@ -188,6 +197,17 @@ struct MetricChart: ReducerProtocol{
             return .failure(error)
         }
     }
+    
+    private func fetchExpressionAnalysisData(period: Period, basisDate: Date) async -> Result<[MetricData<ExpressionAnalysisMetricValue>], Error> {
+        switch await monitoringAPI.fetchMetricDatas(.expressionAnalysis, period: period, basisDate: basisDate, valueType: ExpressionAnalysisMetricValue.self){
+        case .success(let data):
+            print(data)
+            return .success([])
+        case .failure(let error):
+            return .failure(error)
+        }
+    }
+    
     
     private var dateFormatter = DateFormatter()
     @Dependency(\.montioringAPI) private var monitoringAPI
