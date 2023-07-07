@@ -28,7 +28,7 @@ struct MetricChartView: View{
                             ScrollView(.horizontal,showsIndicators: false){
                                 LazyHStack(spacing: 10){
                                     ForEach(viewStore.sortedKeys, id: \.self){key in
-                                        MetricChartItemView(x:viewStore.xs[key,default:""],y: viewStore.datas[key, default: nil]?.value, baseRange: viewStore.baseRange, baseHeight: Float(proxy.size.height) - 30)
+                                        MetricChartItemView(x:viewStore.xs[key,default:""],y: viewStore.datas[key, default: []].map{$0.value}, baseRange: viewStore.baseRange, baseHeight: Float(proxy.size.height) - 30)
                                             .frame(width:itemWidth)
                                             .scaleEffect(x:-1,y:1)
                                             .onAppear{
@@ -96,7 +96,7 @@ struct MetricChartView: View{
 }
 
 struct MetricChartItemView: View{
-    init(x:String, y: MinMaxType<Float>? = nil, baseRange: MinMaxType<Float>?, baseHeight: Float) {
+    init(x:String, y: [MinMaxType<Float>], baseRange: MinMaxType<Float>?, baseHeight: Float) {
         self.baseRange = baseRange
         self.x = x
         self.y = y
@@ -112,7 +112,8 @@ struct MetricChartItemView: View{
     
     var body: some View{
         VStack(spacing:0){
-            if let value = y {
+            if !y.isEmpty {
+                let value = y[0]
                 if let baseRange = self.baseRange{
                     let upper = max(baseRange.max - value.max, 0)
                     let lower = max(value.min - baseRange.min,0)
@@ -154,7 +155,7 @@ struct MetricChartItemView: View{
 
     private let ratio: Float
     private let x: String
-    private let y: MinMaxType<Float>?
+    private let y: [MinMaxType<Float>]
     private let baseRange: MinMaxType<Float>?
     private let baseHeight: CGFloat
 }

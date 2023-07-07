@@ -71,8 +71,8 @@ struct MetricMonitoringView: View{
                         .padding(.vertical, 20)
                     }
                 
-                if let selected = viewStore.selected, let data = viewStore.datas[selected, default: nil] {
-                    MinMaxCardView(data: data.value, metric: metric, formatter: formatter)
+                if let selected = viewStore.selected, !viewStore.datas[selected, default: []].isEmpty{
+                    MinMaxCardView(data: viewStore.datas[selected, default: []][0].value, metric: metric, formatter: formatter)
                 }
 //               
                 

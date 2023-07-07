@@ -22,7 +22,7 @@ struct MetricChart: ReducerProtocol{
         }
         
         @BindingState var period: Period = .week
-        fileprivate(set) var datas: [String : ChartData?] = [:]
+        fileprivate(set) var datas: [String : [ChartData]] = [:]
         fileprivate(set) var xs: [String: String] = [:]
         fileprivate(set) var selected: String? = nil
         fileprivate(set) var baseRange: MinMaxType<Float>? = nil
@@ -46,10 +46,18 @@ struct MetricChart: ReducerProtocol{
         Reduce{state, action in
             switch action{
             case .changeVisible(let key,let isVisible):
-                guard var data = state.datas[key, default: nil] else{
+                var data = state.datas[key, default: []]
+                guard !data.isEmpty else{
                     return .none
                 }
-                data.isVisible = isVisible
+                
+                data.enumerated().forEach{
+                    let index = $0.offset
+                    var element = $0.element
+                    
+                    element.isVisible = isVisible
+                    data[index] = element
+                }
                 state.datas[key] = data
 
                 return
@@ -68,11 +76,11 @@ struct MetricChart: ReducerProtocol{
             case .setBaseRange:
                 let visibleDatas = !state.isBaseRangeInited ? state
                     .sortedKeys[0 ..< state.period.numberOfItem]
-                    .compactMap{state.datas[$0, default: nil]}
+                    .flatMap{state.datas[$0, default: []]}
                     .map{$0.value} : state.datas
-                    .compactMapValues{$0}
-                    .filter{$0.value.isVisible}
-                    .map{$0.value.value}
+                    .values.flatMap{$0}
+                    .filter{$0.isVisible}
+                    .map{$0.value}
                 state.isBaseRangeInited = true
                 
                 guard !visibleDatas.isEmpty else{
@@ -134,7 +142,7 @@ struct MetricChart: ReducerProtocol{
                     let dateString = dateFormatter.string(from: $0)
                     let yyyyMMdd = dateString.split(separator: "/").map{Int($0)!}
                 
-                    state.datas.updateValue(state.datas[dateString, default:nil], forKey: dateString)
+                    state.datas.updateValue(state.datas[dateString, default:[]], forKey: dateString)
                     
                     switch state.period{
                     case .day:
@@ -176,7 +184,7 @@ struct MetricChart: ReducerProtocol{
        
             case .responseMetricDatas(let datas):
                 datas.forEach{
-                    state.datas[dateFormatter.string(from: $0.basisDate)] = .init(value: $0.value,isVisible:false)
+                    state.datas[dateFormatter.string(from: $0.basisDate)] = [.init(value: $0.value,isVisible:false)]
                 }
 
                 return state.isBaseRangeInited ? .none : .send(.setBaseRange)
