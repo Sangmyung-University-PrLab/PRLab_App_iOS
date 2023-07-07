@@ -23,15 +23,14 @@ struct MetricChartView: View{
         WithViewStore(store, observe: {$0}){viewStore in
            
                 GeometryReader{proxy in
-                    let itemWidth = (proxy.size.width - 40 - 10 * CGFloat(viewStore.period.numberOfItem - 1)) / CGFloat(viewStore.period.numberOfItem)
+                    let itemWidth = (proxy.size.width - 30) / CGFloat(viewStore.period.numberOfItem)
                     HStack(spacing:10){
                             ScrollView(.horizontal,showsIndicators: false){
                                 LazyHStack(spacing: 10){
                                     ForEach(viewStore.sortedKeys, id: \.self){key in
-                                        let yyyyMMdd = key.split(separator: "/").map{Int($0)!}
-                               
                                         MetricChartItemView(x:viewStore.xs[key,default:""],y: viewStore.datas[key, default: nil]?.value, baseRange: viewStore.baseRange, baseHeight: Float(proxy.size.height) - 30)
-                                            .frame(width:itemWidth).scaleEffect(x:-1,y:1)
+                                            .frame(width:itemWidth)
+                                            .scaleEffect(x:-1,y:1)
                                             .onAppear{
 //                                                print(key)
                                                 Task{
@@ -60,9 +59,7 @@ struct MetricChartView: View{
                                 }
                                 
                             }.scaleEffect(x:-1,y:1)
-                        
-                        
-                        .frame(width: proxy.size.width - 30)
+                            .frame(width: proxy.size.width - 30)
                         .overlay{
                             Path{
                                 $0.move(to: CGPoint(x:0, y:proxy.size.height - 30))
@@ -80,7 +77,7 @@ struct MetricChartView: View{
                             }
                             Spacer().frame(height:30)
                         }.font(.notoSans(size: 12, weight: .medium))
-                            .frame(height:proxy.size.height + 12)
+                        .frame(height:proxy.size.height + 12)
                     }
                 .onChange(of: viewStore.period){_ in
                     viewStore.send(.selectItem(nil))
