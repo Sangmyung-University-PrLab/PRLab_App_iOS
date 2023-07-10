@@ -13,7 +13,7 @@ struct MetricCardView: View {
         self.metric = metric
         self.value = value
         self.icon = Image("\(metric == .expressionAnalysis ? "expressionAnalysis" : metric.rawValue[metric.rawValue.startIndex ..< metric.rawValue.index(before:  metric.rawValue.endIndex)])_icon")
-       
+        
         self.store = store
     }
     

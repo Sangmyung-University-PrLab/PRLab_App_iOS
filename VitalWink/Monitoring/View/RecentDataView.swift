@@ -10,6 +10,9 @@ import ComposableArchitecture
 struct RecentDataView: View {
     init(store: StoreOf<Monitoring>){
         self.store = store
+        formatter = NumberFormatter()
+        formatter.numberStyle = .decimal
+        formatter.maximumFractionDigits = 2
     }
     
     var body: some View {
@@ -20,7 +23,7 @@ struct RecentDataView: View {
                     MetricCardView(metric: .SpO2, value: "\(viewStore.state?.SpO2 ?? 0)",  store: store)
                     MetricCardView(metric: .RR, value: "\(viewStore.state?.RR ?? 0)" ,  store: store)
                     MetricCardView(metric: .stress, value: "\(viewStore.state?.stress ?? 0)",  store: store)
-                    MetricCardView(metric: .expressionAnalysis, value: "\(viewStore.state?.expressionAnalysis?.arousal ?? 0)",  store: store)
+                    MetricCardView(metric: .expressionAnalysis, value: formatter.string(for: viewStore.state?.expressionAnalysis?.arousal ?? 0) ?? "",  store: store)
     //                MetricCardView(metric: "혈당", value: "76", icon: Image("bpm_icon"))
     //                MetricCardView(metric: "혈압", value: "76", icon: Image("bpm_icon"))
                     MetricCardView(metric: .BMI, value: "\(viewStore.state?.BMI ?? 0)",  store: store)
@@ -47,6 +50,7 @@ struct RecentDataView: View {
     }
     @Environment(\.dismiss) private var dismiss
     private let store: StoreOf<Monitoring>
+    private let formatter: NumberFormatter
 }
 
 struct RecentDataView_Previews: PreviewProvider {
