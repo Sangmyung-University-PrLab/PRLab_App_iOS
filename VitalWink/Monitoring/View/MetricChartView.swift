@@ -53,7 +53,7 @@ struct MetricChartView: View{
                                             .onTapGesture{
                                                 viewStore.send(.selectItem(key))
                                             }
-                                            .foregroundColor(.blue)
+                                            
                                             .opacity(viewStore.selected == key ? 1 : 0.3)
                                     }
                                 }
@@ -77,8 +77,8 @@ struct MetricChartView: View{
                             }
                             Spacer().frame(height:30)
                         }.font(.notoSans(size: 12, weight: .medium))
-                        .frame(height:proxy.size.height + 12)
-                    }
+                        .frame(maxWidth: .infinity, maxHeight:proxy.size.height + 12)
+                    }.fixedSize()
                 .onChange(of: viewStore.period){_ in
                     viewStore.send(.fetchMetricDatas(metric))
                 }
@@ -113,33 +113,41 @@ struct MetricChartItemView: View{
     var body: some View{
         VStack(spacing:0){
             if !y.isEmpty {
-                let value = y[0]
-                if let baseRange = self.baseRange{
-                    let upper = max(baseRange.max - value.max, 0)
-                    let lower = max(value.min - baseRange.min,0)
-                    
-                    if upper != 0{
-                        Spacer()
-                            .frame(height: CGFloat(upper / ratio))
-                        
+                HStack{
+                    ForEach(0 ..< y.count, id: \.self){index in
+                        VStack(spacing: 0){
+                            let value = y[index]
+                            if let baseRange = self.baseRange{
+                                let upper = max(baseRange.max - value.max, 0)
+                                let lower = max(value.min - baseRange.min,0)
+                                
+                                if upper != 0{
+                                    Spacer()
+                                        .frame(height: CGFloat(upper / ratio))
+                                    
+                                }
+                                Capsule()
+                                    .frame(maxWidth: 5, minHeight:3)
+                                   
+                                
+                                if lower != 0 && value.min != value.max{
+                                    Spacer()
+                                        .frame(height:CGFloat(lower / ratio))
+                                }
+                                else if value.max == value.min && value != baseRange{
+                                    Spacer()
+                                        .frame(height: max(baseHeight - CGFloat(upper / ratio) - 4, 0))
+                                }
+                            }
+                            else{
+                                Capsule()
+                                    .frame(maxWidth: 5, minHeight:3)
+                            }
+                        }.foregroundColor(index == 0 ? .blue : .red)
                     }
-                    Capsule()
-                        .frame(maxWidth: 5, minHeight:3)
-                    if lower != 0 && value.min != value.max{
-                        Spacer()
-                            .frame(height:CGFloat(lower / ratio))
-                    }
-                    else if value.max == value.min && value != baseRange{
-                        
-                        Spacer()
-                            .frame(height: max(baseHeight - CGFloat(upper / ratio) - 4, 0))
-                    }
-                }else{
-                    Capsule()
-                        .frame(maxWidth: 5, minHeight:3)
                 }
+                
             }
-            
             
             else{
                 Spacer()

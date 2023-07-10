@@ -33,6 +33,7 @@ struct MetricChart: ReducerProtocol{
         case binding(BindingAction<State>)
         case fetchMetricDatas(_ metric: Metric, _ dateString: String? = nil)
         case responseMetricDatas([MetricData<MinMaxType<Float>>])
+        case responseExpressionAnalysisDatas([MetricData<ExpressionAnalysisMetricValue>])
         case selectItem(_ key: String)
         case errorHandling(Error)
         case changeVisible(String,Bool)
@@ -46,6 +47,7 @@ struct MetricChart: ReducerProtocol{
         Reduce{state, action in
             switch action{
             case .changeVisible(let key,let isVisible):
+                
                 var data = state.datas[key, default: []]
                 guard !data.isEmpty else{
                     return .none
@@ -94,9 +96,10 @@ struct MetricChart: ReducerProtocol{
                     
                     return MinMaxType(min: min, max: max)
                 }
-                if state.baseRange!.max == 0 && state.baseRange!.min == 0{
-                    state.baseRange = nil
-                }
+//                if state.baseRange!.max == 0 && state.baseRange!.min == 0{
+//                    print("state.datas: \(state.datas)")
+//                    state.baseRange = nil
+//                }
                 
                 
                 
@@ -167,7 +170,7 @@ struct MetricChart: ReducerProtocol{
                     case .expressionAnalysis:
                         switch await fetchExpressionAnalysisData(period: period, basisDate: date){
                         case .success(let datas):
-                            await send(.responseMetricDatas([]))
+                            await send(.responseExpressionAnalysisDatas(datas))
                         case .failure(let error):
                             await send(.errorHandling(error))
                         }
@@ -193,6 +196,12 @@ struct MetricChart: ReducerProtocol{
             case .errorHandling(let error):
                 print(error.localizedDescription)
                 return .none
+            case .responseExpressionAnalysisDatas(let datas):
+                datas.forEach{
+                    state.datas[dateFormatter.string(from: $0.basisDate)] = [.init(value: $0.value.arousal, isVisible:false), .init(value: $0.value.valence, isVisible:false)]
+                }
+                
+                return state.isBaseRangeInited ? .none : .send(.setBaseRange)
             }
         }
     }
@@ -208,9 +217,8 @@ struct MetricChart: ReducerProtocol{
     
     private func fetchExpressionAnalysisData(period: Period, basisDate: Date) async -> Result<[MetricData<ExpressionAnalysisMetricValue>], Error> {
         switch await monitoringAPI.fetchMetricDatas(.expressionAnalysis, period: period, basisDate: basisDate, valueType: ExpressionAnalysisMetricValue.self){
-        case .success(let data):
-            print(data)
-            return .success([])
+        case .success(let datas):
+            return .success(datas)
         case .failure(let error):
             return .failure(error)
         }

@@ -9,7 +9,7 @@ import Foundation
 struct ExpressionAnalysisMetricValue:DataBaseType{
     let arousal: MinMaxType<Float>
     let valence: MinMaxType<Float>
-    let expression: Expression?
+    let expression: Expression
     
     struct Expression: DataBaseType{
         let neutral: Float
