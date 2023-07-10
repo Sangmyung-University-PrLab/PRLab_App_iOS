@@ -58,30 +58,49 @@ struct MetricMonitoringView: View{
     }
     var body: some View {
         WithViewStore(store, observe: {$0}){viewStore in
-            VStack{
-                CircularSegmentedPickerView(selected: viewStore.binding(\.$period), texts: ["1일", "1주","1개월","1년"])
-                    .padding(.horizontal, 5)
-                
-                RoundedRectangle(cornerRadius: 8)
-                    .foregroundColor(.white)
-                    .frame(height: 255)
-                    .overlay{
-                        MetricChartView(store: store, metric: metric)
-                        .padding(.horizontal,10)
-                        .padding(.vertical, 20)
+            ScrollView(showsIndicators: false){
+                VStack{
+                    CircularSegmentedPickerView(selected: viewStore.binding(\.$period), texts: ["1일", "1주","1개월","1년"])
+                        .padding(.horizontal, 5)
+                    
+                    RoundedRectangle(cornerRadius: 8)
+                        .foregroundColor(.white)
+                        .frame(height: 255)
+                        .overlay{
+                            MetricChartView(store: store, metric: metric)
+                            .padding(.horizontal,10)
+                            .padding(.vertical, 20)
+                        }
+                    
+                    if let selected = viewStore.selected, !viewStore.datas[selected, default: []].isEmpty{
+                        let datas = viewStore.datas[selected, default: []]
+                        ForEach(0 ..< datas.count, id:\.self){
+                            MinMaxCardView(data: datas[$0].value, metric: metric, formatter: formatter)
+                        }
+                        
+                        
+                        
+                        if metric == .expressionAnalysis, !viewStore.expressions[selected, default: [:]].isEmpty{
+                            let expressions = viewStore.expressions[selected, default: [:]]
+                            
+                            PieChartView(expressions: expressions, numberFormatter: formatter)
+                                .frame(height: UIApplication.shared.screenSize?.width ?? 0)
+                                .padding(.bottom, 20)
+                                .background{
+                                    RoundedRectangle(cornerRadius: 20)
+                                        .foregroundColor(.white)
+                                        
+                                }
+                                
+                        }
                     }
-                
-                if let selected = viewStore.selected, !viewStore.datas[selected, default: []].isEmpty{
-                    let datas = viewStore.datas[selected, default: []]
-                    ForEach(0 ..< datas.count, id:\.self){
-                        MinMaxCardView(data: datas[$0].value, metric: metric, formatter: formatter)
-                    }
+
+                    Spacer()
+                    
                 }
-                
-                Spacer()
-                
-            }
-            .padding(.horizontal, 20)
+               
+            }.padding(.horizontal, 20)
+            
             .background(Color.backgroundColor)
             .navigationTitle("\(metric.korean)")
             .navigationBarTitleDisplayMode(.inline)
@@ -96,6 +115,7 @@ struct MetricMonitoringView: View{
                         }
                 }
             }
+           
            
         }
     }

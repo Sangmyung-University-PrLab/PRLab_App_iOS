@@ -23,6 +23,7 @@ struct MetricChart: ReducerProtocol{
         
         @BindingState var period: Period = .week
         fileprivate(set) var datas: [String : [ChartData]] = [:]
+        fileprivate(set) var expressions: [String: [Expression: Float]] = [:]
         fileprivate(set) var xs: [String: String] = [:]
         fileprivate(set) var selected: String? = nil
         fileprivate(set) var baseRange: MinMaxType<Float>? = nil
@@ -109,6 +110,7 @@ struct MetricChart: ReducerProtocol{
                 state.isBaseRangeInited = false
                 state.selected = nil
                 state.baseRange = nil
+                state.expressions = [:]
                 
                 if state.period == .day{
                     dateFormatter.dateFormat = "MM:dd"
@@ -119,7 +121,6 @@ struct MetricChart: ReducerProtocol{
                 
                 return .none
             case .binding:
-                
                 return .none
             case .selectItem(let key):
                 state.selected = key
@@ -198,7 +199,9 @@ struct MetricChart: ReducerProtocol{
                 return .none
             case .responseExpressionAnalysisDatas(let datas):
                 datas.forEach{
-                    state.datas[dateFormatter.string(from: $0.basisDate)] = [.init(value: $0.value.arousal, isVisible:false), .init(value: $0.value.valence, isVisible:false)]
+                    let key = dateFormatter.string(from: $0.basisDate)
+                    state.datas[key] = [.init(value: $0.value.arousal, isVisible:false), .init(value: $0.value.valence, isVisible:false)]
+                    state.expressions[key] = $0.value.expressions
                 }
                 
                 return state.isBaseRangeInited ? .none : .send(.setBaseRange)

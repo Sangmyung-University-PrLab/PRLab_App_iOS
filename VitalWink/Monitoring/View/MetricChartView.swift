@@ -118,25 +118,31 @@ struct MetricChartItemView: View{
                         VStack(spacing: 0){
                             let value = y[index]
                             if let baseRange = self.baseRange{
-                                let upper = max(baseRange.max - value.max, 0)
-                                let lower = max(value.min - baseRange.min,0)
-                                
-                                if upper != 0{
-                                    Spacer()
-                                        .frame(height: CGFloat(upper / ratio))
+                                if baseRange.min == baseRange.max{
+                                    Capsule()
+                                        .frame(maxWidth: 5, minHeight:3)
+                                }
+                                else{
+                                    let upper = max(baseRange.max - value.max, 0)
+                                    let lower = max(value.min - baseRange.min,0)
                                     
-                                }
-                                Capsule()
-                                    .frame(maxWidth: 5, minHeight:3)
-                                   
-                                
-                                if lower != 0 && value.min != value.max{
-                                    Spacer()
-                                        .frame(height:CGFloat(lower / ratio))
-                                }
-                                else if value.max == value.min && value != baseRange{
-                                    Spacer()
-                                        .frame(height: max(baseHeight - CGFloat(upper / ratio) - 4, 0))
+                                    if upper != 0{
+                                        Spacer()
+                                            .frame(height: CGFloat(upper / ratio))
+                                        
+                                    }
+                                    Capsule()
+                                        .frame(maxWidth: 5, minHeight:3)
+                                       
+                                    
+                                    if lower != 0 && value.min != value.max{
+                                        Spacer()
+                                            .frame(height:CGFloat(lower / ratio))
+                                    }
+                                    else if value.max == value.min && value != baseRange{
+                                        Spacer()
+                                            .frame(height: max(baseHeight - CGFloat(upper / ratio) - 4, 0))
+                                    }
                                 }
                             }
                             else{
