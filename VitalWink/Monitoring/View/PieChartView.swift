@@ -43,7 +43,7 @@ struct PieChartView: View{
                         }
                         context.fill(path, with: .color(key.color))
                         if value != 0{
-                            context.draw(Text(formatter.string(for:value) ?? "").font(.notoSans(size: 11, weight: .medium)), at: textPoint)
+                            context.draw(Text("\(formatter.string(for: value * 100) ?? "")%").font(.notoSans(size: 14, weight: .medium)), at: textPoint)
                         }
                         
                         startAngle = endAngle
