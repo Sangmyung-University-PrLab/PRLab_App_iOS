@@ -77,8 +77,9 @@ struct MetricMonitoringView: View{
             .onDisappear{
                 viewStore.send(.onDisappear)
             }
-           
+            .activityIndicator(isVisible: viewStore.isLoading)
         }
+        
     }
     
     

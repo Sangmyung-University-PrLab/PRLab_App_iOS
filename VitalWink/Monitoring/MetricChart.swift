@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import OSLog
 @preconcurrency import ComposableArchitecture
 
 struct MetricChart: ReducerProtocol{
@@ -22,12 +23,14 @@ struct MetricChart: ReducerProtocol{
         }
         
         @BindingState var period: Period = .week
+        fileprivate(set) var isLoading = false
         fileprivate(set) var datas: [String : [ChartData]] = [:]
         fileprivate(set) var expressions: [String: [Expression: Float]] = [:]
         fileprivate(set) var xs: [String: String] = [:]
         fileprivate(set) var selected: String? = nil
         fileprivate(set) var baseRange: MinMaxType<Float>? = nil
         fileprivate var isBaseRangeInited = false
+        fileprivate(set) var alertState: VitalWinkAlertMessageState<Action>? = nil
     }
     
     enum Action: BindableAction{
@@ -117,6 +120,8 @@ struct MetricChart: ReducerProtocol{
                 return .none
             
             case .fetchMetricDatas(let metric, let dateString):
+                state.isLoading = true
+               
                 let date = dateString == nil ? .now : dateFormatter.date(from: dateString!)!
                 var prevMonth = Calendar.current.component(.month, from: date)
                 var dateArray: [Date] = []
@@ -177,6 +182,7 @@ struct MetricChart: ReducerProtocol{
                 }
        
             case .responseMetricDatas(let datas):
+                state.isLoading = false
                 datas.forEach{
                     state.datas[dateFormatter.string(from: $0.basisDate)] = [.init(value: $0.value,isVisible:false)]
                 }
@@ -185,9 +191,18 @@ struct MetricChart: ReducerProtocol{
                 
                 
             case .errorHandling(let error):
-                print(error.localizedDescription)
+                state.isLoading = false
+                state.alertState = .init(title: "기록", message: "기록 조회 중 오류가 발생했습니다."){
+                    VitalWinkAlertButtonState<Action>(title: "확인"){
+                        return nil
+                    }
+                }
+                let message = error.localizedDescription
+                os_log(.error, log:.metricChart,"%@", message)
+                
                 return .none
             case .responseExpressionAnalysisDatas(let datas):
+                state.isLoading = false
                 datas.forEach{
                     let key = dateFormatter.string(from: $0.basisDate)
                     state.datas[key] = [.init(value: $0.value.arousal, isVisible:false), .init(value: $0.value.valence, isVisible:false)]

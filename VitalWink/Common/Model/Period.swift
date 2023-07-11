@@ -16,8 +16,6 @@ enum Period: String, CaseIterable{
     var timeInterval: TimeInterval{
         var timeInterval: TimeInterval = 60 * 60
         switch self {
-//        case .day:
-//            timeInterval *= 24
         case .week:
             timeInterval *= 7 * 24
         case .month:

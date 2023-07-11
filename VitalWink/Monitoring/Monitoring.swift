@@ -7,11 +7,12 @@
 
 import Foundation
 import ComposableArchitecture
-
+import OSLog
 struct Monitoring: ReducerProtocol{
     struct State: Equatable{
         fileprivate(set) var recentData: RecentData? = nil
         fileprivate(set) var metricChart: MetricChart.State = .init()
+        fileprivate(set) var alertState: VitalWinkAlertMessageState<Action>? = nil
     }
     
     enum Action: BindableAction{
@@ -45,7 +46,14 @@ struct Monitoring: ReducerProtocol{
                 state.recentData = data
                 return .none
             case .errorHandling(let error):
-                print(error.localizedDescription)
+                state.alertState = .init(title: "기록", message: "기록 조회 중 오류가 발생했습니다."){
+                    VitalWinkAlertButtonState<Action>(title: "확인"){
+                        return nil
+                    }
+                }
+                let message = error.localizedDescription
+                os_log(.error, log:.monitoring,"%@", message)
+                
                 return .none
             }
         }

@@ -75,7 +75,7 @@ struct MetricChartView: View{
                                 $0.addLine(to: CGPoint(x:proxy.size.width - 30, y: 0))
                             }.stroke(Color.gray)
                             
-                        }
+                        }.disabled(viewStore.isLoading)
                         
                         VStack(spacing: 0){
                             if let baseRange = viewStore.baseRange{
