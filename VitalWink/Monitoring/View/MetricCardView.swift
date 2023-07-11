@@ -48,7 +48,6 @@ struct MetricCardView: View {
                                        
                                     Text(numberFormatter.string(for: viewStore.state?.expressionAnalysis?.valence) ?? "")
                                         .font(.notoSans(size: 20, weight: .bold))
-                                        .padding(.trailing,5)
                                 }
                             }
                             else{
