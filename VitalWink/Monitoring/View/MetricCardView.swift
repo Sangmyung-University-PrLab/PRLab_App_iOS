@@ -9,55 +9,96 @@ import SwiftUI
 import ComposableArchitecture
 
 struct MetricCardView: View {
-    init(metric: Metric, value: String, store: StoreOf<Monitoring>){
+    init(metric: Metric, store: StoreOf<Monitoring>){
         self.metric = metric
-        self.value = value
         self.icon = Image("\(metric == .expressionAnalysis ? "expressionAnalysis" : metric.rawValue[metric.rawValue.startIndex ..< metric.rawValue.index(before:  metric.rawValue.endIndex)])_icon")
-        
         self.store = store
+        numberFormatter = NumberFormatter()
+        numberFormatter.numberStyle = .decimal
+        numberFormatter.maximumFractionDigits = 2
     }
     
     var body: some View {
-        RoundedRectangle(cornerRadius: 8)
-            .foregroundColor(.white)
-            .frame(width:280, height: 100)
-            .overlay{
-                VStack(spacing:10){
-                    HStack(spacing:0){
-                        Text(metric.korean)
-                            .font(.notoSans(size: 14, weight: .bold))
-                        Spacer()
-                        Image(systemName: "chevron.forward")
-                            .font(.system(size: 10))
-                    }
-                    HStack(spacing:0){
-                        Text(value)
-                            .font(.notoSans(size: 35, weight: .bold))
-                        if let unit = metric.unit{
-                            Text(unit)
-                                .font(.notoSans(size: 14,weight: .light))
-                                .foregroundColor(.gray)
-                                .padding(.leading, 5)
+        WithViewStore(store, observe: {$0.recentData}){viewStore in
+            RoundedRectangle(cornerRadius: 8)
+                .foregroundColor(.white)
+                .frame(width:280, height: 100)
+                .overlay{
+                    VStack(spacing:10){
+                        HStack(spacing:0){
+                            Text(metric.korean)
+                                .font(.notoSans(size: 14, weight: .bold))
+                            Spacer()
+                            Image(systemName: "chevron.forward")
+                                .font(.system(size: 10))
                         }
-                        Spacer()
-                        icon
-                            .resizable()
-                            .frame(width:40, height: 40)
+                        HStack(spacing:0){
+                            
+                            if metric == .expressionAnalysis{
+                                HStack(spacing: 5){
+                                    Text("분노지수")
+                                        .font(.notoSans(size: 12, weight: .medium))
+                                        
+                                    Text(numberFormatter.string(for: viewStore.state?.expressionAnalysis?.arousal) ?? "")
+                                        .font(.notoSans(size: 20, weight: .bold))
+                                        .padding(.trailing, 5)
+                                    
+                                    Text("긴장도")
+                                        .font(.notoSans(size: 12, weight: .medium))
+                                       
+                                    Text(numberFormatter.string(for: viewStore.state?.expressionAnalysis?.valence) ?? "")
+                                        .font(.notoSans(size: 20, weight: .bold))
+                                        .padding(.trailing,5)
+                                }
+                            }
+                            else{
+                                Text(value)
+                                    .font(.notoSans(size: 35, weight: .bold))
+                                if let unit = metric.unit{
+                                    Text(unit)
+                                        .font(.notoSans(size: 14,weight: .light))
+                                        .foregroundColor(.gray)
+                                        .padding(.leading, 5)
+                                }
+                            }
+                            
+                            Spacer()
+                            icon
+                                .resizable()
+                                .frame(width:40, height: 40)
+                        }
+                    }
+                    .padding(.horizontal,20)
+                }
+                .onTapGesture {
+                    shouldShowMetricMonitoringView = true
+                }
+                .background{
+                    NavigationLink("", destination: MetricMonitoringView(store: store.scope(state: \.metricChart, action: Monitoring.Action.metricChart), metric: metric), isActive: $shouldShowMetricMonitoringView)
+                }
+                .onChange(of: viewStore.state){
+                    switch metric{
+                    case .BMI:
+                        value = numberFormatter.string(for: $0?.BMI) ?? ""
+                    case .RR:
+                        value = numberFormatter.string(for: $0?.RR) ?? ""
+                    case .SpO2:
+                        value = numberFormatter.string(for: $0?.SpO2) ?? ""
+                    case .stress:
+                        value = numberFormatter.string(for: $0?.stress) ?? ""
+                    case .bpm:
+                        value = numberFormatter.string(for: $0?.bpm) ?? ""
+                    default:
+                        break
                     }
                 }
-                .padding(.horizontal,20)
-            }
-            .onTapGesture {
-                shouldShowMetricMonitoringView = true
-            }
-            .background{
-                NavigationLink("", destination: MetricMonitoringView(store: store.scope(state: \.metricChart, action: Monitoring.Action.metricChart), metric: metric), isActive: $shouldShowMetricMonitoringView)
-            }
+        }
+        
     }
-    
+    @State private var value: String = ""
     @State private var shouldShowMetricMonitoringView = false
     private let metric: Metric
-    private let value: String
+    private let numberFormatter: NumberFormatter
     private let icon: Image
     private let store: StoreOf<Monitoring>
 }

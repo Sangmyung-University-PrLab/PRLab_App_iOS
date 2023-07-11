@@ -8,7 +8,7 @@
 import Foundation
 
 enum Period: String, CaseIterable{
-    case day = "day"
+//    case day = "day"
     case week = "week"
     case month = "month"
     case year = "year"
@@ -16,8 +16,8 @@ enum Period: String, CaseIterable{
     var timeInterval: TimeInterval{
         var timeInterval: TimeInterval = 60 * 60
         switch self {
-        case .day:
-            timeInterval *= 24
+//        case .day:
+//            timeInterval *= 24
         case .week:
             timeInterval *= 7 * 24
         case .month:
@@ -30,8 +30,8 @@ enum Period: String, CaseIterable{
     
     var numberOfItem: Int{
         switch self {
-        case .day:
-            return 24
+//        case .day:
+//            return 24
         case .week:
             return 7
         case .month:

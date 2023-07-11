@@ -9,41 +9,6 @@ import SwiftUI
 import ComposableArchitecture
 
 struct MetricMonitoringView: View{
-    let demoData = [
-        MinMaxType<Float>(min: 70.0, max: 82.0),
-        MinMaxType<Float>(min: 93.0, max: 108.0),
-        MinMaxType<Float>(min: 123.0, max: 138.0),
-        MinMaxType<Float>(min: 64.0, max: 73.0),
-        MinMaxType<Float>(min: 87.0, max: 95.0),
-        MinMaxType<Float>(min: 61.0, max: 65.0),
-        MinMaxType<Float>(min: 64.0, max: 73.0),
-        MinMaxType<Float>(min: 87.0, max: 95.0),
-        MinMaxType<Float>(min: 61.0, max: 65.0),
-        MinMaxType<Float>(min: 64.0, max: 73.0),
-        MinMaxType<Float>(min: 87.0, max: 95.0),
-        MinMaxType<Float>(min: 61.0, max: 65.0),
-        MinMaxType<Float>(min: 64.0, max: 73.0),
-        MinMaxType<Float>(min: 87.0, max: 95.0),
-        MinMaxType<Float>(min: 61.0, max: 65.0),
-        MinMaxType<Float>(min: 64.0, max: 73.0),
-        MinMaxType<Float>(min: 87.0, max: 95.0),
-        MinMaxType<Float>(min: 61.0, max: 65.0),
-        MinMaxType<Float>(min: 64.0, max: 73.0),
-        MinMaxType<Float>(min: 87.0, max: 95.0),
-        MinMaxType<Float>(min: 61.0, max: 65.0),
-        MinMaxType<Float>(min: 64.0, max: 73.0),
-        MinMaxType<Float>(min: 87.0, max: 95.0),
-        MinMaxType<Float>(min: 61.0, max: 65.0),
-        MinMaxType<Float>(min: 64.0, max: 73.0),
-        MinMaxType<Float>(min: 87.0, max: 95.0),
-        MinMaxType<Float>(min: 61.0, max: 65.0),
-        MinMaxType<Float>(min: 64.0, max: 73.0),
-        MinMaxType<Float>(min: 87.0, max: 95.0),
-        MinMaxType<Float>(min: 61.0, max: 65.0),
-        MinMaxType<Float>(min: 64.0, max: 73.0),
-        MinMaxType<Float>(min: 87.0, max: 95.0),
-        MinMaxType<Float>(min: 61.0, max: 65.0),
-    ]
     init(store: StoreOf<MetricChart>, metric: Metric, formatter: NumberFormatter? = nil){
         self.store = store
         self.metric = metric
@@ -60,7 +25,7 @@ struct MetricMonitoringView: View{
         WithViewStore(store, observe: {$0}){viewStore in
             ScrollView(showsIndicators: false){
                 VStack{
-                    CircularSegmentedPickerView(selected: viewStore.binding(\.$period), texts: ["1일", "1주","1개월","1년"])
+                    CircularSegmentedPickerView(selected: viewStore.binding(\.$period), texts: ["1주","1개월","1년"])
                         .padding(.horizontal, 5)
                     
                     RoundedRectangle(cornerRadius: 8)
@@ -68,18 +33,15 @@ struct MetricMonitoringView: View{
                         .frame(height: 255)
                         .overlay{
                             MetricChartView(store: store, metric: metric)
-                            .padding(.horizontal,10)
+                            .padding(.horizontal,20)
                             .padding(.vertical, 20)
                         }
-                    
                     if let selected = viewStore.selected, !viewStore.datas[selected, default: []].isEmpty{
                         let datas = viewStore.datas[selected, default: []]
                         ForEach(0 ..< datas.count, id:\.self){
                             MinMaxCardView(data: datas[$0].value, metric: metric, formatter: formatter)
                         }
-                        
-                        
-                        
+
                         if metric == .expressionAnalysis, !viewStore.expressions[selected, default: [:]].isEmpty{
                             let expressions = viewStore.expressions[selected, default: [:]]
                             
@@ -89,16 +51,13 @@ struct MetricMonitoringView: View{
                                 .background{
                                     RoundedRectangle(cornerRadius: 20)
                                         .foregroundColor(.white)
-                                        
                                 }
                                 
                         }
                     }
-
                     Spacer()
                     
                 }
-               
             }.padding(.horizontal, 20)
             
             .background(Color.backgroundColor)
@@ -115,7 +74,9 @@ struct MetricMonitoringView: View{
                         }
                 }
             }
-           
+            .onDisappear{
+                viewStore.send(.onDisappear)
+            }
            
         }
     }
@@ -130,7 +91,6 @@ struct MetricMonitoringView: View{
 
 struct MetricMonitoring_Previews: PreviewProvider {
     static var previews: some View {
-//        MetricMonitoringView(store: Store(initialState: MetricChart.State(), reducer: MetricChart()), metric: .bpm)
         let value = MinMaxType(min: 40, max: 75)
         
         GeometryReader{proxy in

@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import ComposableArchitecture
+@preconcurrency import ComposableArchitecture
 
 struct MetricChart: ReducerProtocol{
     init(){
@@ -39,6 +39,8 @@ struct MetricChart: ReducerProtocol{
         case errorHandling(Error)
         case changeVisible(String,Bool)
         case setBaseRange
+        case reset
+        case onDisappear
     }
     enum CancelId: Hashable{
         case setBaseRange
@@ -48,7 +50,6 @@ struct MetricChart: ReducerProtocol{
         Reduce{state, action in
             switch action{
             case .changeVisible(let key,let isVisible):
-                
                 var data = state.datas[key, default: []]
                 guard !data.isEmpty else{
                     return .none
@@ -66,15 +67,14 @@ struct MetricChart: ReducerProtocol{
                 return
                     .cancel(id:CancelId.setBaseRange)
                     .merge(with: .run{send in
-                 
                         do{
-                            try await Task.sleep(nanoseconds: UInt64(1_000_000_000 * 1))
+                            try await Task.sleep(nanoseconds: UInt64(1_000_000_000 * 0.5))
                         }catch{
                             await send(.errorHandling(error))
                         }
-                       
+                        await send(.setBaseRange, animation:.linear)
                     }.cancellable(id: CancelId.setBaseRange, cancelInFlight: true))
-                    .concatenate(with: .send(.setBaseRange, animation:.linear).cancellable(id: CancelId.setBaseRange, cancelInFlight: true))
+                    
                 
             case .setBaseRange:
                 let visibleDatas = !state.isBaseRangeInited ? state
@@ -84,6 +84,7 @@ struct MetricChart: ReducerProtocol{
                     .values.flatMap{$0}
                     .filter{$0.isVisible}
                     .map{$0.value}
+                
                 state.isBaseRangeInited = true
                 
                 guard !visibleDatas.isEmpty else{
@@ -97,29 +98,18 @@ struct MetricChart: ReducerProtocol{
                     
                     return MinMaxType(min: min, max: max)
                 }
-//                if state.baseRange!.max == 0 && state.baseRange!.min == 0{
-//                    print("state.datas: \(state.datas)")
-//                    state.baseRange = nil
+
+                return .none
+                
+            case .binding(\.$period):
+//                if state.period == .day{
+//                    dateFormatter.dateFormat = "MM:dd"
+//                }
+//                else{
+                    dateFormatter.dateFormat = "yyyy/MM/dd"
 //                }
                 
-                
-                
-                return .none
-            case .binding(\.$period):
-                state.datas = [:]
-                state.isBaseRangeInited = false
-                state.selected = nil
-                state.baseRange = nil
-                state.expressions = [:]
-                
-                if state.period == .day{
-                    dateFormatter.dateFormat = "MM:dd"
-                }
-                else{
-                    dateFormatter.dateFormat = "yyyy/MM/dd"
-                }
-                
-                return .none
+                return .send(.reset)
             case .binding:
                 return .none
             case .selectItem(let key):
@@ -132,8 +122,8 @@ struct MetricChart: ReducerProtocol{
                 var dateArray: [Date] = []
                 
                 switch state.period{
-                case .day:
-                    break
+//                case .day:
+//                    break
                 case .week:
                     dateArray = date.dateArrayInPeriod()
                 case .month:
@@ -149,8 +139,8 @@ struct MetricChart: ReducerProtocol{
                     state.datas.updateValue(state.datas[dateString, default:[]], forKey: dateString)
                     
                     switch state.period{
-                    case .day:
-                        break
+//                    case .day:
+//                        break
                     case .week:
                         let x = yyyyMMdd[2] == 1 ? "\(yyyyMMdd[1])/\(yyyyMMdd[2])" : "\(yyyyMMdd[2])"
                         state.xs.updateValue(x, forKey: dateString)
@@ -205,6 +195,17 @@ struct MetricChart: ReducerProtocol{
                 }
                 
                 return state.isBaseRangeInited ? .none : .send(.setBaseRange)
+            case .reset:
+                state.datas = [:]
+                state.isBaseRangeInited = false
+                state.selected = nil
+                state.baseRange = nil
+                state.expressions = [:]
+                return .none
+                
+            case .onDisappear:
+                state = State()
+                return .cancel(id:CancelId.setBaseRange)
             }
         }
     }

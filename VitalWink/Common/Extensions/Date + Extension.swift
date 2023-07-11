@@ -12,8 +12,8 @@ extension Date{
         var byAdding: Calendar.Component = .day
         var value = -1
         switch period {
-        case .day:
-            break
+//        case .day:
+//            break
         case .week:
             break
         case .month:
