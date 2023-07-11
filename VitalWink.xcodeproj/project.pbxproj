@@ -99,6 +99,7 @@
 		06BCCD0C2A53DF96003DA1E2 /* Date + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06BCCD0B2A53DF95003DA1E2 /* Date + Extension.swift */; };
 		06BCCD0E2A5BC251003DA1E2 /* PieChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06BCCD0D2A5BC251003DA1E2 /* PieChartView.swift */; };
 		06BCCD102A5BD878003DA1E2 /* Expression.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06BCCD0F2A5BD878003DA1E2 /* Expression.swift */; };
+		06BCCD122A5D34FC003DA1E2 /* MenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06BCCD112A5D34FC003DA1E2 /* MenuView.swift */; };
 		06EDBFA92A414353002CCC40 /* ASAuthorizationControllerDelgateImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06EDBFA82A414353002CCC40 /* ASAuthorizationControllerDelgateImpl.swift */; };
 		06F1809B2A15C64300F1CE90 /* VitalWinkAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F1809A2A15C64300F1CE90 /* VitalWinkAPI.swift */; };
 		06F1809F2A15DEFC00F1CE90 /* VitalWinkRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F1809E2A15DEFC00F1CE90 /* VitalWinkRouter.swift */; };
@@ -231,6 +232,7 @@
 		06BCCD0B2A53DF95003DA1E2 /* Date + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date + Extension.swift"; sourceTree = "<group>"; };
 		06BCCD0D2A5BC251003DA1E2 /* PieChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PieChartView.swift; sourceTree = "<group>"; };
 		06BCCD0F2A5BD878003DA1E2 /* Expression.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Expression.swift; sourceTree = "<group>"; };
+		06BCCD112A5D34FC003DA1E2 /* MenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuView.swift; sourceTree = "<group>"; };
 		06EDBFA82A414353002CCC40 /* ASAuthorizationControllerDelgateImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ASAuthorizationControllerDelgateImpl.swift; sourceTree = "<group>"; };
 		06F1809A2A15C64300F1CE90 /* VitalWinkAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VitalWinkAPI.swift; sourceTree = "<group>"; };
 		06F1809E2A15DEFC00F1CE90 /* VitalWinkRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VitalWinkRouter.swift; sourceTree = "<group>"; };
@@ -518,6 +520,7 @@
 				0629A2252A25DD3E007B864B /* MeasurementView.swift */,
 				067AD00D2A4984BA002E39B1 /* MeasurementResultView.swift */,
 				067AD00F2A4A7461002E39B1 /* MeasurmentResultColumnView.swift */,
+				06BCCD112A5D34FC003DA1E2 /* MenuView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1022,6 +1025,7 @@
 				065C00F02A34509500054387 /* VitalWinkAlertMessageState.swift in Sources */,
 				065C00E82A32E11A00054387 /* VitalWinkButtonStyle.swift in Sources */,
 				067AD0292A4D1E7E002E39B1 /* MetricChartView.swift in Sources */,
+				06BCCD122A5D34FC003DA1E2 /* MenuView.swift in Sources */,
 				065C00F62A35933E00054387 /* SignUpView.swift in Sources */,
 				06F180B42A17403C00F1CE90 /* UserAPI.swift in Sources */,
 				0629A21C2A208C91007B864B /* OSLog + Extension.swift in Sources */,
