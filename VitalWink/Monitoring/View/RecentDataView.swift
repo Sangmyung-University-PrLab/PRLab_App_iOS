@@ -16,14 +16,14 @@ struct RecentDataView: View {
         WithViewStore(store, observe: \.recentData){viewStore in
             ScrollView(.vertical, showsIndicators: false){
                 VStack(spacing:20){
-                    MetricCardView(metric: .bpm, value: "\(viewStore.state?.bpm ?? 0)", store: store)
-                    MetricCardView(metric: .SpO2, value: "\(viewStore.state?.SpO2 ?? 0)",  store: store)
-                    MetricCardView(metric: .RR, value: "\(viewStore.state?.RR ?? 0)" ,  store: store)
-                    MetricCardView(metric: .stress, value: "\(viewStore.state?.stress ?? 0)",  store: store)
-                    MetricCardView(metric: .expressionAnalysis, value: "\(viewStore.state?.expressionAnalysis?.arousal ?? 0)",  store: store)
+                    MetricCardView(metric: .bpm, store: store)
+                    MetricCardView(metric: .SpO2, store: store)
+                    MetricCardView(metric: .RR, store: store)
+//                    MetricCardView(metric: .stress, value: "\(viewStore.state?.stress ?? 0)",  store: store)
+                    MetricCardView(metric: .expressionAnalysis , store: store)
     //                MetricCardView(metric: "혈당", value: "76", icon: Image("bpm_icon"))
     //                MetricCardView(metric: "혈압", value: "76", icon: Image("bpm_icon"))
-                    MetricCardView(metric: .BMI, value: "\(viewStore.state?.BMI ?? 0)",  store: store)
+                    MetricCardView(metric: .BMI, store: store)
                 }.frame(maxWidth:.infinity)
             }.background(Color.backgroundColor)
             .onAppear{

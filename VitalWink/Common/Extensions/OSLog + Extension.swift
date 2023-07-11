@@ -14,4 +14,6 @@ extension OSLog{
     static let login = OSLog(subsystem: subsytem, category: "Login")
     static let signUp = OSLog(subsystem: subsytem, category: "SignUp")
     static let findUserInfo = OSLog(subsystem: subsytem, category: "FindUserInfo")
+    static let monitoring = OSLog(subsystem: subsytem, category: "monitoring")
+    static let metricChart = OSLog(subsystem: subsytem, category: "metircChart")
 }

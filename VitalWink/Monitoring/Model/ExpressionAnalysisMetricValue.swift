@@ -9,20 +9,33 @@ import Foundation
 struct ExpressionAnalysisMetricValue:DataBaseType{
     let arousal: MinMaxType<Float>
     let valence: MinMaxType<Float>
-    let expression: Expression
+    let expressions: [Expression: Float]
     
-    struct Expression: DataBaseType{
-        let neutral: Float
-        let happy: Float
-        let smile: Float
-        let suprise: Float
-        let fear: Float
-        let angry: Float
-        let disgust: Float
-        let scorn: Float
+    
+    enum CodingKeys: String, CodingKey{
+        case arousal
+        case valence
+        case expressions = "expression"
     }
-
+    
+    
+    init(arousal: MinMaxType<Float>, valence: MinMaxType<Float>, expressions: [Expression: Float]) {
+        self.arousal = arousal
+        self.valence = valence
+        self.expressions = expressions
+    }
+    
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.arousal = try container.decode(MinMaxType<Float>.self, forKey: .arousal)
+        self.valence = try container.decode(MinMaxType<Float>.self, forKey: .valence)
+        let expressionsArray = try container.decode([String : Float].self, forKey: .expressions)
+        var expressions: [Expression: Float] = [:]
+        expressionsArray.forEach{expressions.updateValue($0.value, forKey: Expression(rawValue: $0.key)!)}
+        self.expressions = expressions
+    }
+    
     #if DEBUG
-    static let mock =  ExpressionAnalysisMetricValue(arousal: .init(min: 0.1, max: 1.0), valence: .init(min: 0.1, max: 1.0), expression: .init(neutral: 1.0, happy: 1.0, smile: 1.0, suprise: 1.0, fear: 1.0, angry: 1.0, disgust: 1.0, scorn: 1.0))
+    static let mock =  ExpressionAnalysisMetricValue(arousal: .init(min: 0.1, max: 1.0), valence: .init(min: 0.1, max: 1.0), expressions: [.neutral: 0.125, .happy: 0.125, .smile: 0.125, .surprise: 0.125, .fear: 0.125, .angry: 0.125, .disgust: 0.125, .scron: 0.125])
     #endif
 }
