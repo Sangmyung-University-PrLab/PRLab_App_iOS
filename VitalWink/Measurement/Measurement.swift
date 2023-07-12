@@ -46,13 +46,16 @@ struct Measurement: ReducerProtocol{
         //최근 측정에 대한 Id
         @BindingState var target: Target = .face
         fileprivate(set) var isActivityIndicatorVisible = false
+        fileprivate(set) var shouldDismiss = false
         fileprivate(set) var frame: AsyncStream<UIImage>
         var frameContinuation: AsyncStream<UIImage>.Continuation
         
         fileprivate(set) var monitoring = Monitoring.State()
+        fileprivate(set) var menu = Menu.State()
+        
         fileprivate(set) var resultAlertState: VitalWinkContentAlertState<MeasurementResultView,Action>? = nil
         fileprivate(set) var alertState: VitalWinkAlertMessageState<Action>? = nil
-        fileprivate(set) var menuAlertState: VitalWinkContentAlertState<MenuView, Action>? = nil
+        fileprivate(set) var menuAlertState: VitalWinkMenuAlertState<Action>? = nil
         fileprivate(set) var isMeasuring: Bool = false
         fileprivate(set) var rgbValues = [RGB]()
         fileprivate(set) var imageAnalysisDatas = [ImageAnalysisData]()
@@ -93,6 +96,7 @@ struct Measurement: ReducerProtocol{
         case showResult(_ result: MeasurementResult)
         case onDisappear
         case monitoring(Monitoring.Action)
+        case menu(Menu.Action)
     }
     
     enum MeasurementError: LocalizedError{
@@ -294,22 +298,42 @@ struct Measurement: ReducerProtocol{
                 state.alertState = nil
                 return .none
             case .menuAlertAppear:
-                state.menuAlertState = VitalWinkContentAlertState{
-                    VitalWinkAlertButtonState<Action>(title: "닫기"){
+                state.menuAlertState = VitalWinkMenuAlertState{
+                    VitalWinkAlertButtonState<Action>(title: "로그아웃", role: .distructive){
+                        return .menu(.logout)
+                    }
+                    VitalWinkAlertButtonState<Action>(title: "회원탈퇴", role: .distructive){
+                        return .menu(.withdrawal)
+                    }
+                    VitalWinkAlertButtonState<Action>(title: "닫기", role: .cancel){
                         return nil
                     }
-                }content: {
-                    MenuView()
                 }
                 return .none
             case .menuAlertDismiss:
                 state.menuAlertState = nil
+                state.shouldDismiss = true
+                return .none
+            case .menu(let action):
+                switch action{
+                case .errorHandling(let error):
+                    return .send(.errorHandling(error))
+                case .shouldDismiss:
+                    return .send(.menuAlertDismiss)
+                case .failDeleteToken:
+                    return .send(.menuAlertDismiss)
+                default:
+                    break
+                }
                 return .none
             }
         }
         
         Scope(state: \.monitoring, action: /Action.monitoring){
             Monitoring()
+        }
+        Scope(state:\.menu, action:/Action.menu){
+            Menu()
         }
     }
     

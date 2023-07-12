@@ -119,6 +119,11 @@ struct MeasurementView: View {
                 self.frameTask = nil
                 self.image = nil
             }
+            .onChange(of: viewStore.shouldDismiss){
+                if $0{
+                    dismiss()
+                }
+            }
             
         }
     }
@@ -127,6 +132,7 @@ struct MeasurementView: View {
     @State private var frameTask: Task<(), Never>? = nil
     @State private var shouldShowRecentDataView = false
     @State private var image: Image?
+    @Environment(\.dismiss) private var dismiss
     private let store: StoreOf<Measurement>
 }
 
