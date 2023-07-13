@@ -17,39 +17,45 @@ struct VitalWinkAlert<VAS>: View where VAS: VitalWinkAlertState{
     var body: some View{
         VStack{
             Spacer()
-           
                 VStack(alignment: .leading, spacing: 0){
-                    
                     if content != nil{
                         content
                     }
-                    
                     if buttonStates.count == 1{
                         let button = buttonStates[0]
                         Button(button.title){
-                            if let action = button.action(){
-                                viewStore.send(action)
-                            }
                             viewStore.send(dismiss)
-                        }.buttonStyle(VitalWinkButtonStyle())
-                        
+                        }
+                        .buttonStyle(VitalWinkButtonStyle())
                     }
+                    
                     else{
-                        HStack{
+                        VStack{
                             ForEach(buttonStates){button in
-                                Button(button.title){
-                                    if let action = button.action(){
-                                        viewStore.send(action)
+                                if button.role == .cancel{
+                                    Button(button.title){
+                                        viewStore.send(dismiss)
                                     }
+                                    .buttonStyle(VitalWinkButtonStyle())
                                 }
+                                else{
+                                    Button(button.title){
+                                        if let action = button.action(){
+                                            viewStore.send(action)
+                                        }
+                                        if button.role == .distructive{
+                                            viewStore.send(dismiss)
+                                        }
+                                    }.buttonStyle(VitalWinkAlertPlainButtonStyle())
+                                }
+                               
                             }
                         }
                     }
                     
                 }
-             
                 .padding(.horizontal, 20)
-                .padding(.bottom, 20)
+                .padding(.vertical, 20)
                 .background{
                     GeometryReader{proxy in
                         RoundedRectangle(cornerRadius: 20)
@@ -66,7 +72,7 @@ struct VitalWinkAlert<VAS>: View where VAS: VitalWinkAlertState{
         .onChange(of: viewStore.state){
             guard let state = $0 else{
                 shouldPresent = false
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.01) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                     buttonStates = []
                 }
                 return

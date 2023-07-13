@@ -44,7 +44,7 @@ struct SignUp: ReducerProtocol{
         Reduce{state, action in
             switch action{
             case .signUp:
-                let user = UserModel(id: state.property.id, password: state.property.password, email: state.property.email, gender: state.property.gender, birthday: state.property.birthday, type:.general)
+                let user = UserModel(id: state.property.id, password: state.property.password, email: state.property.email, gender: state.property.gender, birthday: state.property.birthday, type:state.property.type)
                 
                 return .run{ send in
                     do{

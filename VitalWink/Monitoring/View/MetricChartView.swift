@@ -8,114 +8,188 @@
 import Foundation
 import Charts
 import SwiftUI
-
+import ComposableArchitecture
 struct MetricChartView: View{
-    init(datas: [MetricData<MinMaxType<Float>>]){
-        self.datas = datas.reversed()
+    init(store: StoreOf<MetricChart>, metric: Metric){
+        self.store = store
+        self.metric = metric
         
-        self.baseRange = datas.map{$0.value}
-            .reduce(MinMaxType(min: datas.first?.value.min ?? 0, max: datas.first?.value.max ?? 0)){
-            let min = $0.min < $1.min ? $0.min : $1.min
-            let max = $0.max > $1.max ? $0.max : $1.max
-            
-            return MinMaxType(min: min, max: max)
-        }
         numberFormatter = NumberFormatter()
         numberFormatter.numberStyle = .decimal
         numberFormatter.maximumFractionDigits = 2
-        
-        print(datas)
     }
     
     var body: some View{
-        GeometryReader{outerProxy in
-            HStack{
-                Path{
-                    $0.move(to: CGPoint(x: outerProxy.size.width - 30, y: 0))
-                    $0.addLine(to: CGPoint(x: outerProxy.size.width - 30, y: outerProxy.size.height - 12))
-                    $0.addLine(to: CGPoint(x: 0, y: outerProxy.size.height - 12))
-                }.stroke(Color.gray)
-                .frame(width: outerProxy.size.width - 30, height: outerProxy.size.height - 12)
-                .overlay{
-                        GeometryReader{proxy in
-                            ScrollViewReader{scrollReader in
-                                ScrollView(.horizontal,showsIndicators: false){
-                                    HStack{
-                                        Spacer()
-                                        ForEach(0 ..< datas.count, id: \.self){
-                                            MetricChartItemView(item: datas[$0], baseRange: baseRange, baseHeight: Float(outerProxy.size.height) - 12)
+        WithViewStore(store, observe: {$0}){viewStore in
+            VStack(alignment: .trailing){
+                if metric == .expressionAnalysis{
+                    HStack(spacing:5){
+                        Capsule()
+                            .frame(width: 5, height: 10)
+                            .foregroundColor(.blue)
+                        Text("valence")
+                            .padding(.trailing, 5)
+                        Capsule()
+                            .frame(width: 5, height: 10)
+                            .foregroundColor(.red)
+                        Text("arousal")
+                    }.font(.notoSans(size: 11, weight: .medium))
+                        .foregroundColor(.gray)
+                }
+                
+                
+                GeometryReader{proxy in
+                    let itemWidth = (proxy.size.width - 50) / CGFloat(viewStore.period.numberOfItem)
+                    HStack(spacing:10){
+                        ScrollView(.horizontal,showsIndicators: false){
+                            LazyHStack(spacing: 10){
+                                ForEach(viewStore.sortedKeys, id: \.self){key in
+                                    MetricChartItemView(x:viewStore.xs[key,default:""],y: viewStore.datas[key, default: []].map{$0.value}, baseRange: viewStore.baseRange, baseHeight: Float(proxy.size.height) - 30)
+                                        .frame(width:itemWidth)
+                                        .scaleEffect(x:-1,y:1)
+                                        .onAppear{
+                                            viewStore.send(.changeVisible(key,true))
+                                            guard let earliestDate = viewStore.sortedKeys.last else{
+                                                return
+                                            }
+                                            if earliestDate == key {
+                                                viewStore.send(.fetchMetricDatas(metric, earliestDate))
+                                            }
                                         }
-                                        
-                                        Spacer().frame(width:20)
-                                            .id(datas.count)
-                                    }.frame(width:proxy.size.width,height:proxy.size.height + 21)
-                                }
-                           
-                                
-                                .onAppear{
-                                    scrollReader.scrollTo(datas.count)
+                                        .onDisappear{
+                                            viewStore.send(.changeVisible(key,false))
+                                        }
+                                        .onTapGesture{
+                                            viewStore.send(.selectItem(key))
+                                        }
+                                        .opacity(viewStore.selected == key ? 1 : 0.3)
                                 }
                             }
                         }
+                        .scaleEffect(x:-1,y:1)
+                        .frame(width: proxy.size.width - 30)
+                        .overlay{
+                            Path{
+                                $0.move(to: CGPoint(x:0, y:proxy.size.height - 30))
+                                $0.addLine(to: CGPoint(x:proxy.size.width - 30, y: proxy.size.height - 30))
+                                $0.addLine(to: CGPoint(x:proxy.size.width - 30, y: 0))
+                            }.stroke(Color.gray)
+                            
+                        }.disabled(viewStore.isLoading)
+                        
+                        VStack(spacing: 0){
+                            if let baseRange = viewStore.baseRange{
+                                Text(numberFormatter.string(for: baseRange.max)!)
+                                Spacer()
+                                Text(numberFormatter.string(for: baseRange.min)!)
+                            }
+                            Spacer().frame(height:30)
+                        }.font(.notoSans(size: 12, weight: .medium))
+                            .frame(maxWidth: .infinity, maxHeight:proxy.size.height + 12)
                     }
-              
-                
-                VStack{
-                    Text(numberFormatter.string(for: baseRange.max)!)
-                        .font(.notoSans(size: 12))
-                    Spacer()
-                    Text(numberFormatter.string(for: baseRange.min)!)
-                        .font(.notoSans(size: 12))
-                }.frame(height:outerProxy.size.height)
+                    .fixedSize()
+                   
+                }
+            }.onChange(of: viewStore.period){_ in
+                viewStore.send(.fetchMetricDatas(metric))
             }
-            .frame(height: outerProxy.size.height)
+            .onAppear{
+                viewStore.send(.fetchMetricDatas(metric))
+            }
+            
         }
     }
     
+    private let metric: Metric
+    private let store: StoreOf<MetricChart>
     private let numberFormatter: NumberFormatter
-    private let baseRange: MinMaxType<Float>
-    private let datas: [MetricData<MinMaxType<Float>>]
+    
 }
 
 struct MetricChartItemView: View{
-    init(item: MetricData<MinMaxType<Float>>, baseRange: MinMaxType<Float>, baseHeight: Float) {
+    init(x:String, y: [MinMaxType<Float>], baseRange: MinMaxType<Float>?, baseHeight: Float) {
         self.baseRange = baseRange
-        self.item =  item
-        self.ratio = (baseRange.max - baseRange.min) / baseHeight
-        self.dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "MM/dd"
+        self.x = x
+        self.y = y
+        if let baseRange = baseRange{
+            self.ratio = (baseRange.max - baseRange.min) / baseHeight
+        }
+        else{
+            self.ratio = 1
+        }
+        
+        self.baseHeight = CGFloat(baseHeight)
     }
     
     var body: some View{
         VStack(spacing:0){
-            let upper = baseRange.max - item.value.max
-            
-            if upper != 0{
-                Spacer()
-                    .frame(height: CGFloat(upper / ratio))
-                    
+            if !y.isEmpty {
+                HStack{
+                    ForEach(0 ..< y.count, id: \.self){index in
+                        VStack(spacing: 0){
+                            let value = y[index]
+                            if let baseRange = self.baseRange{
+                                if baseRange.min == baseRange.max{
+                                    Capsule()
+                                        .frame(maxWidth: 5, minHeight:3)
+                                }
+                                else{
+                                    let upper = max(baseRange.max - value.max, 0)
+                                    let lower = max(value.min - baseRange.min,0)
+                                    
+                                    if upper != 0{
+                                        Spacer()
+                                            .frame(height: CGFloat(upper / ratio))
+                                        
+                                    }
+                                    Capsule()
+                                        .frame(maxWidth: 5, minHeight:3)
+                                    
+                                    
+                                    if lower != 0 && value.min != value.max{
+                                        Spacer()
+                                            .frame(height:CGFloat(lower / ratio))
+                                    }
+                                    else if value.max == value.min && value != baseRange{
+                                        Spacer()
+                                            .frame(height: max(baseHeight - CGFloat(upper / ratio) - 4, 0))
+                                    }
+                                }
+                            }
+                            else{
+                                Capsule()
+                                    .frame(maxWidth: 5, minHeight:3)
+                            }
+                        }.foregroundColor(index == 0 ? .blue : .red)
+                    }
+                }
+                
             }
-            Capsule()
-                .frame(maxWidth: 5, minHeight:3)
             
-            let lower = item.value.min - baseRange.min
-            
-            if lower != 0 && item.value.min != item.value.max{
+            else{
                 Spacer()
-                    .frame(height:CGFloat(lower / ratio))
+                    .frame(height: baseHeight)
             }
-            else if item.value.max == item.value.min{
-                let h = (1 / ratio) * (baseRange.max - baseRange.min)
-                Spacer()
-                    .frame(height: max(CGFloat(h) - CGFloat(upper / ratio) - 4, 0))
-            }
-            Text(dateFormatter.string(from: item.basisDate))
-                .font(.notoSans(size: 14))
-                .foregroundColor(.gray).padding(.top, 3)
-        }.font(.notoSans(size: 14,weight: .bold)).foregroundColor(.blue)
+            Text(x)
+                .font(.notoSans(size: 10))
+                .foregroundColor(.gray)
+                .padding(.top, 10)
+                .frame(height:30)
+        }
     }
-    private let dateFormatter: DateFormatter
+    
     private let ratio: Float
-    private let item: MetricData<MinMaxType<Float>>
-    private let baseRange: MinMaxType<Float>
+    private let x: String
+    private let y: [MinMaxType<Float>]
+    private let baseRange: MinMaxType<Float>?
+    private let baseHeight: CGFloat
+}
+
+
+struct MetricChart_Previews: PreviewProvider{
+    static var previews: some View{
+        MetricChartView(store: Store(initialState: MetricChart.State(), reducer: MetricChart()), metric: .bpm)
+        
+        
+    }
 }

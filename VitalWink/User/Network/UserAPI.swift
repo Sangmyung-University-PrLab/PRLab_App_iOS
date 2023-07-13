@@ -114,7 +114,18 @@ final class UserAPI{
                 }
         }
     }
-    
+    func delete() async throws{
+        return try await withCheckedThrowingContinuation{continuation in
+            vitalWinkAPI.request(UserRouter.delete).response{
+                switch $0.result{
+                case .success:
+                    continuation.resume()
+                case .failure(let error):
+                    continuation.resume(throwing: error)
+                }
+            }
+        }
+    }
     @Dependency(\.vitalWinkAPI) private var vitalWinkAPI
 }
 

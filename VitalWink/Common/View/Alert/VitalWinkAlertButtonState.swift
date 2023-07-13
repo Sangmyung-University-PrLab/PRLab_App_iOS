@@ -14,6 +14,17 @@ struct VitalWinkAlertButtonState<Action>: Equatable, Identifiable{
     let title: String
     let action: () -> Action?
     let id = UUID()
+    let role: Role
     
+    init(title: String, role: Role = .plain, action: @escaping () -> Action?) {
+        self.title = title
+        self.action = action
+        self.role = role
+    }
     
+    enum Role: Equatable{
+        case plain
+        case cancel
+        case distructive
+    }
 }

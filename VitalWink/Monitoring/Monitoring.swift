@@ -7,39 +7,31 @@
 
 import Foundation
 import ComposableArchitecture
-
+import OSLog
 struct Monitoring: ReducerProtocol{
     struct State: Equatable{
-        @BindingState var period: MonitoringRouter.Period = .week
-        
         fileprivate(set) var recentData: RecentData? = nil
-        fileprivate(set) var intMetricDatas: [MetricData<MinMaxType<Int>>] = []
+        fileprivate(set) var metricChart: MetricChart.State = .init()
+        fileprivate(set) var alertState: VitalWinkAlertMessageState<Action>? = nil
     }
     
     enum Action: BindableAction{
         case binding(BindingAction<State>)
         case fetchRecentData
-        case fetchMetricDatas(MonitoringRouter.Metric, Date)
         case responseRecentData(RecentData)
-        case responseIntMetricDatas([MetricData<MinMaxType<Int>>])
+        case metricChart(MetricChart.Action)
         case errorHandling(Error)
         
     }
     
     var body: some ReducerProtocol<State, Action>{
+        BindingReducer()
         Reduce{state, action in
             switch action{
             case .binding:
                 return .none
-            case .fetchMetricDatas(let metric, let date):
-                return .run{[period = state.period]send in
-                    switch await fetchIntMetricData(metric: metric, period: period, basisDate: date){
-                    case .success(let datas):
-                        await send(.responseIntMetricDatas(datas))
-                    case .failure(let error):
-                        await send(.errorHandling(error))
-                    }
-                }
+            case .metricChart:
+                return .none
             case .fetchRecentData:
                 return .run{send in
                     switch await monitoringAPI.fetchRecentData(){
@@ -49,21 +41,29 @@ struct Monitoring: ReducerProtocol{
                         await send(.errorHandling(error))
                     }
                 }
-            case .responseIntMetricDatas(let datas):
-                state.intMetricDatas = datas
-                return .none
+       
             case .responseRecentData(let data):
                 state.recentData = data
                 return .none
             case .errorHandling(let error):
-                print(error.localizedDescription)
+                state.alertState = .init(title: "기록", message: "기록 조회 중 오류가 발생했습니다."){
+                    VitalWinkAlertButtonState<Action>(title: "확인"){
+                        return nil
+                    }
+                }
+                let message = error.localizedDescription
+                os_log(.error, log:.monitoring,"%@", message)
+                
                 return .none
             }
+        }
+        Scope(state: \.metricChart, action: /Action.metricChart){
+            MetricChart()
         }
     }
     
     
-    func fetchIntMetricData(metric: MonitoringRouter.Metric, period: MonitoringRouter.Period, basisDate: Date) async -> Result<[MetricData<MinMaxType<Int>>], Error> {
+    func fetchIntMetricData(metric: Metric, period: Period, basisDate: Date) async -> Result<[MetricData<MinMaxType<Int>>], Error> {
         switch await monitoringAPI.fetchMetricDatas(metric, period: period, basisDate: basisDate, valueType: MinMaxType<Int>.self){
         case .success(let datas):
             return .success(datas)

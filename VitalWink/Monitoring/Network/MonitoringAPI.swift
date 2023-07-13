@@ -26,8 +26,7 @@ final class MonitoringAPI{
         }
     }
     
-    func fetchMetricDatas<ValueType>(_ metric: MonitoringRouter.Metric, period: MonitoringRouter.Period, basisDate: Date, valueType: ValueType.Type = ValueType.self) async -> Result<[MetricData<ValueType>], Error> where ValueType: Codable{
-
+    func fetchMetricDatas<ValueType>(_ metric: Metric, period: Period, basisDate: Date, valueType: ValueType.Type = ValueType.self) async -> Result<[MetricData<ValueType>], Error> where ValueType: Codable{
         return await withCheckedContinuation{continuation in
             vitalWinkAPI.request(MonitoringRouter.fetchMetricDatas(metric, period: period, basisDate: basisDate))
                 .validate(statusCode: 200 ..< 300)
@@ -39,14 +38,7 @@ final class MonitoringAPI{
                         continuation.resume(returning: .failure(error))
                     }
                 }
-                
-                
         }
-        
-        
-        
-            
-        
     }
     
     @Dependency(\.vitalWinkAPI) private var vitalWinkAPI

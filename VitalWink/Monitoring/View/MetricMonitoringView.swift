@@ -9,63 +9,57 @@ import SwiftUI
 import ComposableArchitecture
 
 struct MetricMonitoringView: View{
-    let demoData = [
-        MinMaxType<Float>(min: 70.0, max: 82.0),
-        MinMaxType<Float>(min: 93.0, max: 108.0),
-        MinMaxType<Float>(min: 123.0, max: 138.0),
-        MinMaxType<Float>(min: 64.0, max: 73.0),
-        MinMaxType<Float>(min: 87.0, max: 95.0),
-        MinMaxType<Float>(min: 61.0, max: 65.0),
-        MinMaxType<Float>(min: 64.0, max: 73.0),
-        MinMaxType<Float>(min: 87.0, max: 95.0),
-        MinMaxType<Float>(min: 61.0, max: 65.0),
-        MinMaxType<Float>(min: 64.0, max: 73.0),
-        MinMaxType<Float>(min: 87.0, max: 95.0),
-        MinMaxType<Float>(min: 61.0, max: 65.0),
-        MinMaxType<Float>(min: 64.0, max: 73.0),
-        MinMaxType<Float>(min: 87.0, max: 95.0),
-        MinMaxType<Float>(min: 61.0, max: 65.0),
-        MinMaxType<Float>(min: 64.0, max: 73.0),
-        MinMaxType<Float>(min: 87.0, max: 95.0),
-        MinMaxType<Float>(min: 61.0, max: 65.0),
-        MinMaxType<Float>(min: 64.0, max: 73.0),
-        MinMaxType<Float>(min: 87.0, max: 95.0),
-        MinMaxType<Float>(min: 61.0, max: 65.0),
-        MinMaxType<Float>(min: 64.0, max: 73.0),
-        MinMaxType<Float>(min: 87.0, max: 95.0),
-        MinMaxType<Float>(min: 61.0, max: 65.0),
-        MinMaxType<Float>(min: 64.0, max: 73.0),
-        MinMaxType<Float>(min: 87.0, max: 95.0),
-        MinMaxType<Float>(min: 61.0, max: 65.0),
-        MinMaxType<Float>(min: 64.0, max: 73.0),
-        MinMaxType<Float>(min: 87.0, max: 95.0),
-        MinMaxType<Float>(min: 61.0, max: 65.0),
-        MinMaxType<Float>(min: 64.0, max: 73.0),
-        MinMaxType<Float>(min: 87.0, max: 95.0),
-        MinMaxType<Float>(min: 61.0, max: 65.0),
-    ]
-    init(store: StoreOf<Monitoring>, metric: MonitoringRouter.Metric){
+    init(store: StoreOf<MetricChart>, metric: Metric, formatter: NumberFormatter? = nil){
         self.store = store
         self.metric = metric
-       
+        
+        if let formatter = formatter{
+            self.formatter = formatter
+        }else{
+            self.formatter = NumberFormatter()
+            self.formatter.numberStyle = .decimal
+            self.formatter.maximumFractionDigits = 2
+        }
     }
     var body: some View {
         WithViewStore(store, observe: {$0}){viewStore in
-            VStack{
-                RoundedRectangle(cornerRadius: 8)
-                    .foregroundColor(.white)
-                    .frame(height: 255)
-                    .overlay{
-                        MetricChartView(datas:
-                                            getDatas(store: viewStore)
-                        )
-                        .padding(.horizontal,10)
-                        .padding(.vertical, 20)
+            ScrollView(showsIndicators: false){
+                VStack{
+                    CircularSegmentedPickerView(selected: viewStore.binding(\.$period), texts: ["1주","1개월","1년"])
+                        .padding(.horizontal, 5)
+                    
+                    RoundedRectangle(cornerRadius: 8)
+                        .foregroundColor(.white)
+                        .frame(height: 255)
+                        .overlay{
+                            MetricChartView(store: store, metric: metric)
+                            .padding(.horizontal,20)
+                            .padding(.vertical, 20)
+                        }
+                    if let selected = viewStore.selected, !viewStore.datas[selected, default: []].isEmpty{
+                        let datas = viewStore.datas[selected, default: []]
+                        ForEach(0 ..< datas.count, id:\.self){
+                            MinMaxCardView(data: datas[$0].value, metric: metric, formatter: formatter)
+                        }
+
+                        if metric == .expressionAnalysis, !viewStore.expressions[selected, default: [:]].isEmpty{
+                            let expressions = viewStore.expressions[selected, default: [:]]
+                            
+                            PieChartView(expressions: expressions, numberFormatter: formatter)
+                                .frame(height: UIApplication.shared.screenSize?.width ?? 0)
+                                .padding(.bottom, 20)
+                                .background{
+                                    RoundedRectangle(cornerRadius: 20)
+                                        .foregroundColor(.white)
+                                }
+                                
+                        }
                     }
-                    .padding(.horizontal, 20)
-                Spacer()
-                
-            }
+                    Spacer()
+                    
+                }
+            }.padding(.horizontal, 20)
+            
             .background(Color.backgroundColor)
             .navigationTitle("\(metric.korean)")
             .navigationBarTitleDisplayMode(.inline)
@@ -80,27 +74,42 @@ struct MetricMonitoringView: View{
                         }
                 }
             }
-            .onAppear{
-                viewStore.send(.fetchMetricDatas(metric, .now))
+            .onDisappear{
+                viewStore.send(.onDisappear)
             }
+            .activityIndicator(isVisible: viewStore.isLoading)
         }
+        
     }
     
     
-    func getDatas(store: ViewStore<Monitoring.State, Monitoring.Action>) -> [MetricData<MinMaxType<Float>>]{
-        return store.intMetricDatas.map{
-            let value = MinMaxType(min: Float($0.value.min), max: Float($0.value.max))
-            return MetricData(value: value, basisDate: $0.basisDate)
-        }
-    }
-    
+ 
     @Environment(\.dismiss) private var dismiss
-    private let store: StoreOf<Monitoring>
-    private let metric: MonitoringRouter.Metric
+    private let store: StoreOf<MetricChart>
+    private let metric: Metric
+    private let formatter: NumberFormatter
 }
 
 struct MetricMonitoring_Previews: PreviewProvider {
     static var previews: some View {
-        MetricMonitoringView(store: Store(initialState: Monitoring.State(), reducer: Monitoring()), metric: .bpm)
+        let value = MinMaxType(min: 40, max: 75)
+        
+        GeometryReader{proxy in
+            Capsule()
+                .foregroundColor(.blue.opacity(0.3))
+                .frame(height: 5)
+                .padding(.horizontal, 10)
+                .overlay(alignment:.leading){
+                    let inndexCapsuleWidth = proxy.size.width * CGFloat(Float(value.max - value.min) / (Metric.bpm.max - Metric.bpm.min))
+                    Capsule()
+                        .foregroundColor(.blue)
+                        .frame(width: inndexCapsuleWidth)
+                        .offset(x: CGFloat((Float(value.min) - Metric.bpm.min) / (Metric.bpm.max - Metric.bpm.min)) * proxy.size.width)
+                        
+                }.onAppear{
+                    print((Float(value.min) - Metric.bpm.min) / (Metric.bpm.max - Metric.bpm.min))
+                }
+        }.frame(width: 300,height:5)
+            
     }
 }
