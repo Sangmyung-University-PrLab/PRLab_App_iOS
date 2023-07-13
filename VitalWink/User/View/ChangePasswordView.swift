@@ -39,9 +39,7 @@ struct ChangePasswordView:View{
             
             .padding(.top, 25)
             .padding(.horizontal, 20)
-            .background(Color.backgroundColor.onTapGesture {
-                hideKeyboard()
-            })
+            .background(Color.backgroundColor)
             .navigationTitle(Text("비밀번호 변경"))
             .navigationBarTitleDisplayMode(.inline)
             .navigationBarBackButtonHidden(true)

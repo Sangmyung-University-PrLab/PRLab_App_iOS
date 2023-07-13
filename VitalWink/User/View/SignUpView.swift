@@ -71,7 +71,7 @@ struct SignUpView: View{
                 .padding(.horizontal, 20)
             }
             .background(Color.backgroundColor.onTapGesture {
-                hideKeyboard()
+                hid
             })
             .navigationTitle(Text("회원가입"))
             .navigationBarTitleDisplayMode(.inline)

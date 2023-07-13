@@ -1,27 +1,20 @@
 //
-//  FindPasswordView.swift
+//  FindIdView.swift
 //  VitalWink
 //
-//  Created by 유호준 on 2023/06/14.
+//  Created by 유호준 on 2023/06/13.
 //
 
-import Foundation
 import SwiftUI
 import ComposableArchitecture
 
-struct FindPasswordView: View{
+struct FindIdView: View {
     init(store: StoreOf<User>){
         self.store = store.scope(state: \.findUserInfo, action: User.Action.findUserInfo)
     }
     var body: some View {
         WithViewStore(store, observe: {$0}){viewStore in
             VStack(alignment: .leading, spacing:30){
-
-                VitalWinkFormSection(header: "아이디",errorMessage: "아이디에 맞지 않는 형식입니다.", shouldShowErrorMessage: !viewStore.id.isEmpty && !viewStore.isIdValid){
-                    TextField("아이디", text: viewStore.binding(\.$id))
-                        .textFieldStyle(VitalWinkTextFieldStyle())
-                }
-                
                 VitalWinkFormSection(header: "이메일",errorMessage: "이메일에 맞지 않는 형식입니다.", shouldShowErrorMessage: !viewStore.email.isEmpty && !viewStore.isEmailValid){
                     TextField(text: viewStore.binding(\.$email)){
                         Text(verbatim: "email@email.com")
@@ -30,30 +23,16 @@ struct FindPasswordView: View{
                 
                 Spacer()
                 
-                Button("비밀번호 찾기"){
-                    viewStore.send(.isIdAndEmailMatch)
-                }.buttonStyle(VitalWinkButtonStyle(isDisabled: isFindPasswordButtonDisabled))
-                .disabled(isFindPasswordButtonDisabled)
-                
-                IfLetStore(self.store.scope(state: \.changePassword, action: FindUserInfo.Action.changePassword)){
-                    store in
-                    NavigationLink(isActive: viewStore.binding(\.$shouldShowChangePasswordView)){
-                        ChangePasswordView(store: store)
-                        .onDisappear{
-                            viewStore.send(FindUserInfo.Action.changePasswordViewDismissed)
-                        }
-                    }label:{
-                        
-                    }
-                }.hidden()
+                Button("아이디 찾기"){
+                    viewStore.send(.findId)
+                }.buttonStyle(VitalWinkButtonStyle(isDisabled: isFindIdButtonDisabled))
+                .disabled(isFindIdButtonDisabled)
             }
             
             .padding(.top, 25)
             .padding(.horizontal, 20)
-            .background(Color.backgroundColor.onTapGesture {
-                hideKeyboard()
-            })
-            .navigationTitle(Text("비밀번호 찾기"))
+            .background(Color.backgroundColor)
+            .navigationTitle(Text("아이디 찾기"))
             .navigationBarTitleDisplayMode(.inline)
             .navigationBarBackButtonHidden(true)
             .toolbar{
@@ -71,8 +50,8 @@ struct FindPasswordView: View{
                 if $0{
                     dismiss()
                 }
-            }.onChange(of: viewStore.email.isEmpty || !viewStore.isEmailValid || viewStore.id.isEmpty || !viewStore.isIdValid){
-                isFindPasswordButtonDisabled = $0
+            }.onChange(of: viewStore.email.isEmpty || !viewStore.isEmailValid){
+                isFindIdButtonDisabled = $0
             }.onDisappear{
                 viewStore.send(.onDisappear)
             }
@@ -80,6 +59,12 @@ struct FindPasswordView: View{
     }
     
     @Environment(\.dismiss) private var dismiss
-    @State private var isFindPasswordButtonDisabled = true
+    @State private var isFindIdButtonDisabled = true
     private let store: StoreOf<FindUserInfo>
 }
+
+//struct FindIdView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        FindIdView(store: Store(initialState: Root.State().user, reducer: User()))
+//    }
+//}

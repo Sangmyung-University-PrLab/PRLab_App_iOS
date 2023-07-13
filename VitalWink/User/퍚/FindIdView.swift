@@ -31,7 +31,9 @@ struct FindIdView: View {
             
             .padding(.top, 25)
             .padding(.horizontal, 20)
-            .background(Color.backgroundColor)
+            .background(Color.backgroundColor.onTapGesture {
+                hideKeyboard()
+            })
             .navigationTitle(Text("아이디 찾기"))
             .navigationBarTitleDisplayMode(.inline)
             .navigationBarBackButtonHidden(true)

@@ -50,9 +50,7 @@ struct FindPasswordView: View{
             
             .padding(.top, 25)
             .padding(.horizontal, 20)
-            .background(Color.backgroundColor.onTapGesture {
-                hideKeyboard()
-            })
+            .background(Color.backgroundColor)
             .navigationTitle(Text("비밀번호 찾기"))
             .navigationBarTitleDisplayMode(.inline)
             .navigationBarBackButtonHidden(true)
