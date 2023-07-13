@@ -97,7 +97,7 @@ struct MeasurementView: View {
             .vitalWinkAlert(store.scope(state: \.alertState, action: {$0}), dismiss: .alertDismiss)
             .vitalWinkAlert(store.scope(state: \.resultAlertState, action: {$0}), dismiss: .resultAlertDismiss)
             .vitalWinkAlert(store.scope(state: \.menuAlertState, action: {$0}), dismiss: .menuAlertDismiss)
-
+            .confirmationDialog(store.scope(state: \.menu.dialog, action: Measurement.Action.menu), dismiss: .dialogDismiss)
             .activityIndicator(isVisible: viewStore.isActivityIndicatorVisible)
             .navigationBarBackButtonHidden()
             .background(Color.backgroundColor)

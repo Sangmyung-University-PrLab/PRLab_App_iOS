@@ -228,7 +228,7 @@ struct Measurement: ReducerProtocol{
                 state.progress = 0
                 state.bbox = nil
                 state.shouldDismiss = false
-                
+                state.isActivityIndicatorVisible = false
                 return .none
             case .errorHandling(let error):
                 if state.isMeasuring{
@@ -313,15 +313,17 @@ struct Measurement: ReducerProtocol{
                 return .none
             case .menuAlertDismiss:
                 state.menuAlertState = nil
-                state.shouldDismiss = true
                 return .none
             case .menu(let action):
-                
                 switch action{
                 case .errorHandling(let error):
                     return .send(.errorHandling(error))
+                case .confirmationWithdrawal:
+                    state.isActivityIndicatorVisible = true
+                    return .none
                 case .shouldDismiss:
-                    return .send(.menuAlertDismiss)
+                    state.shouldDismiss = true
+                    return .none
                 case .failDeleteToken:
                     return .send(.menuAlertDismiss)
                 default:
