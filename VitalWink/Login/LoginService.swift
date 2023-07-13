@@ -41,8 +41,9 @@ final class LoginService: Sendable{
             }
         }
     }
-    
+   
     func snsLogin(_ type: UserModel.`Type`) async -> Result<Status, Error>{
+      
         switch type{
         case .kakao:
             return await kakaoLogin()
@@ -115,10 +116,11 @@ final class LoginService: Sendable{
             }
         }
     }
-    
     private func kakaoLogin() async -> Result<Status, Error>{
+       
         return await withCheckedContinuation{continuation in
             let completion: (OAuthToken?, Error?) -> Void = {token, error in
+ 
                 guard error == nil else{
                     continuation.resume(returning: .failure(error!))
                     return
@@ -127,7 +129,7 @@ final class LoginService: Sendable{
                     continuation.resume(returning: .failure(LoginServiceError.notHaveAccessToken))
                     return
                 }
-                
+             
                 Task{[weak self] in
                     guard let strongSelf = self else{
                         return
@@ -135,16 +137,19 @@ final class LoginService: Sendable{
                     await strongSelf.tokenHandling(type: .kakao, token: token, continuation: continuation)
                 }
             }
-            
-            if UserApi.isKakaoTalkLoginAvailable(){
-                UserApi.shared.loginWithKakaoTalk(completion: completion)
+            DispatchQueue.main.async {
+                UserApi.shared.loginWithKakaoAccount(completion: completion)
             }
-            else{
-                DispatchQueue.main.async {
-                    UserApi.shared.loginWithKakaoAccount(completion: completion)
-                }
-                
-            }
+//            if UserApi.isKakaoTalkLoginAvailable(){
+//                DispatchQueue.main.async {
+//                    UserApi.shared.loginWithKakaoAccount(completion: completion)
+//                }
+//            }
+//            else{
+//                DispatchQueue.main.async {
+//                    UserApi.shared.loginWithKakaoAccount(completion: completion)
+//                }
+//            }
         }
     }
   
@@ -189,6 +194,7 @@ final class LoginService: Sendable{
     }
     
     private func tokenHandling(type: UserModel.`Type`, token: String, continuation: CheckedContinuation<Result<LoginService.Status, Error>, Never>) async{
+        
         switch await loginAPI.snsLogin(type: type, token: token){
         case .success(let token):
             continuation.resume(returning: .success(.success(token)))

@@ -66,13 +66,7 @@ struct VitalWinkAlert<VAS>: View where VAS: VitalWinkAlertState{
                                 alertHeight = proxy.size.height
                             }
                     }
-                }
-                .offset(x:0,y: shouldPresent ? 0 : alertHeight)
-                
-                
-               
-            
-           
+                }.offset(x:0,y: shouldPresent ? 0 : alertHeight)
         }
         .frame(maxHeight: .infinity)
         .onChange(of: viewStore.state){
@@ -90,8 +84,12 @@ struct VitalWinkAlert<VAS>: View where VAS: VitalWinkAlertState{
                 shouldPresent = true
             }
         }
-        
         .animation(.easeInOut, value: shouldPresent)
+        .onChange(of: shouldPresent){
+            if $0{
+                hideKeyboard()
+            } 
+        }
             
     }
     

@@ -8,6 +8,9 @@
 import Foundation
 import SwiftUI
 import ComposableArchitecture
+import KakaoSDKUser
+import GoogleSignIn
+import KakaoSDKAuth
 struct LoginView: View{
     
     init(store: StoreOf<Login>){

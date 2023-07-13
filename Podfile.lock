@@ -20,17 +20,17 @@ PODS:
     - AppAuth/Core (~> 1.6)
     - GTMSessionFetcher/Core (< 4.0, >= 1.5)
   - GTMSessionFetcher/Core (3.1.1)
-  - KakaoSDKAuth (2.15.0):
-    - KakaoSDKCommon (= 2.15.0)
-  - KakaoSDKCommon (2.15.0):
-    - KakaoSDKCommon/Common (= 2.15.0)
-    - KakaoSDKCommon/Network (= 2.15.0)
-  - KakaoSDKCommon/Common (2.15.0)
-  - KakaoSDKCommon/Network (2.15.0):
+  - KakaoSDKAuth (2.10.1):
+    - KakaoSDKCommon (= 2.10.1)
+  - KakaoSDKCommon (2.10.1):
+    - KakaoSDKCommon/Common (= 2.10.1)
+    - KakaoSDKCommon/Network (= 2.10.1)
+  - KakaoSDKCommon/Common (2.10.1)
+  - KakaoSDKCommon/Network (2.10.1):
     - Alamofire (~> 5.1)
-    - KakaoSDKCommon/Common (= 2.15.0)
-  - KakaoSDKUser (2.15.0):
-    - KakaoSDKAuth (= 2.15.0)
+    - KakaoSDKCommon/Common (= 2.10.1)
+  - KakaoSDKUser (2.10.1):
+    - KakaoSDKAuth (= 2.10.1)
   - naveridlogin-sdk-ios (4.1.6)
   - OpenCV (4.3.0)
   - Overture (0.5.0)
@@ -77,9 +77,9 @@ SPEC CHECKSUMS:
   GoogleSignIn: b232380cf495a429b8095d3178a8d5855b42e842
   GTMAppAuth: 99fb010047ba3973b7026e45393f51f27ab965ae
   GTMSessionFetcher: e8647203b65cee28c5f73d0f473d096653945e72
-  KakaoSDKAuth: 0fe5cf1756e8a9f66f8fc77826061aafa93034f3
-  KakaoSDKCommon: 89d863b7f34398e6fb93a0acb28a204908551a39
-  KakaoSDKUser: a997ca5c4c18ece2ab30646ff74841bc29d4399d
+  KakaoSDKAuth: b4fec62192c2ac8a9375847f666c0932e38afeb5
+  KakaoSDKCommon: 4989e3bae5f4884903bc1df7134e13d0e903d587
+  KakaoSDKUser: 5c5fd4b5864e8b5ac9587fdbb473daf2fa675abf
   naveridlogin-sdk-ios: cdd34e3585a3d5aaf37c1d84c1f41faba4a25d1a
   OpenCV: 681e0451c1e54c5930a8922277f817ed5d5ab459
   Overture: 2e6252ead5da6d3347f758047f27a31cb469d59d
