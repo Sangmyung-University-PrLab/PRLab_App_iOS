@@ -18,7 +18,6 @@ struct MeasurementView: View {
             VStack(spacing:0){
                 CircularSegmentedPickerView(selected: viewStore.binding(\.$target), texts: ["얼굴","손가락"])
                 
-                
                 if let image = self.image{
                     image
                         .resizable()
@@ -86,10 +85,19 @@ struct MeasurementView: View {
                 ToolbarItem(placement: .navigationBarTrailing){
                     Image(systemName: "ellipsis")
                         .font(.system(size: 12))
+                        .frame(width: 25, height: 25)
+                        .containerShape(Rectangle())
+                        .onTapGesture {
+                            
+                            viewStore.send(.menuAlertAppear)
+                        }
                 }
             }
             .padding(.horizontal, 20)
             .vitalWinkAlert(store.scope(state: \.alertState, action: {$0}), dismiss: .alertDismiss)
+            .vitalWinkAlert(store.scope(state: \.resultAlertState, action: {$0}), dismiss: .resultAlertDismiss)
+            .vitalWinkAlert(store.scope(state: \.menuAlertState, action: {$0}), dismiss: .menuAlertDismiss)
+            .confirmationDialog(store.scope(state: \.menu.dialog, action: Measurement.Action.menu), dismiss: .dialogDismiss)
             .activityIndicator(isVisible: viewStore.isActivityIndicatorVisible)
             .navigationBarBackButtonHidden()
             .background(Color.backgroundColor)
@@ -111,6 +119,11 @@ struct MeasurementView: View {
                 self.frameTask = nil
                 self.image = nil
             }
+            .onChange(of: viewStore.shouldDismiss){
+                if $0{
+                    dismiss()
+                }
+            }
             
         }
     }
@@ -119,6 +132,7 @@ struct MeasurementView: View {
     @State private var frameTask: Task<(), Never>? = nil
     @State private var shouldShowRecentDataView = false
     @State private var image: Image?
+    @Environment(\.dismiss) private var dismiss
     private let store: StoreOf<Measurement>
 }
 

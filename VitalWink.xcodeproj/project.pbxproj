@@ -99,6 +99,9 @@
 		06BCCD0C2A53DF96003DA1E2 /* Date + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06BCCD0B2A53DF95003DA1E2 /* Date + Extension.swift */; };
 		06BCCD0E2A5BC251003DA1E2 /* PieChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06BCCD0D2A5BC251003DA1E2 /* PieChartView.swift */; };
 		06BCCD102A5BD878003DA1E2 /* Expression.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06BCCD0F2A5BD878003DA1E2 /* Expression.swift */; };
+		06BCCD142A5E3ECE003DA1E2 /* Menu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06BCCD132A5E3ECE003DA1E2 /* Menu.swift */; };
+		06BCCD162A5E8CB7003DA1E2 /* VitalWinkMenuAlertState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06BCCD152A5E8CB7003DA1E2 /* VitalWinkMenuAlertState.swift */; };
+		06BCCD182A5E8D8F003DA1E2 /* VitalWinkAlertPlainButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06BCCD172A5E8D8F003DA1E2 /* VitalWinkAlertPlainButtonStyle.swift */; };
 		06EDBFA92A414353002CCC40 /* ASAuthorizationControllerDelgateImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06EDBFA82A414353002CCC40 /* ASAuthorizationControllerDelgateImpl.swift */; };
 		06F1809B2A15C64300F1CE90 /* VitalWinkAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F1809A2A15C64300F1CE90 /* VitalWinkAPI.swift */; };
 		06F1809F2A15DEFC00F1CE90 /* VitalWinkRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F1809E2A15DEFC00F1CE90 /* VitalWinkRouter.swift */; };
@@ -231,6 +234,9 @@
 		06BCCD0B2A53DF95003DA1E2 /* Date + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date + Extension.swift"; sourceTree = "<group>"; };
 		06BCCD0D2A5BC251003DA1E2 /* PieChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PieChartView.swift; sourceTree = "<group>"; };
 		06BCCD0F2A5BD878003DA1E2 /* Expression.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Expression.swift; sourceTree = "<group>"; };
+		06BCCD132A5E3ECE003DA1E2 /* Menu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Menu.swift; sourceTree = "<group>"; };
+		06BCCD152A5E8CB7003DA1E2 /* VitalWinkMenuAlertState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VitalWinkMenuAlertState.swift; sourceTree = "<group>"; };
+		06BCCD172A5E8D8F003DA1E2 /* VitalWinkAlertPlainButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VitalWinkAlertPlainButtonStyle.swift; sourceTree = "<group>"; };
 		06EDBFA82A414353002CCC40 /* ASAuthorizationControllerDelgateImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ASAuthorizationControllerDelgateImpl.swift; sourceTree = "<group>"; };
 		06F1809A2A15C64300F1CE90 /* VitalWinkAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VitalWinkAPI.swift; sourceTree = "<group>"; };
 		06F1809E2A15DEFC00F1CE90 /* VitalWinkRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VitalWinkRouter.swift; sourceTree = "<group>"; };
@@ -460,11 +466,13 @@
 		065C00F12A34519D00054387 /* Alert */ = {
 			isa = PBXGroup;
 			children = (
+				06BCCD172A5E8D8F003DA1E2 /* VitalWinkAlertPlainButtonStyle.swift */,
 				065C00E02A32C66B00054387 /* VitalWinkAlert.swift */,
 				065C00ED2A34393900054387 /* VitalWinkAlertButtonState.swift */,
 				065C00EF2A34509500054387 /* VitalWinkAlertMessageState.swift */,
 				067AD0112A4A7CFD002E39B1 /* VitalWinkAlertState.swift */,
 				067AD0132A4A9050002E39B1 /* VitalWinkContentAlertState.swift */,
+				06BCCD152A5E8CB7003DA1E2 /* VitalWinkMenuAlertState.swift */,
 			);
 			path = Alert;
 			sourceTree = "<group>";
@@ -488,6 +496,7 @@
 				0663C46D2A1C71C400B85ABF /* Network */,
 				0663C46E2A1C71D700B85ABF /* Model */,
 				0629A2232A25C8CF007B864B /* Measurement.swift */,
+				06BCCD132A5E3ECE003DA1E2 /* Menu.swift */,
 			);
 			path = Measurement;
 			sourceTree = "<group>";
@@ -956,9 +965,12 @@
 				065C00C12A305C6F00054387 /* Font + Extension.swift in Sources */,
 				067AD01A2A4BF070002E39B1 /* MetricCardView.swift in Sources */,
 				065C01002A37FFB100054387 /* FindIdView.swift in Sources */,
+				06BCCD182A5E8D8F003DA1E2 /* VitalWinkAlertPlainButtonStyle.swift in Sources */,
 				065C010C2A3C22EF00054387 /* LoginService.swift in Sources */,
+				06BCCD162A5E8CB7003DA1E2 /* VitalWinkMenuAlertState.swift in Sources */,
 				06BCCD082A52B136003DA1E2 /* Period.swift in Sources */,
 				065C010A2A3AAE6600054387 /* ChangePasswordView.swift in Sources */,
+				06BCCD142A5E3ECE003DA1E2 /* Menu.swift in Sources */,
 				065C00C32A3060F400054387 /* Color + Extensions.swift in Sources */,
 				065C00FA2A35B0E100054387 /* VitialWinkFormSection.swift in Sources */,
 				067AD02E2A4E94B3002E39B1 /* DataBaseType.swift in Sources */,

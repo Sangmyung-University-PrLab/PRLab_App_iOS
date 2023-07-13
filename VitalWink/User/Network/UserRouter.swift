@@ -14,6 +14,7 @@ enum UserRouter: VitalWinkRouterType{
     case signUp(_ user: UserModel)
     case isIdAndEmailMatch(id: String, email: String)
     case changePassword(_ password: String, token: String)
+    case delete
     
     var endPoint: String{
         let baseEndPoint = "users"
@@ -70,6 +71,8 @@ enum UserRouter: VitalWinkRouterType{
             return .post
         case .changePassword:
             return .patch
+        case .delete:
+            return .delete
         }
     }
     

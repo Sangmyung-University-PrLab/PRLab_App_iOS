@@ -10,8 +10,11 @@ import ComposableArchitecture
 import Dependencies
 import Combine
 import Alamofire
+import OSLog
+
 @preconcurrency import SwiftUI
 @preconcurrency import CoreMedia
+
 struct Measurement: ReducerProtocol{
     typealias RGB = (Int, Int, Int)
     
@@ -43,11 +46,16 @@ struct Measurement: ReducerProtocol{
         //최근 측정에 대한 Id
         @BindingState var target: Target = .face
         fileprivate(set) var isActivityIndicatorVisible = false
+        fileprivate(set) var shouldDismiss = false
         fileprivate(set) var frame: AsyncStream<UIImage>
         var frameContinuation: AsyncStream<UIImage>.Continuation
         
         fileprivate(set) var monitoring = Monitoring.State()
-        fileprivate(set) var alertState: VitalWinkContentAlertState<MeasurementResultView,Action>? = nil
+        fileprivate(set) var menu = Menu.State()
+        
+        fileprivate(set) var resultAlertState: VitalWinkContentAlertState<MeasurementResultView,Action>? = nil
+        fileprivate(set) var alertState: VitalWinkAlertMessageState<Action>? = nil
+        fileprivate(set) var menuAlertState: VitalWinkMenuAlertState<Action>? = nil
         fileprivate(set) var isMeasuring: Bool = false
         fileprivate(set) var rgbValues = [RGB]()
         fileprivate(set) var imageAnalysisDatas = [ImageAnalysisData]()
@@ -81,10 +89,14 @@ struct Measurement: ReducerProtocol{
         case responseFaceDetction(CGRect)
         case cancelMeasurement
         case alertDismiss
+        case resultAlertDismiss
+        case menuAlertAppear
+        case menuAlertDismiss
         case fetchResult(_ measurementId: Int)
         case showResult(_ result: MeasurementResult)
         case onDisappear
         case monitoring(Monitoring.Action)
+        case menu(Menu.Action)
     }
     
     enum MeasurementError: LocalizedError{
@@ -151,7 +163,7 @@ struct Measurement: ReducerProtocol{
                 }
             case .showResult(let result):
                 state.isActivityIndicatorVisible = false
-                state.alertState = VitalWinkContentAlertState{
+                state.resultAlertState = VitalWinkContentAlertState{
                     VitalWinkAlertButtonState<Action>(title: "닫기"){
                         return nil
                     }
@@ -215,15 +227,24 @@ struct Measurement: ReducerProtocol{
                 state.imageAnalysisDatas = []
                 state.progress = 0
                 state.bbox = nil
-              
+                state.shouldDismiss = false
+                state.isActivityIndicatorVisible = false
                 return .none
             case .errorHandling(let error):
-                print(error.localizedDescription)
+                if state.isMeasuring{
+                    state.alertState = .init(title: "측정", message: "측정 중 오류가 발생했습니다."){
+                        VitalWinkAlertButtonState<Action>(title: "확인"){
+                            return nil
+                        }
+                    }
+                }
                
+                let message = error.localizedDescription
+                os_log(.error, log:.measurement,"%@", message)
+                
                 return .send(.cancelMeasurement)
                 
             case .startCamera:
-                
                 return .run{send in
                     do{
                         try await camera.setUp()
@@ -271,14 +292,52 @@ struct Measurement: ReducerProtocol{
             case .appendImageAnalysisData(let data):
                 state.imageAnalysisDatas.append(data)
                 return .none
+            case .resultAlertDismiss:
+                state.resultAlertState = nil
+                return .none
             case .alertDismiss:
                 state.alertState = nil
+                return .none
+            case .menuAlertAppear:
+                state.menuAlertState = VitalWinkMenuAlertState{
+                    VitalWinkAlertButtonState<Action>(title: "로그아웃", role: .distructive){
+                        return .menu(.logout)
+                    }
+                    VitalWinkAlertButtonState<Action>(title: "회원탈퇴", role: .distructive){
+                        return .menu(.withdrawal)
+                    }
+                    VitalWinkAlertButtonState<Action>(title: "닫기", role: .cancel){
+                        return nil
+                    }
+                }
+                return .none
+            case .menuAlertDismiss:
+                state.menuAlertState = nil
+                return .none
+            case .menu(let action):
+                switch action{
+                case .errorHandling(let error):
+                    return .send(.errorHandling(error))
+                case .confirmationWithdrawal:
+                    state.isActivityIndicatorVisible = true
+                    return .none
+                case .shouldDismiss:
+                    state.shouldDismiss = true
+                    return .none
+                case .failDeleteToken:
+                    return .send(.menuAlertDismiss)
+                default:
+                    break
+                }
                 return .none
             }
         }
         
         Scope(state: \.monitoring, action: /Action.monitoring){
             Monitoring()
+        }
+        Scope(state:\.menu, action:/Action.menu){
+            Menu()
         }
     }
     
