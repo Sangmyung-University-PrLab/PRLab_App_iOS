@@ -227,7 +227,8 @@ struct Measurement: ReducerProtocol{
                 state.imageAnalysisDatas = []
                 state.progress = 0
                 state.bbox = nil
-              
+                state.shouldDismiss = false
+                
                 return .none
             case .errorHandling(let error):
                 if state.isMeasuring{
@@ -315,6 +316,7 @@ struct Measurement: ReducerProtocol{
                 state.shouldDismiss = true
                 return .none
             case .menu(let action):
+                
                 switch action{
                 case .errorHandling(let error):
                     return .send(.errorHandling(error))
