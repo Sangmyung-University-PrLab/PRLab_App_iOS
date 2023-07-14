@@ -40,7 +40,8 @@ final class Camera:@unchecked Sendable{
     }
     func changeCameraPosition() throws{
         captureSession.beginConfiguration()
-        guard let videoDeviceInput = videoDeviceInput else{
+
+        guard let videoDeviceInput = self.videoDeviceInput else{
             return
         }
         
@@ -54,6 +55,7 @@ final class Camera:@unchecked Sendable{
         switch position {
         case .front:
             camera = backCamera
+        
             self.position = .back
         case .back:
             camera = frontCamera
@@ -63,13 +65,14 @@ final class Camera:@unchecked Sendable{
             throw CameraError.notFoundCamera
         }
         
-        
         captureSession.removeInput(videoDeviceInput)
+        
         do{
             try setVideoDeviceInput(camera: camera)
         }catch{
             throw error
         }
+        
     }
     func setUp() async throws{
         if isHaveCameraPermission(){
@@ -155,15 +158,15 @@ final class Camera:@unchecked Sendable{
         do{
             videoDeviceInput = try AVCaptureDeviceInput(device: camera)
         }catch{
+            captureSession.commitConfiguration()
             throw error
         }
         
         if captureSession.canAddInput(videoDeviceInput!){
             captureSession.addInput(videoDeviceInput!)
-        }else{
-            captureSession.commitConfiguration()
-            return
         }
+       
+        captureSession.commitConfiguration()
     }
     //MARK: - 카메라 관련 변수
     private let cameraStream = CameraStream()
