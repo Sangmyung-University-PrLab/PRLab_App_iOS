@@ -44,6 +44,7 @@ struct MetricChart: ReducerProtocol{
         case setBaseRange
         case reset
         case onDisappear
+        case alertDismiss
     }
     enum CancelId: Hashable{
         case setBaseRange
@@ -52,6 +53,9 @@ struct MetricChart: ReducerProtocol{
         BindingReducer()
         Reduce{state, action in
             switch action{
+            case .alertDismiss:
+                state.alertState = nil
+                return .none
             case .changeVisible(let key,let isVisible):
                 var data = state.datas[key, default: []]
                 guard !data.isEmpty else{
