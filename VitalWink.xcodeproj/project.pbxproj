@@ -103,6 +103,11 @@
 		06BCCD162A5E8CB7003DA1E2 /* VitalWinkMenuAlertState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06BCCD152A5E8CB7003DA1E2 /* VitalWinkMenuAlertState.swift */; };
 		06BCCD182A5E8D8F003DA1E2 /* VitalWinkAlertPlainButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06BCCD172A5E8D8F003DA1E2 /* VitalWinkAlertPlainButtonStyle.swift */; };
 		06BCCD252A60F8F3003DA1E2 /* VitalWinkBackButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06BCCD242A60F8F3003DA1E2 /* VitalWinkBackButton.swift */; };
+		06BCCD272A611156003DA1E2 /* MeasurementHelpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06BCCD262A611156003DA1E2 /* MeasurementHelpView.swift */; };
+		06BCCD2A2A611424003DA1E2 /* face_help.gif in Resources */ = {isa = PBXBuildFile; fileRef = 06BCCD282A611424003DA1E2 /* face_help.gif */; };
+		06BCCD2B2A611424003DA1E2 /* finger_help.gif in Resources */ = {isa = PBXBuildFile; fileRef = 06BCCD292A611424003DA1E2 /* finger_help.gif */; };
+		06BCCD2D2A611465003DA1E2 /* GIFView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06BCCD2C2A611465003DA1E2 /* GIFView.swift */; };
+		06BCCD2F2A611BD9003DA1E2 /* UserDefaultsKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06BCCD2E2A611BD9003DA1E2 /* UserDefaultsKey.swift */; };
 		06EDBFA92A414353002CCC40 /* ASAuthorizationControllerDelgateImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06EDBFA82A414353002CCC40 /* ASAuthorizationControllerDelgateImpl.swift */; };
 		06F1809B2A15C64300F1CE90 /* VitalWinkAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F1809A2A15C64300F1CE90 /* VitalWinkAPI.swift */; };
 		06F1809F2A15DEFC00F1CE90 /* VitalWinkRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F1809E2A15DEFC00F1CE90 /* VitalWinkRouter.swift */; };
@@ -239,6 +244,11 @@
 		06BCCD152A5E8CB7003DA1E2 /* VitalWinkMenuAlertState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VitalWinkMenuAlertState.swift; sourceTree = "<group>"; };
 		06BCCD172A5E8D8F003DA1E2 /* VitalWinkAlertPlainButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VitalWinkAlertPlainButtonStyle.swift; sourceTree = "<group>"; };
 		06BCCD242A60F8F3003DA1E2 /* VitalWinkBackButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VitalWinkBackButton.swift; sourceTree = "<group>"; };
+		06BCCD262A611156003DA1E2 /* MeasurementHelpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeasurementHelpView.swift; sourceTree = "<group>"; };
+		06BCCD282A611424003DA1E2 /* face_help.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = face_help.gif; sourceTree = "<group>"; };
+		06BCCD292A611424003DA1E2 /* finger_help.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = finger_help.gif; sourceTree = "<group>"; };
+		06BCCD2C2A611465003DA1E2 /* GIFView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GIFView.swift; sourceTree = "<group>"; };
+		06BCCD2E2A611BD9003DA1E2 /* UserDefaultsKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsKey.swift; sourceTree = "<group>"; };
 		06EDBFA82A414353002CCC40 /* ASAuthorizationControllerDelgateImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ASAuthorizationControllerDelgateImpl.swift; sourceTree = "<group>"; };
 		06F1809A2A15C64300F1CE90 /* VitalWinkAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VitalWinkAPI.swift; sourceTree = "<group>"; };
 		06F1809E2A15DEFC00F1CE90 /* VitalWinkRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VitalWinkRouter.swift; sourceTree = "<group>"; };
@@ -351,6 +361,8 @@
 		064B04B82A08DAAB00230FBC /* VitalWink */ = {
 			isa = PBXGroup;
 			children = (
+				06BCCD282A611424003DA1E2 /* face_help.gif */,
+				06BCCD292A611424003DA1E2 /* finger_help.gif */,
 				06B99E242A416A5F00B5E78E /* VitalWink.entitlements */,
 				063C16152A0CAC9E00E07141 /* PrefixHeader.pch */,
 				064B04E32A08DD8000230FBC /* Info.plist */,
@@ -441,6 +453,7 @@
 				065C00DF2A32C65B00054387 /* View */,
 				06F180A32A15EAF400F1CE90 /* KeyChainManager.swift */,
 				0629A2172A204F70007B864B /* VideoWriter.swift */,
+				06BCCD2E2A611BD9003DA1E2 /* UserDefaultsKey.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -454,6 +467,7 @@
 				065C00FB2A35BA6000054387 /* CircularSegmentedPickerView.swift */,
 				065C00F92A35B0E100054387 /* VitialWinkFormSection.swift */,
 				06BCCD242A60F8F3003DA1E2 /* VitalWinkBackButton.swift */,
+				06BCCD2C2A611465003DA1E2 /* GIFView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -530,6 +544,7 @@
 				0629A2252A25DD3E007B864B /* MeasurementView.swift */,
 				067AD00D2A4984BA002E39B1 /* MeasurementResultView.swift */,
 				067AD00F2A4A7461002E39B1 /* MeasurmentResultColumnView.swift */,
+				06BCCD262A611156003DA1E2 /* MeasurementHelpView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -804,6 +819,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				06BCCD2A2A611424003DA1E2 /* face_help.gif in Resources */,
+				06BCCD2B2A611424003DA1E2 /* finger_help.gif in Resources */,
 				065C00D12A307BB100054387 /* Inter-SemiBold.ttf in Resources */,
 				065C00D62A307BB100054387 /* Inter-Light.ttf in Resources */,
 				065C00D32A307BB100054387 /* Inter-ExtraLight.ttf in Resources */,
@@ -990,6 +1007,7 @@
 				063C16202A0DE2B600E07141 /* DependencyValues + Extension.swift in Sources */,
 				0629A2212A25B97E007B864B /* FaceDetector.swift in Sources */,
 				06F1809B2A15C64300F1CE90 /* VitalWinkAPI.swift in Sources */,
+				06BCCD2D2A611465003DA1E2 /* GIFView.swift in Sources */,
 				06BCCD0A2A52B812003DA1E2 /* MinMaxCardView.swift in Sources */,
 				06F180A42A15EAF400F1CE90 /* KeyChainManager.swift in Sources */,
 				065C010E2A3C39A100054387 /* SnsUserInfoService.swift in Sources */,
@@ -1006,6 +1024,7 @@
 				065C01062A399AAB00054387 /* FindPasswordView.swift in Sources */,
 				0663C45A2A1A334300B85ABF /* VitalWinkUploadableRouter.swift in Sources */,
 				065C00E12A32C66B00054387 /* VitalWinkAlert.swift in Sources */,
+				06BCCD272A611156003DA1E2 /* MeasurementHelpView.swift in Sources */,
 				0663C46C2A1B489100B85ABF /* BloodPressureMetricValue.swift in Sources */,
 				0629A21A2A208C18007B864B /* NaverLoginDelegate.swift in Sources */,
 				065C00E62A32E04400054387 /* VitalWinkAlertButtonBuilder.swift in Sources */,
@@ -1037,6 +1056,7 @@
 				06A8AB632A1DF4A800004B62 /* LoginView.swift in Sources */,
 				065C00F02A34509500054387 /* VitalWinkAlertMessageState.swift in Sources */,
 				065C00E82A32E11A00054387 /* VitalWinkButtonStyle.swift in Sources */,
+				06BCCD2F2A611BD9003DA1E2 /* UserDefaultsKey.swift in Sources */,
 				067AD0292A4D1E7E002E39B1 /* MetricChartView.swift in Sources */,
 				065C00F62A35933E00054387 /* SignUpView.swift in Sources */,
 				06F180B42A17403C00F1CE90 /* UserAPI.swift in Sources */,
