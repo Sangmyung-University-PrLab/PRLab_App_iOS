@@ -128,6 +128,13 @@ struct Measurement: ReducerProtocol{
                    
             case .monitoring:
                 return .none
+            case .binding(\.$target):
+                do{
+                   try camera.changeCameraPosition()
+                }catch{
+                    return .send(.errorHandling(error))
+                }
+                return .none
             case .binding:
                 return .none
             case .responseFaceDetction(let bbox):
