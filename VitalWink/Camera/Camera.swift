@@ -85,6 +85,7 @@ final class Camera:@unchecked Sendable{
                     if await AVCaptureDevice.requestAccess(for: .video){
                         do{
                             try setCaptureSession()
+                            continuation.resume()
                         }catch{
                             continuation.resume(throwing: error)
                         }
