@@ -127,7 +127,7 @@ struct SignUp: ReducerProtocol{
                 state.property.shouldViewDismiss = true
                 return .none
             case .onDisappear:
-                state = State(state.property.type, idRegex: state.property.idRegex, passwordRegex: state.property.passwordRegex, emailRegex: state.property.emailRegex)
+                state = State(.general, idRegex: state.property.idRegex, passwordRegex: state.property.passwordRegex, emailRegex: state.property.emailRegex)
                 return .none
             case .onAppear:
                 if state.property.type != .general{

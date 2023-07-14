@@ -47,17 +47,21 @@ struct FindPasswordView: View{
                     }
                 }.hidden()
             }
+            
             .padding(.top, 25)
             .padding(.horizontal, 20)
-            .background(Color.backgroundColor.ignoresSafeArea() .onTapGesture {
-                hideKeyboard()
-            })
+            .background(Color.backgroundColor)
             .navigationTitle(Text("비밀번호 찾기"))
             .navigationBarTitleDisplayMode(.inline)
             .navigationBarBackButtonHidden(true)
-
             .toolbar{
-                VitalWinkBackButton()
+                ToolbarItem(placement: .navigationBarLeading){
+                    Image(systemName: "chevron.backward")
+                        .font(.system(size:15))
+                        .onTapGesture {
+                            dismiss()
+                        }
+                }
             }
             .vitalWinkAlert(store.scope(state: \.alertState, action: {$0}), dismiss: .alertDismiss)
             .activityIndicator(isVisible: viewStore.isActivityIndicatorVisible)

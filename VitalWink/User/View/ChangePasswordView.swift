@@ -36,20 +36,21 @@ struct ChangePasswordView:View{
                 }.buttonStyle(VitalWinkButtonStyle(isDisabled: isChangePasswordButtonDiabled))
                 .disabled(isChangePasswordButtonDiabled)
             }
-           
+            
             .padding(.top, 25)
             .padding(.horizontal, 20)
-            .background(Color.backgroundColor
-                .ignoresSafeArea()
-                .onTapGesture {
-                hideKeyboard()
-            })
+            .background(Color.backgroundColor)
             .navigationTitle(Text("비밀번호 변경"))
             .navigationBarTitleDisplayMode(.inline)
             .navigationBarBackButtonHidden(true)
-          
             .toolbar{
-                VitalWinkBackButton()
+                ToolbarItem(placement: .navigationBarLeading){
+                    Image(systemName: "chevron.backward")
+                        .font(.system(size:15))
+                        .onTapGesture {
+                            dismiss()
+                        }
+                }
             }
             .vitalWinkAlert(store.scope(state: \.alertState, action: {$0}), dismiss: .alertDismiss)
             .activityIndicator(isVisible: viewStore.isActivityIndicatorVisible)
@@ -61,6 +62,9 @@ struct ChangePasswordView:View{
             .onChange(of: viewStore.password.isEmpty || !viewStore.isPasswordValid || viewStore.repeatPassword.isEmpty || !viewStore.isRepeatPasswordValid){
                 isChangePasswordButtonDiabled = $0
             }
+//                    .onDisappear{
+//                viewStore.send(.onDisappear)
+//            }
         }
     }
     

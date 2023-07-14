@@ -33,7 +33,7 @@ struct SignUpStateProperty: Equatable{
     
     //Disabled
     var isEmailTexFieldDisabled: Bool{
-        !(type == .general) && !email.isEmpty
+        type == .kakao || type == .google || type == .naver
     }
     
     var isSignUpButtonDisabled: Bool{
