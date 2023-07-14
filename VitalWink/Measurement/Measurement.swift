@@ -231,6 +231,8 @@ struct Measurement: ReducerProtocol{
                 state.isActivityIndicatorVisible = false
                 return .none
             case .errorHandling(let error):
+                let message = error.localizedDescription
+                
                 if state.isMeasuring{
                     state.alertState = .init(title: "측정", message: "측정 중 오류가 발생했습니다."){
                         VitalWinkAlertButtonState<Action>(title: "확인"){
@@ -238,8 +240,14 @@ struct Measurement: ReducerProtocol{
                         }
                     }
                 }
-               
-                let message = error.localizedDescription
+                else{
+                    state.alertState = .init(title: "측정", message: message){
+                        VitalWinkAlertButtonState<Action>(title: "확인"){
+                            return nil
+                        }
+                    }
+                }
+                
                 os_log(.error, log:.measurement,"%@", message)
                 
                 return .send(.cancelMeasurement)

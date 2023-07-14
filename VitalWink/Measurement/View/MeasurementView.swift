@@ -94,6 +94,11 @@ struct MeasurementView: View {
                 }
             }
             .padding(.horizontal, 20)
+            .overlay{
+                if !isShowedHelpView{
+                    MeasurementHelpView(target: viewStore.target)
+                }
+            }
             .vitalWinkAlert(store.scope(state: \.alertState, action: {$0}), dismiss: .alertDismiss)
             .vitalWinkAlert(store.scope(state: \.resultAlertState, action: {$0}), dismiss: .resultAlertDismiss)
             .vitalWinkAlert(store.scope(state: \.menuAlertState, action: {$0}), dismiss: .menuAlertDismiss)
@@ -108,8 +113,10 @@ struct MeasurementView: View {
                         self.image = Image(uiImage: UIImage(cgImage: frame.cgImage!, scale: 1, orientation: .leftMirrored))
                     }
                 }
+                
+                let helpKey = viewStore.target == .face ?  UserDefaultsKey.isShowedFaceHelp : UserDefaultsKey.isShowedFingerHelp
+                isShowedHelpView = UserDefaults.standard.bool(forKey: helpKey.rawValue)
             }
-            
             .onDisappear{
                 viewStore.send(.onDisappear)
                 guard let frameTask = self.frameTask else{
@@ -124,7 +131,15 @@ struct MeasurementView: View {
                     dismiss()
                 }
             }
-            
+            .onChange(of: viewStore.target){
+                isShowedHelpView = UserDefaults.standard.bool(forKey: $0 == .face ? UserDefaultsKey.isShowedFaceHelp.rawValue : UserDefaultsKey.isShowedFingerHelp.rawValue)
+            }
+            .onChange(of: UserDefaults.standard.bool(forKey: UserDefaultsKey.isShowedFaceHelp.rawValue)){_ in
+                isShowedHelpView = true
+            }
+            .onChange(of: UserDefaults.standard.bool(forKey: UserDefaultsKey.isShowedFingerHelp.rawValue)){_ in
+                isShowedHelpView = true
+            }
         }
     }
     
@@ -132,6 +147,7 @@ struct MeasurementView: View {
     @State private var frameTask: Task<(), Never>? = nil
     @State private var shouldShowRecentDataView = false
     @State private var image: Image?
+    @State private var isShowedHelpView = false
     @Environment(\.dismiss) private var dismiss
     private let store: StoreOf<Measurement>
 }
