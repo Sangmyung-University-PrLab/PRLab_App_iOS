@@ -137,19 +137,17 @@ final class LoginService: Sendable{
                     await strongSelf.tokenHandling(type: .kakao, token: token, continuation: continuation)
                 }
             }
-            DispatchQueue.main.async {
-                UserApi.shared.loginWithKakaoAccount(completion: completion)
+
+            if UserApi.isKakaoTalkLoginAvailable(){
+                DispatchQueue.main.async {
+                    UserApi.shared.loginWithKakaoTalk(completion: completion)
+                }
             }
-//            if UserApi.isKakaoTalkLoginAvailable(){
-//                DispatchQueue.main.async {
-//                    UserApi.shared.loginWithKakaoAccount(completion: completion)
-//                }
-//            }
-//            else{
-//                DispatchQueue.main.async {
-//                    UserApi.shared.loginWithKakaoAccount(completion: completion)
-//                }
-//            }
+            else{
+                DispatchQueue.main.async {
+                    UserApi.shared.loginWithKakaoAccount(completion: completion)
+                }
+            }
         }
     }
   
