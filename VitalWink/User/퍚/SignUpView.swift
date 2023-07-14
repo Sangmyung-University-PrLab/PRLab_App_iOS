@@ -70,20 +70,16 @@ struct SignUpView: View{
                 .padding(.top, 25)
                 .padding(.horizontal, 20)
             }
-            .background(Color.backgroundColor.onTapGesture {
+            .onTapGesture {
                 hideKeyboard()
-            })
+            }
+            .background(Color.backgroundColor)
             .navigationTitle(Text("회원가입"))
             .navigationBarTitleDisplayMode(.inline)
             .navigationBarBackButtonHidden(true)
+            
             .toolbar{
-                ToolbarItem(placement: .navigationBarLeading){
-                    Image(systemName: "chevron.backward")
-                        .font(.system(size:15))
-                        .onTapGesture {
-                            dismiss()
-                        }
-                }
+                VitalWinkBackButton()
             }
             .vitalWinkAlert(store.scope(state: \.property.alertState, action: {$0}), dismiss: .alertDismiss)
             .activityIndicator(isVisible: viewStore.isActivityIndicatorVisible)

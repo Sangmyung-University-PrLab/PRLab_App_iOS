@@ -31,20 +31,14 @@ struct FindIdView: View {
             
             .padding(.top, 25)
             .padding(.horizontal, 20)
-            .background(Color.backgroundColor.onTapGesture {
+            .background(Color.backgroundColor.ignoresSafeArea().onTapGesture {
                 hideKeyboard()
             })
             .navigationTitle(Text("아이디 찾기"))
             .navigationBarTitleDisplayMode(.inline)
             .navigationBarBackButtonHidden(true)
             .toolbar{
-                ToolbarItem(placement: .navigationBarLeading){
-                    Image(systemName: "chevron.backward")
-                        .font(.system(size:15))
-                        .onTapGesture {
-                            dismiss()
-                        }
-                }
+                VitalWinkBackButton()
             }
             .vitalWinkAlert(store.scope(state: \.alertState, action: {$0}), dismiss: .alertDismiss)
             .activityIndicator(isVisible: viewStore.isActivityIndicatorVisible)
