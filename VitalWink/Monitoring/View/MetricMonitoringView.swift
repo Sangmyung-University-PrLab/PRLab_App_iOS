@@ -70,6 +70,7 @@ struct MetricMonitoringView: View{
                 viewStore.send(.onDisappear)
             }
             .activityIndicator(isVisible: viewStore.isLoading)
+            .vitalWinkAlert(store.scope(state: \.alertState, action: {$0}), dismiss: .alertDismiss)
         }
         
     }
