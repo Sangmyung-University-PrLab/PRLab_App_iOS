@@ -36,6 +36,6 @@ struct ExpressionAnalysisMetricValue:DataBaseType{
     }
     
     #if DEBUG
-    static let mock =  ExpressionAnalysisMetricValue(arousal: .init(min: 0.1, max: 1.0), valence: .init(min: 0.1, max: 1.0), expressions: [.neutral: 0.125, .happy: 0.125, .smile: 0.125, .surprise: 0.125, .fear: 0.125, .angry: 0.125, .disgust: 0.125, .scron: 0.125])
+    static let mock =  ExpressionAnalysisMetricValue(arousal: .init(min: 0.1, max: 1.0), valence: .init(min: 0.1, max: 1.0), expressions: [.neutral: 0.125, .happy: 0.125, .sad: 0.125, .surprise: 0.125, .fear: 0.125, .angry: 0.125, .disgust: 0.125, .contempt: 0.125])
     #endif
 }

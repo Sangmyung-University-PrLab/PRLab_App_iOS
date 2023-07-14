@@ -10,12 +10,12 @@ import SwiftUI
 enum Expression: String, Codable, CaseIterable{
     case neutral = "neutral"
     case happy = "happy"
-    case smile = "smile"
+    case sad = "sad"
     case surprise = "surprise"
     case fear = "fear"
     case angry = "angry"
     case disgust = "disgust"
-    case scron = "scron"
+    case contempt = "contempt"
  
     var korean: String{
         switch self {
@@ -23,7 +23,7 @@ enum Expression: String, Codable, CaseIterable{
             return "중립"
         case .happy:
             return "행복"
-        case .smile:
+        case .sad:
             return "웃음"
         case .surprise:
             return "놀람"
@@ -33,7 +33,7 @@ enum Expression: String, Codable, CaseIterable{
             return "분노"
         case .disgust:
             return "역겨움"
-        case .scron:
+        case .contempt:
             return "멸시"
         }
     }
@@ -43,7 +43,7 @@ enum Expression: String, Codable, CaseIterable{
             return .init(red: 0.909803921568627, green: 0.658823529411765, blue: 0.219607843137255)
         case .happy:
             return .init(red: 0.592156862745098, green: 0.890196078431373, blue: 0.835294117647059)
-        case .smile:
+        case .sad:
             return .init(red: 0.909803921568627, green: 0.756862745098039, blue: 0.627450980392157)
         case .surprise:
             return .init(red: 0.850980392156863, green: 0.349019607843137, blue: 0.8)
@@ -53,7 +53,7 @@ enum Expression: String, Codable, CaseIterable{
             return .init(red: 0.945098039215686, green: 0.882352941176471, blue: 0.356862745098039)
         case .disgust:
             return .init(red: 0.623529411764706, green: 0.933333333333333, blue: 0.513725490196078)
-        case .scron:
+        case .contempt:
             return .init(red: 0.917647058823529, green: 0.611764705882353, blue: 0.866666666666667)
         }
     }

@@ -13,7 +13,7 @@ struct RecentDataView: View {
     }
     
     var body: some View {
-        WithViewStore(store, observe: \.recentData){viewStore in
+        WithViewStore(store, observe: {$0}){viewStore in
             ScrollView(.vertical, showsIndicators: false){
                 VStack(spacing:20){
                     MetricCardView(metric: .bpm, store: store)
@@ -29,19 +29,17 @@ struct RecentDataView: View {
             .onAppear{
                viewStore.send(.fetchRecentData)
             }
+            .onDisappear{
+                viewStore.send(.onDisappear)
+            }
             .navigationTitle(Text("기록"))
             .navigationBarTitleDisplayMode(.inline)
             .navigationBarBackButtonHidden(true)
             .toolbar{
-                ToolbarItem(placement: .navigationBarLeading){
-                    Image(systemName: "chevron.backward")
-                        .font(.system(size:15))
-                        .contentShape(Rectangle())
-                        .onTapGesture {
-                            dismiss()
-                        }
-                }
+                VitalWinkBackButton()
             }
+            .vitalWinkAlert(store.scope(state: \.alertState, action: {$0}), dismiss: .alertDismiss)
+            .activityIndicator(isVisible: viewStore.isLoading)
         }
         
     }

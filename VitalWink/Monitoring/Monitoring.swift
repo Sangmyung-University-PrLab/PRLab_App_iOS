@@ -13,6 +13,7 @@ struct Monitoring: ReducerProtocol{
         fileprivate(set) var recentData: RecentData? = nil
         fileprivate(set) var metricChart: MetricChart.State = .init()
         fileprivate(set) var alertState: VitalWinkAlertMessageState<Action>? = nil
+        fileprivate(set) var isLoading = false
     }
     
     enum Action: BindableAction{
@@ -21,7 +22,9 @@ struct Monitoring: ReducerProtocol{
         case responseRecentData(RecentData)
         case metricChart(MetricChart.Action)
         case errorHandling(Error)
-        
+        case alertDismiss
+        case onDisappear
+
     }
     
     var body: some ReducerProtocol<State, Action>{
@@ -30,9 +33,13 @@ struct Monitoring: ReducerProtocol{
             switch action{
             case .binding:
                 return .none
+            case .onDisappear:
+                state.recentData = nil
+                return .none
             case .metricChart:
                 return .none
             case .fetchRecentData:
+                state.isLoading = true
                 return .run{send in
                     switch await monitoringAPI.fetchRecentData(){
                     case .success(let data):
@@ -43,9 +50,11 @@ struct Monitoring: ReducerProtocol{
                 }
        
             case .responseRecentData(let data):
+                state.isLoading = false
                 state.recentData = data
                 return .none
             case .errorHandling(let error):
+                state.isLoading = false
                 state.alertState = .init(title: "기록", message: "기록 조회 중 오류가 발생했습니다."){
                     VitalWinkAlertButtonState<Action>(title: "확인"){
                         return nil
@@ -54,6 +63,9 @@ struct Monitoring: ReducerProtocol{
                 let message = error.localizedDescription
                 os_log(.error, log:.monitoring,"%@", message)
                 
+                return .none
+            case .alertDismiss:
+                state.alertState = nil
                 return .none
             }
         }

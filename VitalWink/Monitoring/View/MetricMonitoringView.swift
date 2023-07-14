@@ -59,20 +59,12 @@ struct MetricMonitoringView: View{
                     
                 }
             }.padding(.horizontal, 20)
-            
             .background(Color.backgroundColor)
             .navigationTitle("\(metric.korean)")
             .navigationBarTitleDisplayMode(.inline)
             .navigationBarBackButtonHidden()
             .toolbar{
-                ToolbarItem(placement: .navigationBarLeading){
-                    Image(systemName: "chevron.backward")
-                        .font(.system(size:15))
-                        .contentShape(Rectangle())
-                        .onTapGesture {
-                            dismiss()
-                        }
-                }
+               VitalWinkBackButton()
             }
             .onDisappear{
                 viewStore.send(.onDisappear)
