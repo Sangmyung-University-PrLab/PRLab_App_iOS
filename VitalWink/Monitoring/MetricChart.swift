@@ -187,10 +187,11 @@ struct MetricChart: ReducerProtocol{
        
             case .responseMetricDatas(let datas):
                 state.isLoading = false
+                
                 datas.forEach{
                     state.datas[dateFormatter.string(from: $0.basisDate)] = [.init(value: $0.value,isVisible:false)]
                 }
-
+                
                 return state.isBaseRangeInited ? .none : .send(.setBaseRange)
                 
                 
