@@ -177,6 +177,7 @@ struct Measurement: ReducerProtocol{
                 }
             case .sendBgrValues:
                 state.isActivityIndicatorVisible = true
+                
                 return .run{[rgbValues = state.rgbValues, target = state.target] send in
                     switch await measurementAPI.signalMeasurment(rgbValues: rgbValues, target: target){
                     case .success(let id):
@@ -217,7 +218,9 @@ struct Measurement: ReducerProtocol{
                         }
                     }
                     else{
-                        
+                        let nsArr = OpenCVWrapper.getBgrValues(image)
+                        let rgb = (nsArr[0] as! Int, nsArr[1] as! Int, nsArr[2] as! Int)
+                        await send(.appendBgrValue(rgb))
                     }
                   
                     
