@@ -55,7 +55,6 @@ final class Camera:@unchecked Sendable{
         switch position {
         case .front:
             camera = backCamera
-        
             self.position = .back
         case .back:
             camera = frontCamera
@@ -69,15 +68,23 @@ final class Camera:@unchecked Sendable{
         
         do{
             try setVideoDeviceInput(camera: camera)
+            if self.position == .back{
+                if camera.hasTorch{
+                    try camera.lockForConfiguration()
+                    camera.torchMode = .on
+                    camera.unlockForConfiguration()
+                }
+                
+            }
         }catch{
             throw error
         }
-        
     }
     func setUp() async throws{
         if isHaveCameraPermission(){
             do{
                 try setCaptureSession()
+                try setBackCameraTorch()
             }catch{
                 throw error
             }
@@ -88,6 +95,7 @@ final class Camera:@unchecked Sendable{
                     if await AVCaptureDevice.requestAccess(for: .video){
                         do{
                             try setCaptureSession()
+                            try setBackCameraTorch()
                             continuation.resume()
                         }catch{
                             continuation.resume(throwing: error)
@@ -126,6 +134,21 @@ final class Camera:@unchecked Sendable{
             return false
         }
     }
+    private func setBackCameraTorch() throws{
+        guard let backCamera = self.backCamera else{
+            return
+        }
+        
+        do{
+            try backCamera.lockForConfiguration()
+            backCamera.torchMode = .on
+            backCamera.unlockForConfiguration()
+
+        }
+        catch{
+            throw error
+        }
+    }
     private func setCaptureSession() throws{
         guard let frontCamera = self.frontCamera else{
             throw CameraError.notFoundCamera
@@ -133,6 +156,7 @@ final class Camera:@unchecked Sendable{
         
         captureSession.sessionPreset = .photo
         captureSession.beginConfiguration()
+        
         do{
             try setVideoDeviceInput(camera: frontCamera)
             captureSession.sessionPreset = AVCaptureSession.Preset.high
@@ -154,6 +178,9 @@ final class Camera:@unchecked Sendable{
             throw error
         }
     }
+    
+    
+    
     private func setVideoDeviceInput(camera: AVCaptureDevice) throws{
         do{
             videoDeviceInput = try AVCaptureDeviceInput(device: camera)
