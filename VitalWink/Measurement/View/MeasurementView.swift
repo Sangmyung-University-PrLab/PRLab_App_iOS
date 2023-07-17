@@ -24,7 +24,7 @@ struct MeasurementView: View {
                         .cornerRadius(20)
                         .overlay{
                             RoundedRectangle(cornerRadius: 20)
-                                .stroke(viewStore.bbox == .zero ? .red : .clear, lineWidth: 1)
+                                .stroke(viewStore.canMeasure ? .clear : .red, lineWidth: 1)
                         }
                         .modifier(FrameViewModifier())
                         
@@ -47,9 +47,9 @@ struct MeasurementView: View {
                     .padding(.bottom, 10)
                 
                 
-                Text("얼굴이 인식되지 않습니다.")
+                Text(viewStore.target == .face ? "얼굴이 인식되지 않습니다." : "손가락을 후면카메라에 밀착시켜주세요.")
                     .font(.notoSans(size: 14))
-                    .foregroundColor(viewStore.bbox == .zero ? .red : .clear)
+                    .foregroundColor(viewStore.canMeasure ? .clear : .red)
                     .padding(.bottom, 70)
                 
                 Button(viewStore.isMeasuring ? "취소" : "측정"){
@@ -60,8 +60,8 @@ struct MeasurementView: View {
                         viewStore.send(.cancelMeasurement)
                     }
                 }
-                .disabled(viewStore.bbox == .zero)
-                .buttonStyle(VitalWinkButtonStyle(isDisabled: viewStore.bbox == .zero))
+                .disabled(!viewStore.canMeasure)
+                .buttonStyle(VitalWinkButtonStyle(isDisabled:!viewStore.canMeasure))
                 .padding(.bottom, 30)
                 
             }

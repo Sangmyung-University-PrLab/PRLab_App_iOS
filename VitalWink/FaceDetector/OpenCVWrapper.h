@@ -13,6 +13,6 @@
 @interface OpenCVWrapper: NSObject
 
 + (NSArray<NSNumber *>* _Nonnull) skinSegmentation: (const UIImage* _Nonnull) image;
-
++ (bool) isBeTight: (const UIImage* _Nonnull) image: (float) threshold;
 @end
 #endif /* OpenCVWrapper_h */
