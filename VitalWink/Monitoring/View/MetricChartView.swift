@@ -160,9 +160,11 @@ struct MetricChartItemView: View{
                                 Capsule()
                                     .frame(maxWidth: 5, minHeight:3)
                             }
-                        }.foregroundColor(index == 0 ? .blue : .red)
+                        }
+                        .foregroundColor(index == 0 ? .blue : .red)
+                        
                     }
-                }
+                }.frame(height: baseHeight)
                 
             }
             
