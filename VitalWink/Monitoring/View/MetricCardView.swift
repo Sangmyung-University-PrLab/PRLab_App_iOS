@@ -33,23 +33,23 @@ struct MetricCardView: View {
                                 .font(.system(size: 10))
                         }
                         HStack(spacing:0){
-                            
-                            if metric == .expressionAnalysis{
+                            if metric == .expressionAnalysis || metric == .bloodPressure{
                                 HStack(spacing: 5){
-                                    Text("분노지수")
+                                    Text(metric == .expressionAnalysis ? "분노지수" : "수축기")
                                         .font(.notoSans(size: 12, weight: .medium))
-                                        
-                                    Text(numberFormatter.string(for: viewStore.state?.expressionAnalysis?.arousal) ?? "")
+                                    
+                                    Text(numberFormatter.string(for: metric == .expressionAnalysis ? viewStore.state?.expressionAnalysis?.arousal : viewStore.state?.bloodPressure?.SYS) ?? "")
                                         .font(.notoSans(size: 20, weight: .bold))
                                         .padding(.trailing, 5)
                                     
-                                    Text("긴장도")
+                                    Text(metric == .expressionAnalysis ? "긴장도" : "이완기")
                                         .font(.notoSans(size: 12, weight: .medium))
-                                       
-                                    Text(numberFormatter.string(for: viewStore.state?.expressionAnalysis?.valence) ?? "")
+                                    
+                                    Text(numberFormatter.string(for: metric == .expressionAnalysis ? viewStore.state?.expressionAnalysis?.valence : viewStore.state?.bloodPressure?.DIA) ?? "")
                                         .font(.notoSans(size: 20, weight: .bold))
                                 }
                             }
+                        
                             else{
                                 Text(value)
                                     .font(.notoSans(size: 35, weight: .bold))
@@ -87,6 +87,8 @@ struct MetricCardView: View {
                         value = numberFormatter.string(for: $0?.stress) ?? ""
                     case .bpm:
                         value = numberFormatter.string(for: $0?.bpm) ?? ""
+                    case .bloodSugars:
+                        value = numberFormatter.string(for: $0?.bloodSugar) ?? ""
                     default:
                         break
                     }

@@ -38,6 +38,7 @@ struct MetricChart: ReducerProtocol{
         case fetchMetricDatas(_ metric: Metric, _ dateString: String? = nil)
         case responseMetricDatas([MetricData<MinMaxType<Float>>])
         case responseExpressionAnalysisDatas([MetricData<ExpressionAnalysisMetricValue>])
+        case responseBloodPressureDatas([MetricData<BloodPressureMetricValue>])
         case selectItem(_ key: String)
         case errorHandling(Error)
         case changeVisible(String,Bool)
@@ -168,14 +169,21 @@ struct MetricChart: ReducerProtocol{
                 return .run{[period = state.period]send in
                     switch metric{
                     case .expressionAnalysis:
-                        switch await fetchExpressionAnalysisData(period: period, basisDate: date){
+                        switch await fetchExpressionAnalysisDatas(period: period, basisDate: date){
                         case .success(let datas):
                             await send(.responseExpressionAnalysisDatas(datas))
                         case .failure(let error):
                             await send(.errorHandling(error))
                         }
+                    case .bloodPressure:
+                        switch await fetchBloodPressureDatas(period: period, basisDate: date){
+                        case .success(let datas):
+                            await send(.responseBloodPressureDatas(datas))
+                        case .failure(let error):
+                            await send(.errorHandling(error))
+                        }
                     default:
-                        switch await fetchMetricData(metric: metric, period: period, basisDate: date){
+                        switch await fetchMetricDatas(metric: metric, period: period, basisDate: date){
                         case .success(let datas):
                             await send(.responseMetricDatas(datas))
                         case .failure(let error):
@@ -210,8 +218,16 @@ struct MetricChart: ReducerProtocol{
                 state.isLoading = false
                 datas.forEach{
                     let key = dateFormatter.string(from: $0.basisDate)
-                    state.datas[key] = [.init(value: $0.value.arousal, isVisible:false), .init(value: $0.value.valence, isVisible:false)]
+                    state.datas[key] = [.init(value: $0.value.valence, isVisible:false), .init(value: $0.value.arousal, isVisible:false)]
                     state.expressions[key] = $0.value.expressions
+                }
+                
+                return state.isBaseRangeInited ? .none : .send(.setBaseRange)
+            case .responseBloodPressureDatas(let datas):
+                state.isLoading = false
+                datas.forEach{
+                    let key = dateFormatter.string(from: $0.basisDate)
+                    state.datas[key] = [.init(value: MinMaxType(min:  Float($0.value.SYS.min), max: Float($0.value.SYS.max)), isVisible:false), .init(value:MinMaxType(min:  Float($0.value.DIA.min), max: Float($0.value.DIA.max)), isVisible:false)]
                 }
                 
                 return state.isBaseRangeInited ? .none : .send(.setBaseRange)
@@ -230,7 +246,7 @@ struct MetricChart: ReducerProtocol{
         }
     }
 
-    private func fetchMetricData(metric: Metric, period: Period, basisDate: Date) async -> Result<[MetricData<MinMaxType<Float>>], Error> {
+    private func fetchMetricDatas(metric: Metric, period: Period, basisDate: Date) async -> Result<[MetricData<MinMaxType<Float>>], Error> {
         switch await monitoringAPI.fetchMetricDatas(metric, period: period, basisDate: basisDate, valueType: MinMaxType<Float>.self){
         case .success(let datas):
             return .success(datas)
@@ -239,7 +255,7 @@ struct MetricChart: ReducerProtocol{
         }
     }
     
-    private func fetchExpressionAnalysisData(period: Period, basisDate: Date) async -> Result<[MetricData<ExpressionAnalysisMetricValue>], Error> {
+    private func fetchExpressionAnalysisDatas(period: Period, basisDate: Date) async -> Result<[MetricData<ExpressionAnalysisMetricValue>], Error> {
         switch await monitoringAPI.fetchMetricDatas(.expressionAnalysis, period: period, basisDate: basisDate, valueType: ExpressionAnalysisMetricValue.self){
         case .success(let datas):
             return .success(datas)
@@ -248,6 +264,14 @@ struct MetricChart: ReducerProtocol{
         }
     }
     
+    private func fetchBloodPressureDatas(period: Period, basisDate: Date) async -> Result<[MetricData<BloodPressureMetricValue>], Error> {
+        switch await monitoringAPI.fetchMetricDatas(.bloodPressure, period: period, basisDate: basisDate, valueType: BloodPressureMetricValue.self){
+        case .success(let datas):
+            return .success(datas)
+        case .failure(let error):
+            return .failure(error)
+        }
+    }
     
     private var dateFormatter = DateFormatter()
     @Dependency(\.montioringAPI) private var monitoringAPI

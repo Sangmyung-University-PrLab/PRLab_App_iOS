@@ -22,17 +22,17 @@ struct MetricChartView: View{
     var body: some View{
         WithViewStore(store, observe: {$0}){viewStore in
             VStack(alignment: .trailing){
-                if metric == .expressionAnalysis{
+                if metric == .expressionAnalysis || metric == .bloodPressure{
                     HStack(spacing:5){
                         Capsule()
                             .frame(width: 5, height: 10)
                             .foregroundColor(.blue)
-                        Text("valence")
+                        Text(metric == .expressionAnalysis ? "긴장도" : "수축기")
                             .padding(.trailing, 5)
                         Capsule()
                             .frame(width: 5, height: 10)
                             .foregroundColor(.red)
-                        Text("arousal")
+                        Text(metric == .expressionAnalysis ? "분노지수" : "이완기")
                     }.font(.notoSans(size: 11, weight: .medium))
                         .foregroundColor(.gray)
                 }
