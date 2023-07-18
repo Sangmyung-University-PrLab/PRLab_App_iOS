@@ -52,16 +52,28 @@ struct MeasurementView: View {
                     .foregroundColor(viewStore.canMeasure ? .clear : .red)
                     .padding(.bottom, 70)
                 
-                Button(viewStore.isMeasuring ? "취소" : "측정"){
+                
+                
+                
+                Button{
                     if !viewStore.isMeasuring{
                         viewStore.send(.startMeasurement)
                     }
                     else{
                         viewStore.send(.cancelMeasurement)
                     }
+                }label:{
+                    if viewStore.isMeasuring{
+                        ProgressView()
+                            .progressViewStyle(CircularProgressViewStyle())
+                            .tint(.white)
+                    }
+                    else{
+                        Text("측정")
+                    }
                 }
                 .disabled(!viewStore.canMeasure)
-                .buttonStyle(VitalWinkButtonStyle(isDisabled:!viewStore.canMeasure))
+                .buttonStyle(VitalWinkButtonStyle(isDisabled:!viewStore.canMeasure || viewStore.isMeasuring))
                 .padding(.bottom, 30)
                 
             }
