@@ -32,9 +32,28 @@ struct MetricMonitoringView: View{
                         .foregroundColor(.white)
                         .frame(height: 255)
                         .overlay{
-                            MetricChartView(store: store, metric: metric)
-                            .padding(.horizontal,20)
-                            .padding(.vertical, 20)
+                            if metric == .SpO2{
+                                MetricStepChartView(store: store, metric: metric){
+                                   
+                                        if $0.max <= 90{
+                                            return .low
+                                        }
+                                        else if $0.min >= 95{
+                                            return .high
+                                        }
+                                        else{
+                                            return .mid
+                                        }
+                                    
+                                }.padding(.horizontal,20)
+                                .padding(.vertical, 20)
+                            }
+                            else{
+                                MetricRangeChartView(store: store, metric: metric)
+                                    .padding(.horizontal,20)
+                                    .padding(.vertical, 20)
+                            }
+                            
                         }
                     if let selected = viewStore.selected, !viewStore.datas[selected, default: []].isEmpty{
                         let datas = viewStore.datas[selected, default: []]

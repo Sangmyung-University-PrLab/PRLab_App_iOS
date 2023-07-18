@@ -9,42 +9,23 @@ import Foundation
 import Charts
 import SwiftUI
 import ComposableArchitecture
-struct MetricRangeChartView: View{
-    init(store: StoreOf<MetricChart>, metric: Metric){
+struct MetricStepChartView: View{
+    init(store: StoreOf<MetricChart>, metric: Metric, stepFilter: @escaping (MinMaxType<Float>) -> Step){
         self.store = store
         self.metric = metric
-        
-        numberFormatter = NumberFormatter()
-        numberFormatter.numberStyle = .decimal
-        numberFormatter.maximumFractionDigits = 2
+        self.stepFilter = stepFilter
     }
     
     var body: some View{
         WithViewStore(store, observe: {$0}){viewStore in
             VStack(alignment: .trailing){
-                if metric == .expressionAnalysis || metric == .bloodPressure{
-                    HStack(spacing:5){
-                        Capsule()
-                            .frame(width: 5, height: 10)
-                            .foregroundColor(.blue)
-                        Text(metric == .expressionAnalysis ? "긴장도" : "수축기")
-                            .padding(.trailing, 5)
-                        Capsule()
-                            .frame(width: 5, height: 10)
-                            .foregroundColor(.red)
-                        Text(metric == .expressionAnalysis ? "분노지수" : "이완기")
-                    }.font(.notoSans(size: 11, weight: .medium))
-                        .foregroundColor(.gray)
-                }
-                
-                
                 GeometryReader{proxy in
                     let itemWidth = (proxy.size.width - 50) / CGFloat(viewStore.period.numberOfItem)
                     HStack(spacing:10){
                         ScrollView(.horizontal,showsIndicators: false){
                             LazyHStack(spacing: 10){
                                 ForEach(viewStore.sortedKeys, id: \.self){key in
-                                    MetricRangeChartItemView(x:viewStore.xs[key,default:""],y: viewStore.datas[key, default: []].map{$0.value}, baseRange: viewStore.baseRange, baseHeight: proxy.size.height - 30)
+                                    MetricStepChartItemView(x: viewStore.xs[key,default:""], step: viewStore.datas[key, default: []].map{self.stepFilter($0.value)}, baseHeight: proxy.size.height - 30)
                                         .frame(width:itemWidth)
                                         .scaleEffect(x:-1,y:1)
                                         .onAppear{
@@ -78,16 +59,16 @@ struct MetricRangeChartView: View{
                         }.disabled(viewStore.isLoading)
                         
                         VStack(spacing: 0){
-                            if let baseRange = viewStore.baseRange{
-                                Text(numberFormatter.string(for: baseRange.max)!)
+                                Text("상")
                                 Spacer()
-                                Text(numberFormatter.string(for: baseRange.min)!)
-                            }
+                                Text("중")
+                                Spacer()
+                                Text("하")
                             Spacer().frame(height:30)
                         }.font(.notoSans(size: 12, weight: .medium))
                         .frame(maxWidth: .infinity, maxHeight:proxy.size.height + 12)
                     }
-                    .fixedSize()
+//                    .fixedSize()
                    
                 }
             }.onChange(of: viewStore.period){_ in
@@ -102,63 +83,35 @@ struct MetricRangeChartView: View{
     
     private let metric: Metric
     private let store: StoreOf<MetricChart>
-    private let numberFormatter: NumberFormatter
+    private let stepFilter: (MinMaxType<Float>) -> Step
+    
     
 }
 
-struct MetricRangeChartItemView: View{
-    init(x:String, y: [MinMaxType<Float>], baseRange: MinMaxType<Float>?, baseHeight: CGFloat) {
-        self.baseRange = baseRange
+struct MetricStepChartItemView: View{
+    init(x:String, step: [Step], baseHeight: CGFloat) {
         self.x = x
-        self.y = y
-        if let baseRange = baseRange{
-            self.ratio = (baseRange.max - baseRange.min) / Float(baseHeight)
-        }
-        else{
-            self.ratio = 1
-        }
-        
+        self.step = step
         self.baseHeight = baseHeight
     }
-    
+     
     var body: some View{
         VStack(spacing:0){
-            if !y.isEmpty {
+            if !step.isEmpty {
                 HStack{
-                    ForEach(0 ..< y.count, id: \.self){index in
+                    ForEach(0 ..< step.count, id: \.self){index in
                         VStack(spacing: 0){
-                            let value = y[index]
-                            if let baseRange = self.baseRange{
-                                if baseRange.min == baseRange.max{
-                                    Capsule()
-                                        .frame(maxWidth: 5, minHeight:3)
-                                }
-                                else{
-                                    let upper = max(baseRange.max - value.max, 0)
-                                    let lower = max(value.min - baseRange.min,0)
-                                    
-                                    if upper != 0{
-                                        Spacer()
-                                            .frame(height: CGFloat(upper / ratio))
-                                        
-                                    }
-                                    Capsule()
-                                        .frame(maxWidth: 5, minHeight:3)
-                                    
-                                    
-                                    if lower != 0 && value.min != value.max{
-                                        Spacer()
-                                            .frame(height:CGFloat(lower / ratio))
-                                    }
-                                    else if value.max == value.min && value != baseRange{
-                                        Spacer()
-                                            .frame(height: max(baseHeight - CGFloat(upper / ratio) - 4, 0))
-                                    }
-                                }
+                            if step[index] != .high{
+                                Spacer()
+                                    .frame(height: step[index] == .low ? self.baseHeight / 2 : self.baseHeight / 4)
                             }
-                            else{
-                                Capsule()
-                                    .frame(maxWidth: 5, minHeight:3)
+                            
+                            Capsule()
+                                .frame(maxWidth: 5, maxHeight: self.baseHeight / 2)
+                            
+                            if step[index] != .low{
+                                Spacer()
+                                    .frame(height: step[index] == .high ? self.baseHeight / 2 : self.baseHeight / 4)
                             }
                         }
                         .foregroundColor(index == 0 ? .blue : .red)
@@ -167,7 +120,6 @@ struct MetricRangeChartItemView: View{
                 }.frame(height: baseHeight)
                 
             }
-            
             else{
                 Spacer()
                     .frame(height: baseHeight)
@@ -180,9 +132,8 @@ struct MetricRangeChartItemView: View{
         }
     }
     
-    private let ratio: Float
+  
     private let x: String
-    private let y: [MinMaxType<Float>]
-    private let baseRange: MinMaxType<Float>?
+    private let step: [Step]
     private let baseHeight: CGFloat
 }
