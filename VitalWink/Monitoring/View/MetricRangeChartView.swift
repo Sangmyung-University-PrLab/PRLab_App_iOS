@@ -9,7 +9,7 @@ import Foundation
 import Charts
 import SwiftUI
 import ComposableArchitecture
-struct MetricChartView: View{
+struct MetricRangeChartView: View{
     init(store: StoreOf<MetricChart>, metric: Metric){
         self.store = store
         self.metric = metric
@@ -22,17 +22,17 @@ struct MetricChartView: View{
     var body: some View{
         WithViewStore(store, observe: {$0}){viewStore in
             VStack(alignment: .trailing){
-                if metric == .expressionAnalysis{
+                if metric == .expressionAnalysis || metric == .bloodPressure{
                     HStack(spacing:5){
                         Capsule()
                             .frame(width: 5, height: 10)
                             .foregroundColor(.blue)
-                        Text("valence")
+                        Text(metric == .expressionAnalysis ? "긴장도" : "수축기")
                             .padding(.trailing, 5)
                         Capsule()
                             .frame(width: 5, height: 10)
                             .foregroundColor(.red)
-                        Text("arousal")
+                        Text(metric == .expressionAnalysis ? "분노지수" : "이완기")
                     }.font(.notoSans(size: 11, weight: .medium))
                         .foregroundColor(.gray)
                 }
@@ -44,7 +44,7 @@ struct MetricChartView: View{
                         ScrollView(.horizontal,showsIndicators: false){
                             LazyHStack(spacing: 10){
                                 ForEach(viewStore.sortedKeys, id: \.self){key in
-                                    MetricChartItemView(x:viewStore.xs[key,default:""],y: viewStore.datas[key, default: []].map{$0.value}, baseRange: viewStore.baseRange, baseHeight: Float(proxy.size.height) - 30)
+                                    MetricRangeChartItemView(x:viewStore.xs[key,default:""],y: viewStore.datas[key, default: []].map{$0.value}, baseRange: viewStore.baseRange, baseHeight: proxy.size.height - 30)
                                         .frame(width:itemWidth)
                                         .scaleEffect(x:-1,y:1)
                                         .onAppear{
@@ -85,7 +85,7 @@ struct MetricChartView: View{
                             }
                             Spacer().frame(height:30)
                         }.font(.notoSans(size: 12, weight: .medium))
-                            .frame(maxWidth: .infinity, maxHeight:proxy.size.height + 12)
+                        .frame(maxWidth: .infinity, maxHeight:proxy.size.height + 12)
                     }
                     .fixedSize()
                    
@@ -106,19 +106,19 @@ struct MetricChartView: View{
     
 }
 
-struct MetricChartItemView: View{
-    init(x:String, y: [MinMaxType<Float>], baseRange: MinMaxType<Float>?, baseHeight: Float) {
+struct MetricRangeChartItemView: View{
+    init(x:String, y: [MinMaxType<Float>], baseRange: MinMaxType<Float>?, baseHeight: CGFloat) {
         self.baseRange = baseRange
         self.x = x
         self.y = y
         if let baseRange = baseRange{
-            self.ratio = (baseRange.max - baseRange.min) / baseHeight
+            self.ratio = (baseRange.max - baseRange.min) / Float(baseHeight)
         }
         else{
             self.ratio = 1
         }
         
-        self.baseHeight = CGFloat(baseHeight)
+        self.baseHeight = baseHeight
     }
     
     var body: some View{
@@ -185,13 +185,4 @@ struct MetricChartItemView: View{
     private let y: [MinMaxType<Float>]
     private let baseRange: MinMaxType<Float>?
     private let baseHeight: CGFloat
-}
-
-
-struct MetricChart_Previews: PreviewProvider{
-    static var previews: some View{
-        MetricChartView(store: Store(initialState: MetricChart.State(), reducer: MetricChart()), metric: .bpm)
-        
-        
-    }
 }

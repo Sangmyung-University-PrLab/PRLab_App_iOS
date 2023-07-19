@@ -7,6 +7,12 @@
 
 import Foundation
 enum Metric: String{
+    /*
+        spo2: 90이하 위험 , 91 이상 94이하 주의, 95 정상
+        혈압:
+        혈당:
+     */
+    
     case bpm = "bpms"
     case SpO2 = "SpO2s"
     case RR = "RRs"
@@ -40,8 +46,6 @@ enum Metric: String{
         switch self{
         case .bpm:
             return "bpm"
-        case .SpO2:
-            return "%"
         case .RR:
             return "회"
         default:

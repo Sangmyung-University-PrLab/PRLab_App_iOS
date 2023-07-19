@@ -36,4 +36,7 @@ struct MinMaxType<T: Comparable & Equatable & Codable>: DataBaseType{
     public static func ==(lhs:Self, rhs: Self) -> Bool{
         return lhs.min == rhs.min && lhs.max == rhs.max
     }
+    public func map<ValueType>(_ transform: (T) -> ValueType) -> MinMaxType<ValueType> where ValueType: Comparable & Codable & Equatable{
+        return MinMaxType<ValueType>(min: transform(min), max: transform(max))
+    }
 }

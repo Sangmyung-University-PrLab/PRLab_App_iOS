@@ -33,23 +33,25 @@ struct MetricCardView: View {
                                 .font(.system(size: 10))
                         }
                         HStack(spacing:0){
-                            
-                            if metric == .expressionAnalysis{
+                            if metric == .expressionAnalysis || metric == .bloodPressure{
+                                
+                                
                                 HStack(spacing: 5){
-                                    Text("분노지수")
+                                    Text(metric == .expressionAnalysis ? "분노지수" : "수축기")
                                         .font(.notoSans(size: 12, weight: .medium))
-                                        
-                                    Text(numberFormatter.string(for: viewStore.state?.expressionAnalysis?.arousal) ?? "")
+                                    
+                                    Text( metric == .expressionAnalysis ? numberFormatter.string(for: viewStore.state?.expressionAnalysis?.arousal ) ?? "" : bloodPressureValue.SYS)
                                         .font(.notoSans(size: 20, weight: .bold))
                                         .padding(.trailing, 5)
                                     
-                                    Text("긴장도")
+                                    Text(metric == .expressionAnalysis ? "긴장도" : "이완기")
                                         .font(.notoSans(size: 12, weight: .medium))
-                                       
-                                    Text(numberFormatter.string(for: viewStore.state?.expressionAnalysis?.valence) ?? "")
+                                    
+                                    Text( metric == .expressionAnalysis ? numberFormatter.string(for: viewStore.state?.expressionAnalysis?.valence ) ?? "" : bloodPressureValue.DIA)
                                         .font(.notoSans(size: 20, weight: .bold))
                                 }
                             }
+                        
                             else{
                                 Text(value)
                                     .font(.notoSans(size: 35, weight: .bold))
@@ -82,20 +84,39 @@ struct MetricCardView: View {
                     case .RR:
                         value = numberFormatter.string(for: $0?.RR) ?? ""
                     case .SpO2:
-                        value = numberFormatter.string(for: $0?.SpO2) ?? ""
+                        guard let SpO2 = $0?.SpO2 else{
+                            value = ""
+                            return
+                        }
+                        value =  Step.SpO2(value: MinMaxType(min: SpO2, max: SpO2).map{Float($0)}).max.korean
                     case .stress:
                         value = numberFormatter.string(for: $0?.stress) ?? ""
                     case .bpm:
                         value = numberFormatter.string(for: $0?.bpm) ?? ""
+                    case .bloodSugars:
+                        guard let bloodSugar = $0?.bloodSugar else{
+                            value = ""
+                            return
+                        }
+                        value =  Step.bloodSugar(value: MinMaxType(min: bloodSugar, max: bloodSugar).map{Float($0)}).max.korean
+                    case .bloodPressure:
+                        guard let bloodPressure = $0?.bloodPressure else{
+                            bloodPressureValue = ("","")
+                            return
+                        }
+                        let bloodPressureStep = Step.bloodPressure(SYS: MinMaxType(min: bloodPressure.SYS, max: bloodPressure.SYS).map{Float($0)}, DIA: MinMaxType(min: bloodPressure.DIA, max: bloodPressure.DIA).map{Float($0)})
+                        
+                        bloodPressureValue = (bloodPressureStep[0].max.korean, bloodPressureStep[1].max.korean)
                     default:
                         break
                     }
                 }
         }
-        
     }
+    @State private var bloodPressureValue = (SYS:"",DIA:"")
     @State private var value: String = ""
     @State private var shouldShowMetricMonitoringView = false
+    
     private let metric: Metric
     private let numberFormatter: NumberFormatter
     private let icon: Image
