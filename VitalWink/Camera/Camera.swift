@@ -81,6 +81,9 @@ final class Camera:@unchecked Sendable{
         }
     }
     func setUp() async throws{
+        if isAlreadtSetUp{
+            return
+        }
         if isHaveCameraPermission(){
             do{
                 try setCaptureSession()
@@ -106,6 +109,7 @@ final class Camera:@unchecked Sendable{
                 }
             }
         }
+        isAlreadtSetUp = true
     }
     
     enum CameraError: Error, LocalizedError{
@@ -196,6 +200,7 @@ final class Camera:@unchecked Sendable{
         captureSession.commitConfiguration()
     }
     //MARK: - 카메라 관련 변수
+    private var isAlreadtSetUp = false
     private let cameraStream = CameraStream()
     private let frontCamera: AVCaptureDevice?
     private let backCamera: AVCaptureDevice?
