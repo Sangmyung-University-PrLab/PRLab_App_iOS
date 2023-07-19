@@ -94,23 +94,26 @@ struct MetricStepChartItemView: View{
                     ForEach(0 ..< step.count, id: \.self){index in
                         let value = step[index]
                         VStack(spacing: 0){
-                            if value.max != .normal{
+                            if value.min != .normal{
                                 Spacer()
-                                    .frame(height: (value.max == .caution ? 1 : 2) * self.baseHeight / 3)
+                                    .frame(height: (value.min == .caution ? 1 : 2) * self.baseHeight / 3)
                             }
                             
                             Capsule()
                                 .frame(maxWidth: 5, maxHeight: self.baseHeight)
                             
-                            if value.min != .danger{
+                            if value.max != .danger{
                                 Spacer()
-                                    .frame(height: (value.min == .caution ? 1 : 2) * self.baseHeight / 3)
+                                    .frame(height: (value.max == .caution ? 1 : 2) * self.baseHeight / 3)
                             }
                         }
                         .foregroundColor(index == 0 ? .blue : .red)
                         
                     }
                 }.frame(height: baseHeight)
+                    .onAppear{
+                        print(step)
+                    }
                 
             }
             else{

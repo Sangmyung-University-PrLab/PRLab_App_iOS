@@ -85,7 +85,7 @@
 		067AD01F2A4BFCDC002E39B1 /* ExpressionAnalysisNumericData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 067AD01E2A4BFCDC002E39B1 /* ExpressionAnalysisNumericData.swift */; };
 		067AD0232A4BFEC2002E39B1 /* MonitoringRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 067AD0222A4BFEC2002E39B1 /* MonitoringRouter.swift */; };
 		067AD0252A4BFF71002E39B1 /* MonitoringAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 067AD0242A4BFF71002E39B1 /* MonitoringAPI.swift */; };
-		067AD0292A4D1E7E002E39B1 /* MetricChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 067AD0282A4D1E7E002E39B1 /* MetricChartView.swift */; };
+		067AD0292A4D1E7E002E39B1 /* MetricRangeChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 067AD0282A4D1E7E002E39B1 /* MetricRangeChartView.swift */; };
 		067AD02B2A4E610F002E39B1 /* MetricMonitoringView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 067AD02A2A4E610F002E39B1 /* MetricMonitoringView.swift */; };
 		067AD02E2A4E94B3002E39B1 /* DataBaseType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 067AD02D2A4E94B3002E39B1 /* DataBaseType.swift */; };
 		068851492A48410800403AE7 /* ExpressionAnalysisData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 068851482A48410800403AE7 /* ExpressionAnalysisData.swift */; };
@@ -228,7 +228,7 @@
 		067AD01E2A4BFCDC002E39B1 /* ExpressionAnalysisNumericData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpressionAnalysisNumericData.swift; sourceTree = "<group>"; };
 		067AD0222A4BFEC2002E39B1 /* MonitoringRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonitoringRouter.swift; sourceTree = "<group>"; };
 		067AD0242A4BFF71002E39B1 /* MonitoringAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonitoringAPI.swift; sourceTree = "<group>"; };
-		067AD0282A4D1E7E002E39B1 /* MetricChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetricChartView.swift; sourceTree = "<group>"; };
+		067AD0282A4D1E7E002E39B1 /* MetricRangeChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetricRangeChartView.swift; sourceTree = "<group>"; };
 		067AD02A2A4E610F002E39B1 /* MetricMonitoringView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetricMonitoringView.swift; sourceTree = "<group>"; };
 		067AD02D2A4E94B3002E39B1 /* DataBaseType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataBaseType.swift; sourceTree = "<group>"; };
 		068851482A48410800403AE7 /* ExpressionAnalysisData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpressionAnalysisData.swift; sourceTree = "<group>"; };
@@ -570,7 +570,7 @@
 			children = (
 				067AD0162A4BF007002E39B1 /* RecentDataView.swift */,
 				067AD0192A4BF070002E39B1 /* MetricCardView.swift */,
-				067AD0282A4D1E7E002E39B1 /* MetricChartView.swift */,
+				067AD0282A4D1E7E002E39B1 /* MetricRangeChartView.swift */,
 				067AD02A2A4E610F002E39B1 /* MetricMonitoringView.swift */,
 				06BCCD092A52B812003DA1E2 /* MinMaxCardView.swift */,
 				06BCCD0D2A5BC251003DA1E2 /* PieChartView.swift */,
@@ -1065,7 +1065,7 @@
 				065C00F02A34509500054387 /* VitalWinkAlertMessageState.swift in Sources */,
 				065C00E82A32E11A00054387 /* VitalWinkButtonStyle.swift in Sources */,
 				06BCCD2F2A611BD9003DA1E2 /* UserDefaultsKey.swift in Sources */,
-				067AD0292A4D1E7E002E39B1 /* MetricChartView.swift in Sources */,
+				067AD0292A4D1E7E002E39B1 /* MetricRangeChartView.swift in Sources */,
 				065C00F62A35933E00054387 /* SignUpView.swift in Sources */,
 				06F180B42A17403C00F1CE90 /* UserAPI.swift in Sources */,
 				0629A21C2A208C91007B864B /* OSLog + Extension.swift in Sources */,
