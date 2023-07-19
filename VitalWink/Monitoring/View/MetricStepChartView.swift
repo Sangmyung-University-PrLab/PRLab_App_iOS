@@ -111,10 +111,6 @@ struct MetricStepChartItemView: View{
                         
                     }
                 }.frame(height: baseHeight)
-                    .onAppear{
-                        print(step)
-                    }
-                
             }
             else{
                 Spacer()
