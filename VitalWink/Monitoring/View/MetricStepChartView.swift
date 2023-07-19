@@ -60,7 +60,7 @@ struct MetricStepChartView: View{
                         }.font(.notoSans(size: 12, weight: .medium))
                         .frame(maxWidth: .infinity, maxHeight:proxy.size.height + 12)
                     }
-//                    .fixedSize()
+                    .fixedSize()
                    
                 }
             }.onChange(of: viewStore.period){_ in

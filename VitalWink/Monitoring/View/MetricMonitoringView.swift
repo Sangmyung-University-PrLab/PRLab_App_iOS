@@ -107,26 +107,9 @@ struct MetricMonitoringView: View{
     private let formatter: NumberFormatter
 }
 
-struct MetricMonitoring_Previews: PreviewProvider {
-    static var previews: some View {
-        let value = MinMaxType(min: 40, max: 75)
-        
-        GeometryReader{proxy in
-            Capsule()
-                .foregroundColor(.blue.opacity(0.3))
-                .frame(height: 5)
-                .padding(.horizontal, 10)
-                .overlay(alignment:.leading){
-                    let inndexCapsuleWidth = proxy.size.width * CGFloat(Float(value.max - value.min) / (Metric.bpm.max - Metric.bpm.min))
-                    Capsule()
-                        .foregroundColor(.blue)
-                        .frame(width: inndexCapsuleWidth)
-                        .offset(x: CGFloat((Float(value.min) - Metric.bpm.min) / (Metric.bpm.max - Metric.bpm.min)) * proxy.size.width)
-                        
-                }.onAppear{
-                    print((Float(value.min) - Metric.bpm.min) / (Metric.bpm.max - Metric.bpm.min))
-                }
-        }.frame(width: 300,height:5)
-            
-    }
-}
+//struct MetricMonitoring_Previews: PreviewProvider {
+//    static var previews: some View {
+//        
+////        MetricMonitoringView(store: Store(initialState: MetricChart.State(), reducer: MetricChart()), metric: .bpm)
+//    }
+//}
