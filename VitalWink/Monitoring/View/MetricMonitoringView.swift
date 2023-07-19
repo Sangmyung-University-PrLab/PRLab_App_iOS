@@ -32,19 +32,24 @@ struct MetricMonitoringView: View{
                         .foregroundColor(.white)
                         .frame(height: 255)
                         .overlay{
-                            if metric == .SpO2{
+                            if metric == .SpO2 || metric == .bloodPressure || metric == .bloodSugars{
                                 MetricStepChartView(store: store, metric: metric){
-                                   
-                                        if $0.max <= 90{
-                                            return .low
-                                        }
-                                        else if $0.min >= 95{
-                                            return .high
-                                        }
-                                        else{
-                                            return .mid
-                                        }
+                                    if $0.isEmpty{
+                                        return []
+                                    }
                                     
+                                    if metric == .SpO2{
+                                        return [Step.SpO2(value: $0[0])]
+                                    }
+                                    else if metric == .bloodSugars{
+                                        return [Step.bloodSugar(value: $0[0])]
+                                    }
+                                    else{
+                                        return Step.bloodPressure(SYS: $0[0], DIA: $0[1])
+                                    }
+                                    
+                                    
+                                 
                                 }.padding(.horizontal,20)
                                 .padding(.vertical, 20)
                             }

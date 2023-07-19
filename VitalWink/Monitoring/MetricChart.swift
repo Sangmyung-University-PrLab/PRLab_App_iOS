@@ -254,7 +254,6 @@ struct MetricChart: ReducerProtocol{
             return .failure(error)
         }
     }
-    
     private func fetchExpressionAnalysisDatas(period: Period, basisDate: Date) async -> Result<[MetricData<ExpressionAnalysisMetricValue>], Error> {
         switch await monitoringAPI.fetchMetricDatas(.expressionAnalysis, period: period, basisDate: basisDate, valueType: ExpressionAnalysisMetricValue.self){
         case .success(let datas):
@@ -263,7 +262,6 @@ struct MetricChart: ReducerProtocol{
             return .failure(error)
         }
     }
-    
     private func fetchBloodPressureDatas(period: Period, basisDate: Date) async -> Result<[MetricData<BloodPressureMetricValue>], Error> {
         switch await monitoringAPI.fetchMetricDatas(.bloodPressure, period: period, basisDate: basisDate, valueType: BloodPressureMetricValue.self){
         case .success(let datas):
@@ -272,7 +270,6 @@ struct MetricChart: ReducerProtocol{
             return .failure(error)
         }
     }
-    
     private var dateFormatter = DateFormatter()
     @Dependency(\.montioringAPI) private var monitoringAPI
 }

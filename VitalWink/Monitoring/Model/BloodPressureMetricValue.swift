@@ -7,8 +7,6 @@
 
 import Foundation
 struct BloodPressureMetricValue: DataBaseType{
-   
-    
     let SYS: MinMaxType<Int>
     let DIA: MinMaxType<Int>
     

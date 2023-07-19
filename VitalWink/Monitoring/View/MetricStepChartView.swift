@@ -10,7 +10,7 @@ import Charts
 import SwiftUI
 import ComposableArchitecture
 struct MetricStepChartView: View{
-    init(store: StoreOf<MetricChart>, metric: Metric, stepFilter: @escaping (MinMaxType<Float>) -> Step){
+    init(store: StoreOf<MetricChart>, metric: Metric, stepFilter: @escaping ([MinMaxType<Float>]) -> [MinMaxType<Step>]){
         self.store = store
         self.metric = metric
         self.stepFilter = stepFilter
@@ -25,11 +25,10 @@ struct MetricStepChartView: View{
                         ScrollView(.horizontal,showsIndicators: false){
                             LazyHStack(spacing: 10){
                                 ForEach(viewStore.sortedKeys, id: \.self){key in
-                                    MetricStepChartItemView(x: viewStore.xs[key,default:""], step: viewStore.datas[key, default: []].map{self.stepFilter($0.value)}, baseHeight: proxy.size.height - 30)
+                                    MetricStepChartItemView(x: viewStore.xs[key,default:""], step: stepFilter(viewStore.datas[key, default: []].map{$0.value}), baseHeight: proxy.size.height - 30)
                                         .frame(width:itemWidth)
                                         .scaleEffect(x:-1,y:1)
                                         .onAppear{
-                                            viewStore.send(.changeVisible(key,true))
                                             guard let earliestDate = viewStore.sortedKeys.last else{
                                                 return
                                             }
@@ -37,13 +36,6 @@ struct MetricStepChartView: View{
                                                 viewStore.send(.fetchMetricDatas(metric, earliestDate))
                                             }
                                         }
-                                        .onDisappear{
-                                            viewStore.send(.changeVisible(key,false))
-                                        }
-                                        .onTapGesture{
-                                            viewStore.send(.selectItem(key))
-                                        }
-                                        .opacity(viewStore.selected == key ? 1 : 0.3)
                                 }
                             }
                         }
@@ -59,11 +51,11 @@ struct MetricStepChartView: View{
                         }.disabled(viewStore.isLoading)
                         
                         VStack(spacing: 0){
-                                Text("상")
+                                Text("정상")
                                 Spacer()
-                                Text("중")
+                                Text("주의")
                                 Spacer()
-                                Text("하")
+                                Text("위험")
                             Spacer().frame(height:30)
                         }.font(.notoSans(size: 12, weight: .medium))
                         .frame(maxWidth: .infinity, maxHeight:proxy.size.height + 12)
@@ -83,13 +75,13 @@ struct MetricStepChartView: View{
     
     private let metric: Metric
     private let store: StoreOf<MetricChart>
-    private let stepFilter: (MinMaxType<Float>) -> Step
+    private let stepFilter: ([MinMaxType<Float>]) -> [MinMaxType<Step>]
     
     
 }
 
 struct MetricStepChartItemView: View{
-    init(x:String, step: [Step], baseHeight: CGFloat) {
+    init(x:String, step: [MinMaxType<Step>], baseHeight: CGFloat) {
         self.x = x
         self.step = step
         self.baseHeight = baseHeight
@@ -100,18 +92,19 @@ struct MetricStepChartItemView: View{
             if !step.isEmpty {
                 HStack{
                     ForEach(0 ..< step.count, id: \.self){index in
+                        let value = step[index]
                         VStack(spacing: 0){
-                            if step[index] != .high{
+                            if value.max != .normal{
                                 Spacer()
-                                    .frame(height: step[index] == .low ? self.baseHeight / 2 : self.baseHeight / 4)
+                                    .frame(height: (value.max == .caution ? 1 : 2) * self.baseHeight / 3)
                             }
                             
                             Capsule()
-                                .frame(maxWidth: 5, maxHeight: self.baseHeight / 2)
+                                .frame(maxWidth: 5, maxHeight: self.baseHeight)
                             
-                            if step[index] != .low{
+                            if value.min != .danger{
                                 Spacer()
-                                    .frame(height: step[index] == .high ? self.baseHeight / 2 : self.baseHeight / 4)
+                                    .frame(height: (value.min == .caution ? 1 : 2) * self.baseHeight / 3)
                             }
                         }
                         .foregroundColor(index == 0 ? .blue : .red)
@@ -134,6 +127,6 @@ struct MetricStepChartItemView: View{
     
   
     private let x: String
-    private let step: [Step]
+    private let step: [MinMaxType<Step>]
     private let baseHeight: CGFloat
 }
