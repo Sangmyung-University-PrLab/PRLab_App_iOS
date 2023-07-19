@@ -46,8 +46,6 @@ enum Metric: String{
         switch self{
         case .bpm:
             return "bpm"
-        case .SpO2:
-            return "%"
         case .RR:
             return "회"
         default:

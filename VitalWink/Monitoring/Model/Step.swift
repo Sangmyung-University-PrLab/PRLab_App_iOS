@@ -10,6 +10,17 @@ enum Step: Comparable & Codable & Equatable{
     case normal
     case caution
     case danger
+    
+    var korean: String{
+        switch self {
+        case .normal:
+            return "정상"
+        case .caution:
+            return "주의"
+        case .danger:
+            return "위험"
+        }
+    }
        
     static func SpO2(value: MinMaxType<Float>) -> MinMaxType<Step>{
         let condition: (Float) -> Step = {
