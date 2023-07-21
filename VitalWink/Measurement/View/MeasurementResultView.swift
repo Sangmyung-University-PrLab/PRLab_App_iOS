@@ -15,7 +15,7 @@ struct MeasurementResultView: View {
     var body: some View {
         VStack(spacing:0){
             Text("측정 결과")
-                .font(.notoSans(size: 16, weight: .medium))
+                .font(.notoSans(size: 16, weight: .bold))
                 .padding(.bottom, 10)
                 .padding(.top, 25)
             

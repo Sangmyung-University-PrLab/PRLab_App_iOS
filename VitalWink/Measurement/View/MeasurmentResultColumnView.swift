@@ -22,7 +22,7 @@ struct MeasurmentResultColumnView : View {
                     Text(metric).frame(width: proxy.size.width / 2)
                     Text(value).frame(width: proxy.size.width / 2)
                 }
-                .font(.notoSans(size: 14))
+                .font(.notoSans(size: 14, weight: .bold))
                 .position(x: proxy.size.width / 2, y: proxy.size.height / 2)
             }.frame(height: 40)
             
