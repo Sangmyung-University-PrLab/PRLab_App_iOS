@@ -26,7 +26,7 @@ public final class FaceDetector{
         guard let cgImage = image.cgImage else{
             throw FaceDetectorError.getEmptyUIImage
         }
-        let handler = VNImageRequestHandler(cgImage: cgImage)
+        let handler = VNImageRequestHandler(cgImage: cgImage,orientation: .leftMirrored)
         
         return try await withCheckedThrowingContinuation{continuation in
             if trackRequest == nil{
