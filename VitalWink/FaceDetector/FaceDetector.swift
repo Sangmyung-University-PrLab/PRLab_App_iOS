@@ -86,7 +86,7 @@ public final class FaceDetector{
         }
         
         if !request.isLastFrame {
-            if observation.confidence > 0.3 {
+            if observation.confidence >= 0.5 {
                 request.inputObservation = observation
             } else {
                 request.isLastFrame = true
