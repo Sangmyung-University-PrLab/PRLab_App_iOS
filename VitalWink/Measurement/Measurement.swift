@@ -42,13 +42,25 @@ struct Measurement: ReducerProtocol{
             }
             self.frameContinuation = coninuation
         }
+        var frameContinuation: AsyncStream<UIImage>.Continuation
         
         //최근 측정에 대한 Id
         @BindingState var target: Target = .face
         fileprivate(set) var isActivityIndicatorVisible = false
+        var canMeasure: Bool{
+            if target == .face{
+                guard let bbox = self.bbox else{
+                    return false
+                }
+                return !bbox.isEmpty
+            }
+            else{
+                return isBeTight
+            }
+        }
         fileprivate(set) var shouldDismiss = false
         fileprivate(set) var frame: AsyncStream<UIImage>
-        var frameContinuation: AsyncStream<UIImage>.Continuation
+        
         
         fileprivate(set) var monitoring = Monitoring.State()
         fileprivate(set) var menu = Menu.State()
@@ -63,7 +75,7 @@ struct Measurement: ReducerProtocol{
         fileprivate(set) var measurementStartTime: CFAbsoluteTime? = nil
         fileprivate(set) var imageAnalysisStartTime: CFAbsoluteTime? = nil
         fileprivate(set) var bbox: CGRect? = nil
-       
+        fileprivate(set) var isBeTight = false
     }
     
     enum Target: CaseIterable{
@@ -97,6 +109,7 @@ struct Measurement: ReducerProtocol{
         case onDisappear
         case monitoring(Monitoring.Action)
         case menu(Menu.Action)
+        case checkFingerisBeTight(UIImage)
     }
     
     enum MeasurementError: LocalizedError{
@@ -114,6 +127,10 @@ struct Measurement: ReducerProtocol{
         
         Reduce{state, action in
             switch action{
+            case .checkFingerisBeTight(let image):
+                state.isBeTight = OpenCVWrapper.isBeTight(image, 0.8)
+                
+                return .none
             case .onDisappear:
                 camera.stop()
                 var coninuation: AsyncStream<UIImage>.Continuation!
@@ -127,6 +144,13 @@ struct Measurement: ReducerProtocol{
                     .merge(with:.cancel(id: CancelID.beFedFrame))
                    
             case .monitoring:
+                return .none
+            case .binding(\.$target):
+                do{
+                   try camera.changeCameraPosition()
+                }catch{
+                    return .send(.errorHandling(error))
+                }
                 return .none
             case .binding:
                 return .none
@@ -153,6 +177,7 @@ struct Measurement: ReducerProtocol{
                 }
             case .sendBgrValues:
                 state.isActivityIndicatorVisible = true
+                
                 return .run{[rgbValues = state.rgbValues, target = state.target] send in
                     switch await measurementAPI.signalMeasurment(rgbValues: rgbValues, target: target){
                     case .success(let id):
@@ -173,22 +198,32 @@ struct Measurement: ReducerProtocol{
                 
                 return .send(.reset)
             case .obtainBgrValue(let image):
-                guard let bbox = state.bbox else{
-                    return .none
-                }
-                
-                return .run{send in
-                    do{
-                        guard let croppedImage = image.cgImage?.cropping(to: bbox) else{
-                            throw MeasurementError.croppingError
+
+                return .run{[target = state.target, bbox = state.bbox] send in
+                    if target == .face{
+                        guard let bbox = bbox else{
+                            return
                         }
                         
-                        let bgrValue = faceDetector.skinSegmentation(UIImage(cgImage: croppedImage))
-                        await send(.appendBgrValue(bgrValue))
+                        do{
+                            guard let croppedImage = image.cgImage?.cropping(to: bbox) else{
+                                throw MeasurementError.croppingError
+                            }
+                            
+                            let bgrValue = faceDetector.skinSegmentation(UIImage(cgImage: croppedImage))
+                            await send(.appendBgrValue(bgrValue))
+                        }
+                        catch{
+                            await send(.errorHandling(error))
+                        }
                     }
-                    catch{
-                        await send(.errorHandling(error))
+                    else{
+                        let nsArr = OpenCVWrapper.getBgrValues(image)
+                        let rgb = (nsArr[0] as! Int, nsArr[1] as! Int, nsArr[2] as! Int)
+                        await send(.appendBgrValue(rgb))
                     }
+                  
+                    
                 }.cancellable(id:CancelID.obtainBgrValue, cancelInFlight: true)
             
             case .appendBgrValue(let rgb):
@@ -198,14 +233,20 @@ struct Measurement: ReducerProtocol{
                 let uiImage = UIImage(sampleBuffer: buffer)
                 state.frameContinuation.yield(uiImage)
                 
-                return .run{[imageAnalysisStartTime = state.imageAnalysisStartTime ?? CFAbsoluteTimeGetCurrent(), isMeasuring = state.isMeasuring] send in
-                    do{
-                        let bbox = try await faceDetector.detect(uiImage)
-                        await send(.responseFaceDetction(bbox))
-                    }catch{
-                        await send(.errorHandling(error))
-                    }
+                return .run{[imageAnalysisStartTime = state.imageAnalysisStartTime ?? CFAbsoluteTimeGetCurrent(), isMeasuring = state.isMeasuring, target = state.target] send in
                     
+                    if target == .face{
+                        do{
+                            let bbox = try await faceDetector.detect(uiImage)
+                            await send(.responseFaceDetction(bbox))
+                        }catch{
+                            await send(.errorHandling(error))
+                        }
+                    }
+                    else{
+                        await send(.checkFingerisBeTight(uiImage))
+                    }
+                          
                     if isMeasuring{
                         await send(.obtainBgrValue(uiImage))
                         await send(.updateProgress)
@@ -358,7 +399,7 @@ struct Measurement: ReducerProtocol{
     }
     //MARK: private
     private let nanosecond: UInt64 =  1_000_000_000
-    private let measuringDuriation: UInt64 =  1_000_000_000 * 20
+    private let measuringDuriation: UInt64 =  1_000_000_000 * 15
     @Dependency(\.camera) private var camera
     @Dependency(\.faceDetector) private var faceDetector
     @Dependency(\.measurementAPI) private var measurementAPI

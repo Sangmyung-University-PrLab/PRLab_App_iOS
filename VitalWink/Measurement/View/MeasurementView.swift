@@ -16,7 +16,7 @@ struct MeasurementView: View {
     var body: some View {
         WithViewStore(self.store, observe: {$0}){viewStore in
             VStack(spacing:0){
-                CircularSegmentedPickerView(selected: viewStore.binding(\.$target), texts: ["얼굴","손가락"])
+                CircularSegmentedPickerView(selected: viewStore.binding(\.$target), texts: ["얼굴","손가락"]).disabled(viewStore.isMeasuring)
                 
                 if let image = self.image{
                     image
@@ -24,7 +24,7 @@ struct MeasurementView: View {
                         .cornerRadius(20)
                         .overlay{
                             RoundedRectangle(cornerRadius: 20)
-                                .stroke(viewStore.bbox == .zero ? .red : .clear, lineWidth: 1)
+                                .stroke(viewStore.canMeasure ? .clear : .red, lineWidth: 1)
                         }
                         .modifier(FrameViewModifier())
                         
@@ -47,21 +47,33 @@ struct MeasurementView: View {
                     .padding(.bottom, 10)
                 
                 
-                Text("얼굴이 인식되지 않습니다.")
+                Text(viewStore.target == .face ? "얼굴이 인식되지 않습니다." : "손가락을 후면카메라에 밀착시켜주세요.")
                     .font(.notoSans(size: 14))
-                    .foregroundColor(viewStore.bbox == .zero ? .red : .clear)
+                    .foregroundColor(viewStore.canMeasure ? .clear : .red)
                     .padding(.bottom, 70)
                 
-                Button(viewStore.isMeasuring ? "취소" : "측정"){
+                
+                
+                
+                Button{
                     if !viewStore.isMeasuring{
                         viewStore.send(.startMeasurement)
                     }
                     else{
                         viewStore.send(.cancelMeasurement)
                     }
+                }label:{
+                    if viewStore.isMeasuring{
+                        ProgressView()
+                            .progressViewStyle(CircularProgressViewStyle())
+                            .tint(.white)
+                    }
+                    else{
+                        Text("측정")
+                    }
                 }
-                .disabled(viewStore.bbox == .zero)
-                .buttonStyle(VitalWinkButtonStyle(isDisabled: viewStore.bbox == .zero))
+                .disabled(!viewStore.canMeasure)
+                .buttonStyle(VitalWinkButtonStyle(isDisabled:!viewStore.canMeasure || viewStore.isMeasuring))
                 .padding(.bottom, 30)
                 
             }
@@ -85,7 +97,7 @@ struct MeasurementView: View {
                 ToolbarItem(placement: .navigationBarTrailing){
                     Image(systemName: "ellipsis")
                         .font(.system(size: 12))
-                        .frame(width: 25, height: 25)
+                        .frame(width: 30, height: 30)
                         .containerShape(Rectangle())
                         .onTapGesture {
                             

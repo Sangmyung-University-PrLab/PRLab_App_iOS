@@ -85,7 +85,7 @@
 		067AD01F2A4BFCDC002E39B1 /* ExpressionAnalysisNumericData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 067AD01E2A4BFCDC002E39B1 /* ExpressionAnalysisNumericData.swift */; };
 		067AD0232A4BFEC2002E39B1 /* MonitoringRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 067AD0222A4BFEC2002E39B1 /* MonitoringRouter.swift */; };
 		067AD0252A4BFF71002E39B1 /* MonitoringAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 067AD0242A4BFF71002E39B1 /* MonitoringAPI.swift */; };
-		067AD0292A4D1E7E002E39B1 /* MetricChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 067AD0282A4D1E7E002E39B1 /* MetricChartView.swift */; };
+		067AD0292A4D1E7E002E39B1 /* MetricRangeChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 067AD0282A4D1E7E002E39B1 /* MetricRangeChartView.swift */; };
 		067AD02B2A4E610F002E39B1 /* MetricMonitoringView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 067AD02A2A4E610F002E39B1 /* MetricMonitoringView.swift */; };
 		067AD02E2A4E94B3002E39B1 /* DataBaseType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 067AD02D2A4E94B3002E39B1 /* DataBaseType.swift */; };
 		068851492A48410800403AE7 /* ExpressionAnalysisData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 068851482A48410800403AE7 /* ExpressionAnalysisData.swift */; };
@@ -108,6 +108,8 @@
 		06BCCD2B2A611424003DA1E2 /* finger_help.gif in Resources */ = {isa = PBXBuildFile; fileRef = 06BCCD292A611424003DA1E2 /* finger_help.gif */; };
 		06BCCD2D2A611465003DA1E2 /* GIFView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06BCCD2C2A611465003DA1E2 /* GIFView.swift */; };
 		06BCCD2F2A611BD9003DA1E2 /* UserDefaultsKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06BCCD2E2A611BD9003DA1E2 /* UserDefaultsKey.swift */; };
+		06BCCD312A666FC9003DA1E2 /* MetricStepChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06BCCD302A666FC9003DA1E2 /* MetricStepChartView.swift */; };
+		06BCCD332A667076003DA1E2 /* Step.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06BCCD322A667076003DA1E2 /* Step.swift */; };
 		06EDBFA92A414353002CCC40 /* ASAuthorizationControllerDelgateImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06EDBFA82A414353002CCC40 /* ASAuthorizationControllerDelgateImpl.swift */; };
 		06F1809B2A15C64300F1CE90 /* VitalWinkAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F1809A2A15C64300F1CE90 /* VitalWinkAPI.swift */; };
 		06F1809F2A15DEFC00F1CE90 /* VitalWinkRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F1809E2A15DEFC00F1CE90 /* VitalWinkRouter.swift */; };
@@ -226,7 +228,7 @@
 		067AD01E2A4BFCDC002E39B1 /* ExpressionAnalysisNumericData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpressionAnalysisNumericData.swift; sourceTree = "<group>"; };
 		067AD0222A4BFEC2002E39B1 /* MonitoringRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonitoringRouter.swift; sourceTree = "<group>"; };
 		067AD0242A4BFF71002E39B1 /* MonitoringAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonitoringAPI.swift; sourceTree = "<group>"; };
-		067AD0282A4D1E7E002E39B1 /* MetricChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetricChartView.swift; sourceTree = "<group>"; };
+		067AD0282A4D1E7E002E39B1 /* MetricRangeChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetricRangeChartView.swift; sourceTree = "<group>"; };
 		067AD02A2A4E610F002E39B1 /* MetricMonitoringView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetricMonitoringView.swift; sourceTree = "<group>"; };
 		067AD02D2A4E94B3002E39B1 /* DataBaseType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataBaseType.swift; sourceTree = "<group>"; };
 		068851482A48410800403AE7 /* ExpressionAnalysisData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpressionAnalysisData.swift; sourceTree = "<group>"; };
@@ -249,6 +251,8 @@
 		06BCCD292A611424003DA1E2 /* finger_help.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = finger_help.gif; sourceTree = "<group>"; };
 		06BCCD2C2A611465003DA1E2 /* GIFView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GIFView.swift; sourceTree = "<group>"; };
 		06BCCD2E2A611BD9003DA1E2 /* UserDefaultsKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsKey.swift; sourceTree = "<group>"; };
+		06BCCD302A666FC9003DA1E2 /* MetricStepChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetricStepChartView.swift; sourceTree = "<group>"; };
+		06BCCD322A667076003DA1E2 /* Step.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Step.swift; sourceTree = "<group>"; };
 		06EDBFA82A414353002CCC40 /* ASAuthorizationControllerDelgateImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ASAuthorizationControllerDelgateImpl.swift; sourceTree = "<group>"; };
 		06F1809A2A15C64300F1CE90 /* VitalWinkAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VitalWinkAPI.swift; sourceTree = "<group>"; };
 		06F1809E2A15DEFC00F1CE90 /* VitalWinkRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VitalWinkRouter.swift; sourceTree = "<group>"; };
@@ -566,10 +570,11 @@
 			children = (
 				067AD0162A4BF007002E39B1 /* RecentDataView.swift */,
 				067AD0192A4BF070002E39B1 /* MetricCardView.swift */,
-				067AD0282A4D1E7E002E39B1 /* MetricChartView.swift */,
+				067AD0282A4D1E7E002E39B1 /* MetricRangeChartView.swift */,
 				067AD02A2A4E610F002E39B1 /* MetricMonitoringView.swift */,
 				06BCCD092A52B812003DA1E2 /* MinMaxCardView.swift */,
 				06BCCD0D2A5BC251003DA1E2 /* PieChartView.swift */,
+				06BCCD302A666FC9003DA1E2 /* MetricStepChartView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -605,6 +610,7 @@
 				0663C4692A1B445E00B85ABF /* ExpressionAnalysisMetricValue.swift */,
 				0663C4652A1B3FCB00B85ABF /* MetricData.swift */,
 				067AD02D2A4E94B3002E39B1 /* DataBaseType.swift */,
+				06BCCD322A667076003DA1E2 /* Step.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -993,6 +999,7 @@
 				06BCCD142A5E3ECE003DA1E2 /* Menu.swift in Sources */,
 				065C00C32A3060F400054387 /* Color + Extensions.swift in Sources */,
 				065C00FA2A35B0E100054387 /* VitialWinkFormSection.swift in Sources */,
+				06BCCD312A666FC9003DA1E2 /* MetricStepChartView.swift in Sources */,
 				067AD02E2A4E94B3002E39B1 /* DataBaseType.swift in Sources */,
 				063C16272A0E01DB00E07141 /* CameraStream.swift in Sources */,
 				0663C4662A1B3FCB00B85ABF /* MetricData.swift in Sources */,
@@ -1016,6 +1023,7 @@
 				0663C4722A1C7D3100B85ABF /* MeasurementResult.swift in Sources */,
 				0663C4702A1C743900B85ABF /* MinMaxType.swift in Sources */,
 				065C00E32A32D22800054387 /* UIApplication + Extension.swift in Sources */,
+				06BCCD332A667076003DA1E2 /* Step.swift in Sources */,
 				063C16142A0B645100E07141 /* UIImage + Extension.swift in Sources */,
 				065C00EE2A34393900054387 /* VitalWinkAlertButtonState.swift in Sources */,
 				06F180B72A17403C00F1CE90 /* MockUserProtocol.swift in Sources */,
@@ -1057,7 +1065,7 @@
 				065C00F02A34509500054387 /* VitalWinkAlertMessageState.swift in Sources */,
 				065C00E82A32E11A00054387 /* VitalWinkButtonStyle.swift in Sources */,
 				06BCCD2F2A611BD9003DA1E2 /* UserDefaultsKey.swift in Sources */,
-				067AD0292A4D1E7E002E39B1 /* MetricChartView.swift in Sources */,
+				067AD0292A4D1E7E002E39B1 /* MetricRangeChartView.swift in Sources */,
 				065C00F62A35933E00054387 /* SignUpView.swift in Sources */,
 				06F180B42A17403C00F1CE90 /* UserAPI.swift in Sources */,
 				0629A21C2A208C91007B864B /* OSLog + Extension.swift in Sources */,

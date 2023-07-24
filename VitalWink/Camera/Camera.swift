@@ -40,7 +40,8 @@ final class Camera:@unchecked Sendable{
     }
     func changeCameraPosition() throws{
         captureSession.beginConfiguration()
-        guard let videoDeviceInput = videoDeviceInput else{
+
+        guard let videoDeviceInput = self.videoDeviceInput else{
             return
         }
         
@@ -63,18 +64,30 @@ final class Camera:@unchecked Sendable{
             throw CameraError.notFoundCamera
         }
         
-        
         captureSession.removeInput(videoDeviceInput)
+        
         do{
             try setVideoDeviceInput(camera: camera)
+            if self.position == .back{
+                if camera.hasTorch{
+                    try camera.lockForConfiguration()
+                    camera.torchMode = .on
+                    camera.unlockForConfiguration()
+                }
+                
+            }
         }catch{
             throw error
         }
     }
     func setUp() async throws{
+        if isAlreadtSetUp{
+            return
+        }
         if isHaveCameraPermission(){
             do{
                 try setCaptureSession()
+                try setBackCameraTorch()
             }catch{
                 throw error
             }
@@ -85,6 +98,7 @@ final class Camera:@unchecked Sendable{
                     if await AVCaptureDevice.requestAccess(for: .video){
                         do{
                             try setCaptureSession()
+                            try setBackCameraTorch()
                             continuation.resume()
                         }catch{
                             continuation.resume(throwing: error)
@@ -95,6 +109,7 @@ final class Camera:@unchecked Sendable{
                 }
             }
         }
+        isAlreadtSetUp = true
     }
     
     enum CameraError: Error, LocalizedError{
@@ -123,6 +138,21 @@ final class Camera:@unchecked Sendable{
             return false
         }
     }
+    private func setBackCameraTorch() throws{
+        guard let backCamera = self.backCamera else{
+            return
+        }
+        
+        do{
+            try backCamera.lockForConfiguration()
+            backCamera.torchMode = .on
+            backCamera.unlockForConfiguration()
+
+        }
+        catch{
+            throw error
+        }
+    }
     private func setCaptureSession() throws{
         guard let frontCamera = self.frontCamera else{
             throw CameraError.notFoundCamera
@@ -130,6 +160,7 @@ final class Camera:@unchecked Sendable{
         
         captureSession.sessionPreset = .photo
         captureSession.beginConfiguration()
+        
         do{
             try setVideoDeviceInput(camera: frontCamera)
             captureSession.sessionPreset = AVCaptureSession.Preset.high
@@ -151,21 +182,25 @@ final class Camera:@unchecked Sendable{
             throw error
         }
     }
+    
+    
+    
     private func setVideoDeviceInput(camera: AVCaptureDevice) throws{
         do{
             videoDeviceInput = try AVCaptureDeviceInput(device: camera)
         }catch{
+            captureSession.commitConfiguration()
             throw error
         }
         
         if captureSession.canAddInput(videoDeviceInput!){
             captureSession.addInput(videoDeviceInput!)
-        }else{
-            captureSession.commitConfiguration()
-            return
         }
+       
+        captureSession.commitConfiguration()
     }
     //MARK: - 카메라 관련 변수
+    private var isAlreadtSetUp = false
     private let cameraStream = CameraStream()
     private let frontCamera: AVCaptureDevice?
     private let backCamera: AVCaptureDevice?

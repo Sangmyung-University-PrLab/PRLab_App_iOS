@@ -32,9 +32,33 @@ struct MetricMonitoringView: View{
                         .foregroundColor(.white)
                         .frame(height: 255)
                         .overlay{
-                            MetricChartView(store: store, metric: metric)
-                            .padding(.horizontal,20)
-                            .padding(.vertical, 20)
+                            if metric == .SpO2 || metric == .bloodPressure || metric == .bloodSugars{
+                                MetricStepChartView(store: store, metric: metric){
+                                    if $0.isEmpty{
+                                        return []
+                                    }
+                                    
+                                    if metric == .SpO2{
+                                        return [Step.SpO2(value: $0[0])]
+                                    }
+                                    else if metric == .bloodSugars{
+                                        return [Step.bloodSugar(value: $0[0])]
+                                    }
+                                    else{
+                                        return Step.bloodPressure(SYS: $0[0], DIA: $0[1])
+                                    }
+                                    
+                                    
+                                 
+                                }.padding(.horizontal,20)
+                                .padding(.vertical, 20)
+                            }
+                            else{
+                                MetricRangeChartView(store: store, metric: metric)
+                                    .padding(.horizontal,20)
+                                    .padding(.vertical, 20)
+                            }
+                            
                         }
                     if let selected = viewStore.selected, !viewStore.datas[selected, default: []].isEmpty{
                         let datas = viewStore.datas[selected, default: []]
@@ -83,26 +107,9 @@ struct MetricMonitoringView: View{
     private let formatter: NumberFormatter
 }
 
-struct MetricMonitoring_Previews: PreviewProvider {
-    static var previews: some View {
-        let value = MinMaxType(min: 40, max: 75)
-        
-        GeometryReader{proxy in
-            Capsule()
-                .foregroundColor(.blue.opacity(0.3))
-                .frame(height: 5)
-                .padding(.horizontal, 10)
-                .overlay(alignment:.leading){
-                    let inndexCapsuleWidth = proxy.size.width * CGFloat(Float(value.max - value.min) / (Metric.bpm.max - Metric.bpm.min))
-                    Capsule()
-                        .foregroundColor(.blue)
-                        .frame(width: inndexCapsuleWidth)
-                        .offset(x: CGFloat((Float(value.min) - Metric.bpm.min) / (Metric.bpm.max - Metric.bpm.min)) * proxy.size.width)
-                        
-                }.onAppear{
-                    print((Float(value.min) - Metric.bpm.min) / (Metric.bpm.max - Metric.bpm.min))
-                }
-        }.frame(width: 300,height:5)
-            
-    }
-}
+//struct MetricMonitoring_Previews: PreviewProvider {
+//    static var previews: some View {
+//        
+////        MetricMonitoringView(store: Store(initialState: MetricChart.State(), reducer: MetricChart()), metric: .bpm)
+//    }
+//}
