@@ -21,61 +21,66 @@ enum Step: Comparable & Codable & Equatable{
             return "위험"
         }
     }
-       
-    static func SpO2(value: MinMaxType<Float>) -> MinMaxType<Step>{
-        let condition: (Float) -> Step = {
-            if $0 >= 95{
-                return .normal
-            }
-            else if $0 <= 94 && $0 >= 91{
-                return .caution
-            }
-            else{
-                return .danger
-            }
+    static func SpO2(value: Float) -> Step{
+        if value >= 95{
+            return .normal
         }
-        let minStep = condition(value.min)
-        let maxStep = condition(value.max)
+        else if value <= 94 && value >= 91{
+            return .caution
+        }
+        else{
+            return .danger
+        }
+    }
+    static func SpO2(value: MinMaxType<Float>) -> MinMaxType<Step>{
+     
+        let minStep = SpO2(value: value.min)
+        let maxStep = SpO2(value: value.max)
         
         return MinMaxType(min: maxStep,max: minStep)
     }
+    static func bloodPressure(SYS: Float) -> Step{
+        if SYS < 120{
+            return Step.normal
+        }
+        else if SYS <= 120 && SYS >= 129{
+            return Step.caution
+        }
+        else{
+            return Step.danger
+        }
+    }
+    static func bloodPressure(DIA: Float) -> Step{
+        if DIA < 80{
+            return Step.normal
+        }
+        else if DIA >= 80 && DIA <= 89{
+            return Step.caution
+        }
+        else{
+            return Step.danger
+        }
+    }
     static func bloodPressure(SYS: MinMaxType<Float>, DIA: MinMaxType<Float>) -> [MinMaxType<Step>]{
-        let SYSStep = SYS.map{
-            if $0 < 120{
-                return Step.normal
-            }
-            else if $0 <= 120 && $0 >= 129{
-                return Step.caution
-            }
-            else{
-                return Step.danger
-            }
-        }
-        let DIAStep = DIA.map{
-            if $0 < 80{
-                return Step.normal
-            }
-            else if $0 >= 80 && $0 <= 89{
-                return Step.caution
-            }
-            else{
-                return Step.danger
-            }
-        }
+        let SYSStep = SYS.map{bloodPressure(SYS: $0)}
+        let DIAStep = DIA.map{bloodPressure(DIA: $0)}
         
         return [SYSStep, DIAStep]
     }
     static func bloodSugar(value: MinMaxType<Float>) -> MinMaxType<Step>{
         return value.map{
-            if $0 <= 99{
-                return .normal
-            }
-            else if $0 >= 100 && $0 <= 125{
-                return .caution
-            }
-            else{
-                return .danger
-            }
+           bloodSugar(value: $0)
+        }
+    }
+    static func bloodSugar(value:Float) -> Step{
+        if value <= 99{
+            return .normal
+        }
+        else if value >= 100 && value <= 125{
+            return .caution
+        }
+        else{
+            return .danger
         }
     }
 }

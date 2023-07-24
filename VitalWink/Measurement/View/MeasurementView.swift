@@ -16,7 +16,7 @@ struct MeasurementView: View {
     var body: some View {
         WithViewStore(self.store, observe: {$0}){viewStore in
             VStack(spacing:0){
-                CircularSegmentedPickerView(selected: viewStore.binding(\.$target), texts: ["얼굴","손가락"])
+                CircularSegmentedPickerView(selected: viewStore.binding(\.$target), texts: ["얼굴","손가락"]).disabled(viewStore.isMeasuring)
                 
                 if let image = self.image{
                     image
@@ -97,7 +97,7 @@ struct MeasurementView: View {
                 ToolbarItem(placement: .navigationBarTrailing){
                     Image(systemName: "ellipsis")
                         .font(.system(size: 12))
-                        .frame(width: 25, height: 25)
+                        .frame(width: 30, height: 30)
                         .containerShape(Rectangle())
                         .onTapGesture {
                             
