@@ -399,7 +399,7 @@ struct Measurement: ReducerProtocol{
     }
     //MARK: private
     private let nanosecond: UInt64 =  1_000_000_000
-    private let measuringDuriation: UInt64 =  1_000_000_000 * 20
+    private let measuringDuriation: UInt64 =  1_000_000_000 * 15
     @Dependency(\.camera) private var camera
     @Dependency(\.faceDetector) private var faceDetector
     @Dependency(\.measurementAPI) private var measurementAPI

@@ -23,9 +23,9 @@ struct MeasurementResultView: View {
                 MeasurmentResultColumnView(metric: "지표", value: "값")
                     .background(Color.backgroundColor.ignoresSafeArea([]))
                 MeasurmentResultColumnView(metric: "심박수", value: "\(result.bpm)")
-                MeasurmentResultColumnView(metric: "산소포화도", value: "\(result.SpO2)")
+                MeasurmentResultColumnView(metric: "산소포화도", value: Step.SpO2(value: Float(result.SpO2)).korean)
                 MeasurmentResultColumnView(metric: "호흡수", value: "\(result.RR)")
-                MeasurmentResultColumnView(metric: "스트레스", value: "\(result.stress)")
+//                MeasurmentResultColumnView(metric: "스트레스", value: "\(result.stress)")
         
                 if let BMI = result.BMI{
                     MeasurmentResultColumnView(metric: "BMI", value: "\(BMI)")
@@ -37,12 +37,12 @@ struct MeasurementResultView: View {
                     MeasurmentResultColumnView(metric: "분노지수", value: String(format: "%.2f", valence))
                 }
                 if let bloodPressure = result.bloodPressure {
-                    MeasurmentResultColumnView(metric: "혈압:수축기", value: "\(bloodPressure.SYS)")
-                    MeasurmentResultColumnView(metric: "혈압:이완기", value: "\(bloodPressure.DIA)")
+                    MeasurmentResultColumnView(metric: "혈압:수축기", value: Step.bloodPressure(SYS: Float(bloodPressure.SYS)).korean)
+                    MeasurmentResultColumnView(metric: "혈압:이완기", value: Step.bloodPressure(DIA: Float(bloodPressure.DIA)).korean)
                 }
-                if let bloodSugar = result.bloodSugar{
-                    MeasurmentResultColumnView(metric: "혈당", value: "\(bloodSugar)")
-                }
+//                if let bloodSugar = result.bloodSugar{
+//                    MeasurmentResultColumnView(metric: "혈당", value: "\(bloodSugar)")
+//                }
             }
             
             Spacer()
