@@ -157,13 +157,18 @@ final class LoginService: Sendable{
         
         return await withCheckedContinuation{continuation in
             Task{
-                for await _ in naverLoginDelgate.loginStream{
-                    guard let token = await NaverThirdPartyLoginConnection.getSharedInstance().accessToken else{
-                        continuation.resume(returning: .failure(LoginServiceError.notHaveAccessToken))
-                        return
+                do{
+                    for try await _ in naverLoginDelgate.loginStream{
+                        guard let token = await NaverThirdPartyLoginConnection.getSharedInstance().accessToken else{
+                            continuation.resume(returning: .failure(LoginServiceError.notHaveAccessToken))
+                            return
+                        }
+                        await tokenHandling(type: .naver, token: token, continuation: continuation)
+                        break
                     }
-                    await tokenHandling(type: .naver, token: token, continuation: continuation)
-                    break
+                }
+                catch{
+                    continuation.resume(returning: .failure(error))
                 }
             }
         }
