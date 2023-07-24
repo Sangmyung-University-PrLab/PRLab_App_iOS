@@ -11,21 +11,22 @@ import OSLog
 import SwiftyJSON
 
 final class NaverLoginDelegate: NSObject,NaverThirdPartyLoginConnectionDelegate, Sendable{
-    let loginStream: AsyncStream<Void>
+    let loginStream: AsyncThrowingStream<Void, Error>
     override init() {
-        var continuation: AsyncStream<Void>.Continuation!
-        loginStream = AsyncStream{
+        var continuation: AsyncThrowingStream<Void, Error>.Continuation!
+        loginStream = AsyncThrowingStream{
             continuation = $0
         }
         self.continuation = continuation
     }
     func oauth20ConnectionDidFinishRequestACTokenWithAuthCode() {
         continuation.yield()
- 
+
         return
     }
     
     func oauth20ConnectionDidFinishRequestACTokenWithRefreshToken() {
+        continuation.yield()
         return
     }
     
@@ -36,7 +37,8 @@ final class NaverLoginDelegate: NSObject,NaverThirdPartyLoginConnectionDelegate,
     func oauth20Connection(_ oauthConnection: NaverThirdPartyLoginConnection!, didFailWithError error: Error!) {
         let message = error.localizedDescription
         os_log(.error, log: .login, "%@", message)
+        continuation.finish(throwing: error)
     }
     
-    private let continuation: AsyncStream<Void>.Continuation
+    private let continuation: AsyncThrowingStream<Void, Error>.Continuation
 }
