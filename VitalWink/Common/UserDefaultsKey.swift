@@ -9,4 +9,5 @@ import Foundation
 enum UserDefaultsKey: String{
     case isShowedFingerHelp = "is_showed_finger_help"
     case isShowedFaceHelp = "is_showed_face_help"
+    case accessToken = "access_token"
 }

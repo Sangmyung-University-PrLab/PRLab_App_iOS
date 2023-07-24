@@ -26,7 +26,7 @@ struct LoginView: View{
                         Image("logo")
                             .resizable()
                             .aspectRatio(contentMode: .fit)
-                            .frame(width:61.6, height:72.06)
+                            .frame(width:100)
                             .padding(.bottom, 50)
                         
                         TextField("아이디", text: viewStore.binding(\.$id))

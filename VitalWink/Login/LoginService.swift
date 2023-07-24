@@ -117,7 +117,6 @@ final class LoginService: Sendable{
         }
     }
     private func kakaoLogin() async -> Result<Status, Error>{
-       
         return await withCheckedContinuation{continuation in
             let completion: (OAuthToken?, Error?) -> Void = {token, error in
  
@@ -208,7 +207,7 @@ final class LoginService: Sendable{
             }
             
             if statusCode == 404{
-                UserDefaults.standard.set(token, forKey: "access_token")
+                UserDefaults.standard.set(token, forKey: UserDefaultsKey.accessToken.rawValue)
                 continuation.resume(returning:.success(.shouldSignUp))
             }
             else{
