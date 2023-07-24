@@ -7,12 +7,120 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		061ED9EF2A400E0C00B04572 /* SignUpStateProperty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 061ED9EE2A400E0C00B04572 /* SignUpStateProperty.swift */; };
+		0629A2182A204F70007B864B /* VideoWriter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0629A2172A204F70007B864B /* VideoWriter.swift */; };
+		0629A21A2A208C18007B864B /* NaverLoginDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0629A2192A208C18007B864B /* NaverLoginDelegate.swift */; };
+		0629A21C2A208C91007B864B /* OSLog + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0629A21B2A208C91007B864B /* OSLog + Extension.swift */; };
+		0629A2212A25B97E007B864B /* FaceDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0629A21E2A25B97E007B864B /* FaceDetector.swift */; };
+		0629A2222A25B97E007B864B /* OpenCVWrapper.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0629A2202A25B97E007B864B /* OpenCVWrapper.mm */; };
+		0629A2242A25C8CF007B864B /* Measurement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0629A2232A25C8CF007B864B /* Measurement.swift */; };
+		0629A2262A25DD3E007B864B /* MeasurementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0629A2252A25DD3E007B864B /* MeasurementView.swift */; };
+		063C16112A0B62F400E07141 /* FaceDetectorTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 063C16102A0B62F300E07141 /* FaceDetectorTest.swift */; };
+		063C16142A0B645100E07141 /* UIImage + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 063C16132A0B645100E07141 /* UIImage + Extension.swift */; };
+		063C161E2A0DE18100E07141 /* Dependencies in Frameworks */ = {isa = PBXBuildFile; productRef = 063C161D2A0DE18100E07141 /* Dependencies */; };
+		063C16202A0DE2B600E07141 /* DependencyValues + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 063C161F2A0DE2B600E07141 /* DependencyValues + Extension.swift */; };
+		063C16272A0E01DB00E07141 /* CameraStream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 063C16262A0E01DB00E07141 /* CameraStream.swift */; };
 		064B04BA2A08DAAB00230FBC /* VitalWinkApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 064B04B92A08DAAB00230FBC /* VitalWinkApp.swift */; };
 		064B04BE2A08DAAC00230FBC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 064B04BD2A08DAAC00230FBC /* Assets.xcassets */; };
 		064B04C12A08DAAC00230FBC /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 064B04C02A08DAAC00230FBC /* Preview Assets.xcassets */; };
-		064B04CB2A08DAAC00230FBC /* VitalWinkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 064B04CA2A08DAAC00230FBC /* VitalWinkTests.swift */; };
+		064B04CB2A08DAAC00230FBC /* CameraTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 064B04CA2A08DAAC00230FBC /* CameraTest.swift */; };
 		064B04D52A08DAAC00230FBC /* VitalWinkUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 064B04D42A08DAAC00230FBC /* VitalWinkUITests.swift */; };
 		064B04D72A08DAAC00230FBC /* VitalWinkUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 064B04D62A08DAAC00230FBC /* VitalWinkUITestsLaunchTests.swift */; };
+		064B04E72A08F14800230FBC /* Camera.swift in Sources */ = {isa = PBXBuildFile; fileRef = 064B04E62A08F14800230FBC /* Camera.swift */; };
+		065C00C12A305C6F00054387 /* Font + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065C00C02A305C6F00054387 /* Font + Extension.swift */; };
+		065C00C32A3060F400054387 /* Color + Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065C00C22A3060F400054387 /* Color + Extensions.swift */; };
+		065C00C62A30694500054387 /* VitalWinkTextFieldStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065C00C52A30694500054387 /* VitalWinkTextFieldStyle.swift */; };
+		065C00D02A307BB100054387 /* Inter-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 065C00C72A307BB100054387 /* Inter-Regular.ttf */; };
+		065C00D12A307BB100054387 /* Inter-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 065C00C82A307BB100054387 /* Inter-SemiBold.ttf */; };
+		065C00D22A307BB100054387 /* Inter-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 065C00C92A307BB100054387 /* Inter-Thin.ttf */; };
+		065C00D32A307BB100054387 /* Inter-ExtraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 065C00CA2A307BB100054387 /* Inter-ExtraLight.ttf */; };
+		065C00D42A307BB100054387 /* Inter-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 065C00CB2A307BB100054387 /* Inter-Black.ttf */; };
+		065C00D52A307BB100054387 /* Inter-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 065C00CC2A307BB100054387 /* Inter-ExtraBold.ttf */; };
+		065C00D62A307BB100054387 /* Inter-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 065C00CD2A307BB100054387 /* Inter-Light.ttf */; };
+		065C00D72A307BB100054387 /* Inter-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 065C00CE2A307BB100054387 /* Inter-Bold.ttf */; };
+		065C00D82A307BB100054387 /* Inter-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 065C00CF2A307BB100054387 /* Inter-Medium.ttf */; };
+		065C00DB2A31B08000054387 /* LoginRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065C00DA2A31B08000054387 /* LoginRouter.swift */; };
+		065C00DD2A31B8B600054387 /* LoginAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065C00DC2A31B8B600054387 /* LoginAPI.swift */; };
+		065C00E12A32C66B00054387 /* VitalWinkAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065C00E02A32C66B00054387 /* VitalWinkAlert.swift */; };
+		065C00E32A32D22800054387 /* UIApplication + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065C00E22A32D22800054387 /* UIApplication + Extension.swift */; };
+		065C00E62A32E04400054387 /* VitalWinkAlertButtonBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065C00E52A32E04400054387 /* VitalWinkAlertButtonBuilder.swift */; };
+		065C00E82A32E11A00054387 /* VitalWinkButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065C00E72A32E11A00054387 /* VitalWinkButtonStyle.swift */; };
+		065C00EA2A32EBD400054387 /* View + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065C00E92A32EBD400054387 /* View + Extension.swift */; };
+		065C00EE2A34393900054387 /* VitalWinkAlertButtonState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065C00ED2A34393900054387 /* VitalWinkAlertButtonState.swift */; };
+		065C00F02A34509500054387 /* VitalWinkAlertMessageState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065C00EF2A34509500054387 /* VitalWinkAlertMessageState.swift */; };
+		065C00F62A35933E00054387 /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065C00F52A35933E00054387 /* SignUpView.swift */; };
+		065C00F82A3595F500054387 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065C00F72A3595F500054387 /* User.swift */; };
+		065C00FA2A35B0E100054387 /* VitialWinkFormSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065C00F92A35B0E100054387 /* VitialWinkFormSection.swift */; };
+		065C00FC2A35BA6000054387 /* CircularSegmentedPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065C00FB2A35BA6000054387 /* CircularSegmentedPickerView.swift */; };
+		065C01002A37FFB100054387 /* FindIdView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065C00FF2A37FFB100054387 /* FindIdView.swift */; };
+		065C01022A3802D600054387 /* SignUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065C01012A3802D600054387 /* SignUp.swift */; };
+		065C01042A3809C100054387 /* FindUserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065C01032A3809C100054387 /* FindUserInfo.swift */; };
+		065C01062A399AAB00054387 /* FindPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065C01052A399AAB00054387 /* FindPasswordView.swift */; };
+		065C01082A3AA58300054387 /* ChangePassword.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065C01072A3AA58300054387 /* ChangePassword.swift */; };
+		065C010A2A3AAE6600054387 /* ChangePasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065C01092A3AAE6600054387 /* ChangePasswordView.swift */; };
+		065C010C2A3C22EF00054387 /* LoginService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065C010B2A3C22EF00054387 /* LoginService.swift */; };
+		065C010E2A3C39A100054387 /* SnsUserInfoService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065C010D2A3C39A100054387 /* SnsUserInfoService.swift */; };
+		0663C4492A19FF2A00B85ABF /* MeasurementAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0663C4482A19FF2A00B85ABF /* MeasurementAPI.swift */; };
+		0663C44B2A19FFA700B85ABF /* MeasurementRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0663C44A2A19FFA700B85ABF /* MeasurementRouter.swift */; };
+		0663C4562A1A172100B85ABF /* MeasurementAPITest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0663C4552A1A172100B85ABF /* MeasurementAPITest.swift */; };
+		0663C4582A1A17F200B85ABF /* MockMeasurementProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0663C4572A1A17F200B85ABF /* MockMeasurementProtocol.swift */; };
+		0663C45A2A1A334300B85ABF /* VitalWinkUploadableRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0663C4592A1A334300B85ABF /* VitalWinkUploadableRouter.swift */; };
+		0663C45E2A1A42BD00B85ABF /* Publisher + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0663C45D2A1A42BD00B85ABF /* Publisher + Extension.swift */; };
+		0663C4602A1B25ED00B85ABF /* RecentData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0663C45F2A1B25ED00B85ABF /* RecentData.swift */; };
+		0663C4622A1B262600B85ABF /* ImageAnalysisData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0663C4612A1B262600B85ABF /* ImageAnalysisData.swift */; };
+		0663C4642A1B264900B85ABF /* BloodPressure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0663C4632A1B264900B85ABF /* BloodPressure.swift */; };
+		0663C4662A1B3FCB00B85ABF /* MetricData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0663C4652A1B3FCB00B85ABF /* MetricData.swift */; };
+		0663C4682A1B409E00B85ABF /* MetricDataResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0663C4672A1B409E00B85ABF /* MetricDataResponse.swift */; };
+		0663C46A2A1B445E00B85ABF /* ExpressionAnalysisMetricValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0663C4692A1B445E00B85ABF /* ExpressionAnalysisMetricValue.swift */; };
+		0663C46C2A1B489100B85ABF /* BloodPressureMetricValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0663C46B2A1B489100B85ABF /* BloodPressureMetricValue.swift */; };
+		0663C4702A1C743900B85ABF /* MinMaxType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0663C46F2A1C743900B85ABF /* MinMaxType.swift */; };
+		0663C4722A1C7D3100B85ABF /* MeasurementResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0663C4712A1C7D3100B85ABF /* MeasurementResult.swift */; };
+		067AD00E2A4984BA002E39B1 /* MeasurementResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 067AD00D2A4984BA002E39B1 /* MeasurementResultView.swift */; };
+		067AD0102A4A7461002E39B1 /* MeasurmentResultColumnView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 067AD00F2A4A7461002E39B1 /* MeasurmentResultColumnView.swift */; };
+		067AD0122A4A7CFD002E39B1 /* VitalWinkAlertState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 067AD0112A4A7CFD002E39B1 /* VitalWinkAlertState.swift */; };
+		067AD0142A4A9050002E39B1 /* VitalWinkContentAlertState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 067AD0132A4A9050002E39B1 /* VitalWinkContentAlertState.swift */; };
+		067AD0172A4BF007002E39B1 /* RecentDataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 067AD0162A4BF007002E39B1 /* RecentDataView.swift */; };
+		067AD01A2A4BF070002E39B1 /* MetricCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 067AD0192A4BF070002E39B1 /* MetricCardView.swift */; };
+		067AD01C2A4BFBBC002E39B1 /* Monitoring.swift in Sources */ = {isa = PBXBuildFile; fileRef = 067AD01B2A4BFBBC002E39B1 /* Monitoring.swift */; };
+		067AD01F2A4BFCDC002E39B1 /* ExpressionAnalysisNumericData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 067AD01E2A4BFCDC002E39B1 /* ExpressionAnalysisNumericData.swift */; };
+		067AD0232A4BFEC2002E39B1 /* MonitoringRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 067AD0222A4BFEC2002E39B1 /* MonitoringRouter.swift */; };
+		067AD0252A4BFF71002E39B1 /* MonitoringAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 067AD0242A4BFF71002E39B1 /* MonitoringAPI.swift */; };
+		067AD0292A4D1E7E002E39B1 /* MetricRangeChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 067AD0282A4D1E7E002E39B1 /* MetricRangeChartView.swift */; };
+		067AD02B2A4E610F002E39B1 /* MetricMonitoringView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 067AD02A2A4E610F002E39B1 /* MetricMonitoringView.swift */; };
+		067AD02E2A4E94B3002E39B1 /* DataBaseType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 067AD02D2A4E94B3002E39B1 /* DataBaseType.swift */; };
+		068851492A48410800403AE7 /* ExpressionAnalysisData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 068851482A48410800403AE7 /* ExpressionAnalysisData.swift */; };
+		06A8AB5E2A1DF06100004B62 /* Login.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A8AB5D2A1DF06100004B62 /* Login.swift */; };
+		06A8AB612A1DF14E00004B62 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 06A8AB602A1DF14E00004B62 /* ComposableArchitecture */; };
+		06A8AB632A1DF4A800004B62 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A8AB622A1DF4A800004B62 /* LoginView.swift */; };
+		06BCCD042A527534003DA1E2 /* MetricChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06BCCD032A527534003DA1E2 /* MetricChart.swift */; };
+		06BCCD062A52B129003DA1E2 /* Metric.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06BCCD052A52B129003DA1E2 /* Metric.swift */; };
+		06BCCD082A52B136003DA1E2 /* Period.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06BCCD072A52B136003DA1E2 /* Period.swift */; };
+		06BCCD0A2A52B812003DA1E2 /* MinMaxCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06BCCD092A52B812003DA1E2 /* MinMaxCardView.swift */; };
+		06BCCD0C2A53DF96003DA1E2 /* Date + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06BCCD0B2A53DF95003DA1E2 /* Date + Extension.swift */; };
+		06BCCD0E2A5BC251003DA1E2 /* PieChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06BCCD0D2A5BC251003DA1E2 /* PieChartView.swift */; };
+		06BCCD102A5BD878003DA1E2 /* Expression.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06BCCD0F2A5BD878003DA1E2 /* Expression.swift */; };
+		06BCCD142A5E3ECE003DA1E2 /* Menu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06BCCD132A5E3ECE003DA1E2 /* Menu.swift */; };
+		06BCCD162A5E8CB7003DA1E2 /* VitalWinkMenuAlertState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06BCCD152A5E8CB7003DA1E2 /* VitalWinkMenuAlertState.swift */; };
+		06BCCD182A5E8D8F003DA1E2 /* VitalWinkAlertPlainButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06BCCD172A5E8D8F003DA1E2 /* VitalWinkAlertPlainButtonStyle.swift */; };
+		06BCCD252A60F8F3003DA1E2 /* VitalWinkBackButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06BCCD242A60F8F3003DA1E2 /* VitalWinkBackButton.swift */; };
+		06BCCD272A611156003DA1E2 /* MeasurementHelpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06BCCD262A611156003DA1E2 /* MeasurementHelpView.swift */; };
+		06BCCD2A2A611424003DA1E2 /* face_help.gif in Resources */ = {isa = PBXBuildFile; fileRef = 06BCCD282A611424003DA1E2 /* face_help.gif */; };
+		06BCCD2B2A611424003DA1E2 /* finger_help.gif in Resources */ = {isa = PBXBuildFile; fileRef = 06BCCD292A611424003DA1E2 /* finger_help.gif */; };
+		06BCCD2D2A611465003DA1E2 /* GIFView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06BCCD2C2A611465003DA1E2 /* GIFView.swift */; };
+		06BCCD2F2A611BD9003DA1E2 /* UserDefaultsKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06BCCD2E2A611BD9003DA1E2 /* UserDefaultsKey.swift */; };
+		06BCCD312A666FC9003DA1E2 /* MetricStepChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06BCCD302A666FC9003DA1E2 /* MetricStepChartView.swift */; };
+		06BCCD332A667076003DA1E2 /* Step.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06BCCD322A667076003DA1E2 /* Step.swift */; };
+		06EDBFA92A414353002CCC40 /* ASAuthorizationControllerDelgateImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06EDBFA82A414353002CCC40 /* ASAuthorizationControllerDelgateImpl.swift */; };
+		06F1809B2A15C64300F1CE90 /* VitalWinkAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F1809A2A15C64300F1CE90 /* VitalWinkAPI.swift */; };
+		06F1809F2A15DEFC00F1CE90 /* VitalWinkRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F1809E2A15DEFC00F1CE90 /* VitalWinkRouter.swift */; };
+		06F180A22A15E95C00F1CE90 /* AuthInterceptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F180A12A15E95C00F1CE90 /* AuthInterceptor.swift */; };
+		06F180A42A15EAF400F1CE90 /* KeyChainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F180A32A15EAF400F1CE90 /* KeyChainManager.swift */; };
+		06F180A62A15F28800F1CE90 /* VitalWinkAPIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F180A52A15F28800F1CE90 /* VitalWinkAPIError.swift */; };
+		06F180AA2A1602CC00F1CE90 /* UserAPITest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F180A92A1602CC00F1CE90 /* UserAPITest.swift */; };
+		06F180B42A17403C00F1CE90 /* UserAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F180B02A17403C00F1CE90 /* UserAPI.swift */; };
+		06F180B52A17403C00F1CE90 /* UserRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F180B12A17403C00F1CE90 /* UserRouter.swift */; };
+		06F180B62A17403C00F1CE90 /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F180B22A17403C00F1CE90 /* UserModel.swift */; };
+		06F180B72A17403C00F1CE90 /* MockUserProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F180B32A17403C00F1CE90 /* MockUserProtocol.swift */; };
 		723974D5A26EA177305C32F5 /* Pods_VitalWink.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A5DE7A073E2799C317830FB7 /* Pods_VitalWink.framework */; };
 		899F51F1463369C41E3C4E00 /* Pods_VitalWinkTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D50B57F520053C5D372806C0 /* Pods_VitalWinkTests.framework */; };
 		C49198033F46F87165FCBC44 /* Pods_VitalWink_VitalWinkUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0857841D777CC5C81601A7FC /* Pods_VitalWink_VitalWinkUITests.framework */; };
@@ -36,16 +144,126 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		061ED9EE2A400E0C00B04572 /* SignUpStateProperty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpStateProperty.swift; sourceTree = "<group>"; };
+		0629A2172A204F70007B864B /* VideoWriter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoWriter.swift; sourceTree = "<group>"; };
+		0629A2192A208C18007B864B /* NaverLoginDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NaverLoginDelegate.swift; sourceTree = "<group>"; };
+		0629A21B2A208C91007B864B /* OSLog + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OSLog + Extension.swift"; sourceTree = "<group>"; };
+		0629A21E2A25B97E007B864B /* FaceDetector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FaceDetector.swift; sourceTree = "<group>"; };
+		0629A21F2A25B97E007B864B /* OpenCVWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenCVWrapper.h; sourceTree = "<group>"; };
+		0629A2202A25B97E007B864B /* OpenCVWrapper.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = OpenCVWrapper.mm; sourceTree = "<group>"; };
+		0629A2232A25C8CF007B864B /* Measurement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Measurement.swift; sourceTree = "<group>"; };
+		0629A2252A25DD3E007B864B /* MeasurementView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeasurementView.swift; sourceTree = "<group>"; };
+		063C16102A0B62F300E07141 /* FaceDetectorTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceDetectorTest.swift; sourceTree = "<group>"; };
+		063C16132A0B645100E07141 /* UIImage + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage + Extension.swift"; sourceTree = "<group>"; };
+		063C16152A0CAC9E00E07141 /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
+		063C16172A0CAD9900E07141 /* VitalWink-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "VitalWink-Bridging-Header.h"; sourceTree = "<group>"; };
+		063C161F2A0DE2B600E07141 /* DependencyValues + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DependencyValues + Extension.swift"; sourceTree = "<group>"; };
+		063C16262A0E01DB00E07141 /* CameraStream.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraStream.swift; sourceTree = "<group>"; };
 		064B04B62A08DAAB00230FBC /* VitalWink.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VitalWink.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		064B04B92A08DAAB00230FBC /* VitalWinkApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VitalWinkApp.swift; sourceTree = "<group>"; };
 		064B04BD2A08DAAC00230FBC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		064B04C02A08DAAC00230FBC /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		064B04C62A08DAAC00230FBC /* VitalWinkTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VitalWinkTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		064B04CA2A08DAAC00230FBC /* VitalWinkTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VitalWinkTests.swift; sourceTree = "<group>"; };
+		064B04CA2A08DAAC00230FBC /* CameraTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraTest.swift; sourceTree = "<group>"; };
 		064B04D02A08DAAC00230FBC /* VitalWinkUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VitalWinkUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		064B04D42A08DAAC00230FBC /* VitalWinkUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VitalWinkUITests.swift; sourceTree = "<group>"; };
 		064B04D62A08DAAC00230FBC /* VitalWinkUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VitalWinkUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		064B04E32A08DD8000230FBC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		064B04E62A08F14800230FBC /* Camera.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Camera.swift; sourceTree = "<group>"; };
+		065C00C02A305C6F00054387 /* Font + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Font + Extension.swift"; sourceTree = "<group>"; };
+		065C00C22A3060F400054387 /* Color + Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color + Extensions.swift"; sourceTree = "<group>"; };
+		065C00C52A30694500054387 /* VitalWinkTextFieldStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VitalWinkTextFieldStyle.swift; sourceTree = "<group>"; };
+		065C00C72A307BB100054387 /* Inter-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-Regular.ttf"; sourceTree = "<group>"; };
+		065C00C82A307BB100054387 /* Inter-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-SemiBold.ttf"; sourceTree = "<group>"; };
+		065C00C92A307BB100054387 /* Inter-Thin.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-Thin.ttf"; sourceTree = "<group>"; };
+		065C00CA2A307BB100054387 /* Inter-ExtraLight.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-ExtraLight.ttf"; sourceTree = "<group>"; };
+		065C00CB2A307BB100054387 /* Inter-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-Black.ttf"; sourceTree = "<group>"; };
+		065C00CC2A307BB100054387 /* Inter-ExtraBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-ExtraBold.ttf"; sourceTree = "<group>"; };
+		065C00CD2A307BB100054387 /* Inter-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-Light.ttf"; sourceTree = "<group>"; };
+		065C00CE2A307BB100054387 /* Inter-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-Bold.ttf"; sourceTree = "<group>"; };
+		065C00CF2A307BB100054387 /* Inter-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-Medium.ttf"; sourceTree = "<group>"; };
+		065C00DA2A31B08000054387 /* LoginRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginRouter.swift; sourceTree = "<group>"; };
+		065C00DC2A31B8B600054387 /* LoginAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginAPI.swift; sourceTree = "<group>"; };
+		065C00E02A32C66B00054387 /* VitalWinkAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VitalWinkAlert.swift; sourceTree = "<group>"; };
+		065C00E22A32D22800054387 /* UIApplication + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication + Extension.swift"; sourceTree = "<group>"; };
+		065C00E52A32E04400054387 /* VitalWinkAlertButtonBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VitalWinkAlertButtonBuilder.swift; sourceTree = "<group>"; };
+		065C00E72A32E11A00054387 /* VitalWinkButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VitalWinkButtonStyle.swift; sourceTree = "<group>"; };
+		065C00E92A32EBD400054387 /* View + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View + Extension.swift"; sourceTree = "<group>"; };
+		065C00ED2A34393900054387 /* VitalWinkAlertButtonState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VitalWinkAlertButtonState.swift; sourceTree = "<group>"; };
+		065C00EF2A34509500054387 /* VitalWinkAlertMessageState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VitalWinkAlertMessageState.swift; sourceTree = "<group>"; };
+		065C00F52A35933E00054387 /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
+		065C00F72A3595F500054387 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		065C00F92A35B0E100054387 /* VitialWinkFormSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VitialWinkFormSection.swift; sourceTree = "<group>"; };
+		065C00FB2A35BA6000054387 /* CircularSegmentedPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularSegmentedPickerView.swift; sourceTree = "<group>"; };
+		065C00FF2A37FFB100054387 /* FindIdView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindIdView.swift; sourceTree = "<group>"; };
+		065C01012A3802D600054387 /* SignUp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUp.swift; sourceTree = "<group>"; };
+		065C01032A3809C100054387 /* FindUserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindUserInfo.swift; sourceTree = "<group>"; };
+		065C01052A399AAB00054387 /* FindPasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindPasswordView.swift; sourceTree = "<group>"; };
+		065C01072A3AA58300054387 /* ChangePassword.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePassword.swift; sourceTree = "<group>"; };
+		065C01092A3AAE6600054387 /* ChangePasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePasswordView.swift; sourceTree = "<group>"; };
+		065C010B2A3C22EF00054387 /* LoginService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginService.swift; sourceTree = "<group>"; };
+		065C010D2A3C39A100054387 /* SnsUserInfoService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnsUserInfoService.swift; sourceTree = "<group>"; };
+		0663C4482A19FF2A00B85ABF /* MeasurementAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeasurementAPI.swift; sourceTree = "<group>"; };
+		0663C44A2A19FFA700B85ABF /* MeasurementRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeasurementRouter.swift; sourceTree = "<group>"; };
+		0663C4552A1A172100B85ABF /* MeasurementAPITest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeasurementAPITest.swift; sourceTree = "<group>"; };
+		0663C4572A1A17F200B85ABF /* MockMeasurementProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockMeasurementProtocol.swift; sourceTree = "<group>"; };
+		0663C4592A1A334300B85ABF /* VitalWinkUploadableRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VitalWinkUploadableRouter.swift; sourceTree = "<group>"; };
+		0663C45D2A1A42BD00B85ABF /* Publisher + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Publisher + Extension.swift"; sourceTree = "<group>"; };
+		0663C45F2A1B25ED00B85ABF /* RecentData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentData.swift; sourceTree = "<group>"; };
+		0663C4612A1B262600B85ABF /* ImageAnalysisData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageAnalysisData.swift; sourceTree = "<group>"; };
+		0663C4632A1B264900B85ABF /* BloodPressure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BloodPressure.swift; sourceTree = "<group>"; };
+		0663C4652A1B3FCB00B85ABF /* MetricData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetricData.swift; sourceTree = "<group>"; };
+		0663C4672A1B409E00B85ABF /* MetricDataResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetricDataResponse.swift; sourceTree = "<group>"; };
+		0663C4692A1B445E00B85ABF /* ExpressionAnalysisMetricValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpressionAnalysisMetricValue.swift; sourceTree = "<group>"; };
+		0663C46B2A1B489100B85ABF /* BloodPressureMetricValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BloodPressureMetricValue.swift; sourceTree = "<group>"; };
+		0663C46F2A1C743900B85ABF /* MinMaxType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MinMaxType.swift; sourceTree = "<group>"; };
+		0663C4712A1C7D3100B85ABF /* MeasurementResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeasurementResult.swift; sourceTree = "<group>"; };
+		067AD00D2A4984BA002E39B1 /* MeasurementResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeasurementResultView.swift; sourceTree = "<group>"; };
+		067AD00F2A4A7461002E39B1 /* MeasurmentResultColumnView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeasurmentResultColumnView.swift; sourceTree = "<group>"; };
+		067AD0112A4A7CFD002E39B1 /* VitalWinkAlertState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VitalWinkAlertState.swift; sourceTree = "<group>"; };
+		067AD0132A4A9050002E39B1 /* VitalWinkContentAlertState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VitalWinkContentAlertState.swift; sourceTree = "<group>"; };
+		067AD0162A4BF007002E39B1 /* RecentDataView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentDataView.swift; sourceTree = "<group>"; };
+		067AD0192A4BF070002E39B1 /* MetricCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetricCardView.swift; sourceTree = "<group>"; };
+		067AD01B2A4BFBBC002E39B1 /* Monitoring.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Monitoring.swift; sourceTree = "<group>"; };
+		067AD01E2A4BFCDC002E39B1 /* ExpressionAnalysisNumericData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpressionAnalysisNumericData.swift; sourceTree = "<group>"; };
+		067AD0222A4BFEC2002E39B1 /* MonitoringRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonitoringRouter.swift; sourceTree = "<group>"; };
+		067AD0242A4BFF71002E39B1 /* MonitoringAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonitoringAPI.swift; sourceTree = "<group>"; };
+		067AD0282A4D1E7E002E39B1 /* MetricRangeChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetricRangeChartView.swift; sourceTree = "<group>"; };
+		067AD02A2A4E610F002E39B1 /* MetricMonitoringView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetricMonitoringView.swift; sourceTree = "<group>"; };
+		067AD02D2A4E94B3002E39B1 /* DataBaseType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataBaseType.swift; sourceTree = "<group>"; };
+		068851482A48410800403AE7 /* ExpressionAnalysisData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpressionAnalysisData.swift; sourceTree = "<group>"; };
+		06A8AB5D2A1DF06100004B62 /* Login.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Login.swift; sourceTree = "<group>"; };
+		06A8AB622A1DF4A800004B62 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		06B99E242A416A5F00B5E78E /* VitalWink.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = VitalWink.entitlements; sourceTree = "<group>"; };
+		06BCCD032A527534003DA1E2 /* MetricChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetricChart.swift; sourceTree = "<group>"; };
+		06BCCD052A52B129003DA1E2 /* Metric.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Metric.swift; sourceTree = "<group>"; };
+		06BCCD072A52B136003DA1E2 /* Period.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Period.swift; sourceTree = "<group>"; };
+		06BCCD092A52B812003DA1E2 /* MinMaxCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MinMaxCardView.swift; sourceTree = "<group>"; };
+		06BCCD0B2A53DF95003DA1E2 /* Date + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date + Extension.swift"; sourceTree = "<group>"; };
+		06BCCD0D2A5BC251003DA1E2 /* PieChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PieChartView.swift; sourceTree = "<group>"; };
+		06BCCD0F2A5BD878003DA1E2 /* Expression.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Expression.swift; sourceTree = "<group>"; };
+		06BCCD132A5E3ECE003DA1E2 /* Menu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Menu.swift; sourceTree = "<group>"; };
+		06BCCD152A5E8CB7003DA1E2 /* VitalWinkMenuAlertState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VitalWinkMenuAlertState.swift; sourceTree = "<group>"; };
+		06BCCD172A5E8D8F003DA1E2 /* VitalWinkAlertPlainButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VitalWinkAlertPlainButtonStyle.swift; sourceTree = "<group>"; };
+		06BCCD242A60F8F3003DA1E2 /* VitalWinkBackButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VitalWinkBackButton.swift; sourceTree = "<group>"; };
+		06BCCD262A611156003DA1E2 /* MeasurementHelpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeasurementHelpView.swift; sourceTree = "<group>"; };
+		06BCCD282A611424003DA1E2 /* face_help.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = face_help.gif; sourceTree = "<group>"; };
+		06BCCD292A611424003DA1E2 /* finger_help.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = finger_help.gif; sourceTree = "<group>"; };
+		06BCCD2C2A611465003DA1E2 /* GIFView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GIFView.swift; sourceTree = "<group>"; };
+		06BCCD2E2A611BD9003DA1E2 /* UserDefaultsKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsKey.swift; sourceTree = "<group>"; };
+		06BCCD302A666FC9003DA1E2 /* MetricStepChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetricStepChartView.swift; sourceTree = "<group>"; };
+		06BCCD322A667076003DA1E2 /* Step.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Step.swift; sourceTree = "<group>"; };
+		06EDBFA82A414353002CCC40 /* ASAuthorizationControllerDelgateImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ASAuthorizationControllerDelgateImpl.swift; sourceTree = "<group>"; };
+		06F1809A2A15C64300F1CE90 /* VitalWinkAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VitalWinkAPI.swift; sourceTree = "<group>"; };
+		06F1809E2A15DEFC00F1CE90 /* VitalWinkRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VitalWinkRouter.swift; sourceTree = "<group>"; };
+		06F180A12A15E95C00F1CE90 /* AuthInterceptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthInterceptor.swift; sourceTree = "<group>"; };
+		06F180A32A15EAF400F1CE90 /* KeyChainManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyChainManager.swift; sourceTree = "<group>"; };
+		06F180A52A15F28800F1CE90 /* VitalWinkAPIError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VitalWinkAPIError.swift; sourceTree = "<group>"; };
+		06F180A92A1602CC00F1CE90 /* UserAPITest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAPITest.swift; sourceTree = "<group>"; };
+		06F180B02A17403C00F1CE90 /* UserAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserAPI.swift; sourceTree = "<group>"; };
+		06F180B12A17403C00F1CE90 /* UserRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserRouter.swift; sourceTree = "<group>"; };
+		06F180B22A17403C00F1CE90 /* UserModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
+		06F180B32A17403C00F1CE90 /* MockUserProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockUserProtocol.swift; sourceTree = "<group>"; };
 		0857841D777CC5C81601A7FC /* Pods_VitalWink_VitalWinkUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_VitalWink_VitalWinkUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2A47F3C14603A90C365056B2 /* Pods-VitalWink.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VitalWink.debug.xcconfig"; path = "Target Support Files/Pods-VitalWink/Pods-VitalWink.debug.xcconfig"; sourceTree = "<group>"; };
 		2C6F199A9B1A255059C245B6 /* Pods-VitalWink-VitalWinkUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VitalWink-VitalWinkUITests.release.xcconfig"; path = "Target Support Files/Pods-VitalWink-VitalWinkUITests/Pods-VitalWink-VitalWinkUITests.release.xcconfig"; sourceTree = "<group>"; };
@@ -63,6 +281,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				723974D5A26EA177305C32F5 /* Pods_VitalWink.framework in Frameworks */,
+				063C161E2A0DE18100E07141 /* Dependencies in Frameworks */,
+				06A8AB612A1DF14E00004B62 /* ComposableArchitecture in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -85,6 +305,41 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0629A21D2A25B97E007B864B /* FaceDetector */ = {
+			isa = PBXGroup;
+			children = (
+				0629A21E2A25B97E007B864B /* FaceDetector.swift */,
+				0629A21F2A25B97E007B864B /* OpenCVWrapper.h */,
+				0629A2202A25B97E007B864B /* OpenCVWrapper.mm */,
+			);
+			path = FaceDetector;
+			sourceTree = "<group>";
+		};
+		063C16122A0B644100E07141 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				063C16132A0B645100E07141 /* UIImage + Extension.swift */,
+				063C161F2A0DE2B600E07141 /* DependencyValues + Extension.swift */,
+				0663C45D2A1A42BD00B85ABF /* Publisher + Extension.swift */,
+				0629A21B2A208C91007B864B /* OSLog + Extension.swift */,
+				065C00C02A305C6F00054387 /* Font + Extension.swift */,
+				065C00C22A3060F400054387 /* Color + Extensions.swift */,
+				065C00E22A32D22800054387 /* UIApplication + Extension.swift */,
+				065C00E92A32EBD400054387 /* View + Extension.swift */,
+				06BCCD0B2A53DF95003DA1E2 /* Date + Extension.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		063C16282A0E03AD00E07141 /* Camera */ = {
+			isa = PBXGroup;
+			children = (
+				063C16262A0E01DB00E07141 /* CameraStream.swift */,
+				064B04E62A08F14800230FBC /* Camera.swift */,
+			);
+			path = Camera;
+			sourceTree = "<group>";
+		};
 		064B04AD2A08DAAB00230FBC = {
 			isa = PBXGroup;
 			children = (
@@ -110,10 +365,22 @@
 		064B04B82A08DAAB00230FBC /* VitalWink */ = {
 			isa = PBXGroup;
 			children = (
+				06BCCD282A611424003DA1E2 /* face_help.gif */,
+				06BCCD292A611424003DA1E2 /* finger_help.gif */,
+				06B99E242A416A5F00B5E78E /* VitalWink.entitlements */,
+				063C16152A0CAC9E00E07141 /* PrefixHeader.pch */,
 				064B04E32A08DD8000230FBC /* Info.plist */,
 				064B04B92A08DAAB00230FBC /* VitalWinkApp.swift */,
 				064B04BD2A08DAAC00230FBC /* Assets.xcassets */,
+				0629A21D2A25B97E007B864B /* FaceDetector */,
+				065C00DE2A32C62F00054387 /* Common */,
 				064B04BF2A08DAAC00230FBC /* Preview Content */,
+				063C16282A0E03AD00E07141 /* Camera */,
+				06A8AB5C2A1DEFBD00004B62 /* Login */,
+				0663C4472A19FEE600B85ABF /* Measurement */,
+				06F180AF2A17403C00F1CE90 /* User */,
+				067AD0152A4BEF53002E39B1 /* Monitoring */,
+				063C16172A0CAD9900E07141 /* VitalWink-Bridging-Header.h */,
 			);
 			path = VitalWink;
 			sourceTree = "<group>";
@@ -129,7 +396,10 @@
 		064B04C92A08DAAC00230FBC /* VitalWinkTests */ = {
 			isa = PBXGroup;
 			children = (
-				064B04CA2A08DAAC00230FBC /* VitalWinkTests.swift */,
+				064B04CA2A08DAAC00230FBC /* CameraTest.swift */,
+				063C16102A0B62F300E07141 /* FaceDetectorTest.swift */,
+				06F180A92A1602CC00F1CE90 /* UserAPITest.swift */,
+				0663C4552A1A172100B85ABF /* MeasurementAPITest.swift */,
 			);
 			path = VitalWinkTests;
 			sourceTree = "<group>";
@@ -141,6 +411,275 @@
 				064B04D62A08DAAC00230FBC /* VitalWinkUITestsLaunchTests.swift */,
 			);
 			path = VitalWinkUITests;
+			sourceTree = "<group>";
+		};
+		065C00AD2A305C0800054387 /* Font */ = {
+			isa = PBXGroup;
+			children = (
+				065C00CB2A307BB100054387 /* Inter-Black.ttf */,
+				065C00CE2A307BB100054387 /* Inter-Bold.ttf */,
+				065C00CC2A307BB100054387 /* Inter-ExtraBold.ttf */,
+				065C00CA2A307BB100054387 /* Inter-ExtraLight.ttf */,
+				065C00CD2A307BB100054387 /* Inter-Light.ttf */,
+				065C00CF2A307BB100054387 /* Inter-Medium.ttf */,
+				065C00C72A307BB100054387 /* Inter-Regular.ttf */,
+				065C00C82A307BB100054387 /* Inter-SemiBold.ttf */,
+				065C00C92A307BB100054387 /* Inter-Thin.ttf */,
+			);
+			path = Font;
+			sourceTree = "<group>";
+		};
+		065C00C42A30690500054387 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				06A8AB622A1DF4A800004B62 /* LoginView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		065C00D92A31B07500054387 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				065C00DA2A31B08000054387 /* LoginRouter.swift */,
+				065C00DC2A31B8B600054387 /* LoginAPI.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		065C00DE2A32C62F00054387 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				067AD0202A4BFE78002E39B1 /* Model */,
+				065C00AD2A305C0800054387 /* Font */,
+				063C16122A0B644100E07141 /* Extensions */,
+				06F180A02A15E89600F1CE90 /* Network */,
+				065C00E42A32E03500054387 /* Annotation */,
+				065C00DF2A32C65B00054387 /* View */,
+				06F180A32A15EAF400F1CE90 /* KeyChainManager.swift */,
+				0629A2172A204F70007B864B /* VideoWriter.swift */,
+				06BCCD2E2A611BD9003DA1E2 /* UserDefaultsKey.swift */,
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
+		065C00DF2A32C65B00054387 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				065C00F12A34519D00054387 /* Alert */,
+				065C00E72A32E11A00054387 /* VitalWinkButtonStyle.swift */,
+				065C00C52A30694500054387 /* VitalWinkTextFieldStyle.swift */,
+				065C00FB2A35BA6000054387 /* CircularSegmentedPickerView.swift */,
+				065C00F92A35B0E100054387 /* VitialWinkFormSection.swift */,
+				06BCCD242A60F8F3003DA1E2 /* VitalWinkBackButton.swift */,
+				06BCCD2C2A611465003DA1E2 /* GIFView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		065C00E42A32E03500054387 /* Annotation */ = {
+			isa = PBXGroup;
+			children = (
+				065C00E52A32E04400054387 /* VitalWinkAlertButtonBuilder.swift */,
+			);
+			path = Annotation;
+			sourceTree = "<group>";
+		};
+		065C00F12A34519D00054387 /* Alert */ = {
+			isa = PBXGroup;
+			children = (
+				06BCCD172A5E8D8F003DA1E2 /* VitalWinkAlertPlainButtonStyle.swift */,
+				065C00E02A32C66B00054387 /* VitalWinkAlert.swift */,
+				065C00ED2A34393900054387 /* VitalWinkAlertButtonState.swift */,
+				065C00EF2A34509500054387 /* VitalWinkAlertMessageState.swift */,
+				067AD0112A4A7CFD002E39B1 /* VitalWinkAlertState.swift */,
+				067AD0132A4A9050002E39B1 /* VitalWinkContentAlertState.swift */,
+				06BCCD152A5E8CB7003DA1E2 /* VitalWinkMenuAlertState.swift */,
+			);
+			path = Alert;
+			sourceTree = "<group>";
+		};
+		065C00F42A3592FD00054387 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				065C00F52A35933E00054387 /* SignUpView.swift */,
+				065C00FF2A37FFB100054387 /* FindIdView.swift */,
+				065C01052A399AAB00054387 /* FindPasswordView.swift */,
+				065C01092A3AAE6600054387 /* ChangePasswordView.swift */,
+			);
+			name = View;
+			path = "퍚";
+			sourceTree = "<group>";
+		};
+		0663C4472A19FEE600B85ABF /* Measurement */ = {
+			isa = PBXGroup;
+			children = (
+				067AD00C2A4984A9002E39B1 /* View */,
+				0663C46D2A1C71C400B85ABF /* Network */,
+				0663C46E2A1C71D700B85ABF /* Model */,
+				0629A2232A25C8CF007B864B /* Measurement.swift */,
+				06BCCD132A5E3ECE003DA1E2 /* Menu.swift */,
+			);
+			path = Measurement;
+			sourceTree = "<group>";
+		};
+		0663C46D2A1C71C400B85ABF /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				0663C4482A19FF2A00B85ABF /* MeasurementAPI.swift */,
+				0663C44A2A19FFA700B85ABF /* MeasurementRouter.swift */,
+				0663C4572A1A17F200B85ABF /* MockMeasurementProtocol.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		0663C46E2A1C71D700B85ABF /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				0663C4612A1B262600B85ABF /* ImageAnalysisData.swift */,
+				0663C4712A1C7D3100B85ABF /* MeasurementResult.swift */,
+				068851482A48410800403AE7 /* ExpressionAnalysisData.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		067AD00C2A4984A9002E39B1 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				0629A2252A25DD3E007B864B /* MeasurementView.swift */,
+				067AD00D2A4984BA002E39B1 /* MeasurementResultView.swift */,
+				067AD00F2A4A7461002E39B1 /* MeasurmentResultColumnView.swift */,
+				06BCCD262A611156003DA1E2 /* MeasurementHelpView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		067AD0152A4BEF53002E39B1 /* Monitoring */ = {
+			isa = PBXGroup;
+			children = (
+				067AD02C2A4E7069002E39B1 /* Model */,
+				067AD0212A4BFEB1002E39B1 /* Network */,
+				067AD0182A4BF05E002E39B1 /* View */,
+				067AD01B2A4BFBBC002E39B1 /* Monitoring.swift */,
+				06BCCD032A527534003DA1E2 /* MetricChart.swift */,
+			);
+			path = Monitoring;
+			sourceTree = "<group>";
+		};
+		067AD0182A4BF05E002E39B1 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				067AD0162A4BF007002E39B1 /* RecentDataView.swift */,
+				067AD0192A4BF070002E39B1 /* MetricCardView.swift */,
+				067AD0282A4D1E7E002E39B1 /* MetricRangeChartView.swift */,
+				067AD02A2A4E610F002E39B1 /* MetricMonitoringView.swift */,
+				06BCCD092A52B812003DA1E2 /* MinMaxCardView.swift */,
+				06BCCD0D2A5BC251003DA1E2 /* PieChartView.swift */,
+				06BCCD302A666FC9003DA1E2 /* MetricStepChartView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		067AD0202A4BFE78002E39B1 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				0663C4632A1B264900B85ABF /* BloodPressure.swift */,
+				0663C46F2A1C743900B85ABF /* MinMaxType.swift */,
+				067AD01E2A4BFCDC002E39B1 /* ExpressionAnalysisNumericData.swift */,
+				0663C45F2A1B25ED00B85ABF /* RecentData.swift */,
+				06BCCD052A52B129003DA1E2 /* Metric.swift */,
+				06BCCD072A52B136003DA1E2 /* Period.swift */,
+				06BCCD0F2A5BD878003DA1E2 /* Expression.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		067AD0212A4BFEB1002E39B1 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				0663C4672A1B409E00B85ABF /* MetricDataResponse.swift */,
+				067AD0222A4BFEC2002E39B1 /* MonitoringRouter.swift */,
+				067AD0242A4BFF71002E39B1 /* MonitoringAPI.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		067AD02C2A4E7069002E39B1 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				0663C46B2A1B489100B85ABF /* BloodPressureMetricValue.swift */,
+				0663C4692A1B445E00B85ABF /* ExpressionAnalysisMetricValue.swift */,
+				0663C4652A1B3FCB00B85ABF /* MetricData.swift */,
+				067AD02D2A4E94B3002E39B1 /* DataBaseType.swift */,
+				06BCCD322A667076003DA1E2 /* Step.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		067AD0302A4EBDE3002E39B1 /* Feature */ = {
+			isa = PBXGroup;
+			children = (
+				065C00F72A3595F500054387 /* User.swift */,
+				065C01012A3802D600054387 /* SignUp.swift */,
+				061ED9EE2A400E0C00B04572 /* SignUpStateProperty.swift */,
+				065C01032A3809C100054387 /* FindUserInfo.swift */,
+				065C01072A3AA58300054387 /* ChangePassword.swift */,
+			);
+			path = Feature;
+			sourceTree = "<group>";
+		};
+		06A8AB5A2A1C8C8D00004B62 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				06F180B32A17403C00F1CE90 /* MockUserProtocol.swift */,
+				06F180B02A17403C00F1CE90 /* UserAPI.swift */,
+				06F180B12A17403C00F1CE90 /* UserRouter.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		06A8AB5B2A1C8C9900004B62 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				06F180B22A17403C00F1CE90 /* UserModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		06A8AB5C2A1DEFBD00004B62 /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				065C00D92A31B07500054387 /* Network */,
+				065C00C42A30690500054387 /* View */,
+				06A8AB5D2A1DF06100004B62 /* Login.swift */,
+				0629A2192A208C18007B864B /* NaverLoginDelegate.swift */,
+				06EDBFA82A414353002CCC40 /* ASAuthorizationControllerDelgateImpl.swift */,
+				065C010B2A3C22EF00054387 /* LoginService.swift */,
+			);
+			path = Login;
+			sourceTree = "<group>";
+		};
+		06F180A02A15E89600F1CE90 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				06F1809A2A15C64300F1CE90 /* VitalWinkAPI.swift */,
+				06F1809E2A15DEFC00F1CE90 /* VitalWinkRouter.swift */,
+				06F180A12A15E95C00F1CE90 /* AuthInterceptor.swift */,
+				06F180A52A15F28800F1CE90 /* VitalWinkAPIError.swift */,
+				0663C4592A1A334300B85ABF /* VitalWinkUploadableRouter.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		06F180AF2A17403C00F1CE90 /* User */ = {
+			isa = PBXGroup;
+			children = (
+				067AD0302A4EBDE3002E39B1 /* Feature */,
+				065C00F42A3592FD00054387 /* View */,
+				06A8AB5B2A1C8C9900004B62 /* Model */,
+				06A8AB5A2A1C8C8D00004B62 /* Network */,
+				065C010D2A3C39A100054387 /* SnsUserInfoService.swift */,
+			);
+			path = User;
 			sourceTree = "<group>";
 		};
 		13E4E6C11327D415DC3D4F1A /* Pods */ = {
@@ -184,6 +723,10 @@
 			dependencies = (
 			);
 			name = VitalWink;
+			packageProductDependencies = (
+				063C161D2A0DE18100E07141 /* Dependencies */,
+				06A8AB602A1DF14E00004B62 /* ComposableArchitecture */,
+			);
 			productName = VitalWink;
 			productReference = 064B04B62A08DAAB00230FBC /* VitalWink.app */;
 			productType = "com.apple.product-type.application";
@@ -196,6 +739,7 @@
 				064B04C22A08DAAC00230FBC /* Sources */,
 				064B04C32A08DAAC00230FBC /* Frameworks */,
 				064B04C42A08DAAC00230FBC /* Resources */,
+				CA968E8217673C6C46ED5811 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -239,6 +783,7 @@
 				TargetAttributes = {
 					064B04B52A08DAAB00230FBC = {
 						CreatedOnToolsVersion = 14.3;
+						LastSwiftMigration = 1430;
 					};
 					064B04C52A08DAAC00230FBC = {
 						CreatedOnToolsVersion = 14.3;
@@ -257,8 +802,13 @@
 			knownRegions = (
 				en,
 				Base,
+				ko,
 			);
 			mainGroup = 064B04AD2A08DAAB00230FBC;
+			packageReferences = (
+				063C161C2A0DE18100E07141 /* XCRemoteSwiftPackageReference "swift-dependencies" */,
+				06A8AB5F2A1DF14E00004B62 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */,
+			);
 			productRefGroup = 064B04B72A08DAAB00230FBC /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -275,8 +825,19 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				06BCCD2A2A611424003DA1E2 /* face_help.gif in Resources */,
+				06BCCD2B2A611424003DA1E2 /* finger_help.gif in Resources */,
+				065C00D12A307BB100054387 /* Inter-SemiBold.ttf in Resources */,
+				065C00D62A307BB100054387 /* Inter-Light.ttf in Resources */,
+				065C00D32A307BB100054387 /* Inter-ExtraLight.ttf in Resources */,
 				064B04C12A08DAAC00230FBC /* Preview Assets.xcassets in Resources */,
+				065C00D52A307BB100054387 /* Inter-ExtraBold.ttf in Resources */,
+				065C00D02A307BB100054387 /* Inter-Regular.ttf in Resources */,
+				065C00D72A307BB100054387 /* Inter-Bold.ttf in Resources */,
+				065C00D22A307BB100054387 /* Inter-Thin.ttf in Resources */,
 				064B04BE2A08DAAC00230FBC /* Assets.xcassets in Resources */,
+				065C00D82A307BB100054387 /* Inter-Medium.ttf in Resources */,
+				065C00D42A307BB100054387 /* Inter-Black.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -375,6 +936,23 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-VitalWink-VitalWinkUITests/Pods-VitalWink-VitalWinkUITests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		CA968E8217673C6C46ED5811 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-VitalWinkTests/Pods-VitalWinkTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-VitalWinkTests/Pods-VitalWinkTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-VitalWinkTests/Pods-VitalWinkTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		E57C8A60608BB6ADC2D5BDEB /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -404,7 +982,99 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				067AD01F2A4BFCDC002E39B1 /* ExpressionAnalysisNumericData.swift in Sources */,
+				065C00F82A3595F500054387 /* User.swift in Sources */,
+				0629A2182A204F70007B864B /* VideoWriter.swift in Sources */,
+				0663C44B2A19FFA700B85ABF /* MeasurementRouter.swift in Sources */,
+				0629A2262A25DD3E007B864B /* MeasurementView.swift in Sources */,
+				064B04E72A08F14800230FBC /* Camera.swift in Sources */,
+				065C00C12A305C6F00054387 /* Font + Extension.swift in Sources */,
+				067AD01A2A4BF070002E39B1 /* MetricCardView.swift in Sources */,
+				065C01002A37FFB100054387 /* FindIdView.swift in Sources */,
+				06BCCD182A5E8D8F003DA1E2 /* VitalWinkAlertPlainButtonStyle.swift in Sources */,
+				065C010C2A3C22EF00054387 /* LoginService.swift in Sources */,
+				06BCCD162A5E8CB7003DA1E2 /* VitalWinkMenuAlertState.swift in Sources */,
+				06BCCD082A52B136003DA1E2 /* Period.swift in Sources */,
+				065C010A2A3AAE6600054387 /* ChangePasswordView.swift in Sources */,
+				06BCCD142A5E3ECE003DA1E2 /* Menu.swift in Sources */,
+				065C00C32A3060F400054387 /* Color + Extensions.swift in Sources */,
+				065C00FA2A35B0E100054387 /* VitialWinkFormSection.swift in Sources */,
+				06BCCD312A666FC9003DA1E2 /* MetricStepChartView.swift in Sources */,
+				067AD02E2A4E94B3002E39B1 /* DataBaseType.swift in Sources */,
+				063C16272A0E01DB00E07141 /* CameraStream.swift in Sources */,
+				0663C4662A1B3FCB00B85ABF /* MetricData.swift in Sources */,
+				065C00FC2A35BA6000054387 /* CircularSegmentedPickerView.swift in Sources */,
+				06F180A62A15F28800F1CE90 /* VitalWinkAPIError.swift in Sources */,
+				06BCCD042A527534003DA1E2 /* MetricChart.swift in Sources */,
+				06F180B62A17403C00F1CE90 /* UserModel.swift in Sources */,
+				067AD0142A4A9050002E39B1 /* VitalWinkContentAlertState.swift in Sources */,
+				0663C4602A1B25ED00B85ABF /* RecentData.swift in Sources */,
+				0663C45E2A1A42BD00B85ABF /* Publisher + Extension.swift in Sources */,
+				06F180B52A17403C00F1CE90 /* UserRouter.swift in Sources */,
+				063C16202A0DE2B600E07141 /* DependencyValues + Extension.swift in Sources */,
+				0629A2212A25B97E007B864B /* FaceDetector.swift in Sources */,
+				06F1809B2A15C64300F1CE90 /* VitalWinkAPI.swift in Sources */,
+				06BCCD2D2A611465003DA1E2 /* GIFView.swift in Sources */,
+				06BCCD0A2A52B812003DA1E2 /* MinMaxCardView.swift in Sources */,
+				06F180A42A15EAF400F1CE90 /* KeyChainManager.swift in Sources */,
+				065C010E2A3C39A100054387 /* SnsUserInfoService.swift in Sources */,
+				065C01022A3802D600054387 /* SignUp.swift in Sources */,
+				068851492A48410800403AE7 /* ExpressionAnalysisData.swift in Sources */,
+				0663C4722A1C7D3100B85ABF /* MeasurementResult.swift in Sources */,
+				0663C4702A1C743900B85ABF /* MinMaxType.swift in Sources */,
+				065C00E32A32D22800054387 /* UIApplication + Extension.swift in Sources */,
+				06BCCD332A667076003DA1E2 /* Step.swift in Sources */,
+				063C16142A0B645100E07141 /* UIImage + Extension.swift in Sources */,
+				065C00EE2A34393900054387 /* VitalWinkAlertButtonState.swift in Sources */,
+				06F180B72A17403C00F1CE90 /* MockUserProtocol.swift in Sources */,
+				0663C4622A1B262600B85ABF /* ImageAnalysisData.swift in Sources */,
+				0663C46A2A1B445E00B85ABF /* ExpressionAnalysisMetricValue.swift in Sources */,
+				065C01062A399AAB00054387 /* FindPasswordView.swift in Sources */,
+				0663C45A2A1A334300B85ABF /* VitalWinkUploadableRouter.swift in Sources */,
+				065C00E12A32C66B00054387 /* VitalWinkAlert.swift in Sources */,
+				06BCCD272A611156003DA1E2 /* MeasurementHelpView.swift in Sources */,
+				0663C46C2A1B489100B85ABF /* BloodPressureMetricValue.swift in Sources */,
+				0629A21A2A208C18007B864B /* NaverLoginDelegate.swift in Sources */,
+				065C00E62A32E04400054387 /* VitalWinkAlertButtonBuilder.swift in Sources */,
+				06BCCD102A5BD878003DA1E2 /* Expression.swift in Sources */,
+				065C00DB2A31B08000054387 /* LoginRouter.swift in Sources */,
+				0663C4682A1B409E00B85ABF /* MetricDataResponse.swift in Sources */,
+				067AD0102A4A7461002E39B1 /* MeasurmentResultColumnView.swift in Sources */,
+				0663C4642A1B264900B85ABF /* BloodPressure.swift in Sources */,
+				06BCCD0C2A53DF96003DA1E2 /* Date + Extension.swift in Sources */,
+				065C00C62A30694500054387 /* VitalWinkTextFieldStyle.swift in Sources */,
+				067AD0252A4BFF71002E39B1 /* MonitoringAPI.swift in Sources */,
+				06BCCD252A60F8F3003DA1E2 /* VitalWinkBackButton.swift in Sources */,
+				065C00DD2A31B8B600054387 /* LoginAPI.swift in Sources */,
+				06F180A22A15E95C00F1CE90 /* AuthInterceptor.swift in Sources */,
+				067AD01C2A4BFBBC002E39B1 /* Monitoring.swift in Sources */,
+				067AD0122A4A7CFD002E39B1 /* VitalWinkAlertState.swift in Sources */,
+				0663C4582A1A17F200B85ABF /* MockMeasurementProtocol.swift in Sources */,
+				06BCCD062A52B129003DA1E2 /* Metric.swift in Sources */,
+				06F1809F2A15DEFC00F1CE90 /* VitalWinkRouter.swift in Sources */,
+				0663C4492A19FF2A00B85ABF /* MeasurementAPI.swift in Sources */,
+				06BCCD0E2A5BC251003DA1E2 /* PieChartView.swift in Sources */,
+				06EDBFA92A414353002CCC40 /* ASAuthorizationControllerDelgateImpl.swift in Sources */,
 				064B04BA2A08DAAB00230FBC /* VitalWinkApp.swift in Sources */,
+				065C00EA2A32EBD400054387 /* View + Extension.swift in Sources */,
+				067AD02B2A4E610F002E39B1 /* MetricMonitoringView.swift in Sources */,
+				0629A2222A25B97E007B864B /* OpenCVWrapper.mm in Sources */,
+				067AD00E2A4984BA002E39B1 /* MeasurementResultView.swift in Sources */,
+				061ED9EF2A400E0C00B04572 /* SignUpStateProperty.swift in Sources */,
+				06A8AB632A1DF4A800004B62 /* LoginView.swift in Sources */,
+				065C00F02A34509500054387 /* VitalWinkAlertMessageState.swift in Sources */,
+				065C00E82A32E11A00054387 /* VitalWinkButtonStyle.swift in Sources */,
+				06BCCD2F2A611BD9003DA1E2 /* UserDefaultsKey.swift in Sources */,
+				067AD0292A4D1E7E002E39B1 /* MetricRangeChartView.swift in Sources */,
+				065C00F62A35933E00054387 /* SignUpView.swift in Sources */,
+				06F180B42A17403C00F1CE90 /* UserAPI.swift in Sources */,
+				0629A21C2A208C91007B864B /* OSLog + Extension.swift in Sources */,
+				0629A2242A25C8CF007B864B /* Measurement.swift in Sources */,
+				067AD0232A4BFEC2002E39B1 /* MonitoringRouter.swift in Sources */,
+				065C01042A3809C100054387 /* FindUserInfo.swift in Sources */,
+				06A8AB5E2A1DF06100004B62 /* Login.swift in Sources */,
+				065C01082A3AA58300054387 /* ChangePassword.swift in Sources */,
+				067AD0172A4BF007002E39B1 /* RecentDataView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -412,7 +1082,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				064B04CB2A08DAAC00230FBC /* VitalWinkTests.swift in Sources */,
+				06F180AA2A1602CC00F1CE90 /* UserAPITest.swift in Sources */,
+				063C16112A0B62F400E07141 /* FaceDetectorTest.swift in Sources */,
+				064B04CB2A08DAAC00230FBC /* CameraTest.swift in Sources */,
+				0663C4562A1A172100B85ABF /* MeasurementAPITest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -477,6 +1150,8 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				EXCLUDED_ARCHS = "";
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -491,13 +1166,14 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_STRICT_CONCURRENCY = complete;
 			};
 			name = Debug;
 		};
@@ -537,6 +1213,8 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				EXCLUDED_ARCHS = "";
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -545,12 +1223,13 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_STRICT_CONCURRENCY = complete;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -561,30 +1240,42 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_STYLE = Automatic;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = VitalWink/VitalWink.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"VitalWink/Preview Content\"";
-				DEVELOPMENT_TEAM = 687R8W5T99;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = QXG8ZBW99B;
 				ENABLE_PREVIEWS = YES;
+				GCC_PREFIX_HEADER = "$(SRCROOT)/VitalWink/PrefixHeader.pch";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = VitalWink/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "생체 신호 측정을 위해 카메라 권한을 허용해주세요.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = ac.kr.smu.VitalWink;
+				PRODUCT_BUNDLE_IDENTIFIER = com.prlab.VitalWink2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "prlab provisioning";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "VitalWink/VitalWink-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_STRICT_CONCURRENCY = targeted;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -596,30 +1287,41 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_STYLE = Automatic;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = VitalWink/VitalWink.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"VitalWink/Preview Content\"";
-				DEVELOPMENT_TEAM = 687R8W5T99;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = QXG8ZBW99B;
 				ENABLE_PREVIEWS = YES;
+				GCC_PREFIX_HEADER = "$(SRCROOT)/VitalWink/PrefixHeader.pch";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = VitalWink/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "생체 신호 측정을 위해 카메라 권한을 허용해주세요.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = ac.kr.smu.VitalWink;
+				PRODUCT_BUNDLE_IDENTIFIER = com.prlab.VitalWink2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "prlab provisioning";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "VitalWink/VitalWink-Bridging-Header.h";
+				SWIFT_STRICT_CONCURRENCY = targeted;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -635,10 +1337,13 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 687R8W5T99;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = ac.kr.smu.VitalWinkTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -656,10 +1361,13 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 687R8W5T99;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = ac.kr.smu.VitalWinkTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -745,6 +1453,38 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		063C161C2A0DE18100E07141 /* XCRemoteSwiftPackageReference "swift-dependencies" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/pointfreeco/swift-dependencies";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.5.0;
+			};
+		};
+		06A8AB5F2A1DF14E00004B62 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/pointfreeco/swift-composable-architecture";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.53.2;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		063C161D2A0DE18100E07141 /* Dependencies */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 063C161C2A0DE18100E07141 /* XCRemoteSwiftPackageReference "swift-dependencies" */;
+			productName = Dependencies;
+		};
+		06A8AB602A1DF14E00004B62 /* ComposableArchitecture */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 06A8AB5F2A1DF14E00004B62 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */;
+			productName = ComposableArchitecture;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 064B04AE2A08DAAB00230FBC /* Project object */;
 }
