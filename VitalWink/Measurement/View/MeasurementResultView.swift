@@ -28,7 +28,8 @@ struct MeasurementResultView: View {
 //                MeasurmentResultColumnView(metric: "스트레스", value: "\(result.stress)")
         
                 if let BMI = result.BMI{
-                    MeasurmentResultColumnView(metric: "BMI", value: "\(BMI)")
+                    
+                    MeasurmentResultColumnView(metric: "BMI", value: "\(Step.BMI(value: Float(BMI)) == .normal ? "정상" : Step.BMI(value:Float(BMI)) == .caution ? "저체중" : "과체중 이상")(\(BMI))")
                 }
                 if let arousal = result.expressionAnalysis?.arousal{
                     MeasurmentResultColumnView(metric: "긴장도", value: String(format: "%.2f", arousal))

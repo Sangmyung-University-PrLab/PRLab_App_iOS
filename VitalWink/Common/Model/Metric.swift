@@ -11,6 +11,7 @@ enum Metric: String{
         spo2: 90이하 위험 , 91 이상 94이하 주의, 95 정상
         혈압:
         혈당:
+        BMI : 18이하 저체중, 19 ~ 23 정상, 24~ 과체중
      */
     
     case bpm = "bpms"
