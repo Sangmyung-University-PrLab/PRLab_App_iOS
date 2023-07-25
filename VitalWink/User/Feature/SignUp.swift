@@ -45,7 +45,7 @@ struct SignUp: ReducerProtocol{
             switch action{
             case .signUp:
                 let user = UserModel(id: state.property.id, password: state.property.password, email: state.property.email, gender: state.property.gender, birthday: state.property.birthday, type:state.property.type)
-                
+                state.property.isActivityIndicatorVisible = true
                 return .run{ send in
                     do{
                         try await userAPI.signUp(user)
@@ -86,6 +86,7 @@ struct SignUp: ReducerProtocol{
                 }
                 return .none
             case .success:
+                state.property.isActivityIndicatorVisible = false
                 state.property.alertState = VitalWinkAlertMessageState(title: "회원가입", message: "회원가입이 완료되었습니다."){
                     VitalWinkAlertButtonState<Action>(title: "확인"){
                         return .dismiss
@@ -124,7 +125,7 @@ struct SignUp: ReducerProtocol{
                 
                 return .none
             case .dismiss:
-                state.property.shouldViewDismiss = true
+                state.property.shouldDismiss = true
                 return .none
             case .onDisappear:
                 state = State(.general, idRegex: state.property.idRegex, passwordRegex: state.property.passwordRegex, emailRegex: state.property.emailRegex)

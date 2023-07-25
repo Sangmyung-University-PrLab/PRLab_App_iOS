@@ -42,7 +42,7 @@ struct SignUpStateProperty: Equatable{
     
     //View
     var isActivityIndicatorVisible = false
-    var shouldViewDismiss: Bool = false
+    var shouldDismiss: Bool = false
     var alertState: VitalWinkAlertMessageState<SignUp.Action>?
     
     let idRegex: String
