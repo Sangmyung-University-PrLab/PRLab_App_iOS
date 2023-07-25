@@ -88,6 +88,7 @@
 		067AD0292A4D1E7E002E39B1 /* MetricRangeChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 067AD0282A4D1E7E002E39B1 /* MetricRangeChartView.swift */; };
 		067AD02B2A4E610F002E39B1 /* MetricMonitoringView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 067AD02A2A4E610F002E39B1 /* MetricMonitoringView.swift */; };
 		067AD02E2A4E94B3002E39B1 /* DataBaseType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 067AD02D2A4E94B3002E39B1 /* DataBaseType.swift */; };
+		0683C8212A6F87EC00F753DA /* MeasurementAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0683C8202A6F87EC00F753DA /* MeasurementAlert.swift */; };
 		068851492A48410800403AE7 /* ExpressionAnalysisData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 068851482A48410800403AE7 /* ExpressionAnalysisData.swift */; };
 		06A8AB5E2A1DF06100004B62 /* Login.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A8AB5D2A1DF06100004B62 /* Login.swift */; };
 		06A8AB612A1DF14E00004B62 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 06A8AB602A1DF14E00004B62 /* ComposableArchitecture */; };
@@ -231,6 +232,7 @@
 		067AD0282A4D1E7E002E39B1 /* MetricRangeChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetricRangeChartView.swift; sourceTree = "<group>"; };
 		067AD02A2A4E610F002E39B1 /* MetricMonitoringView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetricMonitoringView.swift; sourceTree = "<group>"; };
 		067AD02D2A4E94B3002E39B1 /* DataBaseType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataBaseType.swift; sourceTree = "<group>"; };
+		0683C8202A6F87EC00F753DA /* MeasurementAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeasurementAlert.swift; sourceTree = "<group>"; };
 		068851482A48410800403AE7 /* ExpressionAnalysisData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpressionAnalysisData.swift; sourceTree = "<group>"; };
 		06A8AB5D2A1DF06100004B62 /* Login.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Login.swift; sourceTree = "<group>"; };
 		06A8AB622A1DF4A800004B62 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
@@ -513,11 +515,10 @@
 		0663C4472A19FEE600B85ABF /* Measurement */ = {
 			isa = PBXGroup;
 			children = (
+				0683C81F2A6F877C00F753DA /* Feature */,
 				067AD00C2A4984A9002E39B1 /* View */,
 				0663C46D2A1C71C400B85ABF /* Network */,
 				0663C46E2A1C71D700B85ABF /* Model */,
-				0629A2232A25C8CF007B864B /* Measurement.swift */,
-				06BCCD132A5E3ECE003DA1E2 /* Menu.swift */,
 			);
 			path = Measurement;
 			sourceTree = "<group>";
@@ -623,6 +624,16 @@
 				061ED9EE2A400E0C00B04572 /* SignUpStateProperty.swift */,
 				065C01032A3809C100054387 /* FindUserInfo.swift */,
 				065C01072A3AA58300054387 /* ChangePassword.swift */,
+			);
+			path = Feature;
+			sourceTree = "<group>";
+		};
+		0683C81F2A6F877C00F753DA /* Feature */ = {
+			isa = PBXGroup;
+			children = (
+				0629A2232A25C8CF007B864B /* Measurement.swift */,
+				06BCCD132A5E3ECE003DA1E2 /* Menu.swift */,
+				0683C8202A6F87EC00F753DA /* MeasurementAlert.swift */,
 			);
 			path = Feature;
 			sourceTree = "<group>";
@@ -991,6 +1002,7 @@
 				065C00C12A305C6F00054387 /* Font + Extension.swift in Sources */,
 				067AD01A2A4BF070002E39B1 /* MetricCardView.swift in Sources */,
 				065C01002A37FFB100054387 /* FindIdView.swift in Sources */,
+				0683C8212A6F87EC00F753DA /* MeasurementAlert.swift in Sources */,
 				06BCCD182A5E8D8F003DA1E2 /* VitalWinkAlertPlainButtonStyle.swift in Sources */,
 				065C010C2A3C22EF00054387 /* LoginService.swift in Sources */,
 				06BCCD162A5E8CB7003DA1E2 /* VitalWinkMenuAlertState.swift in Sources */,
