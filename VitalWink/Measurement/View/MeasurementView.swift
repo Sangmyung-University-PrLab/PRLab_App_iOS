@@ -100,8 +100,7 @@ struct MeasurementView: View {
                         .frame(width: 30, height: 30)
                         .containerShape(Rectangle())
                         .onTapGesture {
-                            
-                            viewStore.send(.menuAlertAppear)
+                            viewStore.send(.alert(.menuAlertAppear))
                         }
                 }
             }
@@ -111,10 +110,10 @@ struct MeasurementView: View {
                     MeasurementHelpView(target: viewStore.target)
                 }
             }
-            .vitalWinkAlert(store.scope(state: \.alertState, action: {$0}), dismiss: .alertDismiss)
-            .vitalWinkAlert(store.scope(state: \.resultAlertState, action: {$0}), dismiss: .resultAlertDismiss)
-            .vitalWinkAlert(store.scope(state: \.menuAlertState, action: {$0}), dismiss: .menuAlertDismiss)
-            .confirmationDialog(store.scope(state: \.menu.dialog, action: Measurement.Action.menu), dismiss: .dialogDismiss)
+            .vitalWinkAlert(store.scope(state: \.alert.alertState, action: Measurement.Action.alert), dismiss: .alertDismiss)
+            .vitalWinkAlert(store.scope(state: \.alert.resultAlertState, action: Measurement.Action.alert), dismiss: .resultAlertDismiss)
+            .vitalWinkAlert(store.scope(state: \.alert.menuAlertState, action: Measurement.Action.alert), dismiss: .menuAlertDismiss)
+            .confirmationDialog(store.scope(state: \.alert.menu.dialog, action: Measurement.Action.menu), dismiss: .dialogDismiss)
             .activityIndicator(isVisible: viewStore.isActivityIndicatorVisible)
             .navigationBarBackButtonHidden()
             .background(Color.backgroundColor)
@@ -125,7 +124,7 @@ struct MeasurementView: View {
                         self.image = Image(uiImage: UIImage(cgImage: frame.cgImage!, scale: 1, orientation: .leftMirrored))
                     }
                 }
-                
+
                 let helpKey = viewStore.target == .face ?  UserDefaultsKey.isShowedFaceHelp : UserDefaultsKey.isShowedFingerHelp
                 isShowedHelpView = UserDefaults.standard.bool(forKey: helpKey.rawValue)
             }
