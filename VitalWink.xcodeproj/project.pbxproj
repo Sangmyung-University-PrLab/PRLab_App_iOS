@@ -582,6 +582,7 @@
 		067AD0202A4BFE78002E39B1 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				06BCCD322A667076003DA1E2 /* Step.swift */,
 				0663C4632A1B264900B85ABF /* BloodPressure.swift */,
 				0663C46F2A1C743900B85ABF /* MinMaxType.swift */,
 				067AD01E2A4BFCDC002E39B1 /* ExpressionAnalysisNumericData.swift */,
@@ -610,7 +611,6 @@
 				0663C4692A1B445E00B85ABF /* ExpressionAnalysisMetricValue.swift */,
 				0663C4652A1B3FCB00B85ABF /* MetricData.swift */,
 				067AD02D2A4E94B3002E39B1 /* DataBaseType.swift */,
-				06BCCD322A667076003DA1E2 /* Step.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1277,7 +1277,7 @@
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_STRICT_CONCURRENCY = targeted;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -1323,7 +1323,7 @@
 				SWIFT_OBJC_BRIDGING_HEADER = "VitalWink/VitalWink-Bridging-Header.h";
 				SWIFT_STRICT_CONCURRENCY = targeted;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

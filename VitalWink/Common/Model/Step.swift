@@ -21,6 +21,19 @@ enum Step: Comparable & Codable & Equatable{
             return "위험"
         }
     }
+    
+    static func BMI(value: Float) -> Step{
+        if value <= 18{
+            return .caution
+        }
+        else if value >= 24{
+            return .danger
+        }
+        else{
+            return .normal
+        }
+    }
+    
     static func SpO2(value: Float) -> Step{
         if value >= 95{
             return .normal
