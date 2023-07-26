@@ -94,6 +94,7 @@
 		0683C8272A6FB78200F753DA /* MeasurementError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0683C8262A6FB78200F753DA /* MeasurementError.swift */; };
 		0683C8292A6FB7E500F753DA /* MeasurementCancelID.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0683C8282A6FB7E500F753DA /* MeasurementCancelID.swift */; };
 		0683C82B2A70C35B00F753DA /* FingerMeasurement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0683C82A2A70C35B00F753DA /* FingerMeasurement.swift */; };
+		0683C82D2A70E7E800F753DA /* ReferenceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0683C82C2A70E7E800F753DA /* ReferenceView.swift */; };
 		068851492A48410800403AE7 /* ExpressionAnalysisData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 068851482A48410800403AE7 /* ExpressionAnalysisData.swift */; };
 		06A8AB5E2A1DF06100004B62 /* Login.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A8AB5D2A1DF06100004B62 /* Login.swift */; };
 		06A8AB612A1DF14E00004B62 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 06A8AB602A1DF14E00004B62 /* ComposableArchitecture */; };
@@ -243,6 +244,7 @@
 		0683C8262A6FB78200F753DA /* MeasurementError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeasurementError.swift; sourceTree = "<group>"; };
 		0683C8282A6FB7E500F753DA /* MeasurementCancelID.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeasurementCancelID.swift; sourceTree = "<group>"; };
 		0683C82A2A70C35B00F753DA /* FingerMeasurement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FingerMeasurement.swift; sourceTree = "<group>"; };
+		0683C82C2A70E7E800F753DA /* ReferenceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReferenceView.swift; sourceTree = "<group>"; };
 		068851482A48410800403AE7 /* ExpressionAnalysisData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpressionAnalysisData.swift; sourceTree = "<group>"; };
 		06A8AB5D2A1DF06100004B62 /* Login.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Login.swift; sourceTree = "<group>"; };
 		06A8AB622A1DF4A800004B62 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
@@ -561,6 +563,7 @@
 				067AD00D2A4984BA002E39B1 /* MeasurementResultView.swift */,
 				067AD00F2A4A7461002E39B1 /* MeasurmentResultColumnView.swift */,
 				06BCCD262A611156003DA1E2 /* MeasurementHelpView.swift */,
+				0683C82C2A70E7E800F753DA /* ReferenceView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1068,6 +1071,7 @@
 				0629A21A2A208C18007B864B /* NaverLoginDelegate.swift in Sources */,
 				065C00E62A32E04400054387 /* VitalWinkAlertButtonBuilder.swift in Sources */,
 				06BCCD102A5BD878003DA1E2 /* Expression.swift in Sources */,
+				0683C82D2A70E7E800F753DA /* ReferenceView.swift in Sources */,
 				065C00DB2A31B08000054387 /* LoginRouter.swift in Sources */,
 				0663C4682A1B409E00B85ABF /* MetricDataResponse.swift in Sources */,
 				067AD0102A4A7461002E39B1 /* MeasurmentResultColumnView.swift in Sources */,

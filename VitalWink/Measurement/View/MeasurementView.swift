@@ -116,7 +116,11 @@ struct MeasurementView: View {
             .confirmationDialog(store.scope(state: \.alert.menu.dialog, action: Measurement.Action.menu), dismiss: .dialogDismiss)
             .activityIndicator(isVisible: viewStore.property.isActivityIndicatorVisible)
             .navigationBarBackButtonHidden()
-            .background(Color.backgroundColor)
+            .background{
+                Color.backgroundColor.ignoresSafeArea()
+                NavigationLink("", destination: ReferenceView(), isActive: viewStore.binding(get:\.property.shouldShowReferenceView, send: Measurement.Action.shouldShowReferenceView))
+                    .hidden()
+            }
             .onAppear{
                 viewStore.send(.startCamera)
                 frameTask = Task{
