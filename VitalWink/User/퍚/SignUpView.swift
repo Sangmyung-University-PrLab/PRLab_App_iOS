@@ -65,7 +65,7 @@ struct SignUpView: View{
                     Button("회원가입"){
                         viewStore.send(.signUp)
                     }.buttonStyle(VitalWinkButtonStyle(isDisabled: viewStore.isSignUpButtonDisabled))
-                    .disabled(viewStore.isSignUpButtonDisabled)
+                        .disabled(viewStore.isSignUpButtonDisabled || viewStore.alertState != nil)
                 }
                 .padding(.top, 25)
                 .padding(.horizontal, 20)
@@ -83,7 +83,7 @@ struct SignUpView: View{
             }
             .vitalWinkAlert(store.scope(state: \.property.alertState, action: {$0}), dismiss: .alertDismiss)
             .activityIndicator(isVisible: viewStore.isActivityIndicatorVisible)
-            .onChange(of: viewStore.shouldViewDismiss){
+            .onChange(of: viewStore.shouldDismiss){
                 if $0{
                     dismiss()
                 }

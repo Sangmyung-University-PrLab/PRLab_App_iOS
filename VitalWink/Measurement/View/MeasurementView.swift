@@ -16,8 +16,8 @@ struct MeasurementView: View {
     var body: some View {
         WithViewStore(self.store, observe: {$0}){viewStore in
             VStack(spacing:0){
-                CircularSegmentedPickerView(selected: viewStore.binding(\.$target), texts: ["얼굴","손가락"]).disabled(viewStore.isMeasuring)
-                
+                CircularSegmentedPickerView(selected: viewStore.binding(get:\.property.target, send: Measurement.Action.changeTarget), texts: ["얼굴","손가락"]).disabled(viewStore.property.isMeasuring)
+
                 if let image = self.image{
                     image
                         .resizable()
@@ -27,8 +27,9 @@ struct MeasurementView: View {
                                 .stroke(viewStore.canMeasure ? .clear : .red, lineWidth: 1)
                         }
                         .modifier(FrameViewModifier())
-                        
-                }else{
+
+                }
+                else{
                     RoundedRectangle(cornerRadius: 20)
                         .overlay{
                             Image("face_guide")
@@ -37,33 +38,33 @@ struct MeasurementView: View {
                                 .padding(44)
                         }
                         .modifier(FrameViewModifier())
-                        
+
                 }
-                   
-                ProgressView(value: viewStore.progress)
+
+                ProgressView(value: viewStore.property.progress)
                     .progressViewStyle(.linear)
                     .padding(.horizontal, 40)
                     .foregroundColor(.blue)
                     .padding(.bottom, 10)
-                
-                
-                Text(viewStore.target == .face ? "얼굴이 인식되지 않습니다." : "손가락을 후면카메라에 밀착시켜주세요.")
+
+
+                Text(viewStore.property.target == .face ? "얼굴이 인식되지 않습니다." : "손가락을 후면카메라에 밀착시켜주세요.")
                     .font(.notoSans(size: 14))
                     .foregroundColor(viewStore.canMeasure ? .clear : .red)
                     .padding(.bottom, 70)
-                
-                
-                
-                
+
+
+
+
                 Button{
-                    if !viewStore.isMeasuring{
+                    if !viewStore.property.isMeasuring{
                         viewStore.send(.startMeasurement)
                     }
                     else{
                         viewStore.send(.cancelMeasurement)
                     }
                 }label:{
-                    if viewStore.isMeasuring{
+                    if viewStore.property.isMeasuring{
                         ProgressView()
                             .progressViewStyle(CircularProgressViewStyle())
                             .tint(.white)
@@ -73,9 +74,8 @@ struct MeasurementView: View {
                     }
                 }
                 .disabled(!viewStore.canMeasure)
-                .buttonStyle(VitalWinkButtonStyle(isDisabled:!viewStore.canMeasure || viewStore.isMeasuring))
+                .buttonStyle(VitalWinkButtonStyle(isDisabled:!viewStore.canMeasure || viewStore.property.isMeasuring))
                 .padding(.bottom, 30)
-                
             }
             .toolbar{
                 ToolbarItem(placement: .navigationBarLeading){
@@ -100,33 +100,32 @@ struct MeasurementView: View {
                         .frame(width: 30, height: 30)
                         .containerShape(Rectangle())
                         .onTapGesture {
-                            
-                            viewStore.send(.menuAlertAppear)
+                            viewStore.send(.alert(.menuAlertAppear))
                         }
                 }
             }
             .padding(.horizontal, 20)
             .overlay{
                 if !isShowedHelpView{
-                    MeasurementHelpView(target: viewStore.target)
+                    MeasurementHelpView(target: viewStore.property.target)
                 }
             }
-            .vitalWinkAlert(store.scope(state: \.alertState, action: {$0}), dismiss: .alertDismiss)
-            .vitalWinkAlert(store.scope(state: \.resultAlertState, action: {$0}), dismiss: .resultAlertDismiss)
-            .vitalWinkAlert(store.scope(state: \.menuAlertState, action: {$0}), dismiss: .menuAlertDismiss)
-            .confirmationDialog(store.scope(state: \.menu.dialog, action: Measurement.Action.menu), dismiss: .dialogDismiss)
-            .activityIndicator(isVisible: viewStore.isActivityIndicatorVisible)
+            .vitalWinkAlert(store.scope(state: \.alert.alertState, action: Measurement.Action.alert), dismiss: .alertDismiss)
+            .vitalWinkAlert(store.scope(state: \.alert.resultAlertState, action: Measurement.Action.alert), dismiss: .resultAlertDismiss)
+            .vitalWinkAlert(store.scope(state: \.alert.menuAlertState, action: Measurement.Action.alert), dismiss: .menuAlertDismiss)
+            .confirmationDialog(store.scope(state: \.alert.menu.dialog, action: Measurement.Action.menu), dismiss: .dialogDismiss)
+            .activityIndicator(isVisible: viewStore.property.isActivityIndicatorVisible)
             .navigationBarBackButtonHidden()
             .background(Color.backgroundColor)
             .onAppear{
                 viewStore.send(.startCamera)
                 frameTask = Task{
-                    for await frame in viewStore.frame{
+                    for await frame in viewStore.property.frame{
                         self.image = Image(uiImage: UIImage(cgImage: frame.cgImage!, scale: 1, orientation: .leftMirrored))
                     }
                 }
-                
-                let helpKey = viewStore.target == .face ?  UserDefaultsKey.isShowedFaceHelp : UserDefaultsKey.isShowedFingerHelp
+
+                let helpKey = viewStore.property.target == .face ?  UserDefaultsKey.isShowedFaceHelp : UserDefaultsKey.isShowedFingerHelp
                 isShowedHelpView = UserDefaults.standard.bool(forKey: helpKey.rawValue)
             }
             .onDisappear{
@@ -138,12 +137,12 @@ struct MeasurementView: View {
                 self.frameTask = nil
                 self.image = nil
             }
-            .onChange(of: viewStore.shouldDismiss){
+            .onChange(of: viewStore.property.shouldDismiss){
                 if $0{
                     dismiss()
                 }
             }
-            .onChange(of: viewStore.target){
+            .onChange(of: viewStore.property.target){
                 isShowedHelpView = UserDefaults.standard.bool(forKey: $0 == .face ? UserDefaultsKey.isShowedFaceHelp.rawValue : UserDefaultsKey.isShowedFingerHelp.rawValue)
             }
             .onChange(of: UserDefaults.standard.bool(forKey: UserDefaultsKey.isShowedFaceHelp.rawValue)){_ in

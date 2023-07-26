@@ -8,7 +8,7 @@
 import Foundation
 import Alamofire
 import SwiftyJSON
-
+#if DEBUG
 final class MockMeasurmentProtocol: URLProtocol{
     enum ResponseType{
         case error(Error)
@@ -160,3 +160,4 @@ extension MockMeasurmentProtocol{
         return JSON(data)
     }
 }
+#endif
