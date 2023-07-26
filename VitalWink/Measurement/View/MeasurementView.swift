@@ -24,7 +24,7 @@ struct MeasurementView: View {
                         .cornerRadius(20)
                         .overlay{
                             RoundedRectangle(cornerRadius: 20)
-                                .stroke(viewStore.property.canMeasure ? .clear : .red, lineWidth: 1)
+                                .stroke(viewStore.canMeasure ? .clear : .red, lineWidth: 1)
                         }
                         .modifier(FrameViewModifier())
 
@@ -50,7 +50,7 @@ struct MeasurementView: View {
 
                 Text(viewStore.property.target == .face ? "얼굴이 인식되지 않습니다." : "손가락을 후면카메라에 밀착시켜주세요.")
                     .font(.notoSans(size: 14))
-                    .foregroundColor(viewStore.property.canMeasure ? .clear : .red)
+                    .foregroundColor(viewStore.canMeasure ? .clear : .red)
                     .padding(.bottom, 70)
 
 
@@ -73,8 +73,8 @@ struct MeasurementView: View {
                         Text("측정")
                     }
                 }
-                .disabled(!viewStore.property.canMeasure)
-                .buttonStyle(VitalWinkButtonStyle(isDisabled:!viewStore.property.canMeasure || viewStore.property.isMeasuring))
+                .disabled(!viewStore.canMeasure)
+                .buttonStyle(VitalWinkButtonStyle(isDisabled:!viewStore.canMeasure || viewStore.property.isMeasuring))
                 .padding(.bottom, 30)
             }
             .toolbar{

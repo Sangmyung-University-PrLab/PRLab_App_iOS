@@ -90,6 +90,10 @@
 		067AD02E2A4E94B3002E39B1 /* DataBaseType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 067AD02D2A4E94B3002E39B1 /* DataBaseType.swift */; };
 		0683C8212A6F87EC00F753DA /* MeasurementAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0683C8202A6F87EC00F753DA /* MeasurementAlert.swift */; };
 		0683C8232A6FAB3100F753DA /* MeasurementProperty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0683C8222A6FAB3100F753DA /* MeasurementProperty.swift */; };
+		0683C8252A6FB3AD00F753DA /* FaceMeasurement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0683C8242A6FB3AD00F753DA /* FaceMeasurement.swift */; };
+		0683C8272A6FB78200F753DA /* MeasurementError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0683C8262A6FB78200F753DA /* MeasurementError.swift */; };
+		0683C8292A6FB7E500F753DA /* MeasurementCancelID.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0683C8282A6FB7E500F753DA /* MeasurementCancelID.swift */; };
+		0683C82B2A70C35B00F753DA /* FingerMeasurement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0683C82A2A70C35B00F753DA /* FingerMeasurement.swift */; };
 		068851492A48410800403AE7 /* ExpressionAnalysisData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 068851482A48410800403AE7 /* ExpressionAnalysisData.swift */; };
 		06A8AB5E2A1DF06100004B62 /* Login.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A8AB5D2A1DF06100004B62 /* Login.swift */; };
 		06A8AB612A1DF14E00004B62 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 06A8AB602A1DF14E00004B62 /* ComposableArchitecture */; };
@@ -235,6 +239,10 @@
 		067AD02D2A4E94B3002E39B1 /* DataBaseType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataBaseType.swift; sourceTree = "<group>"; };
 		0683C8202A6F87EC00F753DA /* MeasurementAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeasurementAlert.swift; sourceTree = "<group>"; };
 		0683C8222A6FAB3100F753DA /* MeasurementProperty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeasurementProperty.swift; sourceTree = "<group>"; };
+		0683C8242A6FB3AD00F753DA /* FaceMeasurement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceMeasurement.swift; sourceTree = "<group>"; };
+		0683C8262A6FB78200F753DA /* MeasurementError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeasurementError.swift; sourceTree = "<group>"; };
+		0683C8282A6FB7E500F753DA /* MeasurementCancelID.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeasurementCancelID.swift; sourceTree = "<group>"; };
+		0683C82A2A70C35B00F753DA /* FingerMeasurement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FingerMeasurement.swift; sourceTree = "<group>"; };
 		068851482A48410800403AE7 /* ExpressionAnalysisData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpressionAnalysisData.swift; sourceTree = "<group>"; };
 		06A8AB5D2A1DF06100004B62 /* Login.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Login.swift; sourceTree = "<group>"; };
 		06A8AB622A1DF4A800004B62 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
@@ -541,6 +549,7 @@
 				0663C4612A1B262600B85ABF /* ImageAnalysisData.swift */,
 				0663C4712A1C7D3100B85ABF /* MeasurementResult.swift */,
 				068851482A48410800403AE7 /* ExpressionAnalysisData.swift */,
+				0683C8262A6FB78200F753DA /* MeasurementError.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -637,6 +646,9 @@
 				06BCCD132A5E3ECE003DA1E2 /* Menu.swift */,
 				0683C8202A6F87EC00F753DA /* MeasurementAlert.swift */,
 				0683C8222A6FAB3100F753DA /* MeasurementProperty.swift */,
+				0683C8242A6FB3AD00F753DA /* FaceMeasurement.swift */,
+				0683C8282A6FB7E500F753DA /* MeasurementCancelID.swift */,
+				0683C82A2A70C35B00F753DA /* FingerMeasurement.swift */,
 			);
 			path = Feature;
 			sourceTree = "<group>";
@@ -1001,6 +1013,7 @@
 				0629A2182A204F70007B864B /* VideoWriter.swift in Sources */,
 				0663C44B2A19FFA700B85ABF /* MeasurementRouter.swift in Sources */,
 				0629A2262A25DD3E007B864B /* MeasurementView.swift in Sources */,
+				0683C8252A6FB3AD00F753DA /* FaceMeasurement.swift in Sources */,
 				064B04E72A08F14800230FBC /* Camera.swift in Sources */,
 				065C00C12A305C6F00054387 /* Font + Extension.swift in Sources */,
 				067AD01A2A4BF070002E39B1 /* MetricCardView.swift in Sources */,
@@ -1017,6 +1030,7 @@
 				06BCCD312A666FC9003DA1E2 /* MetricStepChartView.swift in Sources */,
 				067AD02E2A4E94B3002E39B1 /* DataBaseType.swift in Sources */,
 				063C16272A0E01DB00E07141 /* CameraStream.swift in Sources */,
+				0683C8272A6FB78200F753DA /* MeasurementError.swift in Sources */,
 				0663C4662A1B3FCB00B85ABF /* MetricData.swift in Sources */,
 				065C00FC2A35BA6000054387 /* CircularSegmentedPickerView.swift in Sources */,
 				06F180A62A15F28800F1CE90 /* VitalWinkAPIError.swift in Sources */,
@@ -1035,6 +1049,7 @@
 				065C010E2A3C39A100054387 /* SnsUserInfoService.swift in Sources */,
 				065C01022A3802D600054387 /* SignUp.swift in Sources */,
 				068851492A48410800403AE7 /* ExpressionAnalysisData.swift in Sources */,
+				0683C82B2A70C35B00F753DA /* FingerMeasurement.swift in Sources */,
 				0663C4722A1C7D3100B85ABF /* MeasurementResult.swift in Sources */,
 				0663C4702A1C743900B85ABF /* MinMaxType.swift in Sources */,
 				0683C8232A6FAB3100F753DA /* MeasurementProperty.swift in Sources */,
@@ -1063,6 +1078,7 @@
 				06BCCD252A60F8F3003DA1E2 /* VitalWinkBackButton.swift in Sources */,
 				065C00DD2A31B8B600054387 /* LoginAPI.swift in Sources */,
 				06F180A22A15E95C00F1CE90 /* AuthInterceptor.swift in Sources */,
+				0683C8292A6FB7E500F753DA /* MeasurementCancelID.swift in Sources */,
 				067AD01C2A4BFBBC002E39B1 /* Monitoring.swift in Sources */,
 				067AD0122A4A7CFD002E39B1 /* VitalWinkAlertState.swift in Sources */,
 				0663C4582A1A17F200B85ABF /* MockMeasurementProtocol.swift in Sources */,
