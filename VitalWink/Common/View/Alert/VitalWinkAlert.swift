@@ -24,6 +24,9 @@ struct VitalWinkAlert<VAS>: View where VAS: VitalWinkAlertState{
                     if buttonStates.count == 1{
                         let button = buttonStates[0]
                         Button(button.title){
+                            if let action = button.action(){
+                                viewStore.send(action)
+                            }
                             viewStore.send(dismiss)
                         }
                         .buttonStyle(VitalWinkButtonStyle())
