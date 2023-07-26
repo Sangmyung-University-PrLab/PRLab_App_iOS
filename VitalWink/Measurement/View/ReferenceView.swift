@@ -17,7 +17,7 @@ struct ReferenceView: View {
             makeColumn(metric: "표정분석", linkTitle: "Fast and Accurate Facial Expression Image Classification and Regression Method Based on Knowledge Distillation",url: URL(string: "https://www.mdpi.com/2076-3417/13/11/6409")!)
                 
             makeColumn(metric: "혈압", linkTitle: "Assessment of Non-Invasive Blood Pressure Prediction from PPG and rPPG Signals Using Deep Learning",url: URL(string: "https://www.mdpi.com/1424-8220/21/18/6022")!)
-            makeColumn(metric: "BMI", linkTitle: "Face-to-BMI: Using Computer Vision to Infer Body Mass Index on Social Media",url: URL(string: "https://ojs.aaai.org/index.php/ICWSM/article/view/14923")!)
+            makeColumn(metric: "BMI", linkTitle: "Multi-View Body Image-Based Prediction of Body Mass Index and Various Body Part Sizes.",url: URL(string: "https://openaccess.thecvf.com/content/CVPR2023W/CVPM/html/Kim_Multi-View_Body_Image-Based_Prediction_of_Body_Mass_Index_and_Various_CVPRW_2023_paper.html")!)
         }
         .navigationTitle("기술출처")
         .navigationBarTitleDisplayMode(.inline)
