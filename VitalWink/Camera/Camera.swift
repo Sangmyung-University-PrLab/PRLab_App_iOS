@@ -142,15 +142,16 @@ final class Camera:@unchecked Sendable{
         guard let backCamera = self.backCamera else{
             return
         }
-        
-        do{
-            try backCamera.lockForConfiguration()
-            backCamera.torchMode = .on
-            backCamera.unlockForConfiguration()
-
-        }
-        catch{
-            throw error
+        if backCamera.hasTorch{
+            do{
+                try backCamera.lockForConfiguration()
+                backCamera.torchMode = .on
+                backCamera.unlockForConfiguration()
+                
+            }
+            catch{
+                throw error
+            }
         }
     }
     private func setCaptureSession() throws{
