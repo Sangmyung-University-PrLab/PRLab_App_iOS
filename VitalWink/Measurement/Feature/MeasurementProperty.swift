@@ -37,6 +37,7 @@ struct MeasurementProperty: Equatable{
     var target: Measurement.Target = .face
     var isActivityIndicatorVisible = false
     var shouldDismiss = false
+    var shouldShowReferenceView = false
     var frame: AsyncStream<UIImage>
     var isMeasuring: Bool = false
     var rgbValues = [Measurement.RGB]()

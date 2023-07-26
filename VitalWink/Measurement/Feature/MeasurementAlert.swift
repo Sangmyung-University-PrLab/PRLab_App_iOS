@@ -31,12 +31,15 @@ struct MeasurementAlert: ReducerProtocol{
         
         case shouldShowActivityIndicator
         case shouldDismissRootView
+        case shouldShowReferenceView
     }
     
     
     var body: some ReducerProtocol<State, Action>{
         Reduce{state, action in
             switch action{
+            case .shouldShowReferenceView:
+                return .none
             case .showResult(let result):
                 state.resultAlertState = VitalWinkContentAlertState{
                     VitalWinkAlertButtonState<Action>(title: "닫기"){
@@ -61,6 +64,8 @@ struct MeasurementAlert: ReducerProtocol{
                 return .none
             case .menu(let action):
                 switch action{
+                case .shouldShowReferenceView:
+                    return .send(.shouldShowReferenceView)
                 case .errorHandling(let error):
                     return .send(.errorHandling(error))
                 case .confirmationWithdrawal:
@@ -70,10 +75,9 @@ struct MeasurementAlert: ReducerProtocol{
                 case .failDeleteToken:
                     return .send(.menuAlertDismiss)
                 default:
-                    break
+                    return .none
                 }
-                
-                return .none
+
             case .resultAlertDismiss:
                 state.resultAlertState = nil
                 return .none
@@ -87,6 +91,9 @@ struct MeasurementAlert: ReducerProtocol{
                 state.menuAlertState = VitalWinkMenuAlertState{
                     VitalWinkAlertButtonState<Action>(title: "로그아웃", role: .distructive){
                         return .menu(.logout)
+                    }
+                    VitalWinkAlertButtonState<Action>(title: "기술출처", role: .distructive){
+                        return .menu(.shouldShowReferenceView)
                     }
                     VitalWinkAlertButtonState<Action>(title: "회원탈퇴", role: .distructive){
                         return .menu(.withdrawal)
