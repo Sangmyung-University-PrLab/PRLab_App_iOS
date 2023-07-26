@@ -68,11 +68,16 @@ struct Measurement: ReducerProtocol{
         case monitoring(Monitoring.Action)
         case alert(MeasurementAlert.Action)
         case menu(Menu.Action)
+        
+        case shouldShowReferenceView(Bool)
     }
     
     var body: some ReducerProtocol<State, Action>{
         Reduce{state, action in
             switch action{
+            case .shouldShowReferenceView(let value):
+                state.property.shouldShowReferenceView = value
+                return .none
             case .fingerMeasurement(let action):
                 switch action{
                 case .appendRGBValue(let rgb):
@@ -95,6 +100,7 @@ struct Measurement: ReducerProtocol{
                 }
             case .menu(let action):
                 return .send(.alert(.menu(action)))
+                
             case .alert(let action):
                 switch action{
                 case .shouldDismissRootView:
@@ -107,6 +113,9 @@ struct Measurement: ReducerProtocol{
                     return .send(.reset)
                 case .errorHandling:
                     return .send(.cancelMeasurement)
+                case .shouldShowReferenceView:
+                    state.property.shouldShowReferenceView = true
+                    return .none
                 default:
                     return .none
                 }
@@ -121,6 +130,7 @@ struct Measurement: ReducerProtocol{
                 
                 return .send(.cancelMeasurement)
                     .merge(with:.cancel(id: MeasurementCancelID.beFedFrame))
+                
             case .monitoring:
                 return .none
             case .changeTarget(let target):

@@ -23,10 +23,13 @@ struct Menu: ReducerProtocol{
         case confirmationWithdrawal
         case dialogDismiss
         case showDialog
+        case shouldShowReferenceView
     }
     
     func reduce(into state: inout State, action: Action) -> EffectTask<Action> {
         switch action{
+        case .shouldShowReferenceView:
+            return .none
         case .withdrawal:
             return .run{send in
                 try await Task.sleep(nanoseconds: UInt64(1_000_000_000 * 0.5))
