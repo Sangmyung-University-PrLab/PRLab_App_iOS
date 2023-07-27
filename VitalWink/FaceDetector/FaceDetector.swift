@@ -131,11 +131,12 @@ public final class FaceDetector{
                     .applying(self.faceBboxTransform(size.height))
                 continuation.resume(returning: normBbox)
                 
-                lock.lock()
-                self.trackRequest = VNTrackObjectRequest(detectedObjectObservation: largestFace)
-              
-                self.lock.unlock()
-                
+
+//                lock.lock()
+//                self.trackRequest = VNTrackObjectRequest(detectedObjectObservation: largestFace)
+//              
+//                self.lock.unlock()
+
             }
         }
     }
