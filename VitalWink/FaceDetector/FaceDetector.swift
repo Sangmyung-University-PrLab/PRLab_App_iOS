@@ -71,6 +71,7 @@ public final class FaceDetector{
         do{
             try self.sequenceHandler.perform([request], on: buffer)
         }catch{
+            print(error)
             trackRequest = nil
             throw error
         }
@@ -100,25 +101,14 @@ public final class FaceDetector{
         
         return observation.boundingBox
     }
-    private func getLargestBBox(_ bboxes: [CGRect]) -> CGRect{
-        let largest = bboxes.reduce(CGRect.zero){
-            if $1.width * $1.height > $0.width * $0.height{
-                return $1
-            } else{
-                return $0
-            }
-        }
-        
-        trackRequest = VNTrackObjectRequest(detectedObjectObservation: VNDetectedObjectObservation(boundingBox: largest))
-
-        return largest
-    }
     private func makeFaceDetectionRequset(continuation: CheckedContinuation<CGRect, Error>, size: CGSize) -> VNDetectFaceRectanglesRequest{
-        return VNDetectFaceRectanglesRequest{request, error in
+        return VNDetectFaceRectanglesRequest{[weak self] request, error in
             guard let results = request.results as? [VNFaceObservation] else{
                 fatalError("VNFaceObservation으로 다운 캐스팅 실패")
             }
-            
+            guard let `self` = self else {
+                return
+            }
             guard error == nil else {
                 continuation.resume(throwing: error!)
                 return
@@ -126,11 +116,20 @@ public final class FaceDetector{
             
             if results.isEmpty{
                 continuation.resume(returning: .zero)
-            }else{
-                let largestBbox = self.getLargestBBox(results.map{$0.boundingBox})
-                let normBbox = VNImageRectForNormalizedRect(largestBbox, Int(size.width), Int(size.height))
+            }
+            else{
+                let largestFace = results.reduce(VNFaceObservation(boundingBox: .zero)){
+                    if $1.boundingBox.width * $1.boundingBox.height > $0.boundingBox.width * $0.boundingBox.height{
+                        return $1
+                    } else{
+                        return $0
+                    }
+                }
+                let normBbox = VNImageRectForNormalizedRect(largestFace.boundingBox, Int(size.width), Int(size.height))
                     .applying(self.faceBboxTransform(size.height))
                 continuation.resume(returning: normBbox)
+//
+                self.trackRequest = VNTrackObjectRequest(detectedObjectObservation: largestFace)
             }
         }
     }
