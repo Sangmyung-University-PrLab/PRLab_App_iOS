@@ -11,6 +11,7 @@ import ComposableArchitecture
 struct FingerMeasurement: ReducerProtocol{
     struct State{
         fileprivate(set) var isBeTight = false
+        fileprivate(set) var isDetecting = false
     }
     
     enum Action{
@@ -32,7 +33,12 @@ struct FingerMeasurement: ReducerProtocol{
         case .appendRGBValue:
             return .none
         case .checkFingerisBeTight(let image):
+            if state.isDetecting{
+                return .none
+            }
+            state.isDetecting = true
             state.isBeTight = OpenCVWrapper.isBeTight(image, 0.8)
+            state.isDetecting = false
             return .none
         }
     }
