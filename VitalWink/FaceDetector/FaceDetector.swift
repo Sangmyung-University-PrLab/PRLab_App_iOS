@@ -64,8 +64,6 @@ public final class FaceDetector{
     //MARK: private
     private init(){}
     private func track(buffer: CVPixelBuffer) throws -> CGRect{
-        lock.lock()
-        defer{lock.unlock()}
         guard let request = trackRequest else{
             return .zero
         }
@@ -131,10 +129,7 @@ public final class FaceDetector{
                     .applying(self.faceBboxTransform(size.height))
                 continuation.resume(returning: normBbox)
                 
-//                lock.lock()
-//                self.trackRequest = VNTrackObjectRequest(detectedObjectObservation: largestFace)
-//              
-//                self.lock.unlock()
+                self.trackRequest = VNTrackObjectRequest(detectedObjectObservation: largestFace)
                 
             }
         }
@@ -143,7 +138,7 @@ public final class FaceDetector{
         return CGAffineTransform.identity.scaledBy(x: 1, y: -1).translatedBy(x: 0, y: -height)
     }
     
-    private var lock = NSLock()
+    
     private var trackRequest: VNTrackObjectRequest? = nil
     private var sequenceHandler = VNSequenceRequestHandler()
 }
