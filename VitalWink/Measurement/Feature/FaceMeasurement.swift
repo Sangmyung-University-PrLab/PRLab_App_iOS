@@ -13,6 +13,7 @@ struct FaceMeasuremenet: ReducerProtocol{
         fileprivate(set) var imageAnalysisStartTime = CFAbsoluteTimeGetCurrent()
         fileprivate(set) var bbox: CGRect? = nil
         fileprivate(set) var imageAnalysisDatas = [ImageAnalysisData]()
+        fileprivate(set) var isDetecting = false
     }
     
     enum Action{
@@ -42,16 +43,23 @@ struct FaceMeasuremenet: ReducerProtocol{
                 }
             }.cancellable(id:MeasurementCancelID.imageAnalysis, cancelInFlight: true)
         case .faceDetect(let image):
+            if state.isDetecting{
+                return .none
+            }
+            
+            state.isDetecting = true
             return .run{send in
                 do{
                     let bbox = try await faceDetector.detect(image)
                     await send(.responseFaceDetction(bbox))
+
                 }catch{
                     await send(.errorHandling(error))
                 }
             }
         case .responseFaceDetction(let bbox):
             state.bbox = bbox
+            state.isDetecting = false
             return .none
         case .appendRGBValue:
             return .none
@@ -81,6 +89,7 @@ struct FaceMeasuremenet: ReducerProtocol{
         }
     }
 
+   
     @Dependency(\.measurementAPI) private var measurementAPI
     @Dependency(\.faceDetector) private var faceDetector
 }
