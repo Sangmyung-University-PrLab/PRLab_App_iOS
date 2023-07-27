@@ -43,14 +43,4 @@ struct MeasurementProperty: Equatable{
     var rgbValues = [Measurement.RGB]()
     var progress: Float = 0.0
     var measurementStartTime: CFAbsoluteTime? = nil
-
-    mutating func reset(){
-        measurementStartTime = nil
-        rgbValues = []
-        progress = 0
-        shouldDismiss = false
-        isActivityIndicatorVisible = false
-        isMeasuring = false
-        isActivityIndicatorVisible = false
-    }
 }

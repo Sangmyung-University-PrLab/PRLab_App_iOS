@@ -211,14 +211,24 @@ struct Measurement: ReducerProtocol{
                 return .send(.sendRGBValues)
                 
             case .reset:
-                state.property.reset()
+                state.property = MeasurementProperty()
+               
                 if state.property.target == .face{
                     state.faceMeasurement = FaceMeasuremenet.State()
                 }
                 else{
                     state.fingerMeasurement = FingerMeasurement.State()
                 }
-                return .none
+                return .run{send in
+                    if camera.position == .back{
+                        do{
+                            try camera.changeCameraPosition()
+                        }
+                        catch{
+                            await send(.alert(.errorHandling(error)))
+                        }
+                    }
+                }
             
             case .startCamera:
                 return .run{send in
