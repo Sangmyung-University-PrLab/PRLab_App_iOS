@@ -128,9 +128,8 @@ public final class FaceDetector{
                 let normBbox = VNImageRectForNormalizedRect(largestFace.boundingBox, Int(size.width), Int(size.height))
                     .applying(self.faceBboxTransform(size.height))
                 continuation.resume(returning: normBbox)
-                
+
                 self.trackRequest = VNTrackObjectRequest(detectedObjectObservation: largestFace)
-                
             }
         }
     }
