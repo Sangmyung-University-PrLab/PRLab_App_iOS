@@ -21,7 +21,7 @@ struct RecentDataView: View {
                     MetricCardView(metric: .RR, store: store)
 //                    MetricCardView(metric: .stress, value: "\(viewStore.state?.stress ?? 0)",  store: store)
                     MetricCardView(metric: .expressionAnalysis , store: store)
-                    MetricCardView(metric: .bloodSugars, store: store)
+//                    MetricCardView(metric: .bloodSugars, store: store)
                     MetricCardView(metric: .bloodPressure, store: store)
                     MetricCardView(metric: .BMI, store: store)
                 }.frame(maxWidth:.infinity)
