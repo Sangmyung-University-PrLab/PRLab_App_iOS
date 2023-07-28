@@ -127,7 +127,7 @@ struct Measurement: ReducerProtocol{
               
                 }
                 state.property.frameContinuation = coninuation
-                
+                state.property.target = .face
                 return .send(.cancelMeasurement)
                     .merge(with:.cancel(id: MeasurementCancelID.beFedFrame))
                 
@@ -156,6 +156,7 @@ struct Measurement: ReducerProtocol{
                     switch await measurementAPI.fetchMeasurementResult(measurementId){
                     case .success(let result):
                         await send(.alert(.showResult(result)))
+                        await send(.reset)
                     case .failure(let error):
                         await send(.alert(.errorHandling(error)))
                     }
@@ -211,14 +212,13 @@ struct Measurement: ReducerProtocol{
                 return .send(.sendRGBValues)
                 
             case .reset:
-                state.property = MeasurementProperty()
-               
                 if state.property.target == .face{
                     state.faceMeasurement = FaceMeasuremenet.State()
                 }
                 else{
                     state.fingerMeasurement = FingerMeasurement.State()
                 }
+                state.property.reset()
                 return .run{send in
                     if camera.position == .back{
                         do{
