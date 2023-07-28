@@ -38,7 +38,7 @@ struct Measurement: ReducerProtocol{
         fileprivate(set) var faceMeasurement = FaceMeasuremenet.State()
         fileprivate(set) var alert = MeasurementAlert.State()
     }
-
+    
     
     enum Target: CaseIterable{
         case face
@@ -55,12 +55,12 @@ struct Measurement: ReducerProtocol{
         
         case startMeasurement
         case endMeasurement
- 
+        
         case reset
         case sendRGBValues
         case sendImageAnalysisData(_ measurementId: Int)
         case updateProgress
-
+        
         case cancelMeasurement
         case fetchResult(_ measurementId: Int)
         case onDisappear
@@ -124,24 +124,35 @@ struct Measurement: ReducerProtocol{
                 var coninuation: AsyncStream<UIImage>.Continuation!
                 state.property.frame = AsyncStream{
                     coninuation = $0
-              
+                    
                 }
                 state.property.frameContinuation = coninuation
                 state.property.target = .face
-                return .send(.cancelMeasurement)
-                    .merge(with:.cancel(id: MeasurementCancelID.beFedFrame))
+                return .run{send in
+                    await send(.cancelMeasurement)
+                    if camera.position == .back{
+                        do{
+                            try camera.changeCameraPosition()
+                        }
+                        catch{
+                            await send(.alert(.errorHandling(error)))
+                        }
+                    }
+                }
+                .merge(with:.cancel(id: MeasurementCancelID.beFedFrame))
+                
                 
             case .monitoring:
                 return .none
             case .changeTarget(let target):
                 state.property.target = target
                 do{
-                   try camera.changeCameraPosition()
+                    try camera.changeCameraPosition()
                 }catch{
                     return .send(.alert(.errorHandling(error)))
                 }
                 return .none
-
+                
             case .sendImageAnalysisData(let measurementId):
                 return .run{[data = state.faceMeasurement.imageAnalysisDatas] send in
                     do{
@@ -177,7 +188,7 @@ struct Measurement: ReducerProtocol{
                         await send(.alert(.errorHandling(error)))
                     }
                 }
-        
+                
             case .obtainRGBValue(let image):
                 return .run{[target = state.property.target] send in
                     if target == .face{
@@ -187,7 +198,7 @@ struct Measurement: ReducerProtocol{
                         await send(.fingerMeasurement(.obtainRGBValue(image)))
                     }
                 }
-            
+                
             case .beFedFrame(let buffer):
                 let uiImage = UIImage(sampleBuffer: buffer)
                 state.property.frameContinuation.yield(uiImage)
@@ -200,7 +211,7 @@ struct Measurement: ReducerProtocol{
                     else{
                         await send(.fingerMeasurement(.checkFingerisBeTight(uiImage)))
                     }
-                                     
+                    
                     if isMeasuring{
                         await send(.obtainRGBValue(uiImage))
                         await send(.updateProgress)
@@ -219,17 +230,8 @@ struct Measurement: ReducerProtocol{
                     state.fingerMeasurement = FingerMeasurement.State()
                 }
                 state.property.reset()
-                return .run{send in
-                    if camera.position == .back{
-                        do{
-                            try camera.changeCameraPosition()
-                        }
-                        catch{
-                            await send(.alert(.errorHandling(error)))
-                        }
-                    }
-                }
-            
+                return .none
+                
             case .startCamera:
                 return .run{send in
                     do{
@@ -279,7 +281,7 @@ struct Measurement: ReducerProtocol{
     }
     
     
-   
+    
     //MARK: private
     private let nanosecond: UInt64 =  1_000_000_000
     private let measuringDuriation: UInt64 =  1_000_000_000 * 15
