@@ -42,6 +42,7 @@ struct Login: ReducerProtocol{
         case shouldSignUp(_ type: UserModel.`Type`)
         case restoreLogin
         case onAppear
+        case onDisappear
     }
     
     var body: some ReducerProtocol<State, Action>{
@@ -49,6 +50,11 @@ struct Login: ReducerProtocol{
         
         Reduce{state, action in
             switch action{
+            case .onDisappear:
+                state.id = ""
+                state.password = ""
+                state.isActivityIndicatorVisible = false
+                return .none
             case .onAppear:
                 state.isActivityIndicatorVisible = true
                 
