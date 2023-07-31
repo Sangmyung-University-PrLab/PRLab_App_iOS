@@ -77,7 +77,7 @@ struct Measurement: ReducerProtocol{
             switch action{
             case .changeCamera:
                 return .run{send in
-                    try camera.changeCameraPosition()
+                    try camera.changeCameraPosition(camera.position == .back ? .front : .back, torchOn: false)
                 }catch: { error, send in
                     await send(.alert(.errorHandling(error)))
                 }
@@ -137,7 +137,7 @@ struct Measurement: ReducerProtocol{
                 return .run{send in
                     await send(.cancelMeasurement)
                     if camera.position == .back{
-                        try camera.changeCameraPosition()
+                        try camera.changeCameraPosition(.front)
                     }
                 }
                 catch: {error, send in
@@ -151,7 +151,7 @@ struct Measurement: ReducerProtocol{
             case .changeTarget(let target):
                 state.property.target = target
                 do{
-                    try camera.changeCameraPosition()
+                    try camera.changeCameraPosition(target == .face ? .front : .back)
                 }catch{
                     return .send(.alert(.errorHandling(error)))
                 }
