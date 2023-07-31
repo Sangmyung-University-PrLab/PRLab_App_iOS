@@ -38,7 +38,7 @@ final class Camera:@unchecked Sendable{
             }
         }
     }
-    func changeCameraPosition() throws{
+    func changeCameraPosition(torchOn: Bool = true) throws{
         captureSession.beginConfiguration()
 
         guard let videoDeviceInput = self.videoDeviceInput else{
@@ -68,7 +68,7 @@ final class Camera:@unchecked Sendable{
         
         do{
             try setVideoDeviceInput(camera: camera)
-            if self.position == .back{
+            if self.position == .back && torchOn{
                 if camera.hasTorch{
                     try camera.lockForConfiguration()
                     camera.torchMode = .on
