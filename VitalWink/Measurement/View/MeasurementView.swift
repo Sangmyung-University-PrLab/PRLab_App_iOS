@@ -18,6 +18,25 @@ struct MeasurementView: View {
             VStack(spacing:0){
                 CircularSegmentedPickerView(selected: viewStore.binding(get:\.property.target, send: Measurement.Action.changeTarget), texts: ["얼굴","손가락"]).disabled(viewStore.property.isMeasuring)
 
+                if viewStore.property.target == .face{
+                    Circle()
+                        .foregroundColor(.blue)
+                        .frame(width:40)
+                        .overlay{
+                            Image(systemName:"arrow.triangle.2.circlepath.camera.fill")
+                                .font(.system(size:20))
+                                .foregroundColor(.white)
+                        }
+                        .padding(.top,30)
+                        .onTapGesture{
+                            viewStore.send(.changeCamera)
+                        }
+                }
+                else{
+                    Spacer()
+                        .frame(height:70)
+                }
+             
                 if let image = self.image{
                     image
                         .resizable()
@@ -173,7 +192,7 @@ struct FrameViewModifier: ViewModifier{
         content
         .shadow(color: .black.opacity(0.1),radius: 10)
         .padding(.horizontal, 40)
-        .padding(.top,85)
+        .padding(.top,30)
         .padding(.bottom, 10)
         .foregroundColor(.white)
         

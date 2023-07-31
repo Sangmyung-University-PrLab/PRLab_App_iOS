@@ -46,10 +46,9 @@ struct Measurement: ReducerProtocol{
     }
     
     enum Action{
-        case faceMeasurement(FaceMeasuremenet.Action)
-        case fingerMeasurement(FingerMeasurement.Action)
         case changeTarget(Target)
         case startCamera
+        case changeCamera
         case beFedFrame(_ sampleBuffer: CMSampleBuffer)
         case obtainRGBValue(UIImage)
         
@@ -64,17 +63,24 @@ struct Measurement: ReducerProtocol{
         case cancelMeasurement
         case fetchResult(_ measurementId: Int)
         case onDisappear
+        case shouldShowReferenceView(Bool)
         
         case monitoring(Monitoring.Action)
         case alert(MeasurementAlert.Action)
         case menu(Menu.Action)
-        
-        case shouldShowReferenceView(Bool)
+        case faceMeasurement(FaceMeasuremenet.Action)
+        case fingerMeasurement(FingerMeasurement.Action)
     }
     
     var body: some ReducerProtocol<State, Action>{
         Reduce{state, action in
             switch action{
+            case .changeCamera:
+                return .run{send in
+                    try camera.changeCameraPosition()
+                }catch: { error, send in
+                    await send(.alert(.errorHandling(error)))
+                }
             case .shouldShowReferenceView(let value):
                 state.property.shouldShowReferenceView = value
                 return .none
@@ -131,13 +137,11 @@ struct Measurement: ReducerProtocol{
                 return .run{send in
                     await send(.cancelMeasurement)
                     if camera.position == .back{
-                        do{
-                            try camera.changeCameraPosition()
-                        }
-                        catch{
-                            await send(.alert(.errorHandling(error)))
-                        }
+                        try camera.changeCameraPosition()
                     }
+                }
+                catch: {error, send in
+                    await send(.alert(.errorHandling(error)))
                 }
                 .merge(with:.cancel(id: MeasurementCancelID.beFedFrame))
                 
@@ -155,12 +159,10 @@ struct Measurement: ReducerProtocol{
                 
             case .sendImageAnalysisData(let measurementId):
                 return .run{[data = state.faceMeasurement.imageAnalysisDatas] send in
-                    do{
                         try await measurementAPI.saveImageAnalysisData(data: data, measurementId: measurementId)
                         await send(.fetchResult(measurementId))
-                    }catch{
-                        await send(.alert(.errorHandling(error)))
-                    }
+                }catch: { error, send in
+                    await send(.alert(.errorHandling(error)))
                 }
             case .fetchResult(let measurementId):
                 return .run{send in
@@ -234,13 +236,13 @@ struct Measurement: ReducerProtocol{
                 
             case .startCamera:
                 return .run{send in
-                    do{
-                        try await camera.setUp()
-                    }catch{
-                        await send(.alert(.errorHandling(error)))
-                    }
+                    try await camera.setUp()
                     camera.start()
-                }.concatenate(with: EffectTask<Action>.run{send in
+                }
+                catch:{error, send in
+                    await send(.alert(.errorHandling(error)))
+                }
+                .concatenate(with: EffectTask<Action>.run{send in
                     for await buffer in camera.frame{
                         await send(.beFedFrame(buffer))
                     }
