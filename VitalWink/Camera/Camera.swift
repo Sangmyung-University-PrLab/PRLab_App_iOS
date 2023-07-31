@@ -38,37 +38,26 @@ final class Camera:@unchecked Sendable{
             }
         }
     }
-    func changeCameraPosition(torchOn: Bool = true) throws{
-        captureSession.beginConfiguration()
-
-        guard let videoDeviceInput = self.videoDeviceInput else{
-            return
-        }
-        
-        let camera: AVCaptureDevice!
-        
+    func changeCameraPosition(position: Position, torchOn: Bool = true) throws{
         lock.lock()
         defer {
             self.lock.unlock()
         }
-
-        switch position {
-        case .front:
-            camera = backCamera
-            self.position = .back
-        case .back:
-            camera = frontCamera
-            self.position = .front
+    
+        guard let videoDeviceInput = self.videoDeviceInput else{
+            return
         }
-        guard camera != nil else{
+        self.position = position
+        guard let camera = position == .front ? frontCamera : backCamera else{
             throw CameraError.notFoundCamera
         }
         
+        captureSession.beginConfiguration()
         captureSession.removeInput(videoDeviceInput)
         
         do{
             try setVideoDeviceInput(camera: camera)
-            if self.position == .back && torchOn{
+            if position == .back && torchOn{
                 if camera.hasTorch{
                     try camera.lockForConfiguration()
                     camera.torchMode = .on
