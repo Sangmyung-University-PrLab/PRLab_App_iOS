@@ -38,7 +38,7 @@ final class Camera:@unchecked Sendable{
             }
         }
     }
-    func changeCameraPosition(position: Position, torchOn: Bool = true) throws{
+    func changeCameraPosition(_ position: Position, torchOn: Bool = true) throws{
         lock.lock()
         defer {
             self.lock.unlock()
