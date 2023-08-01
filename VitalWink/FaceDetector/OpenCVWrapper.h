@@ -14,7 +14,7 @@
 
 + (NSArray<NSNumber *>* _Nonnull) skinSegmentation: (const UIImage* _Nonnull) image;
 + (bool) isBeTight: (const UIImage* _Nonnull) image: (float) threshold;
-+ (NSArray<NSNumber *>* _Nonnull)getBgrValues:(const UIImage * _Nonnull)image;
++ (NSArray<NSNumber *>* _Nonnull)getRGBValues:(const UIImage * _Nonnull)image;
 
 @end
 #endif /* OpenCVWrapper_h */

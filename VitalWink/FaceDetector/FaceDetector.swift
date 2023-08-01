@@ -26,7 +26,7 @@ public final class FaceDetector{
         guard let cgImage = image.cgImage else{
             throw FaceDetectorError.getEmptyUIImage
         }
-        let handler = VNImageRequestHandler(cgImage: cgImage,orientation: .leftMirrored)
+        let handler = VNImageRequestHandler(cgImage: cgImage)
         
         return try await withCheckedThrowingContinuation{continuation in
             if trackRequest == nil{
@@ -55,10 +55,10 @@ public final class FaceDetector{
     }
     
     /// 피부 분할 후 픽셀들의 평균을 낸 RBG  값
-    public func skinSegmentation(_ image: UIImage) -> (Int, Int, Int){
-        let bgrNSArray = OpenCVWrapper.skinSegmentation(image)
+    public func skinSegmentation(_ image: UIImage) -> (Float, Float, Float){
+        let rgbNSArray = OpenCVWrapper.skinSegmentation(image)
 
-        return (bgrNSArray[2] as! Int, bgrNSArray[1] as! Int, bgrNSArray[0] as! Int)
+        return (rgbNSArray[2] as! Float, rgbNSArray[1] as! Float, rgbNSArray[0] as! Float)
     }
     
     //MARK: private
