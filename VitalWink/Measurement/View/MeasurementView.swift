@@ -102,19 +102,21 @@ struct MeasurementView: View {
                         }
                 }
                 
-                ToolbarItem(placement: .principal){
-                        Circle()
-                            .foregroundColor(.blue)
-                            .frame(width:35)
-                            .overlay{
-                                Image(systemName:"arrow.triangle.2.circlepath.camera.fill")
-                                    .font(.system(size:15))
-                                    .foregroundColor(.white)
-                            }   
-                            .onTapGesture{
-                                viewStore.send(.changeCamera)
-                            }
-                    }
+                    ToolbarItem(placement: .principal){
+                        if viewStore.property.target == .face{
+                            Circle()
+                                .foregroundColor(.blue)
+                                .frame(width:35)
+                                .overlay{
+                                    Image(systemName:"arrow.triangle.2.circlepath.camera.fill")
+                                        .font(.system(size:15))
+                                        .foregroundColor(.white)
+                                }
+                                .onTapGesture{
+                                    viewStore.send(.changeCamera)
+                                }
+                        }
+                }
             }
             .padding(.horizontal, 20)
             .overlay{

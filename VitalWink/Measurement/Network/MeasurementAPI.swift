@@ -12,7 +12,7 @@ import Combine
 import SwiftyJSON
 
 final class MeasurmentAPI{
-    func signalMeasurment(rgbValues: [(Int, Int, Int)], target: Measurement.Target) async -> Result<Int, Error>{
+    func signalMeasurment(rgbValues: [(Float, Float, Float)], target: Measurement.Target) async -> Result<Int, Error>{
         
         return await withCheckedContinuation{continuation in
             vitalWinkAPI.request(MeasurementRouter.signalMeasurement(rgbValues: rgbValues, target: target)).validate(statusCode: 200 ..< 300)
