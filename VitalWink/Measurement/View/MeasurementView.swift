@@ -16,27 +16,9 @@ struct MeasurementView: View {
     var body: some View {
         WithViewStore(self.store, observe: {$0}){viewStore in
             VStack(spacing:0){
-                CircularSegmentedPickerView(selected: viewStore.binding(get:\.property.target, send: Measurement.Action.changeTarget), texts: ["얼굴","손가락"]).disabled(viewStore.property.isMeasuring)
 
-                if viewStore.property.target == .face{
-                    Circle()
-                        .foregroundColor(.blue)
-                        .frame(width:40)
-                        .overlay{
-                            Image(systemName:"arrow.triangle.2.circlepath.camera.fill")
-                                .font(.system(size:20))
-                                .foregroundColor(.white)
-                        }
-                        .padding(.top,30)
-                        .onTapGesture{
-                            viewStore.send(.changeCamera)
-                        }
-                }
-                else{
-                    Spacer()
-                        .frame(height:70)
-                }
-             
+                CircularSegmentedPickerView(selected: viewStore.binding(get:\.property.target, send: Measurement.Action.changeTarget), texts: ["얼굴","손가락"]).disabled(viewStore.property.isMeasuring)
+                
                 if let image = self.image{
                     image
                         .resizable()
@@ -71,9 +53,6 @@ struct MeasurementView: View {
                     .font(.notoSans(size: 14))
                     .foregroundColor(viewStore.canMeasure ? .clear : .red)
                     .padding(.bottom, 70)
-
-
-
 
                 Button{
                     if !viewStore.property.isMeasuring{
@@ -122,6 +101,20 @@ struct MeasurementView: View {
                             viewStore.send(.alert(.menuAlertAppear))
                         }
                 }
+                
+                ToolbarItem(placement: .principal){
+                        Circle()
+                            .foregroundColor(.blue)
+                            .frame(width:35)
+                            .overlay{
+                                Image(systemName:"arrow.triangle.2.circlepath.camera.fill")
+                                    .font(.system(size:15))
+                                    .foregroundColor(.white)
+                            }   
+                            .onTapGesture{
+                                viewStore.send(.changeCamera)
+                            }
+                    }
             }
             .padding(.horizontal, 20)
             .overlay{
