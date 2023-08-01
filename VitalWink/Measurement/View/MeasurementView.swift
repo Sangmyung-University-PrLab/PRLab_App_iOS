@@ -117,7 +117,6 @@ struct MeasurementView: View {
                                 }
                         }
                 }
-             
             }
             .padding(.horizontal, 20)
             .overlay{
