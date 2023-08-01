@@ -75,8 +75,8 @@ struct FaceMeasuremenet: ReducerProtocol{
                         throw MeasurementError.croppingError
                     }
                     
-                    let bgrValue = faceDetector.skinSegmentation(UIImage(cgImage: croppedImage))
-                    await send(.appendRGBValue(bgrValue))
+                    let rgbValue = faceDetector.skinSegmentation(UIImage(cgImage: croppedImage))
+                    await send(.appendRGBValue(rgbValue))
                 }
                 catch{
                     await send(.errorHandling(error))

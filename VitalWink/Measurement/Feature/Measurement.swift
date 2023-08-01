@@ -16,7 +16,7 @@ import OSLog
 @preconcurrency import CoreMedia
 
 struct Measurement: ReducerProtocol{
-    typealias RGB = (Int, Int, Int)
+    typealias RGB = (Float, Float, Float)
     struct State: Equatable{
         static func == (lhs: Measurement.State, rhs: Measurement.State) -> Bool {
             return lhs.property == rhs.property

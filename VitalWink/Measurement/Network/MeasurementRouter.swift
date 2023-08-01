@@ -9,7 +9,7 @@ import Foundation
 import Alamofire
 
 enum MeasurementRouter: VitalWinkUploadableRouterType{
-    case signalMeasurement(rgbValues: [(Int, Int, Int)], target: Measurement.Target)
+    case signalMeasurement(rgbValues: [(Float, Float, Float)], target: Measurement.Target)
     case imageAnalysis(image: UIImage)
     case fetchMeasurementResult(_ id: Int)
     case saveImageAnalysisData(_ data: [ImageAnalysisData], _ measurementId: Int)
