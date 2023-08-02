@@ -26,7 +26,7 @@ public final class FaceDetector{
         guard let cgImage = image.cgImage else{
             throw FaceDetectorError.getEmptyUIImage
         }
-        let handler = VNImageRequestHandler(cgImage: cgImage)
+        let handler = VNImageRequestHandler(cgImage: cgImage, orientation: .leftMirrored)
         
         return try await withCheckedThrowingContinuation{continuation in
             if trackRequest == nil{
@@ -43,9 +43,8 @@ public final class FaceDetector{
             else{
                 do{
                     let bbox = try self.track(buffer: image.cvPixelBuffer!)
-                    let normBbox = VNImageRectForNormalizedRect(bbox, Int(image.size.width), Int(image.size.height))
-                        .applying(self.faceBboxTransform(image.size.height))
-                    continuation.resume(returning: normBbox)
+                  
+                    continuation.resume(returning: faceBboxTransform(rect: bbox, imageSize: image.size))
                 }catch{
                     continuation.resume(throwing: error)
                 }
@@ -69,7 +68,7 @@ public final class FaceDetector{
         }
         
         do{
-            try self.sequenceHandler.perform([request], on: buffer)
+            try self.sequenceHandler.perform([request], on: buffer, orientation: .leftMirrored)
         }catch{
             print(error)
             trackRequest = nil
@@ -125,16 +124,16 @@ public final class FaceDetector{
                         return $0
                     }
                 }
-                let normBbox = VNImageRectForNormalizedRect(largestFace.boundingBox, Int(size.width), Int(size.height))
-                    .applying(self.faceBboxTransform(size.height))
-                continuation.resume(returning: normBbox)
+                
+                continuation.resume(returning: faceBboxTransform(rect:largestFace.boundingBox, imageSize: size))
 
                 self.trackRequest = VNTrackObjectRequest(detectedObjectObservation: largestFace)
             }
         }
     }
-    private let faceBboxTransform = {(height: CGFloat) -> CGAffineTransform in
-        return CGAffineTransform.identity.scaledBy(x: 1, y: -1).translatedBy(x: 0, y: -height)
+    private func faceBboxTransform(rect: CGRect, imageSize: CGSize) -> CGRect{
+        return VNImageRectForNormalizedRect(rect.applying(CGAffineTransform(rotationAngle: CGFloat(Double(90) * Double.pi / 180.0))), Int(imageSize.width), Int(imageSize.height))
+            .applying(CGAffineTransform(translationX: imageSize.width, y: 0))
     }
     
     
