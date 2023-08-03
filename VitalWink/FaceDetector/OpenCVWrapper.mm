@@ -16,7 +16,7 @@ using namespace cv;
 + (NSArray<NSNumber *>* _Nonnull)skinSegmentation:(const UIImage * _Nonnull)image{
     Mat bgraMat, bgrMat, ycrcbMat, mask;
     Mat planes[3];
-    int bSum = 0, gSum = 0, rSum = 0;
+    float bSum = 0, gSum = 0, rSum = 0;
     
     UIImageToMat(image, bgraMat);
     cvtColor(bgraMat, bgrMat, COLOR_BGRA2BGR);
@@ -30,9 +30,9 @@ using namespace cv;
         rSum += bgrMat.data[3*i + 2];
     }
     
-    return [[NSArray<NSNumber*> alloc] initWithObjects:[[NSNumber alloc] initWithInt:bSum / nPixels],
-            [[NSNumber alloc] initWithInt:gSum / nPixels],
-            [[NSNumber alloc] initWithInt:rSum / nPixels], nil];
+    return [[NSArray<NSNumber*> alloc] initWithObjects:[[NSNumber alloc] initWithFloat:bSum / nPixels],
+            [[NSNumber alloc] initWithFloat:gSum / nPixels],
+            [[NSNumber alloc] initWithFloat:rSum / nPixels], nil];
 }
 + (bool) isBeTight:(const UIImage *)image: (float) threshold{
     Mat bgra,bgr, ycrcb, mask;
@@ -48,10 +48,10 @@ using namespace cv;
     return sum(mask).val[0] / (mask.rows * mask.cols) >= threshold;
 }
 
-+ (NSArray<NSNumber *>* _Nonnull)getBgrValues:(const UIImage * _Nonnull)image{
++ (NSArray<NSNumber *>* _Nonnull)getRGBValues:(const UIImage * _Nonnull)image{
     Mat bgraMat, bgrMat, ycrcbMat;
     Mat planes[3];
-    int bSum = 0, gSum = 0, rSum = 0;
+    float bSum = 0, gSum = 0, rSum = 0;
     
     UIImageToMat(image, bgraMat);
     cvtColor(bgraMat, bgrMat, COLOR_BGRA2BGR);
@@ -63,9 +63,9 @@ using namespace cv;
         rSum += bgrMat.data[3*i + 2];
     }
     
-    return [[NSArray<NSNumber*> alloc] initWithObjects:[[NSNumber alloc] initWithInt:bSum / nPixels],
-            [[NSNumber alloc] initWithInt:gSum / nPixels],
-            [[NSNumber alloc] initWithInt:rSum / nPixels], nil];
+    return [[NSArray<NSNumber*> alloc] initWithObjects:[[NSNumber alloc] initWithFloat:bSum / nPixels],
+            [[NSNumber alloc] initWithFloat:gSum / nPixels],
+            [[NSNumber alloc] initWithFloat:rSum / nPixels], nil];
 }
 + (void) createSkinMask: (InputArray)src: (OutputArray)dst {
     /** Skin filtering based on YCbCr color space */
