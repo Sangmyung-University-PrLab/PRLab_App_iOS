@@ -20,7 +20,7 @@ struct MeasurementAlert: ReducerProtocol{
     enum Action{
         case alertDismiss
         case resultAlertDismiss
-    
+        case shouldShowAlert(VitalWinkAlertMessageState<Action>)
         case showResult(_ result: MeasurementResult)
   
         case errorHandling(Error)
@@ -38,6 +38,9 @@ struct MeasurementAlert: ReducerProtocol{
     var body: some ReducerProtocol<State, Action>{
         Reduce{state, action in
             switch action{
+            case .shouldShowAlert(let alert):
+                state.alertState = alert
+                return .none
             case .shouldShowReferenceView:
                 return .none
             case .showResult(let result):

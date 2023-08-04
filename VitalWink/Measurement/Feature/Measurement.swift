@@ -57,6 +57,7 @@ struct Measurement: ReducerProtocol{
         
         case reset
         case sendRGBValues
+        case lowConfidence
         case sendImageAnalysisData(_ measurementId: Int)
         case updateProgress
         
@@ -75,6 +76,14 @@ struct Measurement: ReducerProtocol{
     var body: some ReducerProtocol<State, Action>{
         Reduce{state, action in
             switch action{
+            case .lowConfidence:
+                state.property.isActivityIndicatorVisible = false
+                return .send(.alert(.shouldShowAlert(
+                    VitalWinkAlertMessageState(title: "측정", message: "측정에 대한 신뢰도를 보장할 수 없어 처리되지 않았습니다."){
+                    VitalWinkAlertButtonState<MeasurementAlert.Action>(title: "닫기"){
+                        return nil
+                    }}
+                )))
             case .changeCamera:
                 return .run{send in
                     try camera.changeCameraPosition(camera.position == .back ? .front : .back, torchOn: false)
@@ -187,7 +196,13 @@ struct Measurement: ReducerProtocol{
                             await send(.fetchResult(id))
                         }
                     case .failure(let error):
-                        await send(.alert(.errorHandling(error)))
+                        if let afError = error.asAFError, afError.isResponseValidationError,
+                            let responseCode = afError.responseCode, responseCode == 409{
+                            await send(.lowConfidence)
+                        }
+                        else{
+                            await send(.alert(.errorHandling(error)))
+                        }
                     }
                 }
                 
