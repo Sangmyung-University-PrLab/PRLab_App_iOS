@@ -16,8 +16,9 @@ struct MeasurementView: View {
     var body: some View {
         WithViewStore(self.store, observe: {$0}){viewStore in
             VStack(spacing:0){
-                CircularSegmentedPickerView(selected: viewStore.binding(get:\.property.target, send: Measurement.Action.changeTarget), texts: ["얼굴","손가락"]).disabled(viewStore.property.isMeasuring)
 
+                CircularSegmentedPickerView(selected: viewStore.binding(get:\.property.target, send: Measurement.Action.changeTarget), texts: ["얼굴","손가락"]).disabled(viewStore.property.isMeasuring)
+                
                 if let image = self.image{
                     image
                         .resizable()
@@ -52,9 +53,6 @@ struct MeasurementView: View {
                     .font(.notoSans(size: 14))
                     .foregroundColor(viewStore.canMeasure ? .clear : .red)
                     .padding(.bottom, 70)
-
-
-
 
                 Button{
                     if !viewStore.property.isMeasuring{
@@ -103,18 +101,34 @@ struct MeasurementView: View {
                             viewStore.send(.alert(.menuAlertAppear))
                         }
                 }
+                
+                    ToolbarItem(placement: .principal){
+                        if viewStore.property.target == .face{
+                            Circle()
+                                .foregroundColor(.blue)
+                                .frame(width:35)
+                                .overlay{
+                                    Image(systemName:"arrow.triangle.2.circlepath.camera.fill")
+                                        .font(.system(size:15))
+                                        .foregroundColor(.white)
+                                }
+                                .onTapGesture{
+                                    viewStore.send(.changeCamera)
+                                }
+                        }
+                }
             }
             .padding(.horizontal, 20)
             .overlay{
-                if !isShowedHelpView{
-                    MeasurementHelpView(target: viewStore.property.target)
+                if shouldShowHelpView{
+                    MeasurementHelpView(target: viewStore.property.target, shouldShowHelpView: $shouldShowHelpView)
                 }
             }
             .vitalWinkAlert(store.scope(state: \.alert.alertState, action: Measurement.Action.alert), dismiss: .alertDismiss)
             .vitalWinkAlert(store.scope(state: \.alert.resultAlertState, action: Measurement.Action.alert), dismiss: .resultAlertDismiss)
             .vitalWinkAlert(store.scope(state: \.alert.menuAlertState, action: Measurement.Action.alert), dismiss: .menuAlertDismiss)
             .confirmationDialog(store.scope(state: \.alert.menu.dialog, action: Measurement.Action.menu), dismiss: .dialogDismiss)
-            .activityIndicator(isVisible: viewStore.property.isActivityIndicatorVisible)
+            .activityIndicator(isVisible: viewStore.property.isLoading)
             .navigationBarBackButtonHidden()
             .background{
                 Color.backgroundColor.ignoresSafeArea()
@@ -128,9 +142,7 @@ struct MeasurementView: View {
                         self.image = Image(uiImage: UIImage(cgImage: frame.cgImage!, scale: 1, orientation: .leftMirrored))
                     }
                 }
-
-                let helpKey = viewStore.property.target == .face ?  UserDefaultsKey.isShowedFaceHelp : UserDefaultsKey.isShowedFingerHelp
-                isShowedHelpView = UserDefaults.standard.bool(forKey: helpKey.rawValue)
+                setShouldShowHelpView(target: viewStore.property.target)
             }
             .onDisappear{
                 viewStore.send(.onDisappear)
@@ -147,22 +159,26 @@ struct MeasurementView: View {
                 }
             }
             .onChange(of: viewStore.property.target){
-                isShowedHelpView = UserDefaults.standard.bool(forKey: $0 == .face ? UserDefaultsKey.isShowedFaceHelp.rawValue : UserDefaultsKey.isShowedFingerHelp.rawValue)
-            }
-            .onChange(of: UserDefaults.standard.bool(forKey: UserDefaultsKey.isShowedFaceHelp.rawValue)){_ in
-                isShowedHelpView = true
-            }
-            .onChange(of: UserDefaults.standard.bool(forKey: UserDefaultsKey.isShowedFingerHelp.rawValue)){_ in
-                isShowedHelpView = true
+                setShouldShowHelpView(target: $0)
             }
         }
     }
     
+    private func setShouldShowHelpView(target: Measurement.Target){
+        let helpKey = target == .face ? UserDefaultsKey.dateOfNotVisibleFaceHelp : UserDefaultsKey.dateOfNotVisibleFingerHelp
+        
+        guard let dateOfNotVisibleHelpView = UserDefaults.standard.object(forKey: helpKey.rawValue) as? Date else{
+            shouldShowHelpView = true
+            return
+        }
+        
+        shouldShowHelpView = !Calendar.current.isDateInToday(dateOfNotVisibleHelpView)
+    }
     //MARK: - private
     @State private var frameTask: Task<(), Never>? = nil
     @State private var shouldShowRecentDataView = false
     @State private var image: Image?
-    @State private var isShowedHelpView = false
+    @State private var shouldShowHelpView = true
     @Environment(\.dismiss) private var dismiss
     private let store: StoreOf<Measurement>
 }
@@ -173,7 +189,7 @@ struct FrameViewModifier: ViewModifier{
         content
         .shadow(color: .black.opacity(0.1),radius: 10)
         .padding(.horizontal, 40)
-        .padding(.top,85)
+        .padding(.top,30)
         .padding(.bottom, 10)
         .foregroundColor(.white)
         

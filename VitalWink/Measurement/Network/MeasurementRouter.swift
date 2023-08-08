@@ -9,10 +9,11 @@ import Foundation
 import Alamofire
 
 enum MeasurementRouter: VitalWinkUploadableRouterType{
-    case signalMeasurement(rgbValues: [(Int, Int, Int)], target: Measurement.Target)
+    case signalMeasurement(rgbValues: [(Float, Float, Float)], target: Measurement.Target)
     case imageAnalysis(image: UIImage)
     case fetchMeasurementResult(_ id: Int)
-    case saveImageAnalysisData(_ data: [ImageAnalysisData], _ measurementId: Int)
+    case saveImageAnalysisData(_ data: ImageAnalysisData, _ measurementId: Int)
+    case deleteResult(_ id: Int)
     
     var endPoint: String{
         let baseEndPoint = "measurements"
@@ -23,7 +24,7 @@ enum MeasurementRouter: VitalWinkUploadableRouterType{
             detailEndPoint = "signal/\(targetString)"
         case .imageAnalysis:
             detailEndPoint = "expressionAndBMI"
-        case .fetchMeasurementResult(let id):
+        case .fetchMeasurementResult(let id), .deleteResult(let id):
             detailEndPoint = "\(id)"
         case .saveImageAnalysisData(_, let measurementId):
             detailEndPoint = "expressionAndBMI/\(measurementId)"
@@ -38,6 +39,8 @@ enum MeasurementRouter: VitalWinkUploadableRouterType{
             return .post
         case .fetchMeasurementResult:
             return .get
+        case .deleteResult:
+            return .delete
         }
     }
     
@@ -48,22 +51,11 @@ enum MeasurementRouter: VitalWinkUploadableRouterType{
                 "rgbValues": rgbValues.map{[$0.0, $0.1, $0.2]}
             ]
         case .saveImageAnalysisData(let data,_):
-            var valanceAVG: Float = 0.0
-            var arousalAVG: Float = 0.0
-            var expressions = [String]()
-            var BMIAVG = 0
-            
-            data.forEach{
-                valanceAVG += $0.expressionAnalysisData.valence
-                arousalAVG += $0.expressionAnalysisData.arousal
-                expressions.append($0.expressionAnalysisData.expression)
-                BMIAVG += $0.BMI
-            }
             return [
-                "bmi": BMIAVG / data.count,
-                "valence" : valanceAVG / Float(data.count),
-                "arousal": arousalAVG / Float(data.count),
-                "expression": expressions
+                "bmi": data.BMI,
+                "valence" : data.expressionAnalysisData.valence,
+                "arousal": data.expressionAnalysisData.arousal,
+                "expression": data.expressionAnalysisData.expression
             ]
             
         default:

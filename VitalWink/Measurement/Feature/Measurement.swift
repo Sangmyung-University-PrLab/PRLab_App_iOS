@@ -16,7 +16,7 @@ import OSLog
 @preconcurrency import CoreMedia
 
 struct Measurement: ReducerProtocol{
-    typealias RGB = (Int, Int, Int)
+    typealias RGB = (Float, Float, Float)
     struct State: Equatable{
         static func == (lhs: Measurement.State, rhs: Measurement.State) -> Bool {
             return lhs.property == rhs.property
@@ -38,18 +38,14 @@ struct Measurement: ReducerProtocol{
         fileprivate(set) var faceMeasurement = FaceMeasuremenet.State()
         fileprivate(set) var alert = MeasurementAlert.State()
     }
-    
-    
     enum Target: CaseIterable{
         case face
         case finger
     }
-    
     enum Action{
-        case faceMeasurement(FaceMeasuremenet.Action)
-        case fingerMeasurement(FingerMeasurement.Action)
         case changeTarget(Target)
         case startCamera
+        case changeCamera
         case beFedFrame(_ sampleBuffer: CMSampleBuffer)
         case obtainRGBValue(UIImage)
         
@@ -58,23 +54,39 @@ struct Measurement: ReducerProtocol{
         
         case reset
         case sendRGBValues
+        case lowConfidence
         case sendImageAnalysisData(_ measurementId: Int)
         case updateProgress
         
         case cancelMeasurement
         case fetchResult(_ measurementId: Int)
         case onDisappear
+        case shouldShowReferenceView(Bool)
         
         case monitoring(Monitoring.Action)
         case alert(MeasurementAlert.Action)
         case menu(Menu.Action)
-        
-        case shouldShowReferenceView(Bool)
+        case faceMeasurement(FaceMeasuremenet.Action)
+        case fingerMeasurement(FingerMeasurement.Action)
     }
     
     var body: some ReducerProtocol<State, Action>{
         Reduce{state, action in
             switch action{
+            case .lowConfidence:
+                state.property.isLoading = false
+                return .send(.alert(.shouldShowAlert(
+                    VitalWinkAlertMessageState(title: "측정", message: "측정에 대한 신뢰도를 보장할 수 없어 처리되지 않았습니다."){
+                    VitalWinkAlertButtonState<MeasurementAlert.Action>(title: "닫기"){
+                        return nil
+                    }}
+                )))
+            case .changeCamera:
+                return .run{send in
+                    try camera.changeCameraPosition(camera.position == .back ? .front : .back, torchOn: false)
+                }catch: { error, send in
+                    await send(.alert(.errorHandling(error)))
+                }
             case .shouldShowReferenceView(let value):
                 state.property.shouldShowReferenceView = value
                 return .none
@@ -107,7 +119,7 @@ struct Measurement: ReducerProtocol{
                     state.property.shouldDismiss = true
                     return .none
                 case .shouldShowActivityIndicator:
-                    state.property.isActivityIndicatorVisible = true
+                    state.property.isLoading = true
                     return .none
                 case .showResult:
                     return .send(.reset)
@@ -116,6 +128,17 @@ struct Measurement: ReducerProtocol{
                 case .shouldShowReferenceView:
                     state.property.shouldShowReferenceView = true
                     return .none
+                case .deleteResult(let id):
+                    state.property.isLoading = true
+                    return .run{send in
+                        try await measurementAPI.deleteResult(id)
+                    }catch: { error, send in
+                        await send(.alert(.errorHandling(error)))
+                    }
+                case .resultAlertDismiss:
+                    state.property.isLoading = false
+                    return .send(.reset)
+
                 default:
                     return .none
                 }
@@ -131,13 +154,11 @@ struct Measurement: ReducerProtocol{
                 return .run{send in
                     await send(.cancelMeasurement)
                     if camera.position == .back{
-                        do{
-                            try camera.changeCameraPosition()
-                        }
-                        catch{
-                            await send(.alert(.errorHandling(error)))
-                        }
+                        try camera.changeCameraPosition(.front)
                     }
+                }
+                catch: {error, send in
+                    await send(.alert(.errorHandling(error)))
                 }
                 .merge(with:.cancel(id: MeasurementCancelID.beFedFrame))
                 
@@ -147,33 +168,34 @@ struct Measurement: ReducerProtocol{
             case .changeTarget(let target):
                 state.property.target = target
                 do{
-                    try camera.changeCameraPosition()
+                    try camera.changeCameraPosition(target == .face ? .front : .back)
                 }catch{
                     return .send(.alert(.errorHandling(error)))
                 }
                 return .none
                 
             case .sendImageAnalysisData(let measurementId):
-                return .run{[data = state.faceMeasurement.imageAnalysisDatas] send in
-                    do{
-                        try await measurementAPI.saveImageAnalysisData(data: data, measurementId: measurementId)
-                        await send(.fetchResult(measurementId))
-                    }catch{
-                        await send(.alert(.errorHandling(error)))
+                return .run{[data = state.faceMeasurement.imageAnalysisData] send in
+                    guard let data = data else{
+                        return
                     }
+                    try await measurementAPI.saveImageAnalysisData(data: data, measurementId: measurementId)
+                    await send(.fetchResult(measurementId))
+                }catch: { error, send in
+                    await send(.alert(.errorHandling(error)))
                 }
             case .fetchResult(let measurementId):
                 return .run{send in
                     switch await measurementAPI.fetchMeasurementResult(measurementId){
                     case .success(let result):
-                        await send(.alert(.showResult(result)))
-                        await send(.reset)
+                        await send(.alert(.showResult(result, measurementId)))
+                        
                     case .failure(let error):
                         await send(.alert(.errorHandling(error)))
                     }
                 }
             case .sendRGBValues:
-                state.property.isActivityIndicatorVisible = true
+                state.property.isLoading = true
                 
                 return .run{[rgbValues = state.property.rgbValues, target = state.property.target] send in
                     switch await measurementAPI.signalMeasurment(rgbValues: rgbValues, target: target){
@@ -185,7 +207,13 @@ struct Measurement: ReducerProtocol{
                             await send(.fetchResult(id))
                         }
                     case .failure(let error):
-                        await send(.alert(.errorHandling(error)))
+                        if let afError = error.asAFError, afError.isResponseValidationError,
+                            let responseCode = afError.responseCode, responseCode == 409{
+                            await send(.lowConfidence)
+                        }
+                        else{
+                            await send(.alert(.errorHandling(error)))
+                        }
                     }
                 }
                 
@@ -234,13 +262,13 @@ struct Measurement: ReducerProtocol{
                 
             case .startCamera:
                 return .run{send in
-                    do{
-                        try await camera.setUp()
-                    }catch{
-                        await send(.alert(.errorHandling(error)))
-                    }
+                    try await camera.setUp()
                     camera.start()
-                }.concatenate(with: EffectTask<Action>.run{send in
+                }
+                catch:{error, send in
+                    await send(.alert(.errorHandling(error)))
+                }
+                .concatenate(with: EffectTask<Action>.run{send in
                     for await buffer in camera.frame{
                         await send(.beFedFrame(buffer))
                     }
