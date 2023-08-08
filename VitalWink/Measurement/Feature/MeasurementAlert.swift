@@ -20,9 +20,9 @@ struct MeasurementAlert: ReducerProtocol{
     enum Action{
         case alertDismiss
         case resultAlertDismiss
-    
-        case showResult(_ result: MeasurementResult)
-  
+        case shouldShowAlert(VitalWinkAlertMessageState<Action>)
+        case showResult(_ result: MeasurementResult, _ measurementId : Int)
+        case deleteResult(_ measurementId: Int)
         case errorHandling(Error)
         
         case menu(Menu.Action)
@@ -38,12 +38,20 @@ struct MeasurementAlert: ReducerProtocol{
     var body: some ReducerProtocol<State, Action>{
         Reduce{state, action in
             switch action{
+            case .deleteResult:
+                return .none
+            case .shouldShowAlert(let alert):
+                state.alertState = alert
+                return .none
             case .shouldShowReferenceView:
                 return .none
-            case .showResult(let result):
+            case .showResult(let result, let id):
                 state.resultAlertState = VitalWinkContentAlertState{
-                    VitalWinkAlertButtonState<Action>(title: "닫기"){
+                    VitalWinkAlertButtonState<Action>(title: "저장하기"){
                         return nil
+                    }
+                    VitalWinkAlertButtonState<Action>(title: "삭제하기", role: .distructive){
+                        return .deleteResult(id)
                     }
                 }content: {
                     MeasurementResultView(result)

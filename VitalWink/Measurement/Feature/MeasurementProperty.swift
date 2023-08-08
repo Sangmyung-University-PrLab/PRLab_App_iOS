@@ -35,7 +35,7 @@ struct MeasurementProperty: Equatable{
     
     //최근 측정에 대한 Id
     var target: Measurement.Target = .face
-    var isActivityIndicatorVisible = false
+    var isLoading = false
     var shouldDismiss = false
     var shouldShowReferenceView = false
     var frame: AsyncStream<UIImage>
@@ -49,8 +49,7 @@ struct MeasurementProperty: Equatable{
             rgbValues = []
             progress = 0
             shouldDismiss = false
-            isActivityIndicatorVisible = false
+            isLoading = false
             isMeasuring = false
-            isActivityIndicatorVisible = false
         }
 }

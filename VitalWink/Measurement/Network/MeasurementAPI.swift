@@ -12,8 +12,20 @@ import Combine
 import SwiftyJSON
 
 final class MeasurmentAPI{
-    func signalMeasurment(rgbValues: [(Int, Int, Int)], target: Measurement.Target) async -> Result<Int, Error>{
-        
+    func deleteResult(_ id: Int) async throws{
+        return try await withCheckedThrowingContinuation{continuation in
+            vitalWinkAPI.request(MeasurementRouter.deleteResult(id)).response{
+                switch $0.result{
+                case .success:
+                    continuation.resume()
+                case .failure(let error):
+                    continuation.resume(throwing: error)
+                }
+            }
+        }
+    }
+    
+    func signalMeasurment(rgbValues: [(Float, Float, Float)], target: Measurement.Target) async -> Result<Int, Error>{
         return await withCheckedContinuation{continuation in
             vitalWinkAPI.request(MeasurementRouter.signalMeasurement(rgbValues: rgbValues, target: target)).validate(statusCode: 200 ..< 300)
                 .responseDecodable(of: JSON.self){
@@ -46,9 +58,8 @@ final class MeasurmentAPI{
                     }
                 }
         }
-            
     }
-    func saveImageAnalysisData(data: [ImageAnalysisData], measurementId: Int) async throws{
+    func saveImageAnalysisData(data: ImageAnalysisData, measurementId: Int) async throws{
         return try await withCheckedThrowingContinuation{continuation in
             vitalWinkAPI.request(MeasurementRouter.saveImageAnalysisData(data, measurementId)).validate(statusCode: 200 ..< 300)
                 .response{

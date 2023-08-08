@@ -26,8 +26,8 @@ struct FingerMeasurement: ReducerProtocol{
         case .errorHandling:
             return .none
         case .obtainRGBValue(let image):
-            let nsArr = OpenCVWrapper.getBgrValues(image)
-            let rgb = (nsArr[0] as! Int, nsArr[1] as! Int, nsArr[2] as! Int)
+            let nsArr = OpenCVWrapper.getRGBValues(image)
+            let rgb = (nsArr[0] as! Float, nsArr[1] as! Float, nsArr[2] as! Float)
             return .send(.appendRGBValue(rgb))
                 .cancellable(id: MeasurementCancelID.obtainRGBValue, cancelInFlight: true)
         case .appendRGBValue:
