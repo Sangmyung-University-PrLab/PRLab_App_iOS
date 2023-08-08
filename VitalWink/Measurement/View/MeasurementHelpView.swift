@@ -9,8 +9,9 @@ import SwiftUI
 
 struct MeasurementHelpView: View {
     
-    init(target: Measurement.Target){
+    init(target: Measurement.Target, shouldShowHelpView: Binding<Bool>){
         self.target = target
+        self._shouldShowHelpView = shouldShowHelpView
     }
     var body: some View {
         ZStack(alignment:.bottomTrailing){
@@ -34,7 +35,21 @@ struct MeasurementHelpView: View {
                 Text(message[index])
                     .multilineTextAlignment(.center)
                     .font(.notoSans(size: 14, weight: .bold))
-                    .padding(.bottom, 25)
+                    .padding(.bottom, 20)
+                
+                HStack(spacing:0){
+                    Text("오늘 하루 그만보기")
+                        .underline()
+                        .font(.notoSans(size: 14, weight: .medium))
+                        .foregroundColor(.gray)
+                        .onTapGesture {
+                            let helpKey = target == .face ? UserDefaultsKey.dateOfNotVisibleFaceHelp : UserDefaultsKey.dateOfNotVisibleFingerHelp
+                            UserDefaults.standard.setValue(Date(), forKey: helpKey.rawValue)
+                            shouldShowHelpView = false
+                        }
+                    Spacer()
+                }.padding(.bottom, 10)
+                .padding(.leading, 20)
             }
             .background{
                 RoundedRectangle(cornerRadius: 20)
@@ -43,15 +58,12 @@ struct MeasurementHelpView: View {
             .padding(.horizontal, 20)
             .padding(.vertical, 40)
             
-            
-            
             Button(index < message.count - 1 ? "다음" :  "닫기"){
                 if index < message.count - 1{
                     index += 1
                 }
                 else{
-                    let helpKey = target == .face ? UserDefaultsKey.isShowedFaceHelp : UserDefaultsKey.isShowedFingerHelp
-                    UserDefaults.standard.setValue(true, forKey: helpKey.rawValue)
+                    shouldShowHelpView = false
                 }
             }.buttonStyle(VitalWinkButtonStyle())
             .frame(width:60, height:20)
@@ -76,6 +88,7 @@ struct MeasurementHelpView: View {
      */
     @State private var highlightXPosition: CGFloat = 0
     @State private var index: Int = 0
+    @Binding private var shouldShowHelpView: Bool
     private var message: [String]{
         switch target{
         case .face:
@@ -92,8 +105,8 @@ struct MeasurementHelpView: View {
     private let target: Measurement.Target
 }
 
-struct MeasurementHelpView_Previews: PreviewProvider {
-    static var previews: some View {
-        MeasurementHelpView(target: .face)
-    }
-}
+//struct MeasurementHelpView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        MeasurementHelpView(target: .face)
+//    }
+//}

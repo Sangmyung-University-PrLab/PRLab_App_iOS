@@ -120,8 +120,8 @@ struct MeasurementView: View {
             }
             .padding(.horizontal, 20)
             .overlay{
-                if !isShowedHelpView{
-                    MeasurementHelpView(target: viewStore.property.target)
+                if shouldShowHelpView{
+                    MeasurementHelpView(target: viewStore.property.target, shouldShowHelpView: $shouldShowHelpView)
                 }
             }
             .vitalWinkAlert(store.scope(state: \.alert.alertState, action: Measurement.Action.alert), dismiss: .alertDismiss)
@@ -142,9 +142,7 @@ struct MeasurementView: View {
                         self.image = Image(uiImage: UIImage(cgImage: frame.cgImage!, scale: 1, orientation: .leftMirrored))
                     }
                 }
-
-                let helpKey = viewStore.property.target == .face ?  UserDefaultsKey.isShowedFaceHelp : UserDefaultsKey.isShowedFingerHelp
-                isShowedHelpView = UserDefaults.standard.bool(forKey: helpKey.rawValue)
+                setShouldShowHelpView(target: viewStore.property.target)
             }
             .onDisappear{
                 viewStore.send(.onDisappear)
@@ -161,22 +159,26 @@ struct MeasurementView: View {
                 }
             }
             .onChange(of: viewStore.property.target){
-                isShowedHelpView = UserDefaults.standard.bool(forKey: $0 == .face ? UserDefaultsKey.isShowedFaceHelp.rawValue : UserDefaultsKey.isShowedFingerHelp.rawValue)
-            }
-            .onChange(of: UserDefaults.standard.bool(forKey: UserDefaultsKey.isShowedFaceHelp.rawValue)){_ in
-                isShowedHelpView = true
-            }
-            .onChange(of: UserDefaults.standard.bool(forKey: UserDefaultsKey.isShowedFingerHelp.rawValue)){_ in
-                isShowedHelpView = true
+                setShouldShowHelpView(target: $0)
             }
         }
     }
     
+    private func setShouldShowHelpView(target: Measurement.Target){
+        let helpKey = target == .face ? UserDefaultsKey.dateOfNotVisibleFaceHelp : UserDefaultsKey.dateOfNotVisibleFingerHelp
+        
+        guard let dateOfNotVisibleHelpView = UserDefaults.standard.object(forKey: helpKey.rawValue) as? Date else{
+            shouldShowHelpView = true
+            return
+        }
+        
+        shouldShowHelpView = !Calendar.current.isDateInToday(dateOfNotVisibleHelpView)
+    }
     //MARK: - private
     @State private var frameTask: Task<(), Never>? = nil
     @State private var shouldShowRecentDataView = false
     @State private var image: Image?
-    @State private var isShowedHelpView = false
+    @State private var shouldShowHelpView = true
     @Environment(\.dismiss) private var dismiss
     private let store: StoreOf<Measurement>
 }
