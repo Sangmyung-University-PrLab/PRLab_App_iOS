@@ -128,7 +128,7 @@ struct MeasurementView: View {
             .vitalWinkAlert(store.scope(state: \.alert.resultAlertState, action: Measurement.Action.alert), dismiss: .resultAlertDismiss)
             .vitalWinkAlert(store.scope(state: \.alert.menuAlertState, action: Measurement.Action.alert), dismiss: .menuAlertDismiss)
             .confirmationDialog(store.scope(state: \.alert.menu.dialog, action: Measurement.Action.menu), dismiss: .dialogDismiss)
-            .activityIndicator(isVisible: viewStore.property.isActivityIndicatorVisible)
+            .activityIndicator(isVisible: viewStore.property.isLoading)
             .navigationBarBackButtonHidden()
             .background{
                 Color.backgroundColor.ignoresSafeArea()
