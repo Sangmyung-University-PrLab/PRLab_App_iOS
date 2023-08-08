@@ -10,9 +10,11 @@ import ComposableArchitecture
 import SwiftUI
 struct FaceMeasuremenet: ReducerProtocol{
     struct State{
-        fileprivate(set) var imageAnalysisStartTime = CFAbsoluteTimeGetCurrent()
+//        fileprivate(set) var imageAnalysisStartTime = CFAbsoluteTimeGetCurrent()
+        
         fileprivate(set) var bbox: CGRect? = nil
-        fileprivate(set) var imageAnalysisDatas = [ImageAnalysisData]()
+        fileprivate(set) var shouldAnalyImage = true
+        fileprivate(set) var imageAnalysisData: ImageAnalysisData? = nil
         fileprivate(set) var isDetecting = false
     }
     
@@ -29,11 +31,10 @@ struct FaceMeasuremenet: ReducerProtocol{
     func reduce(into state: inout State, action: Action) -> EffectTask<Action> {
         switch action{
         case .appendImageAnalysisData(let data):
-            state.imageAnalysisDatas.append(data)
+            state.imageAnalysisData = data
             return .none
         case .imageAnalysis(let image):
-            state.imageAnalysisStartTime = CFAbsoluteTimeGetCurrent()
-            
+            state.shouldAnalyImage = false
             return .run{send in
                 switch await measurementAPI.imageAnalysis(image){
                 case .success(let data):
@@ -66,7 +67,7 @@ struct FaceMeasuremenet: ReducerProtocol{
         case .errorHandling:
             return .none
         case .obtainRGBValue(let image):
-            return .run{[bbox = state.bbox, imageAnalysisStartTime = state.imageAnalysisStartTime] send in
+            return .run{[bbox = state.bbox, shouldAnalyImage = state.shouldAnalyImage] send in
                 guard let bbox = bbox else {
                     return
                 }
@@ -82,7 +83,7 @@ struct FaceMeasuremenet: ReducerProtocol{
                     await send(.errorHandling(error))
                 }
                 
-                if CFAbsoluteTimeGetCurrent() - imageAnalysisStartTime >= 1.0{
+                if shouldAnalyImage{
                     await send(.imageAnalysis(image))
                 }
             }.cancellable(id:MeasurementCancelID.obtainRGBValue, cancelInFlight: true)
