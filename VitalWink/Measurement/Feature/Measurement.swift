@@ -32,6 +32,7 @@ struct Measurement: ReducerProtocol{
                 return fingerMeasurement.isBeTight
             }
         }
+        
         fileprivate(set) var property = MeasurementProperty()
         fileprivate(set) var fingerMeasurement = FingerMeasurement.State()
         fileprivate(set) var monitoring = Monitoring.State()

@@ -26,19 +26,23 @@ struct FingerMeasurement: ReducerProtocol{
         case .errorHandling:
             return .none
         case .obtainRGBValue(let image):
-            let nsArr = OpenCVWrapper.getRGBValues(image)
-            let rgb = (nsArr[0] as! Float, nsArr[1] as! Float, nsArr[2] as! Float)
-            return .send(.appendRGBValue(rgb))
-                .cancellable(id: MeasurementCancelID.obtainRGBValue, cancelInFlight: true)
+            return .run{send in
+                    let nsArr = OpenCVWrapper.getRGBValues(image)
+                    let rgb = (nsArr[0] as! Float, nsArr[1] as! Float, nsArr[2] as! Float)
+                    
+                    await send(.appendRGBValue(rgb))
+            }.cancellable(id: MeasurementCancelID.obtainRGBValue, cancelInFlight: true)
         case .appendRGBValue:
             return .none
         case .checkFingerisBeTight(let image):
             if state.isDetecting{
                 return .none
             }
+            
             state.isDetecting = true
             state.isBeTight = OpenCVWrapper.isBeTight(image, 0.8)
             state.isDetecting = false
+            
             return .none
         }
     }
