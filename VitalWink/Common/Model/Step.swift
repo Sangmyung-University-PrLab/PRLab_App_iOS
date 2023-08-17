@@ -56,7 +56,7 @@ enum Step: Comparable & Codable & Equatable{
         if SYS < 120{
             return Step.normal
         }
-        else if SYS <= 120 && SYS >= 129{
+        else if SYS >= 120 && SYS <= 149{
             return Step.caution
         }
         else{
@@ -67,7 +67,7 @@ enum Step: Comparable & Codable & Equatable{
         if DIA < 80{
             return Step.normal
         }
-        else if DIA >= 80 && DIA <= 89{
+        else if DIA >= 80 && DIA <= 95{
             return Step.caution
         }
         else{

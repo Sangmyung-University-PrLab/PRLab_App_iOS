@@ -121,8 +121,6 @@ struct Measurement: ReducerProtocol{
                 case .shouldShowActivityIndicator:
                     state.property.isLoading = true
                     return .none
-                case .showResult:
-                    return .send(.reset)
                 case .errorHandling:
                     return .send(.cancelMeasurement)
                 case .shouldShowReferenceView:
@@ -135,8 +133,10 @@ struct Measurement: ReducerProtocol{
                     }catch: { error, send in
                         await send(.alert(.errorHandling(error)))
                     }
-                case .resultAlertDismiss:
+                case .showResult:
                     state.property.isLoading = false
+                    return .none
+                case .resultAlertDismiss:
                     return .send(.reset)
 
                 default:
