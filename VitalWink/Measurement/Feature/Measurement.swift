@@ -32,6 +32,7 @@ struct Measurement: ReducerProtocol{
                 return fingerMeasurement.isBeTight
             }
         }
+        
         fileprivate(set) var property = MeasurementProperty()
         fileprivate(set) var fingerMeasurement = FingerMeasurement.State()
         fileprivate(set) var monitoring = Monitoring.State()
@@ -97,6 +98,8 @@ struct Measurement: ReducerProtocol{
                     return .none
                 case .errorHandling(let error):
                     return .send(.alert(.errorHandling(error)))
+                case .setIsBeTight(let value):
+                    return state.property.isMeasuring && !value ? .send(.cancelMeasurement) : .none
                 default:
                     return .none
                 }
@@ -121,8 +124,6 @@ struct Measurement: ReducerProtocol{
                 case .shouldShowActivityIndicator:
                     state.property.isLoading = true
                     return .none
-                case .showResult:
-                    return .send(.reset)
                 case .errorHandling:
                     return .send(.cancelMeasurement)
                 case .shouldShowReferenceView:
@@ -135,8 +136,10 @@ struct Measurement: ReducerProtocol{
                     }catch: { error, send in
                         await send(.alert(.errorHandling(error)))
                     }
-                case .resultAlertDismiss:
+                case .showResult:
                     state.property.isLoading = false
+                    return .none
+                case .resultAlertDismiss:
                     return .send(.reset)
 
                 default:

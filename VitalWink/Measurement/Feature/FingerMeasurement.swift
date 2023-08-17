@@ -19,6 +19,7 @@ struct FingerMeasurement: ReducerProtocol{
         case obtainRGBValue(UIImage)
         case errorHandling(Error)
         case appendRGBValue(Measurement.RGB)
+        case setIsBeTight(Bool)
     }
     
     func reduce(into state: inout State, action: Action) -> EffectTask<Action> {
@@ -26,19 +27,27 @@ struct FingerMeasurement: ReducerProtocol{
         case .errorHandling:
             return .none
         case .obtainRGBValue(let image):
-            let nsArr = OpenCVWrapper.getRGBValues(image)
-            let rgb = (nsArr[0] as! Float, nsArr[1] as! Float, nsArr[2] as! Float)
-            return .send(.appendRGBValue(rgb))
-                .cancellable(id: MeasurementCancelID.obtainRGBValue, cancelInFlight: true)
+            return .run{send in
+                    let nsArr = OpenCVWrapper.getRGBValues(image)
+                    let rgb = (nsArr[0] as! Float, nsArr[1] as! Float, nsArr[2] as! Float)
+                    
+                    await send(.appendRGBValue(rgb))
+            }.cancellable(id: MeasurementCancelID.obtainRGBValue, cancelInFlight: true)
         case .appendRGBValue:
             return .none
         case .checkFingerisBeTight(let image):
             if state.isDetecting{
                 return .none
             }
+            
             state.isDetecting = true
-            state.isBeTight = OpenCVWrapper.isBeTight(image, 0.8)
+
+            return .run{send in
+                await send(.setIsBeTight(OpenCVWrapper.isBeTight(image, 0.8)))
+            }
+        case .setIsBeTight(let value):
             state.isDetecting = false
+            state.isBeTight = value
             return .none
         }
     }
