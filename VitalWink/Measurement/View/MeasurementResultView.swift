@@ -24,11 +24,13 @@ struct MeasurementResultView: View {
                     .background(Color.backgroundColor.ignoresSafeArea([]))
                 MeasurmentResultColumnView(metric: "심박수", value: "\(result.bpm)")
                 MeasurmentResultColumnView(metric: "산소포화도", value: Step.SpO2(value: Float(result.SpO2)).korean)
-                MeasurmentResultColumnView(metric: "호흡수", value: "\(result.RR)")
+                if result.BMI != nil{
+                    MeasurmentResultColumnView(metric: "호흡수", value: "\(result.RR)")
+                }
+                
 //                MeasurmentResultColumnView(metric: "스트레스", value: "\(result.stress)")
         
                 if let BMI = result.BMI{
-                    
                     MeasurmentResultColumnView(metric: "BMI", value: "\(Step.BMI(value: Float(BMI)) == .normal ? "정상" : Step.BMI(value:Float(BMI)) == .caution ? "저체중" : "과체중 이상")(\(BMI))")
                 }
                 if let arousal = result.expressionAnalysis?.arousal{

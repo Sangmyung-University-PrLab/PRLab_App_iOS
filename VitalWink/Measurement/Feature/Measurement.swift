@@ -98,6 +98,8 @@ struct Measurement: ReducerProtocol{
                     return .none
                 case .errorHandling(let error):
                     return .send(.alert(.errorHandling(error)))
+                case .setIsBeTight(let value):
+                    return state.property.isMeasuring && !value ? .send(.cancelMeasurement) : .none
                 default:
                     return .none
                 }
