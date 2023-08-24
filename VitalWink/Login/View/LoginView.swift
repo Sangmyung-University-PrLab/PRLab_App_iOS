@@ -47,7 +47,7 @@ struct LoginView: View{
                     }
                     
                     HStack(spacing:10){
-                        NavigationLink("회원가입", isActive: viewStore.binding(\.$shouldShowSignUpView)){
+                        NavigationLink("회원가입", isActive: $shouldShowSignUpView){
                             SignUpView(store: store.scope(state: \.user, action: Login.Action.user))
                         }.foregroundColor(.black)
                             
@@ -139,28 +139,52 @@ struct LoginView: View{
                 .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
                 .background{
                     ZStack{
-                        NavigationLink("", isActive: viewStore.binding(\.$shouldShowMeasurementView)){
+                        NavigationLink("", isActive: $shouldShowMeasurementView){
                             MeasurementView(store: store.scope(state: \.measurement, action: Login.Action.measurement))
                         }.hidden()
+                        
+                        NavigationLink("", isActive: $shouldShowIAPView){
+                            IAPView(store: store.scope(state: \.iAP, action: Login.Action.IAP))
+                        }.hidden()
+                        
                         Color.backgroundColor.ignoresSafeArea()
                     }
                 }
                 .activityIndicator(isVisible: viewStore.state.isActivityIndicatorVisible)
                 .vitalWinkAlert(store.scope(state: \.alertState, action: {$0}), dismiss: .dismiss)
             }
-            .animation(.easeInOut,value: viewStore.shouldShowMeasurementView)
+            .animation(.easeInOut,value: shouldShowMeasurementView)
             .navigationViewStyle(.stack)
             .onAppear{
                 viewStore.send(.onAppear)
+                Task{
+                    await viewStore.send(.IAP(.getProducts)).finish()
+                }
             }
             .onDisappear{
                 viewStore.send(.onDisappear)
+            }
+            .onChange(of: viewStore.status){
+                switch $0{
+                case .shouldSignUp:
+                    shouldShowSignUpView = true
+                case .shouldSubscribe:
+                    shouldShowIAPView = true
+                case .successLogin:
+                    shouldShowMeasurementView = true
+                case .none:
+                    break
+                }
             }
         }
         
     }
     
     //MARK: private
+    @State private var shouldShowSignUpView = false
+    @State private var shouldShowMeasurementView = false
+    @State private var shouldShowIAPView = false
+    
     private let store: StoreOf<Login>
     private let snsButtonSize: CGFloat = 35
     private let dividerColor = Color(red: 0.850980392156863, green: 0.850980392156863, blue: 0.850980392156863)

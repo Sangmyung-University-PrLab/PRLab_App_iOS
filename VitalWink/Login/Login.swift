@@ -19,20 +19,30 @@ struct Login: ReducerProtocol{
     struct State: Equatable{
         @BindingState var id = ""
         @BindingState var password = ""
-        @BindingState var shouldShowSignUpView = false
-        @BindingState var shouldShowMeasurementView = false
+        
         var isLoginButtonDisabled: Bool{
             id.isEmpty || password.isEmpty
         }
     
         fileprivate(set) var isActivityIndicatorVisible = false
         fileprivate(set) var alertState:VitalWinkAlertMessageState<Action>? = nil
+        fileprivate(set) var status: Status = .none
         
+        fileprivate(set) var iAP = IAP.State()
         fileprivate(set) var user =  User.State()
         fileprivate(set) var measurement =  Measurement.State()
+        
+        enum Status{
+            case shouldSignUp
+            case successLogin
+            case none
+            case shouldSubscribe
+        }
+                        
     }
     enum Action: BindableAction{
         case user(User.Action)
+        case IAP(IAP.Action)
         case measurement(Measurement.Action)
         case login(_ type: UserModel.`Type`)
         case binding(BindingAction<State>)
@@ -50,10 +60,26 @@ struct Login: ReducerProtocol{
         
         Reduce{state, action in
             switch action{
+            case .IAP(let action):
+                switch action{
+                case .onDisappear:
+                    if state.iAP.isSubscribed{
+                        state.status = .successLogin
+                    }
+                    else{
+                        _ = keyChainManager.deleteTokenInKeyChain()
+                    }
+                    return .none
+                default:
+                    return .none
+                }
+                
             case .onDisappear:
                 state.id = ""
                 state.password = ""
                 state.isActivityIndicatorVisible = false
+                
+                
                 return .none
             case .onAppear:
                 state.isActivityIndicatorVisible = true
@@ -63,7 +89,12 @@ struct Login: ReducerProtocol{
                     await send(.restoreLogin)
                 }
             case .restoreLogin:
-                state.shouldShowMeasurementView = keyChainManager.readTokenInKeyChain() != nil
+                if keyChainManager.readTokenInKeyChain() != nil{
+                    state.status = state.iAP.isSubscribed ? .successLogin : .shouldSubscribe
+                }
+                else{
+                    state.status = .none
+                }
                 state.isActivityIndicatorVisible = false
                 
                 return .none
@@ -72,7 +103,9 @@ struct Login: ReducerProtocol{
             case .user:
                 return .none
             case .login(let type):
+                state.status = .none
                 state.isActivityIndicatorVisible = true
+                
                 switch type{
                 case .general:
                     return .run{[id = state.id, password = state.password] send in
@@ -110,7 +143,7 @@ struct Login: ReducerProtocol{
                     guard keyChainManager.saveTokenInKeyChain(token) else{
                         return .none
                     }
-                    state.shouldShowMeasurementView = true
+                    state.status = state.iAP.isSubscribed ? .successLogin : .shouldSubscribe
                     
                 case .notFoundUser:
                     state.alertState = VitalWinkAlertMessageState(title: "VitalWink", message: "가입되어 있지 않은 아이디입니다."){
@@ -149,9 +182,12 @@ struct Login: ReducerProtocol{
             case .shouldSignUp(let type):
                 state.user = User.State(type)
                 state.isActivityIndicatorVisible = false
-                state.shouldShowSignUpView = true
+                state.status = .shouldSignUp
                 return .none
             }
+        }
+        Scope(state: \.iAP, action:/Action.IAP){
+            IAP()
         }
         Scope(state: \.user, action: /Action.user){
             User()

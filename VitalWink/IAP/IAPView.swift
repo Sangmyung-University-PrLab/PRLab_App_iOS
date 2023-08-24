@@ -59,15 +59,20 @@ struct IAPView: View {
             .toolbar{
                 VitalWinkBackButton()
             }
-            .onAppear{
-                viewStore.send(.getProducts)
+            .onChange(of: viewStore.isSubscribed){
+                if $0{
+                    dismiss()
+                }
+            }
+            .onDisappear{
+                viewStore.send(.onDisappear)
             }
         }
     }
     
-    @State private var shouldShowManageSubscriptionSheet = false
-    private let store: StoreOf<IAP>
     
+    private let store: StoreOf<IAP>
+    @Environment(\.dismiss) private var dismiss
     @ViewBuilder
     private func descriptionView(descirption: String) -> some View{
         HStack(alignment:.top){

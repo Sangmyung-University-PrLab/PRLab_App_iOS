@@ -7,46 +7,54 @@
 
 import ComposableArchitecture
 import StoreKit
-class IAP:ReducerProtocol{
+struct IAP:ReducerProtocol{
     init(){
         self.transactionListener =  Task.detached{
             for await result in Transaction.updates{
-                guard let transaction =  await self.handle(result: result) else{
-                    return
+                switch result{
+                case .verified(let transaction):
+                    // 검증 성공
+                    await transaction.finish()
+                default:
+                    break
                 }
-                
-                await transaction.finish()
             }
         }
     }
-    deinit{
-        self.transactionListener?.cancel()
-    }
+
     struct State: Equatable{
         fileprivate(set) var isSubscribed = false
+        fileprivate(set) var products = [Product]()
     }
     enum Action{
         case subscribe
         case getProducts
+        case setProducts([Product])
         case setIsSubscribed(Bool)
         case errorHandling(Error)
+        case onDisappear
     }
     
     func reduce(into state: inout State, action: Action) -> EffectTask<Action> {
         switch action{
+        case .onDisappear:
+            return .none
+        case .setProducts(let products):
+            state.products = products
+            return .none
         case .subscribe:
-            guard !products.isEmpty else{
+            guard !state.products.isEmpty else{
+                print("?")
                 return .none
             }
-            return .run{send in
-                let product = self.products[0]
+            return .run{[product = state.products[0]]send in
                 switch try await product.purchase(){
                 case .success(let verification):
                     guard let transcation = await self.handle(result: verification) else{
                         return
                     }
                     // 구매 성공
-                    await self.updateCustomerProductStatus(send: send)
+                    await self.updateCustomerProductStatus(send: send, product: product)
                     await transcation.finish()
                 default:
                    break
@@ -55,8 +63,14 @@ class IAP:ReducerProtocol{
  
         case .getProducts:
             return .run{send in
-                self.products = try await Product.products(for: [self.productID])
-                await self.updateCustomerProductStatus(send: send)
+                let products = try await Product.products(for: [self.productID])
+                
+                guard !products.isEmpty else{
+                    return
+                }
+                
+                await send(.setProducts(products))
+                await self.updateCustomerProductStatus(send: send, product: products[0])
             }catch: { error, send in
                 await send(.errorHandling(error))
             }
@@ -82,13 +96,13 @@ class IAP:ReducerProtocol{
         }
     }
     
-    private func updateCustomerProductStatus(send: Send<Action>) async{
+    private func updateCustomerProductStatus(send: Send<Action>, product: Product) async{
         for await result in Transaction.currentEntitlements{// 이미 산 것들 불러오기
             guard await self.handle(result: result) != nil else{
                 return
             }
             
-            guard let product = products.first, let status = try? await product.subscription?.status.first?.state else{
+            guard let status = try? await product.subscription?.status.first?.state else{
                 return
             }
             
@@ -96,6 +110,6 @@ class IAP:ReducerProtocol{
         }
     }
     private let productID = "com.prlab.VitalWink2.subscribe2"
-    private var products = [Product]()
+    
     private var transactionListener: Task<Void, Error>?
 }
