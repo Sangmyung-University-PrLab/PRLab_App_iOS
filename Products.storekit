@@ -1,0 +1,54 @@
+{
+  "identifier" : "42375D33",
+  "nonRenewingSubscriptions" : [
+
+  ],
+  "products" : [
+
+  ],
+  "settings" : {
+    "_applicationInternalID" : "6452587909",
+    "_developerTeamID" : "QXG8ZBW99B",
+    "_lastSynchronizedDate" : 714033124.63619697
+  },
+  "subscriptionGroups" : [
+    {
+      "id" : "21374378",
+      "localizations" : [
+
+      ],
+      "name" : "구독",
+      "subscriptions" : [
+        {
+          "adHocOffers" : [
+
+          ],
+          "codeOffers" : [
+
+          ],
+          "displayPrice" : "1.99",
+          "familyShareable" : false,
+          "groupNumber" : 1,
+          "internalID" : "6462645070",
+          "introductoryOffer" : null,
+          "localizations" : [
+            {
+              "description" : "앱의 기능을 사용하기 위해 구독합니다.",
+              "displayName" : "구독",
+              "locale" : "ko"
+            }
+          ],
+          "productID" : "com.prlab.VitalWink2.subscribe2",
+          "recurringSubscriptionPeriod" : "P1M",
+          "referenceName" : "구독",
+          "subscriptionGroupID" : "21374378",
+          "type" : "RecurringSubscription"
+        }
+      ]
+    }
+  ],
+  "version" : {
+    "major" : 2,
+    "minor" : 0
+  }
+}

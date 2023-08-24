@@ -95,6 +95,10 @@
 		0683C8292A6FB7E500F753DA /* MeasurementCancelID.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0683C8282A6FB7E500F753DA /* MeasurementCancelID.swift */; };
 		0683C82B2A70C35B00F753DA /* FingerMeasurement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0683C82A2A70C35B00F753DA /* FingerMeasurement.swift */; };
 		0683C82D2A70E7E800F753DA /* ReferenceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0683C82C2A70E7E800F753DA /* ReferenceView.swift */; };
+		0683C8332A8DDDCF00F753DA /* IAP.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0683C8322A8DDDCF00F753DA /* IAP.swift */; };
+		0683C8352A8DEA4700F753DA /* IAPView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0683C8342A8DEA4700F753DA /* IAPView.swift */; };
+		0683C8372A8F251600F753DA /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0683C8362A8F251600F753DA /* StoreKit.framework */; };
+		0683C8392A8F38D700F753DA /* Products.storekit in Resources */ = {isa = PBXBuildFile; fileRef = 0683C8382A8F38D700F753DA /* Products.storekit */; };
 		068851492A48410800403AE7 /* ExpressionAnalysisData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 068851482A48410800403AE7 /* ExpressionAnalysisData.swift */; };
 		06A8AB5E2A1DF06100004B62 /* Login.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A8AB5D2A1DF06100004B62 /* Login.swift */; };
 		06A8AB612A1DF14E00004B62 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 06A8AB602A1DF14E00004B62 /* ComposableArchitecture */; };
@@ -245,6 +249,10 @@
 		0683C8282A6FB7E500F753DA /* MeasurementCancelID.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeasurementCancelID.swift; sourceTree = "<group>"; };
 		0683C82A2A70C35B00F753DA /* FingerMeasurement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FingerMeasurement.swift; sourceTree = "<group>"; };
 		0683C82C2A70E7E800F753DA /* ReferenceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReferenceView.swift; sourceTree = "<group>"; };
+		0683C8322A8DDDCF00F753DA /* IAP.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IAP.swift; sourceTree = "<group>"; };
+		0683C8342A8DEA4700F753DA /* IAPView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IAPView.swift; sourceTree = "<group>"; };
+		0683C8362A8F251600F753DA /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		0683C8382A8F38D700F753DA /* Products.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = Products.storekit; sourceTree = "<group>"; };
 		068851482A48410800403AE7 /* ExpressionAnalysisData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpressionAnalysisData.swift; sourceTree = "<group>"; };
 		06A8AB5D2A1DF06100004B62 /* Login.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Login.swift; sourceTree = "<group>"; };
 		06A8AB622A1DF4A800004B62 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
@@ -297,6 +305,7 @@
 				723974D5A26EA177305C32F5 /* Pods_VitalWink.framework in Frameworks */,
 				063C161E2A0DE18100E07141 /* Dependencies in Frameworks */,
 				06A8AB612A1DF14E00004B62 /* ComposableArchitecture in Frameworks */,
+				0683C8372A8F251600F753DA /* StoreKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -357,6 +366,7 @@
 		064B04AD2A08DAAB00230FBC = {
 			isa = PBXGroup;
 			children = (
+				0683C8382A8F38D700F753DA /* Products.storekit */,
 				064B04B82A08DAAB00230FBC /* VitalWink */,
 				064B04C92A08DAAC00230FBC /* VitalWinkTests */,
 				064B04D32A08DAAC00230FBC /* VitalWinkUITests */,
@@ -386,6 +396,7 @@
 				064B04E32A08DD8000230FBC /* Info.plist */,
 				064B04B92A08DAAB00230FBC /* VitalWinkApp.swift */,
 				064B04BD2A08DAAC00230FBC /* Assets.xcassets */,
+				0683C8312A8DDDC100F753DA /* IAP */,
 				0629A21D2A25B97E007B864B /* FaceDetector */,
 				065C00DE2A32C62F00054387 /* Common */,
 				064B04BF2A08DAAC00230FBC /* Preview Content */,
@@ -656,6 +667,15 @@
 			path = Feature;
 			sourceTree = "<group>";
 		};
+		0683C8312A8DDDC100F753DA /* IAP */ = {
+			isa = PBXGroup;
+			children = (
+				0683C8322A8DDDCF00F753DA /* IAP.swift */,
+				0683C8342A8DEA4700F753DA /* IAPView.swift */,
+			);
+			path = IAP;
+			sourceTree = "<group>";
+		};
 		06A8AB5A2A1C8C8D00004B62 /* Network */ = {
 			isa = PBXGroup;
 			children = (
@@ -727,6 +747,7 @@
 		8B75D52E05326CFDDBB9AA47 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0683C8362A8F251600F753DA /* StoreKit.framework */,
 				A5DE7A073E2799C317830FB7 /* Pods_VitalWink.framework */,
 				0857841D777CC5C81601A7FC /* Pods_VitalWink_VitalWinkUITests.framework */,
 				D50B57F520053C5D372806C0 /* Pods_VitalWinkTests.framework */,
@@ -866,6 +887,7 @@
 				065C00D22A307BB100054387 /* Inter-Thin.ttf in Resources */,
 				064B04BE2A08DAAC00230FBC /* Assets.xcassets in Resources */,
 				065C00D82A307BB100054387 /* Inter-Medium.ttf in Resources */,
+				0683C8392A8F38D700F753DA /* Products.storekit in Resources */,
 				065C00D42A307BB100054387 /* Inter-Black.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1037,8 +1059,10 @@
 				0663C4662A1B3FCB00B85ABF /* MetricData.swift in Sources */,
 				065C00FC2A35BA6000054387 /* CircularSegmentedPickerView.swift in Sources */,
 				06F180A62A15F28800F1CE90 /* VitalWinkAPIError.swift in Sources */,
+				0683C8332A8DDDCF00F753DA /* IAP.swift in Sources */,
 				06BCCD042A527534003DA1E2 /* MetricChart.swift in Sources */,
 				06F180B62A17403C00F1CE90 /* UserModel.swift in Sources */,
+				0683C8352A8DEA4700F753DA /* IAPView.swift in Sources */,
 				067AD0142A4A9050002E39B1 /* VitalWinkContentAlertState.swift in Sources */,
 				0663C4602A1B25ED00B85ABF /* RecentData.swift in Sources */,
 				0663C45E2A1A42BD00B85ABF /* Publisher + Extension.swift in Sources */,
