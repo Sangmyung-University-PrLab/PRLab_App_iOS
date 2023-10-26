@@ -26,6 +26,7 @@ final class MeasurmentAPI{
     }
     
     func signalMeasurment(rgbValues: [(Float, Float, Float)], target: Measurement.Target) async -> Result<Int, Error>{
+
         return await withCheckedContinuation{continuation in
             vitalWinkAPI.request(MeasurementRouter.signalMeasurement(rgbValues: rgbValues, target: target)).validate(statusCode: 200 ..< 300)
                 .responseDecodable(of: JSON.self){

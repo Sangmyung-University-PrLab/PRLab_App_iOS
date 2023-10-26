@@ -55,7 +55,8 @@ enum MeasurementRouter: VitalWinkUploadableRouterType{
                 "bmi": data.BMI,
                 "valence" : data.expressionAnalysisData.valence,
                 "arousal": data.expressionAnalysisData.arousal,
-                "expression": data.expressionAnalysisData.expression
+                "expression": [data.expressionAnalysisData.expression]
+                
             ]
             
         default:

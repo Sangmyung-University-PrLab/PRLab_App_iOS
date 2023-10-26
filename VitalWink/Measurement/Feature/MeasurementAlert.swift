@@ -47,7 +47,7 @@ struct MeasurementAlert: ReducerProtocol{
                 return .none
             case .showResult(let result, let id):
                 state.resultAlertState = VitalWinkContentAlertState{
-                    VitalWinkAlertButtonState<Action>(title: "저장하기"){
+                    VitalWinkAlertButtonState<Action>(title: "저장하기", role: .distructive){
                         return nil
                     }
                     VitalWinkAlertButtonState<Action>(title: "삭제하기", role: .distructive){
